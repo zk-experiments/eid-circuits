@@ -1,0 +1,217 @@
+//! Generates `noir/vendor/noir_bigcurve/src/curves/eid_<curve>.nr` for the curves
+//! noir_bigcurve does not ship (P-521, brainpoolP256r1/384r1/512r1): the base
+//! and scalar field `BigNum` parameters and the `BigCurveParams`.
+//!
+//! Offset generators are derived here, not with noir_bigcurve's
+//! `hash_to_curve` (whose seed packing hashes a constant). They only need an
+//! unknown discrete logarithm, so a documented nothing-up-my-sleeve derivation
+//! is used: for counter = 0, 1, …, `x = SHA-256(LABEL ‖ name ‖ counter_be32)
+//! mod p` until `x³ + a·x + b` is a square; `y` is the even root. The final
+//! offset generator is `2^(4·(slices − 1))` times it, matching the doublings
+//! in noir_bigcurve's windowed scalar multiplication.
+
+use crate::curve_params::CURVES;
+use crate::ec::Curve;
+use anyhow::{bail, Context, Result};
+use num_bigint::BigUint;
+use sha2::{Digest, Sha256};
+use std::fmt::Write as _;
+
+/// Domain separation label for offset generators.
+pub(crate) const LABEL: &[u8] = b"eid-circuits offset generator";
+
+/// (curve table name, Noir module/prefix, Noir struct name)
+pub(crate) const GENERATED: &[(&str, &str, &str)] = &[
+    ("P-521", "p521", "P521"),
+    ("brainpoolP256r1", "bp256", "BrainpoolP256r1"),
+    ("brainpoolP384r1", "bp384", "BrainpoolP384r1"),
+    ("brainpoolP512r1", "bp512", "BrainpoolP512r1"),
+];
+
+fn hex(s: &str) -> Result<BigUint> {
+    BigUint::parse_bytes(s.as_bytes(), 16).context("bad hex")
+}
+
+pub(crate) fn curve(name: &str) -> Result<Curve> {
+    let row = CURVES
+        .iter()
+        .find(|r| r.0 == name)
+        .with_context(|| format!("no curve {name}"))?;
+    let c = Curve {
+        p: hex(row.2)?,
+        a: hex(row.3)?,
+        b: hex(row.4)?,
+        g: (hex(row.5)?, hex(row.6)?),
+        n: hex(row.7)?,
+    };
+    c.check_domain()?;
+    Ok(c)
+}
+
+/// Windowed-scalar slices for a scalar field of `bits` bits, as
+/// noir_bigcurve's `ScalarField::from_bignum` counts them: 4-bit slices of
+/// each 120-bit limb (30 per full limb) plus `(bits mod 120) / 4 + 1` for
+/// the top limb. 256 → 65, 384 → 97, 512 → 129, 521 → 131.
+pub(crate) fn slices(bits: u64) -> u64 {
+    let top = match bits % 120 {
+        0 => 120,
+        r => r,
+    };
+    top / 4 + 1 + 30 * (bits.div_ceil(120) - 1)
+}
+
+fn offset_generator(c: &Curve, name: &str) -> Result<(BigUint, BigUint)> {
+    for counter in 0u32..1000 {
+        let mut h = Sha256::new();
+        h.update(LABEL);
+        h.update(name.as_bytes());
+        h.update(counter.to_be_bytes());
+        let x = BigUint::from_bytes_be(&h.finalize()) % &c.p;
+        let rhs = (&x * &x * &x + &c.a * &x + &c.b) % &c.p;
+        if let Some(y) = c.sqrt(&rhs) {
+            let y = if y.bit(0) { &c.p - y } else { y };
+            return Ok((x, y));
+        }
+    }
+    bail!("no offset generator for {name} in 1000 tries")
+}
+
+fn limbs_of(x: &BigUint, n: usize) -> Vec<BigUint> {
+    let mask = (BigUint::from(1u8) << 120u32) - 1u8;
+    (0..n).map(|i| (x >> (120 * i)) & &mask).collect()
+}
+
+fn fmt_limbs(v: &[BigUint]) -> String {
+    let body: Vec<String> = v.iter().map(|l| format!("0x{l:x}")).collect();
+    format!("[{}]", body.join(", "))
+}
+
+/// noir-bignum `get_double_modulus`: 2·m with a borrow of 1 spread over the limbs.
+fn double_modulus(m: &BigUint, n: usize) -> Vec<BigUint> {
+    let two120 = BigUint::from(1u8) << 120u32;
+    let mut out = limbs_of(&(m * 2u8), n);
+    // 2·m < 2^(120·n) for these moduli, so the carry-out limb is always zero.
+    out[0] += &two120;
+    for limb in out.iter_mut().take(n - 1).skip(1) {
+        *limb += &two120 - 1u8;
+    }
+    out[n - 1] -= 1u8;
+    out
+}
+
+fn bignum_params(ty: &str, m: &BigUint) -> (String, usize, u64) {
+    let bits = m.bits();
+    let n = usize::try_from(bits.div_ceil(120)).unwrap_or(usize::MAX);
+    let redc = (BigUint::from(1u8) << (2 * bits + 6)) / m;
+    let params = format!(
+        "pub global {ty}_PARAMS: BigNumParams<{n}, {bits}> = BigNumParams {{\n    has_multiplicative_inverse: true,\n    modulus: {},\n    double_modulus: {},\n    redc_param: {},\n}};\n\n#[derive_bignum({n}, {bits}, quote {{ {ty}_PARAMS }})]\npub struct {ty} {{\n    limbs: [u128; {n}],\n}}\n",
+        fmt_limbs(&limbs_of(m, n)),
+        fmt_limbs(&double_modulus(m, n)),
+        fmt_limbs(&limbs_of(&redc, n)),
+    );
+    (params, n, bits)
+}
+
+fn fq(ty: &str, x: &BigUint, n: usize) -> String {
+    format!("{ty}::from_limbs({})", fmt_limbs(&limbs_of(x, n)))
+}
+
+/// The generated Noir module for one curve.
+pub(crate) fn module(name: &str, prefix: &str, strukt: &str) -> Result<String> {
+    let c = curve(name)?;
+    let up = prefix.to_uppercase();
+    let (fq_ty, fr_ty) = (format!("{up}_Fq"), format!("{up}_Fr"));
+    let (fq_params, fq_n, fq_bits) = bignum_params(&fq_ty, &c.p);
+    let (fr_params, _, fr_bits) = bignum_params(&fr_ty, &c.n);
+    let s = slices(fr_bits);
+    anyhow::ensure!(
+        fr_bits != 256 || s == 65,
+        "slice formula disagrees with noir_bigcurve's secp256r1 (65)"
+    );
+    let og = offset_generator(&c, name)?;
+    anyhow::ensure!(c.on_curve(&og), "offset generator is not on the curve");
+    let k = BigUint::from(1u8) << (4 * (s - 1));
+    let Some(og_final) = c.mul(&k, &Some(og.clone())) else {
+        bail!("offset generator final is infinity")
+    };
+    let pt = |p: &(BigUint, BigUint)| {
+        format!(
+            "[\n        {},\n        {},\n    ]",
+            fq(&fq_ty, &p.0, fq_n),
+            fq(&fq_ty, &p.1, fq_n)
+        )
+    };
+
+    let mut out = String::new();
+    writeln!(out, "//! {name}: base field `{fq_ty}` ({fq_bits} bits), scalar field `{fr_ty}` ({fr_bits} bits), curve `{strukt}`.")?;
+    writeln!(out, "//!")?;
+    writeln!(
+        out,
+        "//! Generated by `eid-vectors curves` (rust/eid-vectors/src/curves.rs). Do not edit."
+    )?;
+    writeln!(
+        out,
+        "//! Domain parameters: csca-registry curve table (OpenSSL `ecparam -param_enc explicit`)."
+    )?;
+    writeln!(
+        out,
+        "//! Offset generator: x = SHA-256(\"{}\" \u{2016} \"{name}\" \u{2016} counter) mod p, even y; the final",
+        String::from_utf8_lossy(LABEL)
+    )?;
+    writeln!(
+        out,
+        "//! offset generator is 2^(4\u{b7}({s} \u{2212} 1)) times it (tests re-derive both).\n"
+    )?;
+    writeln!(out, "use bignum::{{BigNum, derive_bignum}};\nuse bignum::params::BigNumParams;\n\nuse crate::bigcurve::{{BigCurve, BigCurveParams, derive_curve_impl}};\nuse crate::scalar_field::ScalarField;\n")?;
+    writeln!(out, "{fq_params}")?;
+    writeln!(out, "{fr_params}")?;
+    writeln!(out, "/// Windowed-scalar slices for {fr_bits}-bit scalars.\npub global {up}_SCALAR_SLICES: u32 = {s};\n")?;
+    writeln!(
+        out,
+        "pub global {up}_PARAMS: BigCurveParams<{fq_ty}> = BigCurveParams {{\n    a: {},\n    b: {},\n    one: {},\n    offset_generator: {},\n    offset_generator_final: {},\n}};\n",
+        fq(&fq_ty, &c.a, fq_n),
+        fq(&fq_ty, &c.b, fq_n),
+        pt(&c.g),
+        pt(&og),
+        pt(&og_final),
+    )?;
+    writeln!(
+        out,
+        "#[derive_curve_impl(quote {{ {fq_ty} }}, quote {{ {up}_PARAMS }})]\npub struct {strukt} {{\n    pub x: {fq_ty},\n    pub y: {fq_ty},\n    pub is_infinity: bool,\n}}"
+    )?;
+    Ok(out)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn slices_match_noir_bigcurve() {
+        assert_eq!([256, 384, 512, 521].map(slices), [65, 97, 129, 131]);
+    }
+
+    /// Group order, offset generator on the curve, and final offset generator
+    /// = 2^(4·(S − 1))·offset, with independent big-integer arithmetic.
+    #[test]
+    fn generated_constants_are_consistent() {
+        for (name, _, _) in GENERATED {
+            let c = curve(name).unwrap();
+            let og = offset_generator(&c, name).unwrap();
+            assert!(c.on_curve(&og), "{name}");
+            assert!(
+                c.mul(&c.n, &Some(og.clone())).is_none(),
+                "{name}: offset generator order"
+            );
+            let s = slices(c.n.bits());
+            let k = BigUint::from(1u8) << (4 * (s - 1));
+            let fin = c.mul(&k, &Some(og.clone())).unwrap();
+            let mut doubled = Some(og);
+            for _ in 0..4 * (s - 1) {
+                doubled = c.add(&doubled, &doubled);
+            }
+            let doubled = doubled.unwrap();
+            assert_eq!(fin, doubled, "{name}: final offset generator");
+        }
+    }
+}

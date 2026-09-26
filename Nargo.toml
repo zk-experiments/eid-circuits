@@ -1,2 +1,23 @@
 [workspace]
-members = ["noir/lib/hash", "noir/lib/rsa"]
+members = [
+    "noir/lib/hash",
+    "noir/lib/rsa",
+    "noir/lib/ecdsa",
+    "noir/bench/rsa_pkcs1v15/2048_sha256",
+    "noir/bench/rsa_pkcs1v15/3072_sha256",
+    "noir/bench/rsa_pkcs1v15/4096_sha256",
+    "noir/bench/rsa_pkcs1v15/6144_sha256",
+    "noir/bench/rsa_pss/3072_sha256_s32",
+    "noir/bench/rsa_pss/4096_sha256_s32",
+    "noir/bench/rsa_pss/4096_sha512_s64",
+    "noir/bench/ecdsa/p256_sha256",
+    "noir/bench/ecdsa/p384_sha256",
+    "noir/bench/ecdsa/p521_sha256",
+    "noir/bench/ecdsa/bp256_sha256",
+    "noir/bench/ecdsa/bp384_sha256",
+    "noir/bench/ecdsa/bp512_sha256",
+    "noir/bench/hash/sha1_2048",
+    "noir/bench/hash/sha256_2048",
+    "noir/bench/hash/sha384_2048",
+    "noir/bench/hash/sha512_2048",
+]

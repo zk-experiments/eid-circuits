@@ -1,0 +1,11 @@
+[package]
+name = "eid_ecdsa"
+type = "lib"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+bignum = { tag = "v0.10.0", git = "https://github.com/noir-lang/noir-bignum" }
+# Vendored v0.14.0 with generated curves added (see its PROVENANCE.md).
+noir_bigcurve = { path = "../../vendor/noir_bigcurve" }
+eid_hash = { path = "../hash" }

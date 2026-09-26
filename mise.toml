@@ -1,0 +1,35 @@
+# Toolchain pins for eid-circuits, same shape as psonet/pso-zk-circuits.
+# `mise run install:zk-toolchain` installs nargo and bb; every task documents
+# the raw command for non-mise users.
+
+[env]
+# The Noir release every package is compiled and tested with.
+NOIR_VERSION = "1.0.0-beta.22"
+# Barretenberg used for gate counts (`bb gates`); same pin as pso-zk-circuits.
+BB_VERSION = "5.0.0-nightly.20260522"
+
+[tasks."install:noir"]
+description = "Install nargo $NOIR_VERSION via noirup → ~/.nargo/bin"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+[ -x "$HOME/.nargo/bin/noirup" ] || curl -fsSL https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
+"$HOME/.nargo/bin/noirup" --version "$NOIR_VERSION"
+'''
+
+[tasks."install:bb"]
+description = "Install Barretenberg bb $BB_VERSION via bbup → ~/.bb"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+[ -x "$HOME/.bb/bbup" ] || curl -fsSL https://raw.githubusercontent.com/AztecProtocol/aztec-packages/master/barretenberg/bbup/install | bash
+"$HOME/.bb/bbup" --version "$BB_VERSION"
+'''
+
+[tasks."install:zk-toolchain"]
+description = "Install nargo + bb at the pinned versions"
+depends = ["install:noir", "install:bb"]
+
+[tasks."circuit-sizes"]
+description = "Gates and opcodes of every bin circuit: python3 .github/scripts/circuit_sizes.py collect . -o sizes.json"
+run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $HOME/.nargo/bin/nargo --bb $HOME/.bb/bb -o target/sizes.json"

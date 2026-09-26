@@ -1,0 +1,8 @@
+[package]
+name = "bench_rsa_pkcs1v15_2048_sha256"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_rsa = { path = "../../../lib/rsa" }

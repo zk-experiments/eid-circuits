@@ -1,0 +1,8 @@
+[package]
+name = "bench_hash_sha256_2048"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_hash = { path = "../../../lib/hash" }

@@ -4,7 +4,7 @@
 
 For a public registry root `R`, date `D`, viewer keys `V₁…Vₙ` and ciphertext `C`, the full proof asserts that there is an eMRTD for which all of the following hold:
 
-1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the date the circuit checks (see *Date policy*). The leaf's country equals the document's issuing state.
+1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the DSC's `notBefore` (see *Date policy*). The leaf's country equals the document's issuing state.
 2. `K_csca` signed the DSC certificate, and the DSC's serial is not revoked under `K_csca` in `R`'s revocation tree.
 3. The DSC key signed the SOD's signed attributes. Their `messageDigest` is the hash of the SOD's eContent (the LDS security object).
 4. The eContent lists the hashes of DG1 and DG11, and they match the DG1 and DG11 the prover holds.
@@ -31,17 +31,12 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 | `csca_registry` (from csca-registry, git tag) | A | [csca-registry/noir/csca_registry](https://github.com/zk-experiments/csca-registry/tree/main/noir/csca_registry) |
 | `eid_hash` | A, B, C | [noir/lib/hash](../noir/lib/hash/README.md) |
 | `eid_rsa` | A, B | [noir/lib/rsa](../noir/lib/rsa/README.md) |
-| `eid_ecdsa` | A, B | planned |
+| `eid_ecdsa` | A, B | [noir/lib/ecdsa](../noir/lib/ecdsa/README.md) |
 | `eid_envelope` | C | planned |
 
 ## Date policy
 
-This is still open and needs a decision before step A is written. There are two options for which date `csca_registry::verify_key` checks against the CSCA period:
-
-- **`D` (shell model):** the CSCA must still be valid when the proof is made.
-- **The DSC's `notBefore` (ICAO chain model):** the CSCA had to be valid when it issued the DSC. The document can stay valid after the CSCA expires, which is what ICAO 9303 intends.
-
-Document expiry is checked against `D` either way.
+Decided: the **ICAO chain model**. `csca_registry::verify_key` checks the CSCA leaf's validity period against the DSC's `notBefore`, meaning the CSCA had to be valid when it issued the DSC. The document can then stay valid after its CSCA expires, as ICAO 9303 intends. The document's own expiry (DG1) is checked against the proof date `D`. The DSC's `notBefore` has to come from the signed DSC certificate (its `TBSCertificate` validity), not from a free input.
 
 ## Encryption
 
@@ -51,3 +46,7 @@ KEM/DEM:
 3. It encrypts DG1 ‖ DG11 under `K` with a Poseidon2 duplex, as fixed-length field elements so the length of DG11 is hidden.
 
 No AEAD tag is proven: the proof itself binds `C` to a verified plaintext, and a viewer checks integrity against the on-chain proof. A Rust implementation of the same construction does encryption for provers and decryption for viewers.
+
+## Cost
+
+Per-operation gate counts for every signature group are measured in CI and listed in [noir/bench/README.md](../noir/bench/README.md).

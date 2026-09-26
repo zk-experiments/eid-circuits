@@ -6,10 +6,12 @@
 #   typos ─┤
 #   supply-chain
 #
+#   circuit-size, coverage   reports only (PR comments), outside `ci`
+#
 # Triggers
 #   push:main         full pipeline incl. cog auto-bump and, when cog tagged, release
 #   push:tags:["v*"]  release-only path against the named tag
-#   pull_request      checks + commitlint
+#   pull_request      checks + commitlint (any base branch, so stacked PRs are checked)
 #   schedule          nightly supply-chain (fresh advisories)
 #   workflow_dispatch maintainer-named (re-)release; empty `tag` runs the main pipeline
 name: CI
@@ -18,8 +20,8 @@ on:
   push:
     branches: [main]
     tags: ["v*"]
+  # Every pull request, including ones stacked on another feature branch.
   pull_request:
-    branches: [main]
   schedule:
     - cron: "0 4 * * *"
   workflow_dispatch:
@@ -40,7 +42,6 @@ permissions:
 
 env:
   CARGO_TERM_COLOR: always
-  NARGO_VERSION: 1.0.0-beta.22
 
 jobs:
   resolve:
@@ -91,12 +92,21 @@ jobs:
     if: needs.resolve.outputs.release_tag == '' && github.event_name != 'schedule'
     steps:
       - uses: actions/checkout@v5
-      - name: Install nargo
-        run: |
-          set -euo pipefail
-          curl -fsSL https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
-          "$HOME/.nargo/bin/noirup" --version "$NARGO_VERSION"
-          echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
+      - uses: jdx/mise-action@v4
+        with:
+          install: false
+      - name: Cache the Noir toolchain
+        id: toolchain-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nargo
+            ~/.bb
+          key: noir-toolchain-${{ hashFiles('mise.toml') }}
+      - name: Install nargo + bb at the pinned versions
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: mise run install:zk-toolchain
+      - run: echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
       - name: nargo fmt --check
         run: nargo fmt --check
       - name: nargo test
@@ -137,8 +147,153 @@ jobs:
             -A clippy::unwrap_used -A clippy::expect_used -A clippy::panic
       - name: cargo test
         run: cargo test --all-features
-      - name: Generated Noir vectors are current
-        run: cargo run -q -p eid-vectors -- rsa --check
+      - name: Generated Noir files are current
+        run: |
+          set -euo pipefail
+          cargo run -q -p eid-vectors -- rsa --check
+          cargo run -q -p eid-vectors -- ecdsa --check
+          cargo run -q -p eid-vectors -- curves --check
+
+  # Which parts of the tree moved; circuit-size only runs when circuits did.
+  changes:
+    name: path filter
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    outputs:
+      circuits: ${{ steps.filter.outputs.circuits }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            circuits:
+              - 'noir/**'
+              - 'Nargo.toml'
+              - 'mise.toml'
+              # A change to how sizes are measured should also produce a
+              # comparison, not silently skip one.
+              - '.github/scripts/circuit_sizes.py'
+
+  # Circuit size against the pull request's base (ported from
+  # pso-zk-circuits). Gate count drives proving time, memory and the VK;
+  # opcodes drive witness generation. Neither shows in a diff, so this measures
+  # every bin circuit (the per-signature-type benchmarks and, later, the step
+  # circuits) and comments. Reports, never gates: outside `ci`'s needs.
+  circuit-size:
+    name: circuit size
+    runs-on: ubuntu-latest
+    needs: [resolve, changes]
+    if: >
+      github.event_name == 'pull_request' &&
+      needs.resolve.outputs.release_tag == '' &&
+      needs.changes.outputs.circuits == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+      # The base as the pull request targets it, measured with the same toolchain.
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+      - uses: jdx/mise-action@v4
+        with:
+          install: false
+      - name: Cache the Noir toolchain
+        id: toolchain-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nargo
+            ~/.bb
+          key: noir-toolchain-${{ hashFiles('mise.toml') }}
+      - name: Install nargo + bb at the pinned versions
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: mise run install:zk-toolchain
+      - name: Cache the bb CRS
+        uses: actions/cache@v4
+        with:
+          path: ~/.bb-crs
+          key: bb-crs-${{ hashFiles('mise.toml') }}
+      - name: Measure this branch
+        run: |
+          python3 .github/scripts/circuit_sizes.py collect . \
+            --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb" \
+            -o head-sizes.json
+      # The base is measured with the HEAD copy of the script, so a change to
+      # the measurement itself cannot read as a change in the circuits.
+      - name: Measure the base
+        run: |
+          python3 .github/scripts/circuit_sizes.py collect base \
+            --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb" \
+            -o base-sizes.json
+      - name: Render the comparison
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          python3 .github/scripts/circuit_sizes.py report \
+            base-sizes.json head-sizes.json --base-ref "$BASE_REF" > circuit-size.md
+          cat circuit-size.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Circuit size PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: circuit-size
+          path: circuit-size.md
+      - uses: actions/upload-artifact@v5
+        with:
+          name: circuit-sizes
+          path: |
+            base-sizes.json
+            head-sizes.json
+            circuit-size.md
+          retention-days: 14
+
+  # Coverage of the Rust tools (ported from pso-zk-circuits). Reported, never
+  # enforced, and outside `ci`'s needs so it cannot hold up a merge. Noir has
+  # no coverage tooling; circuit behaviour is covered by the real-certificate
+  # vectors and negative tests in each library.
+  coverage:
+    name: coverage
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    permissions:
+      contents: read
+      pull-requests: write
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: llvm-tools-preview
+          rust-src-dir: rust
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-llvm-cov,cargo-nextest
+      - run: cargo llvm-cov nextest --workspace --profile ci --lcov --output-path lcov.info
+      # `--summary-only` prints a fixed-width terminal table; render the JSON instead.
+      - name: Render coverage report
+        run: |
+          cargo llvm-cov report --json --summary-only --output-path coverage.json
+          python3 ../.github/scripts/coverage_report.py coverage.json > coverage.md
+          cat coverage.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Coverage PR comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          path: rust/coverage.md
+      - uses: actions/upload-artifact@v5
+        with:
+          name: coverage
+          path: |
+            rust/lcov.info
+            rust/coverage.json
+            rust/coverage.md
+          retention-days: 14
 
   typos:
     name: typos

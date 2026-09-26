@@ -7,11 +7,19 @@
 | `noir-lang/noir-bignum` | tag `v0.10.0` | Apache-2.0 | RSA modular arithmetic |
 | `noir-lang/sha256` | tag `v0.3.0` | **none in repository** | SHA-224/256 |
 | `noir-lang/sha512` | commit `e92ffb4`, vendored in `noir/vendor/sha512` | Apache-2.0 | SHA-384/512 |
-| `noir-lang/noir_bigcurve` | tag `v0.14.0` (planned) | **none in repository** | ECDSA curve arithmetic |
+| `noir-lang/noir_bigcurve` | tag `v0.14.0`, vendored in `noir/vendor/noir_bigcurve` with four generated curve files added | **none in repository** | ECDSA curve arithmetic |
 | `noir-lang/poseidon` | tag `v0.3.0` (via csca_registry) | Apache-2.0 | Poseidon2 |
 | `zk-experiments/csca-registry` | tag `v0.3.0` | MIT | registry leaf/Merkle checks (Noir), certificate parsing for vectors (Rust) |
 
 `noir-lang/sha256` and `noir-lang/noir_bigcurve` have no LICENSE file. The project owner accepted using them pinned; the gap stays open here until upstream adds a license.
+
+## Upstream issues found
+
+These are reported in this file and don't affect our soundness.
+
+- **noir_bigcurve's `derive_curve_impl` can't be used from another crate.** It expands to references to private modules. That's why the library is vendored and our curves are defined inside it (see its `PROVENANCE.md`).
+- **noir_bigcurve's `hash_to_curve` seed packing is broken.** `poseidon_hash_bytes` never writes the packed seed into the array it hashes, so every seed hashes to the same value. We derive offset generators independently (see `noir/lib/ecdsa`).
+- **`pso-poseidon`'s `hash` differed from `noir-lang/poseidon` for input lengths that are a multiple of 3.** Fixed upstream with `hash_noir` (psonet/pso-poseidon#8); csca-registry uses it.
 
 ## Assumptions every circuit relies on
 
@@ -26,6 +34,7 @@
 - **PKCS#1 v1.5 DigestInfo** must include the NULL parameter.
 - **RSA-PSS** requires MGF1 with the same hash as the message.
 - **RSA exponents** must be odd and below `2^E_BITS`.
+- **Curves.** ECDSA covers P-256/384/521 and brainpoolP256/384/512r1. Signatures on other curves (P-192, P-224, the smaller brainpool curves and the twisted t1 variants) are rejected. The registry reports them as unsupported, and none occur among verified CSCA signatures in the fixtures.
 
 ## How test vectors are produced
 

@@ -1,0 +1,8 @@
+[package]
+name = "bench_ecdsa_p256_sha256"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_ecdsa = { path = "../../../lib/ecdsa" }
