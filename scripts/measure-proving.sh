@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Measures `bb prove` time and peak memory for every step circuit that has a
 # Prover.toml, with all cores and with 4 threads, and writes
-# docs/data/prove-times.json. Proofs are verified. Run from the repo root with
+# docs/data/prove-times.json. Proofs are verified, and a peak above the 2 GiB
+# memory cap fails the run. Run from the repo root with
 # nargo and bb at the mise.toml pins (`mise run install:zk-toolchain`).
 #
 #   scripts/measure-proving.sh "<machine description>"
@@ -25,6 +26,8 @@ while read -r p; do
     secs="$(awk '/ real /{print $1} /Elapsed \(wall clock\)/{split($NF,a,":"); print a[1]*60+a[2]}' "$log" | head -1)"
     peak="$(awk '/peak memory footprint/{print $1} /Maximum resident set size/{print $NF*1024}' "$log" | head -1)"
     rows+=("{\"package\":\"$p\",\"threads\":$th,\"seconds\":$secs,\"peak_bytes\":$peak}")
+    # Hard cap: every circuit must prove within 2 GiB (see circuit_sizes.py).
+    (( peak <= 2 * 1024 ** 3 )) || { echo "$p threads=$th: peak $peak bytes exceeds the 2 GiB cap" >&2; exit 1; }
     echo "$p threads=$th ${secs}s" >&2
   done
   "$bb" verify -k "$work/$p/vk" -p "$work/$p-$cores/proof" -i "$work/$p-$cores/public_inputs" -t noir-recursive >/dev/null

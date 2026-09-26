@@ -8,6 +8,7 @@ VK. Both move silently, so CI measures them and a PR comment shows the delta.
 
   collect <workspace> -o sizes.json   compile the workspace, record each bin's sizes
   report <base.json> <head.json>      render the comparison as Markdown
+  check <sizes.json>                  fail if a circuit exceeds the memory cap
 
 Differences from the psonet original: circuits are discovered from the root
 Nargo.toml `members` (every package with `type = "bin"`) instead of a fixed
@@ -28,6 +29,13 @@ TARGET = "noir-recursive"
 # Below this, a move is noise from a compiler detail rather than a change
 # worth a reviewer's attention.
 NOTABLE_PCT = 1.0
+# Hard cap on proving memory, so every circuit proves on a phone. Peak memory
+# is linear in gates, not in the padded power-of-two size: `bb prove` measured
+# 1,985–2,418 bytes per gate (docs/data/prove-times.json), so 2,500 bytes per
+# gate leaves a margin. The cap is 2 GiB / 2,500 = 858,993 gates.
+MEMORY_CAP_BYTES = 2 * 2**30
+BYTES_PER_GATE = 2500
+MAX_GATES = MEMORY_CAP_BYTES // BYTES_PER_GATE
 
 
 def run(cmd, **kw):
@@ -124,6 +132,16 @@ def report(base: dict, head: dict, base_ref: str) -> str:
     return "\n".join(out)
 
 
+def check(sizes: dict) -> int:
+    over = {m: v["gates"] for m, v in sizes.items() if v["gates"] > MAX_GATES}
+    for m, g in sorted(over.items()):
+        print(f"::error::{m}: {g:,} gates exceeds the {MAX_GATES:,}-gate cap "
+              f"(≈{g * BYTES_PER_GATE / 2**30:.2f} GiB against {MEMORY_CAP_BYTES / 2**30:.0f} GiB)")
+    top = max(sizes.values(), key=lambda v: v["gates"], default={"gates": 0})["gates"]
+    print(f"{len(sizes)} circuits, largest {top:,} gates, cap {MAX_GATES:,}", file=sys.stderr)
+    return 1 if over else 0
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -139,10 +157,15 @@ def main() -> None:
     r.add_argument("head", type=Path)
     r.add_argument("--base-ref", default="base")
 
+    k = sub.add_parser("check")
+    k.add_argument("sizes", type=Path)
+
     a = ap.parse_args()
     if a.cmd == "collect":
         a.output.write_text(json.dumps(collect(a.workspace, a.nargo, a.bb), indent=2, sort_keys=True))
         print(f"wrote {a.output}", file=sys.stderr)
+    elif a.cmd == "check":
+        raise SystemExit(check(json.loads(a.sizes.read_text())))
     else:
         print(report(json.loads(a.base.read_text()),
                      json.loads(a.head.read_text()), a.base_ref))

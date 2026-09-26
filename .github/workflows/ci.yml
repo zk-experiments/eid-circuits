@@ -217,8 +217,9 @@ jobs:
   # Circuit size against the pull request's base (ported from
   # pso-zk-circuits). Gate count drives proving time, memory and the VK;
   # opcodes drive witness generation. Neither shows in a diff, so this measures
-  # every bin circuit (the per-signature-type benchmarks and, later, the step
-  # circuits) and comments. Reports, never gates: outside `ci`'s needs.
+  # every bin circuit (the per-signature-type benchmarks and the step
+  # circuits) and comments. The comparison only reports; the memory cap
+  # (`circuit_sizes.py check`) gates, so `ci` needs this job.
   circuit-size:
     name: circuit size
     runs-on: ubuntu-latest
@@ -261,6 +262,8 @@ jobs:
           python3 .github/scripts/circuit_sizes.py collect . \
             --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb" \
             -o head-sizes.json
+      - name: Enforce the 2 GiB proving-memory cap
+        run: python3 .github/scripts/circuit_sizes.py check head-sizes.json
       # The base is measured with the HEAD copy of the script, so a change to
       # the measurement itself cannot read as a change in the circuits.
       - name: Measure the base
@@ -364,7 +367,7 @@ jobs:
     name: ci
     runs-on: ubuntu-latest
     if: always()
-    needs: [noir, rust, circuit-samples, typos, supply-chain]
+    needs: [noir, rust, circuit-samples, circuit-size, typos, supply-chain]
     steps:
       - name: Check dependency results
         env:

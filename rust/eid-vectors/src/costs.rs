@@ -182,7 +182,7 @@ pub(crate) fn report() -> Result<String> {
     writeln!(out, "- **Phone estimates are assumptions, not measurements:** laptop time with 4 threads \u{d7} {FLAGSHIP_FACTOR} for a recent flagship phone, \u{d7} {MIDRANGE_FACTOR} for a mid-range Android phone. Measure one circuit on a real device (bb has iOS and Android builds) and scale these columns by the observed ratio.")?;
     writeln!(
         out,
-        "- **Memory** matters as much as time on phones: several circuits peak above 1 GiB.\n"
+        "- **Memory** matters as much as time on phones: several circuits peak above 1 GiB. Every circuit is capped at 2 GiB of proving memory: CI fails any circuit above 858,993 gates (2 GiB at 2,500 bytes per gate; measured 1,985\u{2013}2,418), and `scripts/measure-proving.sh` fails on a measured peak above 2 GiB.\n"
     )?;
 
     writeln!(out, "## By country\n")?;
