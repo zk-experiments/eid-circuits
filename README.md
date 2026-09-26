@@ -23,5 +23,3 @@ nargo test                     # every Noir package in the workspace (nargo 1.0.
 cd rust && cargo test          # Rust tools
 cd rust && cargo run -p eid-vectors -- rsa --check   # generated RSA vectors are current
 ```
-
-`rust/eid-vectors` depends on csca-registry over SSH (`ssh://git@github.com/zk-experiments/csca-registry.git`, tag `v0.3.0`), so a local checkout needs read access to that repository.

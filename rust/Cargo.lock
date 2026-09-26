@@ -444,7 +444,7 @@ dependencies = [
 [[package]]
 name = "csca-registry"
 version = "0.3.0"
-source = "git+ssh://git@github.com/zk-experiments/csca-registry.git?tag=v0.3.0#1f5092aff99c27f1c0a9edaf5064e177739373f3"
+source = "git+https://github.com/zk-experiments/csca-registry?tag=v0.3.0#1f5092aff99c27f1c0a9edaf5064e177739373f3"
 dependencies = [
  "anyhow",
  "ark-bn254",

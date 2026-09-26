@@ -12,10 +12,6 @@
 #   pull_request      checks + commitlint
 #   schedule          nightly supply-chain (fresh advisories)
 #   workflow_dispatch maintainer-named (re-)release; empty `tag` runs the main pipeline
-#
-# The Rust tools depend on the private zk-experiments/csca-registry over SSH.
-# Jobs that build them load the read-only deploy key from the
-# CSCA_REGISTRY_DEPLOY_KEY secret.
 name: CI
 
 on:
@@ -116,17 +112,6 @@ jobs:
         working-directory: rust
     steps:
       - uses: actions/checkout@v5
-      - name: Require the csca-registry deploy key
-        env:
-          KEY: ${{ secrets.CSCA_REGISTRY_DEPLOY_KEY }}
-        run: |
-          if [ -z "$KEY" ]; then
-            echo "::error::CSCA_REGISTRY_DEPLOY_KEY is not set; the Rust tools cannot fetch zk-experiments/csca-registry"
-            exit 1
-          fi
-      - uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.CSCA_REGISTRY_DEPLOY_KEY }}
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt, clippy
@@ -173,9 +158,6 @@ jobs:
         working-directory: rust
     steps:
       - uses: actions/checkout@v5
-      - uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.CSCA_REGISTRY_DEPLOY_KEY }}
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-deny,cargo-audit
@@ -222,9 +204,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.CSCA_REGISTRY_DEPLOY_KEY }}
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-src-dir: rust
