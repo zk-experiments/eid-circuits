@@ -159,6 +159,10 @@ jobs:
     name: path filter
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    # paths-filter lists the pull request's files through the API.
+    permissions:
+      contents: read
+      pull-requests: read
     outputs:
       circuits: ${{ steps.filter.outputs.circuits }}
     steps:
