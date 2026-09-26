@@ -20,6 +20,7 @@ These are reported in this file and don't affect our soundness.
 
 - **noir_bigcurve's `derive_curve_impl` can't be used from another crate.** It expands to references to private modules. That's why the library is vendored and our curves are defined inside it (see its `PROVENANCE.md`).
 - **noir_bigcurve's `hash_to_curve` seed packing is broken.** `poseidon_hash_bytes` never writes the packed seed into the array it hashes, so every seed hashes to the same value. We derive offset generators independently (see `noir/lib/ecdsa`).
+- **csca_registry's exclusion check rejects an empty revocation tree.** It says an "empty revocation tree needs no exclusion witness" but gives no alternative, so with zero revocations every DSC step would be unprovable. The current registry has revocations; the fix belongs in csca_registry (accept `upper.index = 0`, `upper_leaf = 0` when the tree is empty).
 - **`pso-poseidon`'s `hash` differed from `noir-lang/poseidon` for input lengths that are a multiple of 3.** Fixed upstream with `hash_noir` (psonet/pso-poseidon#8); csca-registry uses it.
 
 ## Assumptions every circuit relies on

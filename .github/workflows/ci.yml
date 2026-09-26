@@ -150,9 +150,44 @@ jobs:
       - name: Generated Noir files are current
         run: |
           set -euo pipefail
-          cargo run -q -p eid-vectors -- rsa --check
-          cargo run -q -p eid-vectors -- ecdsa --check
-          cargo run -q -p eid-vectors -- curves --check
+          for what in rsa ecdsa curves der steps circuits costs; do
+            cargo run -q -p eid-vectors -- "$what" --check
+          done
+
+  # Every step circuit with a real-certificate Prover.toml is executed: the
+  # whole statement (parsing, registry, revocation, hash, signature) holds for
+  # one real certificate per signing configuration.
+  circuit-samples:
+    name: Circuit samples (nargo execute)
+    runs-on: ubuntu-latest
+    needs: [resolve]
+    if: needs.resolve.outputs.release_tag == '' && github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v4
+        with:
+          install: false
+      - name: Cache the Noir toolchain
+        id: toolchain-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nargo
+            ~/.bb
+          key: noir-toolchain-${{ hashFiles('mise.toml') }}
+      - name: Install nargo + bb at the pinned versions
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: mise run install:zk-toolchain
+      - run: echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
+      - name: Execute every sample
+        run: |
+          set -euo pipefail
+          find noir/circuits -name Prover.toml -print0 \
+            | xargs -0 -n1 dirname \
+            | xargs -I{} sed -n 's/^name = "\(.*\)"/\1/p' {}/Nargo.toml \
+            | sort > samples.txt
+          echo "$(wc -l < samples.txt) samples"
+          xargs -P 2 -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
 
   # Which parts of the tree moved; circuit-size only runs when circuits did.
   changes:
@@ -329,7 +364,7 @@ jobs:
     name: ci
     runs-on: ubuntu-latest
     if: always()
-    needs: [noir, rust, typos, supply-chain]
+    needs: [noir, rust, circuit-samples, typos, supply-chain]
     steps:
       - name: Check dependency results
         env:

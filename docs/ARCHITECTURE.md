@@ -22,7 +22,15 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 | C · envelope | `circuits/envelope/<hash>` | 4, 5, 6 | `D`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
 | D · aggregate | `circuits/aggregate` | verifies A, B and C recursively, and checks their commitments chain | everything above | — |
 
-`<scheme>` is the signature group: `rsa_pkcs1v15/<bits>/<hash>`, `rsa_pss/<bits>/<hash>/<salt>`, `ecdsa/<curve>/<hash>`. Each group is a thin binary over the shared library for that signature type (`noir/lib/rsa`, `noir/lib/ecdsa`). Only the parameters differ between members of a group.
+`<scheme>` is the signature group: `rsa_pkcs1v15/<bits>_<hash>`, `rsa_pss/<bits>_<hash>_s<salt>`, `ecdsa/<curve>_<hash>`. Each circuit is a thin generated binary over the shared library for its signature type (`noir/lib/rsa`, `noir/lib/ecdsa`) and `noir/lib/steps`. Only the parameters differ between members of a group.
+
+### Decisions
+
+- **Size buckets.** Certificate and SOD buffers come in fixed buckets (700, 1000, 1200, 1600 bytes for the DSC `TBSCertificate`), and the prover uses the smallest that fits. Hashing cost follows the bucket.
+- **Hash ids are public.** Every step outputs the hash algorithm it used, and the aggregation exposes the weakest one. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
+- **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
+
+Status: step A (DSC) is built. Its specification is [docs/circuits/dsc.md](circuits/dsc.md) and its costs are in [docs/COSTS.md](COSTS.md). Steps B, C and D are next.
 
 ## Libraries
 

@@ -12,7 +12,10 @@ All circuit code here is written for this repository and grouped by signature ty
 | `noir/lib/rsa` | RSASSA-PKCS1-v1_5 and RSASSA-PSS over noir-bignum | done |
 | `noir/lib/ecdsa` | ECDSA on P-256/384/521, brainpoolP256/384/512r1 | done |
 | `noir/lib/envelope` | Grumpkin ECDH per viewer, key wrap, Poseidon2 duplex encryption | planned |
-| `noir/circuits/…` | DSC, SOD and envelope steps per signature type; aggregation | planned |
+| `noir/lib/der` | constrained DER reading of X.509 `TBSCertificate`s | done |
+| `noir/lib/steps` | shared step checks (DSC: registry, revocation, commitment) | done |
+| `noir/circuits/dsc/…` | DSC step: 124 circuits (31 CSCA signing configurations × 4 size buckets) | done |
+| `noir/circuits/…` | SOD and envelope steps; aggregation | planned |
 | `noir/bench` | one benchmark circuit per signature group and hash; gates and opcodes in CI | done |
 | `noir/vendor/sha512` | `noir-lang/sha512` at a pinned commit | vendored |
 | `noir/vendor/noir_bigcurve` | `noir-lang/noir_bigcurve` v0.14.0 plus generated curves | vendored |
@@ -22,7 +25,9 @@ All circuit code here is written for this repository and grouped by signature ty
 
 ```sh
 nargo test                     # every Noir package in the workspace (nargo 1.0.0-beta.22)
-cd rust && cargo test          # Rust tools
-cd rust && cargo test          # includes the check that generated Noir files are current
+cd rust && cargo test          # Rust tools, incl. the check that generated files are current
 mise run circuit-sizes         # ACIR opcodes and bb gates of every bin circuit
+scripts/measure-proving.sh "<machine>"   # bb prove time and memory for the DSC samples (docs/data)
 ```
+
+Generated files (Noir vectors, curves, circuits, root `Nargo.toml`, `docs/COSTS.md`) come from `rust/eid-vectors`; see its `--help`. Per-country proving cost estimates for mobile are in [docs/COSTS.md](docs/COSTS.md).

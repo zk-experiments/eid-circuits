@@ -6,15 +6,22 @@
 //! eid-vectors rsa --check                                                 # fail if it is stale (CI)
 //! eid-vectors ecdsa [--check]                                             # noir/lib/ecdsa/src/vectors.nr
 //! eid-vectors der [--check]                                               # noir/lib/der/src/vectors.nr
+//! eid-vectors steps [--check]                                             # noir/lib/steps/src/vectors.nr
+//! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
+//! eid-vectors samples                                                     # print packages that have a Prover.toml
+//! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
 //! eid-vectors curves [--check]                                            # vendored noir_bigcurve curves/eid_*.nr
 //! ```
 //!
 //! Every vector is a real CSCA certificate from a master list, checked with
 //! csca-registry's RustCrypto verifier before it is emitted.
 
+mod circuits;
+mod costs;
 mod curve_params;
 mod curves;
 mod ec;
+mod steps;
 
 use anyhow::{bail, ensure, Context, Result};
 use clap::{Parser, Subcommand};
@@ -28,7 +35,7 @@ use std::path::{Path, PathBuf};
 /// RSA cases: (name, certificate fingerprint prefix). One per scheme, hash,
 /// salt and modulus size seen in the DE + IT master lists, plus exponent 3
 /// and a 17-bit exponent.
-const RSA_CASES: &[(&str, &str)] = &[
+pub(crate) const RSA_CASES: &[(&str, &str)] = &[
     ("pkcs1_sha1_4096_cn", "72b3f2a0afdb41da"),
     ("pkcs1_sha1_2048_sm", "158eb79cf1f7ba1e"),
     ("pkcs1_sha256_4096_ad", "73d1823ab0ff3190"),
@@ -51,7 +58,7 @@ const RSA_CASES: &[(&str, &str)] = &[
 ];
 
 /// ECDSA cases: one per curve and hash seen in the DE + IT master lists.
-const ECDSA_CASES: &[(&str, &str)] = &[
+pub(crate) const ECDSA_CASES: &[(&str, &str)] = &[
     ("ecdsa_sha1_bp256_lt", "39f42ac25c8e712b"),
     ("ecdsa_sha1_p256_ru", "796bfca7304e9451"),
     ("ecdsa_sha256_p256_be", "e26a11b216d5f296"),
@@ -104,6 +111,26 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
+    /// Generate noir/lib/steps/src/vectors.nr (DSC step checks) from the fixtures
+    Steps {
+        /// Fail instead of writing when the file is stale
+        #[arg(long)]
+        check: bool,
+    },
+    /// Generate the step circuits, their Prover.toml samples and the root Nargo.toml
+    Circuits {
+        /// Fail instead of writing when a file is stale
+        #[arg(long)]
+        check: bool,
+    },
+    /// Generate docs/COSTS.md (per-country proving costs) from docs/data and the fixtures
+    Costs {
+        /// Fail instead of writing when the file is stale
+        #[arg(long)]
+        check: bool,
+    },
+    /// Print the packages that have a Prover.toml (executed in CI)
+    Samples,
     /// Generate the vendored noir_bigcurve curves/eid_*.nr (fields and curve parameters)
     Curves {
         /// Fail instead of writing when a file is stale
@@ -112,11 +139,11 @@ enum Command {
     },
 }
 
-fn root() -> PathBuf {
+pub(crate) fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
-fn fixtures() -> PathBuf {
+pub(crate) fn fixtures() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("fixtures")
 }
 
@@ -136,6 +163,32 @@ fn main() -> Result<()> {
             &der_vectors()?,
             check,
         ),
+        Command::Steps { check } => write_or_check(
+            &root().join("noir/lib/steps/src/vectors.nr"),
+            &steps::steps_vectors()?,
+            check,
+        ),
+        Command::Circuits { check } => {
+            for (rel, contents) in circuits::files()? {
+                let path = root().join(rel);
+                if let Some(dir) = path.parent() {
+                    std::fs::create_dir_all(dir)?;
+                }
+                write_or_check(&path, &contents, check)?;
+            }
+            Ok(())
+        }
+        Command::Costs { check } => {
+            write_or_check(&root().join("docs/COSTS.md"), &costs::report()?, check)
+        }
+        Command::Samples => {
+            use std::io::Write as _;
+            let mut stdout = std::io::stdout().lock();
+            for p in circuits::sample_packages()? {
+                writeln!(stdout, "{p}")?;
+            }
+            Ok(())
+        }
         Command::Curves { check } => {
             for (name, prefix, strukt) in curves::GENERATED {
                 let path = root().join(format!(
@@ -178,7 +231,7 @@ fn extract(sources: &Path) -> Result<()> {
     Ok(())
 }
 
-fn bytes(b: &[u8]) -> String {
+pub(crate) fn bytes(b: &[u8]) -> String {
     let body: Vec<String> = b.iter().map(|x| format!("0x{x:02x}")).collect();
     format!("[{}]", body.join(", "))
 }
@@ -491,6 +544,21 @@ mod tests {
         write_or_check(
             &root().join("noir/lib/der/src/vectors.nr"),
             &der_vectors().unwrap(),
+            true,
+        )
+        .unwrap();
+        write_or_check(
+            &root().join("noir/lib/steps/src/vectors.nr"),
+            &steps::steps_vectors().unwrap(),
+            true,
+        )
+        .unwrap();
+        for (rel, contents) in circuits::files().unwrap() {
+            write_or_check(&root().join(rel), &contents, true).unwrap();
+        }
+        write_or_check(
+            &root().join("docs/COSTS.md"),
+            &costs::report().unwrap(),
             true,
         )
         .unwrap();
