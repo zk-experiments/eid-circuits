@@ -2,12 +2,11 @@
 //!
 //! Every function hashes the first `len` bytes of a fixed-capacity array and
 //! ignores the rest; callers can pass buffers with arbitrary trailing bytes.
-//! SHA-1 is implemented here (`sha1.nr`); SHA-224/256 come from
+//! SHA-1 comes from `zac-williamson/sha1` v0.11, SHA-224/256 from
 //! `noir-lang/sha256` v0.3.0 and SHA-384/512 from the vendored
 //! `noir-lang/sha512` (see `noir/vendor/sha512/PROVENANCE.md`).
 //! Specification and review notes: README.md.
 
-mod sha1;
 mod tests;
 
 /// Digest algorithm identifiers used across the circuits.
@@ -19,7 +18,7 @@ pub global SHA512: u8 = 5;
 
 /// SHA-1 (FIPS 180-4) of `msg[..len]`.
 pub fn sha1_var<let N: u32>(msg: [u8; N], len: u32) -> [u8; 20] {
-    sha1::digest(msg, len)
+    sha1::sha1::sha1_var(bounded(msg, len))
 }
 
 /// SHA-224 of `msg[..len]`.
@@ -43,7 +42,7 @@ pub fn sha512_var<let N: u32>(msg: [u8; N], len: u32) -> [u8; 64] {
 }
 
 /// `msg[..len]` as a `BoundedVec`, with the unused capacity zeroed so the
-/// vendored SHA-512 never sees caller-controlled bytes past `len`.
+/// SHA-1 and SHA-384/512 libraries never see caller-controlled bytes past `len`.
 fn bounded<let N: u32>(msg: [u8; N], len: u32) -> BoundedVec<u8, N> {
     assert(len <= N, "message length exceeds buffer");
     let mut storage: [u8; N] = [0; N];

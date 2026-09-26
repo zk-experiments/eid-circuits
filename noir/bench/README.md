@@ -19,11 +19,11 @@ Measured with nargo 1.0.0-beta.22 and bb 5.0.0-nightly.20260522:
 | `ecdsa/bp256_sha256` | 30,131 | 94,828 |
 | `ecdsa/bp384_sha256` | 60,840 | 206,654 |
 | `ecdsa/bp512_sha256` | 101,873 | 366,526 |
-| `hash/sha1_2048` | 296,750 | 457,422 |
+| `hash/sha1_2048` | 200,018 | 379,165 |
 | `hash/sha256_2048` | 11,988 | 153,754 |
 | `hash/sha384_2048` | 234,617 | 514,909 |
 | `hash/sha512_2048` | 234,633 | 514,941 |
 
 Reading the table:
-- Hashing a certificate's TBS can cost more than verifying its signature. SHA-256 is cheapest, because it uses Noir's built-in compression function; SHA-1 and SHA-384/512 are implemented with ordinary constraints. Step circuits should size message buffers to the largest real input, not a round number.
+- Hashing a certificate's TBS can cost more than verifying its signature. SHA-256 is cheapest, because it uses Noir's built-in compression function; SHA-1 and SHA-384/512 are implemented with ordinary constraints. SHA-1 uses `zac-williamson/sha1` (see `noir/lib/hash`), 17% cheaper than an in-house version. Step circuits should size message buffers to the largest real input, not a round number.
 - Curves with the same limb layout cost the same: P-256 and brainpoolP256r1, P-384 and brainpoolP384r1.

@@ -6,7 +6,7 @@ Variable-length digests for eMRTD PKI signatures: SHA-1, SHA-224, SHA-256, SHA-3
 
 | function | output | implementation |
 |---|---|---|
-| `sha1_var(msg: [u8; N], len)` | `[u8; 20]` | this crate (`src/sha1.nr`) |
+| `sha1_var(msg: [u8; N], len)` | `[u8; 20]` | `zac-williamson/sha1` v0.11 |
 | `sha224_var(msg, len)` / `sha256_var(msg, len)` | `[u8; 28]` / `[u8; 32]` | `noir-lang/sha256` v0.3.0 |
 | `sha384_var(msg, len)` / `sha512_var(msg, len)` | `[u8; 48]` / `[u8; 64]` | vendored `noir-lang/sha512` (`noir/vendor/sha512`) |
 
@@ -14,17 +14,13 @@ Each hashes `msg[..len]` and asserts `len ≤ N`. Bytes at index `len` and beyon
 
 `Digest<D>` is implemented by `Sha1`, `Sha224`, `Sha256`, `Sha384` and `Sha512`, so code that is generic over the hash (RSA-PSS, MGF1, ECDSA) can take the algorithm as a type parameter. `SHA1` … `SHA512` (1…5) are the numeric identifiers circuits use.
 
-## SHA-1 construction (`src/sha1.nr`)
+## SHA-1 choice
 
-FIPS 180-4 §6.1:
+SHA-1 uses `zac-williamson/sha1` v0.11 (Apache-2.0), the implementation zkpassport also uses. We benchmarked it against an in-house SHA-1 written with 32-bit integer operations, both over up to 2 KiB with `bb gates -t noir-recursive`: the library needs **379,165 gates and 200,018 opcodes**, against 457,422 and 296,750. It decomposes words into base-4 lookup tables instead of using bitwise opcodes, the same approach as the SHA-512 library.
 
-1. The message is padded as a `len`-byte message: `0x80`, then zeros, then the 64-bit big-endian bit length, ending at a 64-byte boundary.
-2. Every one of `(N + 8) / 64 + 1` blocks is compressed, and the state after block `ceil((len + 9) / 64)` is the result. That is the last block of the padded message.
-3. A byte of the input buffer only enters a block when its index is below `len`. Indices past the buffer are clamped at compile time and never used.
+## BoundedVec wrapper (SHA-1, SHA-384/512)
 
-## SHA-384/512 wrapper
-
-The vendored library takes a `BoundedVec`. The wrapper copies `msg[..len]` into zeroed storage first, so the library never sees caller bytes past `len`, whatever its own handling of unused capacity.
+Those libraries take a `BoundedVec`. The wrapper copies `msg[..len]` into zeroed storage first, so a library never sees caller bytes past `len`, whatever its own handling of unused capacity.
 
 ## Review notes
 
@@ -34,5 +30,6 @@ The vendored library takes a `BoundedVec`. The wrapper copies `msg[..len]` into 
 
 ## Dependencies
 
+- `zac-williamson/sha1` v0.11: Apache-2.0.
 - `noir-lang/sha256` v0.3.0: the repository has **no LICENSE file**; tracked in `docs/AUDIT.md`.
 - `noir-lang/sha512` at commit `e92ffb4`: Apache-2.0, vendored (see its `PROVENANCE.md`).

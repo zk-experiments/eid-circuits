@@ -8,7 +8,7 @@ All circuit code here is written for this repository and grouped by signature ty
 
 | path | contents | status |
 |---|---|---|
-| `noir/lib/hash` | SHA-1 (own), SHA-224/256/384/512, `Digest` trait | done |
+| `noir/lib/hash` | SHA-1/224/256/384/512 over variable-length input, `Digest` trait | done |
 | `noir/lib/rsa` | RSASSA-PKCS1-v1_5 and RSASSA-PSS over noir-bignum | done |
 | `noir/lib/ecdsa` | ECDSA on P-256/384/521, brainpoolP256/384/512r1 | done |
 | `noir/lib/envelope` | Grumpkin ECDH per viewer, key wrap, Poseidon2 duplex encryption | planned |

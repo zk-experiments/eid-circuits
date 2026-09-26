@@ -5,6 +5,7 @@
 | dependency | pin | license | used for |
 |---|---|---|---|
 | `noir-lang/noir-bignum` | tag `v0.10.0` | Apache-2.0 | RSA modular arithmetic |
+| `zac-williamson/sha1` | tag `v0.11` | Apache-2.0 | SHA-1 |
 | `noir-lang/sha256` | tag `v0.3.0` | **none in repository** | SHA-224/256 |
 | `noir-lang/sha512` | commit `e92ffb4`, vendored in `noir/vendor/sha512` | Apache-2.0 | SHA-384/512 |
 | `noir-lang/noir_bigcurve` | tag `v0.14.0`, vendored in `noir/vendor/noir_bigcurve` with four generated curve files added | **none in repository** | ECDSA curve arithmetic |
