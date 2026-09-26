@@ -1,0 +1,4 @@
+# csca-registry is private and fetched over SSH; use the git CLI (and its
+# ssh-agent / credential setup) instead of libgit2.
+[net]
+git-fetch-with-cli = true

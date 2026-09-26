@@ -1,0 +1,19 @@
+# typos (https://github.com/crate-ci/typos) configuration.
+#
+# Entries are checked false positives from a real run, not guesses.
+
+[files]
+extend-exclude = [
+  "CHANGELOG.md",
+  "**/Cargo.lock",
+  "noir/vendor/**",
+  "noir/**/vectors.nr",
+  "rust/eid-vectors/fixtures/**",
+]
+
+[default]
+extend-ignore-re = [
+  # Hex constants (digests, curve parameters).
+  "\\b[0-9a-fA-F]{16,}\\b",
+  "0x[0-9a-fA-F]+",
+]

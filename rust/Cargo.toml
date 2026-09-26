@@ -1,0 +1,32 @@
+[workspace]
+members = ["eid-vectors"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.94"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+# Certificate parsing and signature schemes come from the registry itself, so
+# vectors are built from exactly what the registry verified.
+csca-registry = { git = "ssh://git@github.com/zk-experiments/csca-registry.git", tag = "v0.3.0" }
+anyhow = "1.0"
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+num-bigint = "0.4"
+sha2 = "0.10"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+unimplemented = "deny"
+exit = "deny"
+panic = "warn"
+unwrap_used = "warn"
