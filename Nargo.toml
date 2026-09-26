@@ -3,6 +3,7 @@ members = [
     "noir/lib/hash",
     "noir/lib/rsa",
     "noir/lib/ecdsa",
+    "noir/lib/der",
     "noir/bench/rsa_pkcs1v15/2048_sha256",
     "noir/bench/rsa_pkcs1v15/3072_sha256",
     "noir/bench/rsa_pkcs1v15/4096_sha256",
