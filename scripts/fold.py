@@ -56,7 +56,9 @@ class Folder:
     def vk(self, package, zk=False):
         """Chonk verification key: (field strings, binary key path)."""
         d = os.path.join(self.work, package)
-        flags = ["--use_zk_flavor"] if zk else []
+        # bb 7 derives app, kernel and (zero-knowledge) hiding keys differently.
+        kind = "hiding" if zk else ("kernel" if package.startswith("kernel_") else "app")
+        flags = ["--circuit_kind", kind]
         art = f"target/{package}.json"
         run([self.bb, "write_vk", "--scheme", "chonk", *flags, "-b", art, "-o", d, "--output_format", "json"])
         run([self.bb, "write_vk", "--scheme", "chonk", *flags, "-b", art, "-o", d])
@@ -166,8 +168,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--chain")
     ap.add_argument("--prove", action="store_true")
-    ap.add_argument("--nargo", default="nargo")
-    ap.add_argument("--bb", default="bb")
+    # mise.toml sets NARGO and BB to the pinned, per-version toolchain.
+    ap.add_argument("--nargo", default=os.environ.get("NARGO", "nargo"))
+    ap.add_argument("--bb", default=os.environ.get("BB", "bb"))
     ap.add_argument("--threads", default="4", help="comma-separated thread counts to prove with")
     ap.add_argument("--record", help="write the measured runs to this JSON file")
     ap.add_argument("--machine", default="unknown machine")
