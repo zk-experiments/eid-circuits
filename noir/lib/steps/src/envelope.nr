@@ -1,20 +1,21 @@
 //! Step C (envelope): the eContent that step B's messageDigest commits to
-//! lists the hashes of the DG1 and DG11 being encrypted, the document has
-//! not expired at the proof date, its issuing state is the registry leaf's
-//! country, and the envelope encrypts exactly those data groups.
+//! lists the hash of the DG1 being encrypted, the document has not expired
+//! at the proof date, its issuing state is the registry leaf's country, and
+//! the envelope encrypts exactly that DG1. DG11 isn't used (see
+//! docs/circuits/envelope.md).
 //!
 //! The binary for each (eContent hash, data group hash, eContent bucket)
 //! does, in this order:
 //! 1. `let p = envelope::check(date, w, hash_oid)`, which walks the LDS
 //!    security object and DG1 and runs the date and country checks (below);
 //! 2. hashes the eContent with its eContent hash and calls
-//!    `assert_message_digest`, then hashes DG1 (and DG11 when present) with
-//!    its data group hash and calls `assert_hash_at` on the listed hashes;
+//!    `assert_message_digest`, then hashes DG1 with its data group hash and
+//!    calls `assert_hash_at` on the listed hash;
 //! 3. returns `envelope::outputs(...)`.
 
 use csca_registry::country_from_mrz;
 use eid_der::{assert_zero_padded, days_from_civil, expect, Lds, parse_lds, SignedAttrs};
-use eid_envelope::{DG11_MAX, DG1_MAX, Envelope, plaintext, seal, VIEWERS};
+use eid_envelope::{DG1_MAX, Envelope, plaintext, seal, VIEWERS};
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
 /// Hash algorithm OIDs (whole TLV) as an LDS security object names them.
@@ -38,14 +39,10 @@ pub struct Witness<let E: u32> {
     pub digest_len: u32,
     /// The SOD's eContent (LDS security object), zero-padded to the bucket.
     pub econtent: [u8; E],
-    /// Offsets of the DG1 and DG11 entries in its dataGroupHashValues.
+    /// Offset of the DG1 entry in its dataGroupHashValues.
     pub dg1_offset: u32,
-    pub dg11_offset: u32,
-    /// Whether the document has DG11.
-    pub has_dg11: bool,
-    /// DG1 and DG11 as read from the chip, zero-padded (DG11 all zeros when absent).
+    /// DG1 as read from the chip, zero-padded.
     pub dg1: [u8; DG1_MAX],
-    pub dg11: [u8; DG11_MAX],
     /// Ephemeral Grumpkin scalar and data key: fresh and random per envelope.
     pub ephemeral: Field,
     pub key: Field,
@@ -65,7 +62,6 @@ pub struct Dg1 {
 pub struct Parsed {
     pub lds: Lds,
     pub dg1: Dg1,
-    pub dg11_len: u32,
 }
 
 /// Public outputs of the envelope step.
@@ -113,36 +109,18 @@ pub fn parse_dg1(dg1: [u8; DG1_MAX]) -> Dg1 {
     Dg1 { len, issuing_state: [dg1[mrz + 2], dg1[mrz + 3], dg1[mrz + 4]], expires }
 }
 
-/// Length of DG11 (tag `6B`) when present; its buffer must be all zeros otherwise.
-pub fn dg11_len(dg11: [u8; DG11_MAX], has_dg11: bool) -> u32 {
-    let len = if has_dg11 {
-        expect(dg11, 0, DG11_MAX, 0x6b).end(0)
-    } else {
-        0
-    };
-    assert_zero_padded(dg11, len);
-    len
-}
-
 /// Runs the envelope step checks besides hashing:
 /// - the eContent is an LDS security object with data group hashes under
 ///   `hash_oid` (`D` bytes each), followed only by zeros, listing DG1 at
-///   `dg1_offset` and DG11 at `dg11_offset` exactly when `has_dg11`;
+///   `dg1_offset`;
 /// - DG1 parses, its issuing state normalises to `country`, and it has not
-///   expired at `date` (unix seconds);
-/// - DG11 is a single element (or absent) followed only by zeros.
+///   expired at `date` (unix seconds).
 pub fn check<let E: u32, let O: u32, let D: u32>(
     date: u64,
     w: Witness<E>,
     hash_oid: [u8; O],
 ) -> Parsed {
-    let lds: Lds = parse_lds::<E, O, D>(
-        w.econtent,
-        hash_oid,
-        w.dg1_offset,
-        w.dg11_offset,
-        w.has_dg11,
-    );
+    let lds: Lds = parse_lds::<E, O, D>(w.econtent, hash_oid, w.dg1_offset);
     assert_zero_padded(w.econtent, lds.len);
     let dg1 = parse_dg1(w.dg1);
     assert_eq(
@@ -151,7 +129,7 @@ pub fn check<let E: u32, let O: u32, let D: u32>(
         "issuing state does not match the registry country",
     );
     assert(date <= dg1.expires, "document has expired at the given date");
-    Parsed { lds, dg1, dg11_len: dg11_len(w.dg11, w.has_dg11) }
+    Parsed { lds, dg1 }
 }
 
 /// Asserts step B's messageDigest is `computed`, the eContent's hash.
@@ -170,7 +148,7 @@ pub fn assert_hash_at<let N: u32, let D: u32>(buf: [u8; N], at: u32, digest: [u8
 }
 
 /// Step C outputs: step B's commitment recomputed from the witness, the hash
-/// ids, and the envelope of DG1 and DG11 to `viewers`, bound to `context`.
+/// ids, and the envelope of DG1 to `viewers`, bound to `context`.
 pub fn outputs<let E: u32>(
     viewers: [EmbeddedCurvePoint; VIEWERS],
     context: Field,
@@ -180,7 +158,7 @@ pub fn outputs<let E: u32>(
     dg_hash_id: u8,
 ) -> Outputs {
     let attrs = SignedAttrs { len: 0, digest: w.digest, digest_len: w.digest_len };
-    let pt = plaintext(w.dg1, p.dg1.len, w.dg11, p.dg11_len);
+    let pt = plaintext(w.dg1, p.dg1.len);
     Outputs {
         sod_commitment: crate::sod::commitment(w.sod_salt, w.country, attrs),
         econtent_hash_id: econtent_hash_id as Field,

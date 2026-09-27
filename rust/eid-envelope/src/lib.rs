@@ -1,4 +1,4 @@
-//! Envelope encryption of eMRTD data groups to viewer keys, byte-for-byte the
+//! Envelope encryption of an eMRTD's DG1 to viewer keys, byte-for-byte the
 //! construction the envelope step circuit (step C) proves. Provers use
 //! [`seal`] to build the witness; viewers use [`open`] to decrypt what a
 //! proof published. Specification: docs/circuits/envelope.md.
@@ -11,10 +11,10 @@
 //!   `(K, E.x, E.y, CIPHER)`, then the caller's `context` absorbed: each
 //!   ciphertext element is the plaintext plus a state element, and replaces
 //!   it before the next permutation.
-//! - **Plaintext.** `PLAINTEXT_FIELDS` fields: `dg1_len + 2^16·dg11_len`,
-//!   then DG1 and DG11 zero-padded to `DG1_MAX` and `DG11_MAX` bytes and
-//!   packed like `csca_registry::pack_be`, then zeros. Its size is fixed, so
-//!   the ciphertext hides how long DG11 is (or whether it exists).
+//! - **Plaintext.** `PLAINTEXT_FIELDS` fields: `dg1_len`, then DG1
+//!   zero-padded to `DG1_MAX` bytes and packed like `csca_registry::pack_be`,
+//!   then a zero. Its size is fixed. DG11 isn't carried (see
+//!   docs/circuits/envelope.md).
 //!
 //! `H` is Noir's Poseidon2 sponge (`hash_noir`); the permutation is BN254
 //! Poseidon2 with t = 4.
@@ -30,13 +30,10 @@ pub use ark_bn254::Fr;
 pub const VIEWERS: usize = 4;
 /// DG1 buffer size (TD1 MRZ: 95 bytes with its tags).
 pub const DG1_MAX: usize = 95;
-/// DG11 buffer size.
-pub const DG11_MAX: usize = 512;
-/// 31-byte fields per packed buffer.
+/// 31-byte fields for DG1.
 pub const DG1_FIELDS: usize = DG1_MAX.div_ceil(31);
-pub const DG11_FIELDS: usize = DG11_MAX.div_ceil(31);
-/// Header, DG1, DG11, padded to whole duplex blocks of 3.
-pub const PLAINTEXT_FIELDS: usize = (1 + DG1_FIELDS + DG11_FIELDS).div_ceil(3) * 3;
+/// Header and DG1, padded to whole duplex blocks of 3.
+pub const PLAINTEXT_FIELDS: usize = (1 + DG1_FIELDS).div_ceil(3) * 3;
 
 /// Domain tags: the ASCII strings as big-endian integers.
 pub fn wrap_domain() -> Fr {
@@ -62,7 +59,7 @@ pub struct Envelope {
 /// Errors from [`seal`] and [`open`].
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Error {
-    /// A data group is larger than its buffer.
+    /// DG1 is larger than its buffer.
     TooLong,
     /// The ephemeral scalar is zero.
     ZeroScalar,
@@ -143,16 +140,11 @@ fn padded(bytes: &[u8], len: usize) -> Result<Vec<u8>, Error> {
     Ok(v)
 }
 
-/// The plaintext field elements for DG1 and (optionally) DG11.
-pub fn plaintext(dg1: &[u8], dg11: Option<&[u8]>) -> Result<[Fr; PLAINTEXT_FIELDS], Error> {
-    let dg11 = dg11.unwrap_or_default();
-    let header = Fr::from(dg1.len() as u64) + Fr::from(dg11.len() as u64) * Fr::from(1u64 << 16);
+/// The plaintext field elements for DG1.
+pub fn plaintext(dg1: &[u8]) -> Result<[Fr; PLAINTEXT_FIELDS], Error> {
     let mut out = [Fr::zero(); PLAINTEXT_FIELDS];
-    let fields: Vec<Fr> = std::iter::once(header)
-        .chain(pack_be(&padded(dg1, DG1_MAX)?))
-        .chain(pack_be(&padded(dg11, DG11_MAX)?))
-        .collect();
-    out[..fields.len()].copy_from_slice(&fields);
+    out[0] = Fr::from(dg1.len() as u64);
+    out[1..=DG1_FIELDS].copy_from_slice(&pack_be(&padded(dg1, DG1_MAX)?));
     Ok(out)
 }
 
@@ -183,13 +175,12 @@ fn slot_key(shared: (Fr, Fr), slot: usize) -> Fr {
     hash(&[wrap_domain(), shared.0, shared.1, Fr::from(slot as u64)])
 }
 
-/// Encrypts DG1 and DG11 to up to `VIEWERS` keys (`None` leaves a slot
+/// Encrypts DG1 to up to `VIEWERS` keys (`None` leaves a slot
 /// empty) with ephemeral scalar `e` and data key `key`, both fresh and
 /// uniformly random per envelope. `context` binds the envelope to one use
 /// (the step C public input of the same name); viewers need it to open.
 pub fn seal(
     dg1: &[u8],
-    dg11: Option<&[u8]>,
     viewers: &[Point; VIEWERS],
     e: Fr,
     key: Fr,
@@ -206,7 +197,7 @@ pub fn seal(
             wrapped[i] = key + slot_key(shared, i);
         }
     }
-    let ciphertext = duplex(key, eph, context, &plaintext(dg1, dg11)?, true);
+    let ciphertext = duplex(key, eph, context, &plaintext(dg1)?, true);
     Ok(Envelope {
         ephemeral: eph,
         wrapped,
@@ -215,13 +206,8 @@ pub fn seal(
 }
 
 /// Decrypts `env`, sealed under `context`, as the viewer in `slot` with
-/// secret `v`. Returns DG1 and, when the document has one, DG11.
-pub fn open(
-    env: &Envelope,
-    context: Fr,
-    slot: usize,
-    v: Fr,
-) -> Result<(Vec<u8>, Option<Vec<u8>>), Error> {
+/// secret `v`. Returns DG1.
+pub fn open(env: &Envelope, context: Fr, slot: usize, v: Fr) -> Result<Vec<u8>, Error> {
     let wrapped = *env.wrapped.get(slot).ok_or(Error::NoSuchSlot)?;
     if wrapped.is_zero() {
         return Err(Error::NoSuchSlot);
@@ -230,26 +216,15 @@ pub fn open(
     let key = wrapped - slot_key(shared, slot);
     let p = duplex(key, env.ephemeral, context, &env.ciphertext, false);
     let header = p[0].into_bigint().to_bytes_le();
-    let dg1_len = usize::from(u16::from_le_bytes([header[0], header[1]]));
-    let dg11_len = usize::from(u16::from_le_bytes([header[2], header[3]]));
-    if header[4..].iter().any(|b| *b != 0) || dg1_len > DG1_MAX || dg11_len > DG11_MAX {
+    let dg1_len = usize::from(header[0]);
+    if header[1..].iter().any(|b| *b != 0) || dg1_len > DG1_MAX {
         return Err(Error::Malformed);
     }
     let dg1 = unpack_be(&p[1..=DG1_FIELDS], DG1_MAX);
-    let dg11 = unpack_be(&p[1 + DG1_FIELDS..1 + DG1_FIELDS + DG11_FIELDS], DG11_MAX);
-    let zero_tail = |b: &[u8], len: usize| b[len..].iter().all(|x| *x == 0);
-    if !zero_tail(&dg1, dg1_len)
-        || !zero_tail(&dg11, dg11_len)
-        || p[1 + DG1_FIELDS + DG11_FIELDS..]
-            .iter()
-            .any(|f| !f.is_zero())
-    {
+    if dg1[dg1_len..].iter().any(|x| *x != 0) || p[1 + DG1_FIELDS..].iter().any(|f| !f.is_zero()) {
         return Err(Error::Malformed);
     }
-    Ok((
-        dg1[..dg1_len].to_vec(),
-        (dg11_len > 0).then(|| dg11[..dg11_len].to_vec()),
-    ))
+    Ok(dg1[..dg1_len].to_vec())
 }
 
 #[cfg(test)]
@@ -276,7 +251,7 @@ mod tests {
 
     #[test]
     fn sizes() {
-        assert_eq!((DG1_FIELDS, DG11_FIELDS, PLAINTEXT_FIELDS), (4, 17, 24));
+        assert_eq!((DG1_FIELDS, PLAINTEXT_FIELDS), (4, 6));
     }
 
     #[test]
@@ -284,10 +259,8 @@ mod tests {
         let secrets = [Fr::from(11u64), Fr::from(22u64)];
         let viewers = [public_key(secrets[0]), None, public_key(secrets[1]), None];
         let dg1 = [0x61u8; 93];
-        let dg11 = b"\x6b\x05hello";
         let env = seal(
             &dg1,
-            Some(dg11),
             &viewers,
             Fr::from(5u64),
             Fr::from(7u64),
@@ -295,9 +268,8 @@ mod tests {
         )
         .unwrap();
         assert_eq!(env.wrapped[1], Fr::zero());
-        let (a, b) = open(&env, Fr::from(99u64), 0, secrets[0]).unwrap();
-        assert_eq!((a.as_slice(), b.as_deref()), (&dg1[..], Some(&dg11[..])));
-        assert_eq!(open(&env, Fr::from(99u64), 2, secrets[1]).unwrap().0, dg1);
+        assert_eq!(open(&env, Fr::from(99u64), 0, secrets[0]).unwrap(), dg1);
+        assert_eq!(open(&env, Fr::from(99u64), 2, secrets[1]).unwrap(), dg1);
         assert_eq!(
             open(&env, Fr::from(99u64), 1, secrets[0]),
             Err(Error::NoSuchSlot)
@@ -314,11 +286,10 @@ mod tests {
     }
 
     #[test]
-    fn missing_dg11_and_limits() {
+    fn short_dg1_and_limits() {
         let v = [public_key(Fr::from(3u64)), None, None, None];
         let env = seal(
             &[1, 2, 3],
-            None,
             &v,
             Fr::from(9u64),
             Fr::from(4u64),
@@ -327,12 +298,11 @@ mod tests {
         .unwrap();
         assert_eq!(
             open(&env, Fr::from(99u64), 0, Fr::from(3u64)).unwrap(),
-            (vec![1, 2, 3], None)
+            vec![1, 2, 3]
         );
         assert_eq!(
             seal(
                 &[0; 96],
-                None,
                 &v,
                 Fr::from(9u64),
                 Fr::from(4u64),
@@ -341,19 +311,12 @@ mod tests {
             Err(Error::TooLong)
         );
         assert_eq!(
-            seal(&[1], None, &v, Fr::zero(), Fr::from(4u64), Fr::from(99u64)),
+            seal(&[1], &v, Fr::zero(), Fr::from(4u64), Fr::from(99u64)),
             Err(Error::ZeroScalar)
         );
         let off = [Some((Fr::from(1u64), Fr::from(1u64))), None, None, None];
         assert_eq!(
-            seal(
-                &[1],
-                None,
-                &off,
-                Fr::from(9u64),
-                Fr::from(4u64),
-                Fr::from(99u64)
-            ),
+            seal(&[1], &off, Fr::from(9u64), Fr::from(4u64), Fr::from(99u64)),
             Err(Error::NotOnCurve)
         );
     }

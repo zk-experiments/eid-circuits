@@ -7,9 +7,9 @@ For a public registry root `R`, date `D`, context `X` (the transfer the envelope
 1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the DSC's `notBefore` (see *Date policy*). The leaf's country equals the document's issuing state.
 2. `K_csca` signed the DSC certificate, and the DSC's serial is not revoked under `K_csca` in `R`'s revocation tree.
 3. The DSC key signed the SOD's signed attributes. Their `messageDigest` is the hash of the SOD's eContent (the LDS security object).
-4. The eContent lists the hashes of DG1 and DG11, and they match the DG1 and DG11 the prover holds.
+4. The eContent lists the hash of DG1, and it matches the DG1 the prover holds.
 5. The document's expiry date (from DG1) is on or after `D`.
-6. `C` is DG1 ‖ DG11 encrypted under a fresh data key and bound to `X`, and that key is wrapped to each `Vᵢ` in the proof's outputs.
+6. `C` is DG1 encrypted under a fresh data key and bound to `X`, and that key is wrapped to each `Vᵢ` in the proof's outputs.
 
 ## Proof pipeline
 
@@ -54,7 +54,7 @@ Decided: the **ICAO chain model**. `csca_registry::verify_key` checks the CSCA l
 KEM/DEM:
 1. The prover picks an ephemeral Grumpkin key `e` and publishes `E = e·G`.
 2. For each viewer, it computes `kᵢ = Poseidon2(WRAP, e·Vᵢ, i)` and wraps a random data key `K` as `K + kᵢ`.
-3. It encrypts DG1 ‖ DG11 under `K` with a Poseidon2 duplex, as fixed-length field elements so the length of DG11 is hidden.
+3. It encrypts DG1 under `K` with a Poseidon2 duplex, as fixed-length field elements.
 
 The full construction is in [noir/lib/envelope](../noir/lib/envelope/README.md).
 
@@ -74,6 +74,12 @@ Step A proves the same statement for every document a DSC signed: the CSCA is re
 - **Circuits.** The SOD step gets a variant that proves the DSC key is a leaf of that tree (a Merkle path, a few thousand gates) instead of opening step A's commitment. The phone then produces two proofs instead of three. The leaf stays hidden, so the proof still doesn't reveal which DSC signed the document.
 - **Coverage.** A document can only use this path if its DSC is in the tree. Sources: the ICAO PKD DSC list (incomplete, manual download), national publications, and DSCs seen in submitted SODs. Step A stays as the fallback, so every document remains provable.
 - **When.** Each covered user saves 138k–674k gates, but maintaining coverage has a cost, so this pays off at scale. A and B are linked only by `c_A`, so it can be added later without changing the SOD or envelope steps.
+
+### DG11
+
+Only DG1 (the MRZ) is encrypted. DG11 (additional personal details: full name in national characters, place of birth, address, and so on) is optional in ICAO 9303 and often missing or sparse. Because circuits are fixed size, carrying it costs a hash over a full 512-byte buffer on every proof, even when it's absent: 43k–144k gates, 36–59% of the envelope step.
+
+If a use case needs it, it can come back as a second envelope variant, or as envelope circuits with DG11. The issuer hashes each data group separately, so proving DG11 needs only its listed hash; steps A and B don't change.
 
 ### Caching step A on the phone
 

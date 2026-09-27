@@ -361,7 +361,7 @@ pub(crate) fn envelope_vectors() -> Result<String> {
             32,
         ),
         (
-            "sha512_v1_no_dg11",
+            "sha512_v1",
             Hash::Sha1,
             Hash::Sha512,
             true,
@@ -389,26 +389,23 @@ pub(crate) fn envelope_vectors() -> Result<String> {
         let up = name.to_uppercase();
         writeln!(
             out,
-            "pub(crate) fn {name}() -> Witness<512> {{\n    Witness {{\n        sod_salt: 67890,\n        country: {},\n        digest: {},\n        digest_len: {},\n        econtent: {},\n        dg1_offset: {},\n        dg11_offset: {},\n        has_dg11: {with_dg11},\n        dg1: {},\n        dg11: {},\n        ephemeral: 424242,\n        key: 777777,\n    }}\n}}\n\npub(crate) global {up}_DG1_HASH: [u8; {d}] = {};\npub(crate) global {up}_ECONTENT_HASH: [u8; {}] = {};\n",
+            "pub(crate) fn {name}() -> Witness<512> {{\n    Witness {{\n        sod_salt: 67890,\n        country: {},\n        digest: {},\n        digest_len: {},\n        econtent: {},\n        dg1_offset: {},\n        dg1: {},\n        ephemeral: 424242,\n        key: 777777,\n    }}\n}}\n\npub(crate) global {up}_DG1_HASH: [u8; {d}] = {};\npub(crate) global {up}_ECONTENT_HASH: [u8; {}] = {};\n",
             bytes(SAMPLE_COUNTRY.as_bytes()),
             bytes(&pad(&digest, 64)),
             digest.len(),
             bytes(&pad(&doc.econtent, 512)),
             doc.dg1_offset,
-            doc.dg11_offset.unwrap_or(0),
             bytes(&pad(&doc.dg1, 95)),
-            bytes(&pad(&doc.dg11, 512)),
             bytes(&dg.digest(&doc.dg1)),
             digest.len(),
             bytes(&digest),
         )?;
         writeln!(
             out,
-            "#[test]\nfn envelope_{name}() {{\n    let p = check::<512, {}, {d}>(DATE, {name}(), {oid});\n    assert_eq(p.lds.len, {});\n    assert_eq(p.dg1.len, {});\n    assert_eq(p.dg1.expires, EXPIRES);\n    assert_eq(p.dg11_len, {});\n}}\n",
+            "#[test]\nfn envelope_{name}() {{\n    let p = check::<512, {}, {d}>(DATE, {name}(), {oid});\n    assert_eq(p.lds.len, {});\n    assert_eq(p.dg1.len, {});\n    assert_eq(p.dg1.expires, EXPIRES);\n}}\n",
             if oid == "OID_SHA1" { 7 } else { 11 },
             doc.econtent.len(),
             doc.dg1.len(),
-            doc.dg11.len(),
         )?;
     }
     for (name, mrz) in [

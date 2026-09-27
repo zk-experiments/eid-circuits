@@ -243,7 +243,10 @@ pub(crate) fn report() -> Result<String> {
 
     writeln!(out, "\n## The other steps\n")?;
     writeln!(out, "A document needs one proof per step: DSC (above), SOD and envelope. The SOD and envelope circuits run on synthetic documents in CI (`nargo execute`) but are not timed yet, so their times and memory below are estimated from gates with the fit above.\n")?;
-    writeln!(out, "| step | circuits | gates (min \u{2013} max) | laptop 4 threads | peak memory |")?;
+    writeln!(
+        out,
+        "| step | circuits | gates (min \u{2013} max) | laptop 4 threads | peak memory |"
+    )?;
     writeln!(out, "|---|---:|---:|---:|---:|")?;
     for (step, prefix) in [("SOD", "sod_"), ("envelope", "envelope_")] {
         let g: Vec<f64> = sizes
@@ -251,7 +254,9 @@ pub(crate) fn report() -> Result<String> {
             .filter(|(k, _)| k.starts_with(prefix))
             .filter_map(|(_, v)| v["gates"].as_f64())
             .collect();
-        let (lo, hi) = g.iter().fold((f64::MAX, 0f64), |(l, h), x| (l.min(*x), h.max(*x)));
+        let (lo, hi) = g
+            .iter()
+            .fold((f64::MAX, 0f64), |(l, h), x| (l.min(*x), h.max(*x)));
         if g.is_empty() {
             continue;
         }

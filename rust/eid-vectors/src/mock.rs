@@ -370,12 +370,9 @@ pub(crate) struct Doc {
     pub econtent: Vec<u8>,
     /// Hash of `econtent` in messageDigest.
     pub md_hash: Hash,
-    /// Offsets of the DG1 and DG11 entries in `econtent`.
+    /// Offset of the DG1 entry in `econtent`.
     pub dg1_offset: usize,
-    pub dg11_offset: Option<usize>,
     pub dg1: Vec<u8>,
-    /// Empty when the document has no DG11.
-    pub dg11: Vec<u8>,
 }
 
 /// How a synthetic document's security object is built.
@@ -387,6 +384,7 @@ pub(crate) struct Lds {
     pub dg_hash: Hash,
     /// LDS 1.8 (version 1, with ldsVersionInfo) instead of version 0.
     pub v1: bool,
+    /// Whether the LDS lists a DG11 (the circuits ignore it).
     pub with_dg11: bool,
 }
 
@@ -448,12 +446,6 @@ impl Doc {
         let econtent = seq(&parts);
         let find = |needle: &[u8]| (0..econtent.len()).find(|&i| econtent[i..].starts_with(needle));
         let dg1_offset = find(&entry(1, &dg1)).context("DG1 entry")?;
-        let dg11_offset = if lds.with_dg11 {
-            Some(find(&entry(11, &dg11)).context("DG11 entry")?)
-        } else {
-            None
-        };
-        let dg11 = if lds.with_dg11 { dg11 } else { vec![] };
 
         let md_attr = seq(&[
             oid("1.2.840.113549.1.9.4"),
@@ -515,9 +507,7 @@ impl Doc {
             econtent,
             md_hash: lds.md_hash,
             dg1_offset,
-            dg11_offset,
             dg1,
-            dg11,
         })
     }
 }

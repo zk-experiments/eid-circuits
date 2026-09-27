@@ -21,9 +21,5 @@ fn main(
     let p = check::<1536, 11, 64>(date, w, OID_SHA512);
     assert_message_digest(w, sha1_var(w.econtent, p.lds.len));
     assert_hash_at(w.econtent, p.lds.dg1_hash_at, sha512_var(w.dg1, p.dg1.len));
-    let dg11 = sha512_var(w.dg11, p.dg11_len);
-    if w.has_dg11 {
-        assert_hash_at(w.econtent, p.lds.dg11_hash_at, dg11);
-    }
     outputs(viewers, context, w, p, HASH_SHA1, HASH_SHA512)
 }

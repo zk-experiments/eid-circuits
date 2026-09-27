@@ -310,6 +310,6 @@ A document needs one proof per step: DSC (above), SOD and envelope. The SOD and 
 | step | circuits | gates (min – max) | laptop 4 threads | peak memory |
 |---|---:|---:|---:|---:|
 | SOD | 124 | 87k – 538k | ≈0.6 s – 2.9 s | ≈156 MiB – 1149 MiB |
-| envelope | 48 | 119k – 584k | ≈0.7 s – 3.2 s | ≈226 MiB – 1250 MiB |
+| envelope | 48 | 72k – 440k | ≈0.5 s – 2.4 s | ≈122 MiB – 933 MiB |
 
 The three proofs are verified separately on chain; there is no aggregation proof (one recursive verification alone costs about 705k gates). See [VERIFY.md](VERIFY.md).

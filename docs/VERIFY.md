@@ -10,7 +10,7 @@ A transfer carrying a document submits:
 |---|---|---|
 | DSC proof | step A | public input `root`; outputs `c_A`, `hash_id_A` |
 | SOD proof | step B | outputs `c_A`, `c_B`, `hash_id_B` |
-| envelope proof | step C | public inputs `date`, `context`, `viewers[4]`; outputs `c_B`, `econtent_hash_id`, `dg_hash_id`, `envelope` (`E`, `wrapped[4]`, `ciphertext[24]`) |
+| envelope proof | step C | public inputs `date`, `context`, `viewers[4]`; outputs `c_B`, `econtent_hash_id`, `dg_hash_id`, `envelope` (`E`, `wrapped[4]`, `ciphertext[6]`) |
 | circuit ids | prover | which circuit each proof is for (see *Verification keys*) |
 
 ## Checks

@@ -1,4 +1,4 @@
-//! Envelope encryption of DG1 and DG11 to viewer keys: a Grumpkin KEM and a
+//! Envelope encryption of DG1 to viewer keys: a Grumpkin KEM and a
 //! Poseidon2 duplex. `rust/eid-envelope` implements the same construction
 //! for provers (`seal`) and viewers (`open`), and the generated vectors check
 //! both agree. Specification and review notes: README.md.
@@ -15,10 +15,8 @@ use std::embedded_curve_ops::{
 pub global VIEWERS: u32 = 4;
 /// DG1 buffer size (a TD1 MRZ with its tags is 95 bytes).
 pub global DG1_MAX: u32 = 95;
-/// DG11 buffer size.
-pub global DG11_MAX: u32 = 512;
-/// Header, 4 DG1 fields and 17 DG11 fields, padded to whole blocks of 3.
-pub global PLAINTEXT_FIELDS: u32 = 24;
+/// Header and 4 DG1 fields, padded to whole blocks of 3.
+pub global PLAINTEXT_FIELDS: u32 = 6;
 /// "eid-envelope/wrap/v1" as a big-endian integer.
 pub global WRAP_DOMAIN: Field = 0x6569642d656e76656c6f70652f777261702f7631;
 /// "eid-envelope/cipher/v1" as a big-endian integer.
@@ -33,24 +31,14 @@ pub struct Envelope {
     pub ciphertext: [Field; PLAINTEXT_FIELDS],
 }
 
-/// The plaintext: `dg1_len + 2^16·dg11_len`, then `pack_be(dg1)` and
-/// `pack_be(dg11)` over the whole zero-padded buffers, then zeros. The
-/// caller asserts the buffers are zero past their lengths.
-pub fn plaintext(
-    dg1: [u8; DG1_MAX],
-    dg1_len: u32,
-    dg11: [u8; DG11_MAX],
-    dg11_len: u32,
-) -> [Field; PLAINTEXT_FIELDS] {
+/// The plaintext: `dg1_len`, then `pack_be(dg1)` over the whole zero-padded
+/// buffer, then a zero. The caller asserts the buffer is zero past `dg1_len`.
+pub fn plaintext(dg1: [u8; DG1_MAX], dg1_len: u32) -> [Field; PLAINTEXT_FIELDS] {
     let a: [Field; 4] = pack_be(dg1);
-    let b: [Field; 17] = pack_be(dg11);
     let mut out: [Field; PLAINTEXT_FIELDS] = [0; PLAINTEXT_FIELDS];
-    out[0] = dg1_len as Field + (dg11_len as Field) * 65536;
+    out[0] = dg1_len as Field;
     for i in 0..4 {
         out[1 + i] = a[i];
-    }
-    for i in 0..17 {
-        out[5 + i] = b[i];
     }
     out
 }

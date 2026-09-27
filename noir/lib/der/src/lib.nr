@@ -419,14 +419,12 @@ pub fn parse_signed_attrs<let N: u32>(attrs: [u8; N], md_offset: u32) -> SignedA
     SignedAttrs { len, digest, digest_len: dl }
 }
 
-/// Where the hashes of DG1 and DG11 sit in an LDS security object.
+/// Where DG1's hash sits in an LDS security object.
 pub struct Lds {
     /// DER length of the whole object (header included).
     pub len: u32,
     /// Offset of DG1's hash value.
     pub dg1_hash_at: u32,
-    /// Offset of DG11's hash value (meaningless when `has_dg11` is false).
-    pub dg11_hash_at: u32,
 }
 
 /// Walks an LDS security object (ICAO 9303 part 10, `LDSSecurityObject`)
@@ -441,14 +439,11 @@ pub struct Lds {
 ///
 /// The hash algorithm OID (whole TLV) must be `hash_oid` and every hash `D`
 /// bytes. At most `MAX_DATA_GROUPS` entries; DG1 appears exactly once, at
-/// `dg1_offset`, and DG11 appears once (at `dg11_offset`) when `has_dg11`
-/// and never otherwise.
+/// `dg1_offset`. Other data groups are walked but not interpreted.
 pub fn parse_lds<let N: u32, let O: u32, let D: u32>(
     lds: [u8; N],
     hash_oid: [u8; O],
     dg1_offset: u32,
-    dg11_offset: u32,
-    has_dg11: bool,
 ) -> Lds {
     let outer = expect(lds, 0, N, TAG_SEQUENCE);
     let len = outer.end(0);
@@ -471,9 +466,7 @@ pub fn parse_lds<let N: u32, let O: u32, let D: u32>(
     let list_end = list.end(list_at);
     let mut o = list_at + list.header_len;
     let mut dg1_count = 0;
-    let mut dg11_count = 0;
     let mut dg1_found = false;
-    let mut dg11_found = false;
     for _ in 0..MAX_DATA_GROUPS {
         if o < list_end {
             // SEQUENCE { INTEGER n, OCTET STRING hash }: short lengths only (D ≤ 64).
@@ -482,21 +475,13 @@ pub fn parse_lds<let N: u32, let O: u32, let D: u32>(
             assert((n >= 1) & (n <= 16), "data group number out of range");
             assert_bytes(lds, o + 5, [TAG_OCTET_STRING, D as u8]);
             dg1_count += (n == 1) as u32;
-            dg11_count += (n == 11) as u32;
             dg1_found |= (o == dg1_offset) & (n == 1);
-            dg11_found |= (o == dg11_offset) & (n == 11);
             o += 7 + D;
         }
     }
     assert_eq(o, list_end, "LDS security object lists more data groups than supported");
     assert_eq(dg1_count, 1, "DG1 must be listed exactly once");
     assert(dg1_found, "dg1_offset is not DG1's entry");
-    if has_dg11 {
-        assert_eq(dg11_count, 1, "DG11 must be listed exactly once");
-        assert(dg11_found, "dg11_offset is not DG11's entry");
-    } else {
-        assert_eq(dg11_count, 0, "DG11 is listed but has_dg11 is false");
-    }
 
     if version == 1 {
         let info = expect(lds, list_end, len, TAG_SEQUENCE);
@@ -504,7 +489,7 @@ pub fn parse_lds<let N: u32, let O: u32, let D: u32>(
     } else {
         assert_eq(list_end, len, "trailing bytes after dataGroupHashValues");
     }
-    Lds { len, dg1_hash_at: dg1_offset + 7, dg11_hash_at: dg11_offset + 7 }
+    Lds { len, dg1_hash_at: dg1_offset + 7 }
 }
 
 /// Asserts every byte at or past `len` is zero, so a fixed-size buffer has one

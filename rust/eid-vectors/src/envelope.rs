@@ -1,5 +1,5 @@
-//! Vectors for `noir/lib/envelope`: envelopes sealed by `rust/eid-envelope`
-//! over synthetic DG1 and DG11, which the Noir `seal` must reproduce.
+//! Vectors for `noir/lib/envelope`: an envelope sealed by `rust/eid-envelope`
+//! over a synthetic DG1, which the Noir `seal` must reproduce.
 
 use crate::bytes;
 use crate::circuits::{Config, SAMPLE_COUNTRY, SAMPLE_EXPIRY};
@@ -7,7 +7,7 @@ use crate::mock::Doc;
 use anyhow::Result;
 use ark_ff::PrimeField;
 use csca_registry::crypto::Hash;
-use eid_envelope::{public_key, seal, Fr, Point, DG11_MAX, DG1_MAX, VIEWERS};
+use eid_envelope::{public_key, seal, Fr, Point, DG1_MAX, VIEWERS};
 use std::fmt::Write as _;
 
 /// Decimal string of a field element (Noir accepts it as a literal).
@@ -52,41 +52,32 @@ pub(crate) fn vectors() -> Result<String> {
          use crate::{plaintext, seal};\n\
          use std::embedded_curve_ops::EmbeddedCurvePoint;\n\n",
     );
-    for (name, dg11) in [
-        ("with_dg11", Some(doc.dg11.as_slice())),
-        ("without_dg11", None),
-    ] {
-        let env = seal(
-            &doc.dg1,
-            dg11,
-            &viewers,
-            Fr::from(EPHEMERAL),
-            Fr::from(DATA_KEY),
-            Fr::from(CONTEXT),
-        )
-        .map_err(|e| anyhow::anyhow!("{e}"))?;
-        // Viewers must be able to open it.
-        for (slot, secret) in VIEWER_SECRETS.iter().enumerate() {
-            if let Some(s) = secret {
-                let (dg1, opened) = eid_envelope::open(&env, Fr::from(CONTEXT), slot, Fr::from(*s))
-                    .map_err(|e| anyhow::anyhow!("{e}"))?;
-                anyhow::ensure!(dg1 == doc.dg1 && opened.as_deref() == dg11, "open failed");
-            }
+    let env = seal(
+        &doc.dg1,
+        &viewers,
+        Fr::from(EPHEMERAL),
+        Fr::from(DATA_KEY),
+        Fr::from(CONTEXT),
+    )
+    .map_err(|e| anyhow::anyhow!("{e}"))?;
+    // Viewers must be able to open it.
+    for (slot, secret) in VIEWER_SECRETS.iter().enumerate() {
+        if let Some(s) = secret {
+            let dg1 = eid_envelope::open(&env, Fr::from(CONTEXT), slot, Fr::from(*s))
+                .map_err(|e| anyhow::anyhow!("{e}"))?;
+            anyhow::ensure!(dg1 == doc.dg1, "open failed");
         }
-        let dg11 = dg11.unwrap_or_default();
-        let list = |v: &[Fr]| v.iter().map(|f| field(*f)).collect::<Vec<_>>().join(", ");
-        writeln!(
-            out,
-            "#[test]\nfn {name}() {{\n    let viewers = [{}];\n    let p = plaintext({}, {}, {}, {});\n    let env = seal(viewers, {EPHEMERAL}, {DATA_KEY}, {CONTEXT}, p);\n    assert_eq(env.ephemeral, {});\n    assert_eq(env.wrapped, [{}]);\n    assert_eq(env.ciphertext, [{}]);\n}}\n",
-            viewers.iter().map(|v| point(*v)).collect::<Vec<_>>().join(", "),
-            bytes(&padded(&doc.dg1, DG1_MAX)),
-            doc.dg1.len(),
-            bytes(&padded(dg11, DG11_MAX)),
-            dg11.len(),
-            point(Some(env.ephemeral)),
-            list(&env.wrapped),
-            list(&env.ciphertext),
-        )?;
     }
+    let list = |v: &[Fr]| v.iter().map(|f| field(*f)).collect::<Vec<_>>().join(", ");
+    writeln!(
+        out,
+        "#[test]\nfn dg1_envelope() {{\n    let viewers = [{}];\n    let p = plaintext({}, {});\n    let env = seal(viewers, {EPHEMERAL}, {DATA_KEY}, {CONTEXT}, p);\n    assert_eq(env.ephemeral, {});\n    assert_eq(env.wrapped, [{}]);\n    assert_eq(env.ciphertext, [{}]);\n}}\n",
+        viewers.iter().map(|v| point(*v)).collect::<Vec<_>>().join(", "),
+        bytes(&padded(&doc.dg1, DG1_MAX)),
+        doc.dg1.len(),
+        point(Some(env.ephemeral)),
+        list(&env.wrapped),
+        list(&env.ciphertext),
+    )?;
     Ok(out)
 }

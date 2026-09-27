@@ -5,7 +5,7 @@
 use crate::envelope::{
     assert_hash_at, assert_message_digest, check, OID_SHA256, OID_SHA384, outputs, parse_dg1,
 };
-use crate::envelope_vectors::{DATE, EXPIRES, sha256_v0, SHA256_V0_DG1_HASH, sha512_v1_no_dg11};
+use crate::envelope_vectors::{DATE, EXPIRES, sha256_v0, SHA256_V0_DG1_HASH, sha512_v1};
 use eid_hash::sha256_var;
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
@@ -38,20 +38,11 @@ fn rejects_dg1_offset_at_another_entry() {
     let _ = check::<512, 11, 32>(DATE, w, OID_SHA256);
 }
 
-#[test(should_fail_with = "DG11 is listed but has_dg11 is false")]
-fn rejects_hiding_a_listed_dg11() {
-    let mut w = sha256_v0();
-    w.has_dg11 = false;
-    w.dg11 = [0; 512];
-    let _ = check::<512, 11, 32>(DATE, w, OID_SHA256);
-}
-
-#[test(should_fail_with = "DG11 must be listed exactly once")]
-fn rejects_dg11_the_document_does_not_list() {
-    let mut w = sha512_v1_no_dg11();
-    w.has_dg11 = true;
-    w.dg11[0] = 0x6b;
-    let _ = check::<512, 11, 64>(DATE, w, crate::envelope::OID_SHA512);
+#[test]
+fn ignores_other_data_groups() {
+    // sha256_v0 also lists DG2, DG11 and DG14; sha512_v1 lists DG2 and DG14.
+    let _ = check::<512, 11, 32>(DATE, sha256_v0(), OID_SHA256);
+    let _ = check::<512, 11, 64>(DATE, sha512_v1(), crate::envelope::OID_SHA512);
 }
 
 #[test(should_fail_with = "bytes past the DER length must be zero")]
@@ -59,13 +50,6 @@ fn rejects_bytes_after_the_econtent() {
     let mut w = sha256_v0();
     w.econtent[511] = 1;
     let _ = check::<512, 11, 32>(DATE, w, OID_SHA256);
-}
-
-#[test(should_fail_with = "bytes past the DER length must be zero")]
-fn rejects_dg11_bytes_when_absent() {
-    let mut w = sha512_v1_no_dg11();
-    w.dg11[3] = 1;
-    let _ = check::<512, 11, 64>(DATE, w, crate::envelope::OID_SHA512);
 }
 
 #[test(should_fail_with = "messageDigest does not match the eContent")]

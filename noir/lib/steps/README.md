@@ -6,7 +6,7 @@ Checks shared by the step circuits in `noir/circuits`. A step circuit is a thin 
 - **`dsc::commitment(salt, country, hash_id, tbs, len)`** is the step A output, `H(salt, country, hash_id, len, pack_be(tbs))`.
 - **`sod::parse::<T, A>(tbs, attrs, md_offset) -> (TbsFields, SignedAttrs)`** runs the SOD step checks besides the signature: TBS walk and padding, signed attributes walk and padding, the messageDigest attribute. See [docs/circuits/sod.md](../../../docs/circuits/sod.md).
 - **`sod::commitment(salt, country, attrs)`** is the step B output, `H(salt, country, digest_len, pack_be(digest))`.
-- **`envelope::check::<E, O, D>(date, witness, hash_oid) -> Parsed`** runs the envelope step checks besides hashing: LDS walk and padding, DG1 (MRZ) parsing, country, expiry, DG11 shape. `envelope::assert_message_digest` and `envelope::assert_hash_at` compare the hashes the circuit computes, and `envelope::outputs` builds the step C outputs, including the envelope. See [docs/circuits/envelope.md](../../../docs/circuits/envelope.md).
+- **`envelope::check::<E, O, D>(date, witness, hash_oid) -> Parsed`** runs the envelope step checks besides hashing: LDS walk and padding, DG1 (MRZ) parsing, country, expiry. `envelope::assert_message_digest` and `envelope::assert_hash_at` compare the hashes the circuit computes, and `envelope::outputs` builds the step C outputs, including the envelope. See [docs/circuits/envelope.md](../../../docs/circuits/envelope.md).
 - **`country_field(country)`** packs three ICAO letters into one field, as both commitments do.
 - **`HASH_SHA1` … `HASH_SHA512`** are the hash ids every step exposes.
 

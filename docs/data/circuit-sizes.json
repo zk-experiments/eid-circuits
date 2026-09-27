@@ -1,1253 +1,1566 @@
 {
   "bench_ecdsa_bp256_sha256": {
+    "bytecode_sha256": "9f03b6d0f5b18335df4f16bdcc254ae34009fa7cef2459011ae7377601fdd234",
     "gates": 94828,
     "opcodes": 30131
   },
   "bench_ecdsa_bp384_sha256": {
+    "bytecode_sha256": "5866704c1fcf15f6f13647ff4a6c36ef3fccd2af8721f4ccb2c15b17fc6ca997",
     "gates": 206654,
     "opcodes": 60840
   },
   "bench_ecdsa_bp512_sha256": {
+    "bytecode_sha256": "128887c4fb4bb3829d63afadadb31175b0decf2e47877907cb92b252833ef713",
     "gates": 366526,
     "opcodes": 101873
   },
   "bench_ecdsa_p256_sha256": {
+    "bytecode_sha256": "71a90b8303215b5fdacf81d64d753c2c6691e5b30488338a4680a015cb6bc920",
     "gates": 94828,
     "opcodes": 30131
   },
   "bench_ecdsa_p384_sha256": {
+    "bytecode_sha256": "31bcdd97772fccad1e9d9483e21e72c650c8344e2ec7527df6530c40821af38c",
     "gates": 206654,
     "opcodes": 60840
   },
   "bench_ecdsa_p521_sha256": {
+    "bytecode_sha256": "cb5ec7b390db1e8cbd77842479936da81bf26e97fff68b5d0df3232b0cca35fb",
     "gates": 376063,
     "opcodes": 104786
   },
   "bench_hash_sha1_2048": {
+    "bytecode_sha256": "4f740361f7063efd36fd1e9a8517690e2c8ad5026886af57aa36e020d65b9f53",
     "gates": 379165,
     "opcodes": 200018
   },
   "bench_hash_sha256_2048": {
+    "bytecode_sha256": "76dfdc9e14cc95ac2903840dd491b265aba3624b783b8122a237c02f3f2573c9",
     "gates": 153754,
     "opcodes": 11988
   },
   "bench_hash_sha384_2048": {
+    "bytecode_sha256": "894fa410681e92c71dc876fb46cb4570d68a7a782444bcfadd70cbc0e50a8c2a",
     "gates": 514909,
     "opcodes": 234617
   },
   "bench_hash_sha512_2048": {
+    "bytecode_sha256": "d6d31006be226b3edee0ae144dd0f7e902c592368e0658bb49baf341f364316b",
     "gates": 514941,
     "opcodes": 234633
   },
   "bench_rsa_pkcs1v15_2048_sha256": {
+    "bytecode_sha256": "31e5e058544e768912d2888080ae2deab617851b4405669edd950c1ee456cd11",
     "gates": 44677,
     "opcodes": 7190
   },
   "bench_rsa_pkcs1v15_3072_sha256": {
+    "bytecode_sha256": "cfd4bdce1fec464e40bedb7c64c7a24e28927ccac0b7cb5fc60b6a2c6fcb8bc2",
     "gates": 74870,
     "opcodes": 10373
   },
   "bench_rsa_pkcs1v15_4096_sha256": {
+    "bytecode_sha256": "b36488746994399e64364e34f24af8c247b324875f9d2de7b2c8e35610ec9c31",
     "gates": 117328,
     "opcodes": 13900
   },
   "bench_rsa_pkcs1v15_6144_sha256": {
+    "bytecode_sha256": "eb1e70cfc14c1844ec4677b4f704970f9ca8daec7fc63e0fd8d274f85a173afc",
     "gates": 224086,
     "opcodes": 20619
   },
   "bench_rsa_pss_3072_sha256_s32": {
+    "bytecode_sha256": "e1abe88f0033a73d2310521fe3952e023f179ff93d7db014e0687b6ddf119edc",
     "gates": 134166,
     "opcodes": 11661
   },
   "bench_rsa_pss_4096_sha256_s32": {
+    "bytecode_sha256": "c4d1ba04ffeae68c15c2125cefbf48ab6a20b315966cba1744fe390fe833b242",
     "gates": 193792,
     "opcodes": 15580
   },
   "bench_rsa_pss_4096_sha512_s64": {
+    "bytecode_sha256": "d2ff7e7124f7411736cded34c1f4170b5e31a4aeb30903f0e3c23072413e5937",
     "gates": 373356,
     "opcodes": 127310
   },
   "dsc_ecdsa_bp256_sha1_tbs1000": {
+    "bytecode_sha256": "875fcb5b3ba3941484aebc54cf5decc1e59f5c675ec3f2fbf7d3277fc7e37da3",
     "gates": 296639,
     "opcodes": 130216
   },
   "dsc_ecdsa_bp256_sha1_tbs1200": {
+    "bytecode_sha256": "abf78dfeb70e448a746c4a5522f02ce33d6134edde8b6a0b8dd2be36f59ee981",
     "gates": 330747,
     "opcodes": 148660
   },
   "dsc_ecdsa_bp256_sha1_tbs1600": {
+    "bytecode_sha256": "c5753e1d90b3619a5a82faa88c8b4db86fc41ca4e43fac6b1dd465bb107fc14e",
     "gates": 409677,
     "opcodes": 191249
   },
   "dsc_ecdsa_bp256_sha1_tbs700": {
+    "bytecode_sha256": "f39e6524300c0ce1d1d5474b309db72e4917b49c07fb3208d4f4135bc022a030",
     "gates": 250731,
     "opcodes": 105366
   },
   "dsc_ecdsa_bp256_sha256_tbs1000": {
+    "bytecode_sha256": "4f5983d87b40333a032616405e0a6752d387d2734fafabf8f01f6e205add86ba",
     "gates": 188900,
     "opcodes": 43184
   },
   "dsc_ecdsa_bp256_sha256_tbs1200": {
+    "bytecode_sha256": "4f2ca43f807f88126d1babc5afb516956d900b4dae99310804da5d8681b8d922",
     "gates": 203929,
     "opcodes": 45307
   },
   "dsc_ecdsa_bp256_sha256_tbs1600": {
+    "bytecode_sha256": "8161ad1b5014bc8b820341ae5901a7c332a4cfc1b8cc8630de50dd35a75ad343",
     "gates": 237973,
     "opcodes": 49549
   },
   "dsc_ecdsa_bp256_sha256_tbs700": {
+    "bytecode_sha256": "5553d958b2e9fdc7f36144c977b24d88e8329cc9baae97473bdd329ad6d6515c",
     "gates": 164154,
     "opcodes": 39855
   },
   "dsc_ecdsa_bp256_sha512_tbs1000": {
+    "bytecode_sha256": "c215e4d78bf3fd6b9e6ed30601eb560b1f2a035463e84c25d42f997e9bacc6de",
     "gates": 354318,
     "opcodes": 143906
   },
   "dsc_ecdsa_bp256_sha512_tbs1200": {
+    "bytecode_sha256": "9a96597d1ca0f2ce1d9e9d69be4622814db91c20214a5abb5b00354c87c6156d",
     "gates": 414085,
     "opcodes": 171412
   },
   "dsc_ecdsa_bp256_sha512_tbs1600": {
+    "bytecode_sha256": "53e1f443da17044c76eb84f0ccc9cef3a6d51c869ef17022ad3141344ea98313",
     "gates": 504752,
     "opcodes": 213384
   },
   "dsc_ecdsa_bp256_sha512_tbs700": {
+    "bytecode_sha256": "08a65b87b659539fc3d514e3cbbf9fce2620c284d02aeb4d9a3c2e19dfe18730",
     "gates": 293452,
     "opcodes": 115678
   },
   "dsc_ecdsa_bp384_sha256_tbs1000": {
+    "bytecode_sha256": "c010437a7f0f7d8bf5107631b1965e96c3b10859b369d711d6eae7f470866857",
     "gates": 300796,
     "opcodes": 73897
   },
   "dsc_ecdsa_bp384_sha256_tbs1200": {
+    "bytecode_sha256": "186bc8eaa15ef022341823ba6c4f38b73ee3b3051216fa51719171db6333ff69",
     "gates": 315825,
     "opcodes": 76020
   },
   "dsc_ecdsa_bp384_sha256_tbs1600": {
+    "bytecode_sha256": "2183284960c195118108f22489e464ab775b1fa0a6fad0bd273380942965438d",
     "gates": 349869,
     "opcodes": 80262
   },
   "dsc_ecdsa_bp384_sha256_tbs700": {
+    "bytecode_sha256": "d43d17acf1356f071871f70fb55b4dc5e2590331185338d9ce0a10fccaa7dcdc",
     "gates": 276050,
     "opcodes": 70568
   },
   "dsc_ecdsa_bp384_sha384_tbs1000": {
+    "bytecode_sha256": "8ba6d3b446d9f45d5f6e18e12b2152662464adc39d118944c85ea753b25b4328",
     "gates": 466222,
     "opcodes": 174622
   },
   "dsc_ecdsa_bp384_sha384_tbs1200": {
+    "bytecode_sha256": "bafb2b28f607d45bf367c38da854aac3fdb1ee36679c7eb3919dd80a4dd4ed72",
     "gates": 525989,
     "opcodes": 202128
   },
   "dsc_ecdsa_bp384_sha384_tbs1600": {
+    "bytecode_sha256": "0100e4526c7e646940a4a1276505e3bb135517210a41a5ddcee0d1b1455cb296",
     "gates": 616656,
     "opcodes": 244100
   },
   "dsc_ecdsa_bp384_sha384_tbs700": {
+    "bytecode_sha256": "d571cb76fcd284cd01a94b6a2c705444a9d6847f7e537da1209659c90f767e59",
     "gates": 405356,
     "opcodes": 146394
   },
   "dsc_ecdsa_bp512_sha256_tbs1000": {
+    "bytecode_sha256": "2c0112f3f033102b3001f8441625a8e7185ea26b0b77ca22a95f41611bfa2dd8",
     "gates": 460666,
     "opcodes": 114934
   },
   "dsc_ecdsa_bp512_sha256_tbs1200": {
+    "bytecode_sha256": "ab33e236edf4ee8f5bc432f37d79fcf0992f590851c6017a9edecc9c5331dc4b",
     "gates": 475694,
     "opcodes": 117057
   },
   "dsc_ecdsa_bp512_sha256_tbs1600": {
+    "bytecode_sha256": "e0aed206ec2fb731da0df6b3d6f2c673def7c0328b3cdbbeafb2f68f637b452f",
     "gates": 509739,
     "opcodes": 121299
   },
   "dsc_ecdsa_bp512_sha256_tbs700": {
+    "bytecode_sha256": "0daabd635ab98099c105225a8a3cc6fa4336033158fc43339fac45fed9a6efd4",
     "gates": 435921,
     "opcodes": 111605
   },
   "dsc_ecdsa_bp512_sha512_tbs1000": {
+    "bytecode_sha256": "a4b9c0e6153b1fb1a707e1a57f095095607d93580fefe21a7ebedd9e34f889d9",
     "gates": 626105,
     "opcodes": 215662
   },
   "dsc_ecdsa_bp512_sha512_tbs1200": {
+    "bytecode_sha256": "59747153f9a6cd4c65f2b671b4146f8599e8e7dd96f2784378e976bdd54cf016",
     "gates": 685872,
     "opcodes": 243168
   },
   "dsc_ecdsa_bp512_sha512_tbs1600": {
+    "bytecode_sha256": "ad61e413a1d619d3d95b99b0a740a580043df4f41396539c8fbb2c42291a665b",
     "gates": 776540,
     "opcodes": 285140
   },
   "dsc_ecdsa_bp512_sha512_tbs700": {
+    "bytecode_sha256": "c1b967355df04c200ae5248212d475c3e43ad1a6e5f720d76dcfd169d932a9c5",
     "gates": 565239,
     "opcodes": 187434
   },
   "dsc_ecdsa_p256_sha1_tbs1000": {
+    "bytecode_sha256": "feb62e01f2e00663309bf39a35236d430f96446e079f7414f73a3ae23efb0801",
     "gates": 296639,
     "opcodes": 130216
   },
   "dsc_ecdsa_p256_sha1_tbs1200": {
+    "bytecode_sha256": "dc36a20751fcd5161eaf3daed2b357755639a0fcf5d98815fe6eaa3f3f080644",
     "gates": 330747,
     "opcodes": 148660
   },
   "dsc_ecdsa_p256_sha1_tbs1600": {
+    "bytecode_sha256": "88716bf694ddab404bf952f5c818450846e6a305d0f56cbf0e48cb97657160d1",
     "gates": 409677,
     "opcodes": 191249
   },
   "dsc_ecdsa_p256_sha1_tbs700": {
+    "bytecode_sha256": "5230f9d79769c4d9f2dfca86f2c265dad9f239b3d2b9a5ea93366bc1937aba73",
     "gates": 250731,
     "opcodes": 105366
   },
   "dsc_ecdsa_p256_sha256_tbs1000": {
+    "bytecode_sha256": "6ca57c5f5696223fef8c02b334c8752078b9316d3fe84fe1b15e09028229f76e",
     "gates": 188900,
     "opcodes": 43184
   },
   "dsc_ecdsa_p256_sha256_tbs1200": {
+    "bytecode_sha256": "31d0e58c48c5b3009744014b0f72134cd907c58d6d809af43dfed46b2d76719e",
     "gates": 203929,
     "opcodes": 45307
   },
   "dsc_ecdsa_p256_sha256_tbs1600": {
+    "bytecode_sha256": "c1d9e84256d7c27860c819f08fbfd9b13902b87653cf03b078c8e05094a1e800",
     "gates": 237973,
     "opcodes": 49549
   },
   "dsc_ecdsa_p256_sha256_tbs700": {
+    "bytecode_sha256": "f1beed4f4b6d58e54f44eaba7b93ae1a23ac5d737b21e5f0ca3ceeec5bf90af3",
     "gates": 164154,
     "opcodes": 39855
   },
   "dsc_ecdsa_p384_sha256_tbs1000": {
+    "bytecode_sha256": "8957975173038d354bbe879cdfc8999d3730875a984b30ce9afe7cdf523d9500",
     "gates": 300796,
     "opcodes": 73897
   },
   "dsc_ecdsa_p384_sha256_tbs1200": {
+    "bytecode_sha256": "2bd7d5a2f0acebffab63f1e1e9e2f8b0d2485584b9d13a118fdde6e62c1080f4",
     "gates": 315825,
     "opcodes": 76020
   },
   "dsc_ecdsa_p384_sha256_tbs1600": {
+    "bytecode_sha256": "2276c459940264b2a49694e9f4db59d5e662e5f649c05467fd419353dcb11788",
     "gates": 349869,
     "opcodes": 80262
   },
   "dsc_ecdsa_p384_sha256_tbs700": {
+    "bytecode_sha256": "0b978d5779b601cc48eda1dcfb8a918757cbc4a6d6ce326338de4e0f7de48946",
     "gates": 276050,
     "opcodes": 70568
   },
   "dsc_ecdsa_p384_sha384_tbs1000": {
+    "bytecode_sha256": "4926ee1747f391efba009c072c2877995c826994639bc65d57b4d06ecff33763",
     "gates": 466222,
     "opcodes": 174622
   },
   "dsc_ecdsa_p384_sha384_tbs1200": {
+    "bytecode_sha256": "5be3d617fffaf004ed3eb6e4f21af571f3347020871429b7e40ba9fb85fbc324",
     "gates": 525989,
     "opcodes": 202128
   },
   "dsc_ecdsa_p384_sha384_tbs1600": {
+    "bytecode_sha256": "3e304060e9393925046a6f548b3075a42945aded0d866d432487119a88b4a40d",
     "gates": 616656,
     "opcodes": 244100
   },
   "dsc_ecdsa_p384_sha384_tbs700": {
+    "bytecode_sha256": "33914244a076455bad5c30049b7018f86ed555bfc64ffe1a900e087e66c61de9",
     "gates": 405356,
     "opcodes": 146394
   },
   "dsc_ecdsa_p384_sha512_tbs1000": {
+    "bytecode_sha256": "9eeed311e354f767bd466a34fbf76aad167254d1719f26973cfa5b77c15d4f5a",
     "gates": 466222,
     "opcodes": 174622
   },
   "dsc_ecdsa_p384_sha512_tbs1200": {
+    "bytecode_sha256": "727697da3c3b5781f5f16accdab85460275842bd1171b8523ff33ddf45d08db5",
     "gates": 525989,
     "opcodes": 202128
   },
   "dsc_ecdsa_p384_sha512_tbs1600": {
+    "bytecode_sha256": "4f29cd3ef65aad41e71bd56badbc813049cd8e34407dbf68792b3ab73fd069be",
     "gates": 616656,
     "opcodes": 244100
   },
   "dsc_ecdsa_p384_sha512_tbs700": {
+    "bytecode_sha256": "f668bfb216eb53d8c48b64215d2eccf0a82acbeda2633bbe5e79192ee9a6a155",
     "gates": 405356,
     "opcodes": 146394
   },
   "dsc_ecdsa_p521_sha256_tbs1000": {
+    "bytecode_sha256": "0316c06256bf1032b5bb12d01556cfa30576c02c5f5025d24a2e3909f8cd4f17",
     "gates": 470204,
     "opcodes": 117848
   },
   "dsc_ecdsa_p521_sha256_tbs1200": {
+    "bytecode_sha256": "238635e36e4d7a2e7b96de4a77fd83c96745a6212b527e39c5d467672e345c1f",
     "gates": 485233,
     "opcodes": 119971
   },
   "dsc_ecdsa_p521_sha256_tbs1600": {
+    "bytecode_sha256": "31973cea6c761f83f920862005b2ec370e08b69104a14fc0047aac880ee31b57",
     "gates": 519277,
     "opcodes": 124213
   },
   "dsc_ecdsa_p521_sha256_tbs700": {
+    "bytecode_sha256": "60eaa02cb95c7bb7f4f68c138f28d53bbf6e1213e90cb5d320aa7355033e2e79",
     "gates": 445459,
     "opcodes": 114519
   },
   "dsc_ecdsa_p521_sha512_tbs1000": {
+    "bytecode_sha256": "0508603b67fcc84cb2ad04d74b37e8f0e44764c522745abfd082c2a3daaae1ea",
     "gates": 635643,
     "opcodes": 218576
   },
   "dsc_ecdsa_p521_sha512_tbs1200": {
+    "bytecode_sha256": "3893c3ae2322e9241bfb3ab73bda80c042e883f50324d9369ed5ddce4027e5c2",
     "gates": 695410,
     "opcodes": 246082
   },
   "dsc_ecdsa_p521_sha512_tbs1600": {
+    "bytecode_sha256": "d01d287dda62de10b85961016281b7b283d32841529be4b68f1eee920ed14d46",
     "gates": 786079,
     "opcodes": 288054
   },
   "dsc_ecdsa_p521_sha512_tbs700": {
+    "bytecode_sha256": "718e6112f946831c945679572f1c815738688d2f60e8e4fee8957c3690bfdb48",
     "gates": 574777,
     "opcodes": 190348
   },
   "dsc_rsa_pkcs1v15_2048_sha1_tbs1000": {
+    "bytecode_sha256": "24fa9f550736648e038114a1ecfe3fe0d3e9592cdd1951cc346c2f228faa6b25",
     "gates": 244553,
     "opcodes": 107276
   },
   "dsc_rsa_pkcs1v15_2048_sha1_tbs1200": {
+    "bytecode_sha256": "19729696f8b23f4b2ec7370c6c39e6c305ad306cd195ab0036731b43b296be6c",
     "gates": 278660,
     "opcodes": 125720
   },
   "dsc_rsa_pkcs1v15_2048_sha1_tbs1600": {
+    "bytecode_sha256": "4c109007ef52f33431ce7efdaf585ceb6cf1a786905ad7f847c8b371971cf4da",
     "gates": 357591,
     "opcodes": 168309
   },
   "dsc_rsa_pkcs1v15_2048_sha1_tbs700": {
+    "bytecode_sha256": "2f379e89454f5c18258845051d81dd5f3abd90b87e64de412fa1e4f7d22ed384",
     "gates": 198645,
     "opcodes": 82426
   },
   "dsc_rsa_pkcs1v15_2048_sha256_tbs1000": {
+    "bytecode_sha256": "4f1dc544e6a57c25c046086b6561bfd9c7d7338f844ce078f21d9693c6f6d35e",
     "gates": 138186,
     "opcodes": 20244
   },
   "dsc_rsa_pkcs1v15_2048_sha256_tbs1200": {
+    "bytecode_sha256": "5676f6f93aae52f8d7f8ceacb3bf37078e1f33232022d21bf0965d72368e1852",
     "gates": 153215,
     "opcodes": 22367
   },
   "dsc_rsa_pkcs1v15_2048_sha256_tbs1600": {
+    "bytecode_sha256": "810da282ceeea359b083798adffc8072866530192c8805c7cc7c420ea432571f",
     "gates": 187259,
     "opcodes": 26609
   },
   "dsc_rsa_pkcs1v15_2048_sha256_tbs700": {
+    "bytecode_sha256": "a06b780234254b4c5419dbe53062e3ba4867de2ca5d7aa3f1da93bd98f6c97fa",
     "gates": 113441,
     "opcodes": 16915
   },
   "dsc_rsa_pkcs1v15_2048_sha512_tbs1000": {
+    "bytecode_sha256": "4d61b3ca728506c294b2523c53244fdaacfa84d7c2092f1797d4bb90950cd787",
     "gates": 303975,
     "opcodes": 120972
   },
   "dsc_rsa_pkcs1v15_2048_sha512_tbs1200": {
+    "bytecode_sha256": "f34cf6f63f6b59602ca2c5ce4d093010550f1a1cf482c674069029990c5251dc",
     "gates": 363742,
     "opcodes": 148478
   },
   "dsc_rsa_pkcs1v15_2048_sha512_tbs1600": {
+    "bytecode_sha256": "0cc025e12ae4783092c3995b5472770f6446be7d619f6b81107703669bd6006e",
     "gates": 454410,
     "opcodes": 190450
   },
   "dsc_rsa_pkcs1v15_2048_sha512_tbs700": {
+    "bytecode_sha256": "8846a85cb1596d444e928303ee132db4195c71021260ad1faa1182682f0049e7",
     "gates": 243109,
     "opcodes": 92744
   },
   "dsc_rsa_pkcs1v15_3072_sha256_tbs1000": {
+    "bytecode_sha256": "2a1e47a816d59bae9cdbc372e4b92e2008d3d29242e6d89a721be8fcf5c85d47",
     "gates": 168572,
     "opcodes": 23433
   },
   "dsc_rsa_pkcs1v15_3072_sha256_tbs1200": {
+    "bytecode_sha256": "43c4b63b5930b7d60e703201ca7dca604c71efb58f3ade65f5cc1ad915d9b5e4",
     "gates": 183601,
     "opcodes": 25556
   },
   "dsc_rsa_pkcs1v15_3072_sha256_tbs1600": {
+    "bytecode_sha256": "1f455c89826f33865af4cccc37334071088f2d5ba64807b24e2952c8663e7e6a",
     "gates": 217645,
     "opcodes": 29798
   },
   "dsc_rsa_pkcs1v15_3072_sha256_tbs700": {
+    "bytecode_sha256": "15295f2c61ba25470e04cbdea3e09a465ff60d8a05f9573328a84094ac5fe952",
     "gates": 143826,
     "opcodes": 20104
   },
   "dsc_rsa_pkcs1v15_3072_sha384_tbs1000": {
+    "bytecode_sha256": "e5919fe478b084a64f4880e07e27caa3cb3080d69c8a64ec8d4b04748c09934f",
     "gates": 334348,
     "opcodes": 124158
   },
   "dsc_rsa_pkcs1v15_3072_sha384_tbs1200": {
+    "bytecode_sha256": "d97d069d39303d298317c4b5493e297b01518435b81a332523f0a755152598c5",
     "gates": 394115,
     "opcodes": 151664
   },
   "dsc_rsa_pkcs1v15_3072_sha384_tbs1600": {
+    "bytecode_sha256": "a3ad7899816197ce76598c42cfdb31211e8802a52ad4c69b193263ecc13aed66",
     "gates": 484782,
     "opcodes": 193636
   },
   "dsc_rsa_pkcs1v15_3072_sha384_tbs700": {
+    "bytecode_sha256": "f964f0179b43174267cd78327064af88047dfe3e8b5ea6b5399bd6dfad8984a2",
     "gates": 273482,
     "opcodes": 95930
   },
   "dsc_rsa_pkcs1v15_4096_sha1_tbs1000": {
+    "bytecode_sha256": "7d0a1820a2b9148de46a404fa6f11d7e59123e4427c3e8c1bd27c98ce0f66218",
     "gates": 317514,
     "opcodes": 113997
   },
   "dsc_rsa_pkcs1v15_4096_sha1_tbs1200": {
+    "bytecode_sha256": "01b30bd0968780bb7fceb8550041190416af319e2d1a93901fe08e38ec673299",
     "gates": 351621,
     "opcodes": 132441
   },
   "dsc_rsa_pkcs1v15_4096_sha1_tbs1600": {
+    "bytecode_sha256": "a815889da6901466601c7642734e6ed7ad9f42b25ac8394f84ee3541eca7e9c5",
     "gates": 430552,
     "opcodes": 175030
   },
   "dsc_rsa_pkcs1v15_4096_sha1_tbs700": {
+    "bytecode_sha256": "e72333381c80284973f6c4e92474839b66df407d3db8910112779d2c74758645",
     "gates": 271606,
     "opcodes": 89147
   },
   "dsc_rsa_pkcs1v15_4096_sha256_tbs1000": {
+    "bytecode_sha256": "2ca2be37246b70d546adaf7a7a54234f6d61cba00b9dc56133b5cfb0020f20f5",
     "gates": 211146,
     "opcodes": 26965
   },
   "dsc_rsa_pkcs1v15_4096_sha256_tbs1200": {
+    "bytecode_sha256": "e68b125a7ee62d8162923c24a555ad2f4fbaf043e7cbec99f65956074f21baad",
     "gates": 226175,
     "opcodes": 29088
   },
   "dsc_rsa_pkcs1v15_4096_sha256_tbs1600": {
+    "bytecode_sha256": "cae1d4dda0a86929ae280d6d63db3357cfbc49fb7c6a426d8dece5026d0b84be",
     "gates": 260219,
     "opcodes": 33330
   },
   "dsc_rsa_pkcs1v15_4096_sha256_tbs700": {
+    "bytecode_sha256": "71255e1dddfe7909464045a03e24c53c5c22da572e2954327d23c481bba8989e",
     "gates": 186401,
     "opcodes": 23636
   },
   "dsc_rsa_pkcs1v15_4096_sha384_tbs1000": {
+    "bytecode_sha256": "612c6c0827e6143d11a05959ac896de6a637460713729937d470b17ab5109596",
     "gates": 376923,
     "opcodes": 127690
   },
   "dsc_rsa_pkcs1v15_4096_sha384_tbs1200": {
+    "bytecode_sha256": "dd47d4c4aca9d153da6658112549969397915be944853dbeae406325f266a977",
     "gates": 436690,
     "opcodes": 155196
   },
   "dsc_rsa_pkcs1v15_4096_sha384_tbs1600": {
+    "bytecode_sha256": "ed2dc47c1fdcbbf1c42ef8d0918bd341dd957e53a13a4aae6f7f76b885b41c6a",
     "gates": 527359,
     "opcodes": 197168
   },
   "dsc_rsa_pkcs1v15_4096_sha384_tbs700": {
+    "bytecode_sha256": "43f5297a4a00e381bcb2d251a42fe22e20ea91cd1346bb6c669327a94d12f806",
     "gates": 316057,
     "opcodes": 99462
   },
   "dsc_rsa_pkcs1v15_4096_sha512_tbs1000": {
+    "bytecode_sha256": "1f7faaec0e6409cc53a4956eea9422db654ab822ef265e63ca6c0d32a88afe1f",
     "gates": 376935,
     "opcodes": 127693
   },
   "dsc_rsa_pkcs1v15_4096_sha512_tbs1200": {
+    "bytecode_sha256": "1a6882c75648e30ba07840313432fa581c0c02f8f9c7a6a76f3ec4ffbe392484",
     "gates": 436702,
     "opcodes": 155199
   },
   "dsc_rsa_pkcs1v15_4096_sha512_tbs1600": {
+    "bytecode_sha256": "2362d920e8ead5c7a4cedf357bf5ce33ac2e977a379202b63544888ac3e3d602",
     "gates": 527371,
     "opcodes": 197171
   },
   "dsc_rsa_pkcs1v15_4096_sha512_tbs700": {
+    "bytecode_sha256": "9ccf8d9ef7f5ff6c01c50973567a9e0bd76dd17d2e07e19ebbd691c3a5e0d645",
     "gates": 316069,
     "opcodes": 99465
   },
   "dsc_rsa_pkcs1v15_6144_sha256_tbs1000": {
+    "bytecode_sha256": "4027b66d3b6f93bf78dae0e604800a15cad9a11f930c4df9de27572c6351b799",
     "gates": 318215,
     "opcodes": 33695
   },
   "dsc_rsa_pkcs1v15_6144_sha256_tbs1200": {
+    "bytecode_sha256": "5adcc8b1aaa19522238c179dcadeb0f1f5a3ab2db1953eadb11e254ad27b02bb",
     "gates": 333244,
     "opcodes": 35818
   },
   "dsc_rsa_pkcs1v15_6144_sha256_tbs1600": {
+    "bytecode_sha256": "305a9464c4d048525cf99f39cf2607b3c7383ffc4959c168d92f639b989f2aad",
     "gates": 367288,
     "opcodes": 40060
   },
   "dsc_rsa_pkcs1v15_6144_sha256_tbs700": {
+    "bytecode_sha256": "78f59fdbf3fdc757cf9a234f34177aad6785fd8034f6070a5794b52795b6b862",
     "gates": 293470,
     "opcodes": 30366
   },
   "dsc_rsa_pss_3072_sha256_s32_tbs1000": {
+    "bytecode_sha256": "6fa62821356986ed6dbcb9aea736d47be8be8d287e5b6f204df703d899c09265",
     "gates": 227848,
     "opcodes": 24700
   },
   "dsc_rsa_pss_3072_sha256_s32_tbs1200": {
+    "bytecode_sha256": "d3e5ce0f9b466fc4572beb01543230d73572ce5f78378bbb9fc4f3bb9c150fa9",
     "gates": 242876,
     "opcodes": 26823
   },
   "dsc_rsa_pss_3072_sha256_s32_tbs1600": {
+    "bytecode_sha256": "f42e57926292a6aba487a579e2477a887f61484af3e106687d29d4a30bba30c7",
     "gates": 276921,
     "opcodes": 31065
   },
   "dsc_rsa_pss_3072_sha256_s32_tbs700": {
+    "bytecode_sha256": "772ebfbbcf00f4225f19d7b1cfcb1f92c0421592d0438d6759282915ab38abfc",
     "gates": 203102,
     "opcodes": 21371
   },
   "dsc_rsa_pss_3072_sha384_s48_tbs1000": {
+    "bytecode_sha256": "898901155eaf74dd559a606f33f5dd66841dfcdd744632aedca02edf4d92ee43",
     "gates": 558020,
     "opcodes": 226847
   },
   "dsc_rsa_pss_3072_sha384_s48_tbs1200": {
+    "bytecode_sha256": "39158a4e939f7edc7537016b51186b360628c20854a133d2ad61a049e7b1f8ae",
     "gates": 617787,
     "opcodes": 254353
   },
   "dsc_rsa_pss_3072_sha384_s48_tbs1600": {
+    "bytecode_sha256": "e9a4d2c1900fae5081a793a03ed8210084c1ef599a4dd1ff4d94dedb96094e8d",
     "gates": 708454,
     "opcodes": 296325
   },
   "dsc_rsa_pss_3072_sha384_s48_tbs700": {
+    "bytecode_sha256": "d12534d5174914dfc0ed89e6d92428d84b49565bc50993e765e07555a32c9fb9",
     "gates": 497154,
     "opcodes": 198619
   },
   "dsc_rsa_pss_4096_sha256_s20_tbs1000": {
+    "bytecode_sha256": "d5561fb54753e1b5ad16a2c00f9fd53a48ec44d5f39e3cca2729baa111a1b4a9",
     "gates": 287574,
     "opcodes": 28612
   },
   "dsc_rsa_pss_4096_sha256_s20_tbs1200": {
+    "bytecode_sha256": "b58ea0d742f7858402067b809e49028b658115ced6bb487819dfbc87f96db131",
     "gates": 302602,
     "opcodes": 30735
   },
   "dsc_rsa_pss_4096_sha256_s20_tbs1600": {
+    "bytecode_sha256": "32075778b4fcdc78b595de08d9cc6fa0da070f4d4ff1dc9c358196a7fed7ccbb",
     "gates": 336647,
     "opcodes": 34977
   },
   "dsc_rsa_pss_4096_sha256_s20_tbs700": {
+    "bytecode_sha256": "77d9715bda5c1957da5ec508b5e927a74bee9b5681044bbaefb0474b46e9ef4d",
     "gates": 262828,
     "opcodes": 25283
   },
   "dsc_rsa_pss_4096_sha256_s32_tbs1000": {
+    "bytecode_sha256": "310703de0af6a84d88a83367960d83ce2e79c1297f81cb14bb2aa5eb0af667ef",
     "gates": 287586,
     "opcodes": 28620
   },
   "dsc_rsa_pss_4096_sha256_s32_tbs1200": {
+    "bytecode_sha256": "19200d10688aa3dfff0ab8918d014fc0814321c72ec50324f4887128b7d09500",
     "gates": 302614,
     "opcodes": 30743
   },
   "dsc_rsa_pss_4096_sha256_s32_tbs1600": {
+    "bytecode_sha256": "e7ee2bed70b9f74f409d588e49f052c628c068fd8ca65429ae874d2d35659183",
     "gates": 336659,
     "opcodes": 34985
   },
   "dsc_rsa_pss_4096_sha256_s32_tbs700": {
+    "bytecode_sha256": "c45cb8a361dd1613c4fad58965c08a4583a8159bafa630a1eb59549002260982",
     "gates": 262841,
     "opcodes": 25291
   },
   "dsc_rsa_pss_4096_sha384_s48_tbs1000": {
+    "bytecode_sha256": "4876b30474125610bbcc11b63fe306bb573662409dee4ac5432f7fa1e5d01524",
     "gates": 673567,
     "opcodes": 263819
   },
   "dsc_rsa_pss_4096_sha384_s48_tbs1200": {
+    "bytecode_sha256": "96b56658cbc652d7e42c1e33d1aa4921e11004dc2913cfa7ba16e2fb4fdd156c",
     "gates": 733334,
     "opcodes": 291325
   },
   "dsc_rsa_pss_4096_sha384_s48_tbs1600": {
+    "bytecode_sha256": "a0cd9bdf3df9e9fa58cafbf2111e327891b09a0217590c782501af33093a4b3e",
     "gates": 824002,
     "opcodes": 333297
   },
   "dsc_rsa_pss_4096_sha384_s48_tbs700": {
+    "bytecode_sha256": "1de9f89cbd739d40e05ab5687678fb1e4c7a6aadd67f88a52c28c81b4a6251fe",
     "gates": 612701,
     "opcodes": 235591
   },
   "dsc_rsa_pss_4096_sha512_s20_tbs1000": {
+    "bytecode_sha256": "447143130412dceb7d10918eced12f842a20f961541382ed6fb6298e7d8072fd",
     "gates": 596716,
     "opcodes": 228270
   },
   "dsc_rsa_pss_4096_sha512_s20_tbs1200": {
+    "bytecode_sha256": "0133f6f3dca2f6059aace57a3a74136fe6195d358ecbbedaa1f32b1d9328a5f1",
     "gates": 656483,
     "opcodes": 255776
   },
   "dsc_rsa_pss_4096_sha512_s20_tbs1600": {
+    "bytecode_sha256": "e5ec16c7e07197ecbe93419fb5760e3bd95f5ff4608f2cdc7666afd5fc25daf5",
     "gates": 747151,
     "opcodes": 297748
   },
   "dsc_rsa_pss_4096_sha512_s20_tbs700": {
+    "bytecode_sha256": "26a6ed4f1911035d41a6282012031cbc487324ad85abe928fae9c7f7d0378de5",
     "gates": 535850,
     "opcodes": 200042
   },
   "dsc_rsa_pss_4096_sha512_s64_tbs1000": {
+    "bytecode_sha256": "b77f1ff54d65ce6c148e54a5a510d7f3d68fded655f3f269b7b124259a5e7730",
     "gates": 623141,
     "opcodes": 240516
   },
   "dsc_rsa_pss_4096_sha512_s64_tbs1200": {
+    "bytecode_sha256": "a9995c95089fa8ff1178c8cf2def6801e7256aad9fd3878225e727fff6ba7d7c",
     "gates": 682907,
     "opcodes": 268022
   },
   "dsc_rsa_pss_4096_sha512_s64_tbs1600": {
+    "bytecode_sha256": "194a341e1d52b959ae6163251c5ff9aec4f0d843fbe0582909e1d0743a75a1df",
     "gates": 773576,
     "opcodes": 309994
   },
   "dsc_rsa_pss_4096_sha512_s64_tbs700": {
+    "bytecode_sha256": "7349a57bb635a362f32698591bfdb6164ab501a9ed9fdb661f23ab65b4b0eb64",
     "gates": 562274,
     "opcodes": 212288
   },
   "envelope_sha1_sha1_lds1024": {
-    "gates": 332613,
-    "opcodes": 172137
+    "bytecode_sha256": "2ba03bce534409c47abf4b1a9fe450d2c49c13b53f1b94d68d5513f4dc7cbe95",
+    "gates": 233477,
+    "opcodes": 117599
   },
   "envelope_sha1_sha1_lds1536": {
-    "gates": 422815,
-    "opcodes": 221169
+    "bytecode_sha256": "5877882fe15fac8301ff307233a561dd5f27f4d37eaa300e0a4b765c7e219bb2",
+    "gates": 323679,
+    "opcodes": 166631
   },
   "envelope_sha1_sha1_lds512": {
-    "gates": 242200,
-    "opcodes": 123089
+    "bytecode_sha256": "722f8e9ebca2e101c0331768a258e7dca15c1813d68def03bd8ed7ad8bd13a4a",
+    "gates": 143261,
+    "opcodes": 68551
   },
   "envelope_sha1_sha256_lds1024": {
-    "gates": 272746,
-    "opcodes": 113359
+    "bytecode_sha256": "2644eef38e842244859e665862db12e3929aab14bd3c8a30f97640cb3a7bfb94",
+    "gates": 225522,
+    "opcodes": 107173
   },
   "envelope_sha1_sha256_lds1536": {
-    "gates": 362948,
-    "opcodes": 162391
+    "bytecode_sha256": "20fb64fa55dc4d54d5e24f1718c090e3350e0a924d0b69c45a1153b8e904378f",
+    "gates": 315724,
+    "opcodes": 156205
   },
   "envelope_sha1_sha256_lds512": {
-    "gates": 182530,
-    "opcodes": 64311
+    "bytecode_sha256": "c24184f61465527559c4a0eecb557f6df48be269fa9e3e9c52ccbeec97c333fe",
+    "gates": 135306,
+    "opcodes": 58125
   },
   "envelope_sha1_sha384_lds1024": {
-    "gates": 396772,
-    "opcodes": 188218
+    "bytecode_sha256": "6bbc04229d5cfb746675c6555a83f8dea4641e94f5e257129daed08ba26e9bf1",
+    "gates": 249700,
+    "opcodes": 119563
   },
   "envelope_sha1_sha384_lds1536": {
-    "gates": 486974,
-    "opcodes": 237250
+    "bytecode_sha256": "4ed9d6ece07bfc8a91b0502eb3de61e6740f7e2e1476a22a5af856528fa0ced4",
+    "gates": 339902,
+    "opcodes": 168595
   },
   "envelope_sha1_sha384_lds512": {
-    "gates": 306748,
-    "opcodes": 139234
+    "bytecode_sha256": "d49bac3b301d222040107503636edece59535cd7c4471a9efdd60f8957cac7ff",
+    "gates": 159484,
+    "opcodes": 70515
   },
   "envelope_sha1_sha512_lds1024": {
-    "gates": 396960,
-    "opcodes": 188346
+    "bytecode_sha256": "cc5c96f948636a3b2128bb7c4dfd9dc6036d1f3fbb0560ec17b54086925c503a",
+    "gates": 249764,
+    "opcodes": 119611
   },
   "envelope_sha1_sha512_lds1536": {
-    "gates": 487162,
-    "opcodes": 237378
+    "bytecode_sha256": "86f9362050561b532c7f20e082621c67cb4184d13e76973fb588a5cc4b462b1b",
+    "gates": 339966,
+    "opcodes": 168643
   },
   "envelope_sha1_sha512_lds512": {
-    "gates": 306936,
-    "opcodes": 139362
+    "bytecode_sha256": "5cdb668434a90b869991e0def417ad75b94248b18fcee8ebc1f66d502e5f7dc5",
+    "gates": 159548,
+    "opcodes": 70563
   },
   "envelope_sha256_sha1_lds1024": {
-    "gates": 229170,
-    "opcodes": 80122
+    "bytecode_sha256": "a28fa8b90f14ce86b4252e9c89aff755cbc16096169dc51857662d7938b51e3b",
+    "gates": 129469,
+    "opcodes": 25153
   },
   "envelope_sha256_sha1_lds1536": {
-    "gates": 268301,
-    "opcodes": 85586
+    "bytecode_sha256": "64bfcf074558683a8523af7c49ede931dfaf11000fb3522d8511e5194a38519d",
+    "gates": 168733,
+    "opcodes": 30617
   },
   "envelope_sha256_sha1_lds512": {
-    "gates": 190418,
-    "opcodes": 74658
+    "bytecode_sha256": "b2f7f487983419e160f102b4722ca54c25d08e857e43907231eaaa3c6175509c",
+    "gates": 90717,
+    "opcodes": 19689
   },
   "envelope_sha256_sha256_lds1024": {
-    "gates": 158263,
-    "opcodes": 20545
+    "bytecode_sha256": "44813bf338fe4846f2885eeb592358dbce1ed3453ccf1fc00ab8bbac8d8e7b23",
+    "gates": 111040,
+    "opcodes": 14359
   },
   "envelope_sha256_sha256_lds1536": {
-    "gates": 197527,
-    "opcodes": 26009
+    "bytecode_sha256": "bc856f11fc762b336532b5bbfd0458e38ea996be521e972eb4f5e0b268c5c840",
+    "gates": 150304,
+    "opcodes": 19823
   },
   "envelope_sha256_sha256_lds512": {
-    "gates": 118999,
-    "opcodes": 15081
+    "bytecode_sha256": "d51f7ca8449e7638432e0a989d4eb55330e71d23fb742f62bac7c63753bc53b4",
+    "gates": 71776,
+    "opcodes": 8895
   },
   "envelope_sha256_sha384_lds1024": {
-    "gates": 283429,
-    "opcodes": 96262
+    "bytecode_sha256": "38fac3a323f2b30a3d43e519e69a86e85ba40135b9c2dcded0696c0f943ac493",
+    "gates": 135601,
+    "opcodes": 27112
   },
   "envelope_sha256_sha384_lds1536": {
-    "gates": 322432,
-    "opcodes": 101726
+    "bytecode_sha256": "8ffbd984373746d9f58098280acc74e6b1f28972fbcc41d103e93d6b5ea08e38",
+    "gates": 174865,
+    "opcodes": 32576
   },
   "envelope_sha256_sha384_lds512": {
-    "gates": 244677,
-    "opcodes": 90798
+    "bytecode_sha256": "816b2d499d61a4a0b62605a026794f0026c2f958b6d8d777a72191fccad098f1",
+    "gates": 96849,
+    "opcodes": 21648
   },
   "envelope_sha256_sha512_lds1024": {
-    "gates": 283617,
-    "opcodes": 96390
+    "bytecode_sha256": "8659212b67527e7f76cb6f38e3d0f1df36b07915b76f20a29a8737b583205a90",
+    "gates": 135665,
+    "opcodes": 27160
   },
   "envelope_sha256_sha512_lds1536": {
-    "gates": 322620,
-    "opcodes": 101854
+    "bytecode_sha256": "c3a98a784f115d0cf36d7b6652e449da6889a116ce6560885781a965f97fa33e",
+    "gates": 174929,
+    "opcodes": 32624
   },
   "envelope_sha256_sha512_lds512": {
-    "gates": 244865,
-    "opcodes": 90926
+    "bytecode_sha256": "0ad7c668ad904f16de01a10a7d3261ec809b13ace47e5e1ac4c0fbd872f0fd9d",
+    "gates": 96913,
+    "opcodes": 21696
   },
   "envelope_sha384_sha1_lds1024": {
-    "gates": 419265,
-    "opcodes": 193221
+    "bytecode_sha256": "d265a2ad0c7acddb9f2cbb2b3e00fc5a40a069405a67d7c925deb2e8b2643ee2",
+    "gates": 320128,
+    "opcodes": 138683
   },
   "envelope_sha384_sha1_lds1536": {
-    "gates": 539390,
-    "opcodes": 249017
+    "bytecode_sha256": "a8c8da701e3ea39ded68c63a7619b9a7ae60b5bac899a32697791f2760495669",
+    "gates": 440253,
+    "opcodes": 194479
   },
   "envelope_sha384_sha1_lds512": {
-    "gates": 299140,
-    "opcodes": 137425
+    "bytecode_sha256": "c9c8ae6197f737de812af0f57ebfda546a4aa866418ca0fc12d8e01d6d44eaa9",
+    "gates": 200003,
+    "opcodes": 82887
   },
   "envelope_sha384_sha256_lds1024": {
-    "gates": 349306,
-    "opcodes": 134438
+    "bytecode_sha256": "422b2618e94ca7a3f371dd8d6c5ac5c5170feb283389a2dc20efd492df241a6f",
+    "gates": 302082,
+    "opcodes": 128252
   },
   "envelope_sha384_sha256_lds1536": {
-    "gates": 469431,
-    "opcodes": 190234
+    "bytecode_sha256": "72b520c7a09562d4b0447d4c51af40217b99c0437c8ec1a4b29f1cc496ed512c",
+    "gates": 422207,
+    "opcodes": 184048
   },
   "envelope_sha384_sha256_lds512": {
-    "gates": 229181,
-    "opcodes": 78642
+    "bytecode_sha256": "5ba1a9fd02daf4e383502a50133c17bd627180f7cdfa0ee47d0080e32775caef",
+    "gates": 181957,
+    "opcodes": 72456
   },
   "envelope_sha384_sha384_lds1024": {
-    "gates": 463842,
-    "opcodes": 209030
+    "bytecode_sha256": "3b5a2b336de84854f9d680cf6dc0063f9578fee37782c97255df3fc508c76598",
+    "gates": 316769,
+    "opcodes": 140375
   },
   "envelope_sha384_sha384_lds1536": {
-    "gates": 583967,
-    "opcodes": 264826
+    "bytecode_sha256": "7ef2c12b73176962cf13d1f49dd309737ad630c17f862a5299c855ac8ca48d47",
+    "gates": 436894,
+    "opcodes": 196171
   },
   "envelope_sha384_sha384_lds512": {
-    "gates": 343498,
-    "opcodes": 153234
+    "bytecode_sha256": "f7974afa3127fc063d0d61a29cf4e8258438f9fae4f93dfa803afcd6eeb3dcf0",
+    "gates": 196644,
+    "opcodes": 84579
   },
   "envelope_sha384_sha512_lds1024": {
-    "gates": 464030,
-    "opcodes": 209158
+    "bytecode_sha256": "1f0dec39454db23550d2bdf75e006e10a73e1467657fd16f0c0fe0da50289a48",
+    "gates": 316833,
+    "opcodes": 140423
   },
   "envelope_sha384_sha512_lds1536": {
-    "gates": 584155,
-    "opcodes": 264954
+    "bytecode_sha256": "825f2d77d56e11c52dc3ad13ae2c805df59e120e35255fe37adc40b8e5c03092",
+    "gates": 436958,
+    "opcodes": 196219
   },
   "envelope_sha384_sha512_lds512": {
-    "gates": 343686,
-    "opcodes": 153362
+    "bytecode_sha256": "24b85c9e8f282d668b68a07433c0abb38e2c2c2e43bd4a9c8ac6f38acc0579cf",
+    "gates": 196708,
+    "opcodes": 84627
   },
   "envelope_sha512_sha1_lds1024": {
-    "gates": 419281,
-    "opcodes": 193237
+    "bytecode_sha256": "52adf894f2036c7865ead13fc8ae835c82132f4741eb9badb8f8aa5fac74b4a1",
+    "gates": 320144,
+    "opcodes": 138699
   },
   "envelope_sha512_sha1_lds1536": {
-    "gates": 539406,
-    "opcodes": 249033
+    "bytecode_sha256": "c6105d958059418b2c2c601e998694d1888024e6a427e05083661c88dfab6feb",
+    "gates": 440269,
+    "opcodes": 194495
   },
   "envelope_sha512_sha1_lds512": {
-    "gates": 299156,
-    "opcodes": 137441
+    "bytecode_sha256": "2284748a7dd190e6380020b22e6c1b57ded152678519b8fff05696774d23c88e",
+    "gates": 200019,
+    "opcodes": 82903
   },
   "envelope_sha512_sha256_lds1024": {
-    "gates": 349322,
-    "opcodes": 134454
+    "bytecode_sha256": "b4aef6cdc7b469dc091a7c22ff682f4a610a727c423104f9d540c61905af12f6",
+    "gates": 302098,
+    "opcodes": 128268
   },
   "envelope_sha512_sha256_lds1536": {
-    "gates": 469447,
-    "opcodes": 190250
+    "bytecode_sha256": "8110fc416e079f61f0cbe4f73b82fadf075167a83e0738e017582eaadc15e989",
+    "gates": 422223,
+    "opcodes": 184064
   },
   "envelope_sha512_sha256_lds512": {
-    "gates": 229197,
-    "opcodes": 78658
+    "bytecode_sha256": "cf7344d461baef19d44e624b26c679618026c8e5334632e4b339412911483654",
+    "gates": 181973,
+    "opcodes": 72472
   },
   "envelope_sha512_sha384_lds1024": {
-    "gates": 463858,
-    "opcodes": 209046
+    "bytecode_sha256": "9cd611d34a18bc0cd059401a02568186a3468e6a936dd4ee86d15cc09a9debed",
+    "gates": 316785,
+    "opcodes": 140391
   },
   "envelope_sha512_sha384_lds1536": {
-    "gates": 583983,
-    "opcodes": 264842
+    "bytecode_sha256": "57b0552f78e64089fb1b4b1e40a7016448ef832f72d0d85fefca88f7819db0cc",
+    "gates": 436910,
+    "opcodes": 196187
   },
   "envelope_sha512_sha384_lds512": {
-    "gates": 343514,
-    "opcodes": 153250
+    "bytecode_sha256": "d8d3fd6a72563d7e6f4aebe93884036b524945bbfaf4471360974137b3e7b309",
+    "gates": 196660,
+    "opcodes": 84595
   },
   "envelope_sha512_sha512_lds1024": {
-    "gates": 464046,
-    "opcodes": 209174
+    "bytecode_sha256": "27d0b4bca3bcffd531c0871caef13ef32bc6363e9b2d5ddadc7793f559451217",
+    "gates": 316849,
+    "opcodes": 140439
   },
   "envelope_sha512_sha512_lds1536": {
-    "gates": 584171,
-    "opcodes": 264970
+    "bytecode_sha256": "a76d491cc208603e7d87b446096abe8916f89abace36e5a9a8194d42ccb50edc",
+    "gates": 436974,
+    "opcodes": 196235
   },
   "envelope_sha512_sha512_lds512": {
-    "gates": 343702,
-    "opcodes": 153378
+    "bytecode_sha256": "b1efba18bd1967e891c3ff8c59c1311edcc0089b45d0baf32d62e3b5dbdd1178",
+    "gates": 196724,
+    "opcodes": 84643
   },
   "sod_ecdsa_bp256_sha1_tbs1000": {
+    "bytecode_sha256": "3c5367f36b1a32f0e9d2681c3fdc015770a1e52d0d1ef324cab3adf17a29699e",
     "gates": 177632,
     "opcodes": 71716
   },
   "sod_ecdsa_bp256_sha1_tbs1200": {
+    "bytecode_sha256": "9fac8137654de54cadd4adf125cb9e1d9b4f62ef408af6b01cecffc48b4e73ca",
     "gates": 179625,
     "opcodes": 72924
   },
   "sod_ecdsa_bp256_sha1_tbs1600": {
+    "bytecode_sha256": "08a848332592f8f90bc91277e4ff0baddfe0bbddb76893d51cbb57c09105a36b",
     "gates": 183659,
     "opcodes": 75341
   },
   "sod_ecdsa_bp256_sha1_tbs700": {
+    "bytecode_sha256": "30fb27889c492a8c4d829f72c2fb4cfd9a34a8ef55032cd45033f1a75793a8b2",
     "gates": 174833,
     "opcodes": 69902
   },
   "sod_ecdsa_bp256_sha256_tbs1000": {
+    "bytecode_sha256": "81d2f42c7743e3ce6b0c6a8b5202d741c77325d13a9fefddcae0d0cb55c8d2ea",
     "gates": 139972,
     "opcodes": 44275
   },
   "sod_ecdsa_bp256_sha256_tbs1200": {
+    "bytecode_sha256": "b5208cd32628967ae66070d91f81e0f579004cbf61ff80b410d391c70aee3cfd",
     "gates": 141989,
     "opcodes": 45483
   },
   "sod_ecdsa_bp256_sha256_tbs1600": {
+    "bytecode_sha256": "ad6c2fa3f0cb044525aeb1666b4dce9d2358094d8d2062f521a3baeb3c4865d2",
     "gates": 146023,
     "opcodes": 47900
   },
   "sod_ecdsa_bp256_sha256_tbs700": {
+    "bytecode_sha256": "a31ebb04fd20a14292d7b2f35aac20007226840859059163d27f95eb5d51e22a",
     "gates": 136873,
     "opcodes": 42461
   },
   "sod_ecdsa_bp256_sha512_tbs1000": {
+    "bytecode_sha256": "7a76a5b0c87b7be424a0b6a1e084bc447da6954b3b2084472989ce8fc2b0595d",
     "gates": 208480,
     "opcodes": 82637
   },
   "sod_ecdsa_bp256_sha512_tbs1200": {
+    "bytecode_sha256": "376c01fcb2f3a26d9ff6eb91942248af658730bbfab52e08d445aa31cf4aa373",
     "gates": 210473,
     "opcodes": 83845
   },
   "sod_ecdsa_bp256_sha512_tbs1600": {
+    "bytecode_sha256": "9e34ae5757e2ce7c9e31a35b824fbe9644e7456b448763a0833d8890b72b86ec",
     "gates": 214507,
     "opcodes": 86262
   },
   "sod_ecdsa_bp256_sha512_tbs700": {
+    "bytecode_sha256": "f51829439b216b5b29502c76d0979b33041e4739fab8c5ed7c9b64d1a7cc23cd",
     "gates": 205681,
     "opcodes": 80823
   },
   "sod_ecdsa_bp384_sha256_tbs1000": {
+    "bytecode_sha256": "f2179675ea5b0bbe25526dd742b0f88b29ad43df0a2cfebee65bfd0105282d10",
     "gates": 252749,
     "opcodes": 75784
   },
   "sod_ecdsa_bp384_sha256_tbs1200": {
+    "bytecode_sha256": "178ead6653044b8c110d6200e40619867ead3b5b1f9509271fd0b6951a1ae206",
     "gates": 254766,
     "opcodes": 76992
   },
   "sod_ecdsa_bp384_sha256_tbs1600": {
+    "bytecode_sha256": "f19ba4be525ff8f3c210675368cbb3ecab3a769590fb11872e5a6c0d6c25153e",
     "gates": 258800,
     "opcodes": 79409
   },
   "sod_ecdsa_bp384_sha256_tbs700": {
+    "bytecode_sha256": "f16910e169497ce8a828fd94927578fe0d3b37e51fb0223b979ee79945440b1c",
     "gates": 249650,
     "opcodes": 73970
   },
   "sod_ecdsa_bp384_sha384_tbs1000": {
+    "bytecode_sha256": "428edab158d9ecb8a6fff20ee48a487bddf7a272c6e09b3aa00005e294d66bf5",
     "gates": 321265,
     "opcodes": 114149
   },
   "sod_ecdsa_bp384_sha384_tbs1200": {
+    "bytecode_sha256": "3e598b447cc5129144e938642e5fbdfaa5abec0de2e1eedb595d5ee579649914",
     "gates": 323258,
     "opcodes": 115357
   },
   "sod_ecdsa_bp384_sha384_tbs1600": {
+    "bytecode_sha256": "88b18724b98c328ea34dc1660f7e3a6a6eedd16b3ea8a436e5ad7604135878bf",
     "gates": 327292,
     "opcodes": 117774
   },
   "sod_ecdsa_bp384_sha384_tbs700": {
+    "bytecode_sha256": "e214310a8c5065b041d230e6385c4e4f6399022662b50b5fed7685010f533810",
     "gates": 318466,
     "opcodes": 112335
   },
   "sod_ecdsa_bp512_sha256_tbs1000": {
+    "bytecode_sha256": "601ce5d80403e39273dc5e3615c374b6e9b5364649015aae488600b9bbd2c3d2",
     "gates": 413573,
     "opcodes": 117617
   },
   "sod_ecdsa_bp512_sha256_tbs1200": {
+    "bytecode_sha256": "f6e3e82eee8e4cb100be433c4214572de659d965500aa86d24b25fffb9e1a627",
     "gates": 415590,
     "opcodes": 118825
   },
   "sod_ecdsa_bp512_sha256_tbs1600": {
+    "bytecode_sha256": "c2290b4afbf1e74773d962422674328a4cab3e57d71661cc024e28cfb996d1eb",
     "gates": 419624,
     "opcodes": 121242
   },
   "sod_ecdsa_bp512_sha256_tbs700": {
+    "bytecode_sha256": "ccdf080b750f662d156a65c1fd55a6cee978c1f118e9a0337a7874371a59753e",
     "gates": 410474,
     "opcodes": 115803
   },
   "sod_ecdsa_bp512_sha512_tbs1000": {
+    "bytecode_sha256": "0a1f7daf40a6e16942871d056700ef5d208b71f77fa4590480019811f7d6e75b",
     "gates": 482104,
     "opcodes": 155985
   },
   "sod_ecdsa_bp512_sha512_tbs1200": {
+    "bytecode_sha256": "091b08462ca576aab6d28a7c957144b2f541c72f27a42c5f1672f75605a4d877",
     "gates": 484097,
     "opcodes": 157193
   },
   "sod_ecdsa_bp512_sha512_tbs1600": {
+    "bytecode_sha256": "51249d777fd0c670beda6bd894f9276681aaf003aa3b8df96aa7edc6578dde47",
     "gates": 488131,
     "opcodes": 159610
   },
   "sod_ecdsa_bp512_sha512_tbs700": {
+    "bytecode_sha256": "4233236e693bdfb3743192848bbf9c19c04ec6195c484d108b413e4ea01214a2",
     "gates": 479305,
     "opcodes": 154171
   },
   "sod_ecdsa_p256_sha1_tbs1000": {
+    "bytecode_sha256": "77b8f03df00a2cc926a9176a572cda3faff943e7b00ee469558320e45a6e7fd8",
     "gates": 177609,
     "opcodes": 71696
   },
   "sod_ecdsa_p256_sha1_tbs1200": {
+    "bytecode_sha256": "3b37b73e94b2bd2da9951b61f4b0cf4907aa0382fddde85d4793da855b0bfd95",
     "gates": 179602,
     "opcodes": 72904
   },
   "sod_ecdsa_p256_sha1_tbs1600": {
+    "bytecode_sha256": "fc6e4b3965ff34c6f6d15c249f8c04298da4d4bcf28672e07140cb9bfa08cdf2",
     "gates": 183636,
     "opcodes": 75321
   },
   "sod_ecdsa_p256_sha1_tbs700": {
+    "bytecode_sha256": "42cf60e6f5f24d86e5358ca1e91299a75cb828442661bebce4b01632101a9958",
     "gates": 174810,
     "opcodes": 69882
   },
   "sod_ecdsa_p256_sha256_tbs1000": {
+    "bytecode_sha256": "e895153959c7feddcf58b1aa78db0d316d64d1806e011fab2c3d4dbc7517eb63",
     "gates": 139949,
     "opcodes": 44255
   },
   "sod_ecdsa_p256_sha256_tbs1200": {
+    "bytecode_sha256": "7d0957c342d3d0bc2cba41420fb21d7ae9bec26c0eedd914effe2faf334a0428",
     "gates": 141966,
     "opcodes": 45463
   },
   "sod_ecdsa_p256_sha256_tbs1600": {
+    "bytecode_sha256": "b45e27f00c707020a3eec82d13219a027c2348b34a16554aafdac2dd5d9748b3",
     "gates": 146000,
     "opcodes": 47880
   },
   "sod_ecdsa_p256_sha256_tbs700": {
+    "bytecode_sha256": "200e4c86f0ced1c39797d65d79fa3b871fa0e34a516b1098483420fdb971aafd",
     "gates": 136850,
     "opcodes": 42441
   },
   "sod_ecdsa_p384_sha256_tbs1000": {
+    "bytecode_sha256": "4f37260d6c271c7a7e1d63fcf8ab273fe2ed1d0d8e0070a005b8371765493017",
     "gates": 252714,
     "opcodes": 75756
   },
   "sod_ecdsa_p384_sha256_tbs1200": {
+    "bytecode_sha256": "22538c1c10313ad81499339572bdfd988f99771c50072090d3744ff8f0697acb",
     "gates": 254731,
     "opcodes": 76964
   },
   "sod_ecdsa_p384_sha256_tbs1600": {
+    "bytecode_sha256": "0d24839d748f1c5d04bed2eb4cd27bee7bfcdd3bb5524169e8002eec421576f2",
     "gates": 258765,
     "opcodes": 79381
   },
   "sod_ecdsa_p384_sha256_tbs700": {
+    "bytecode_sha256": "b679c0c836c61c26486f5295a3f016f430b64d9a5aec937f36d7868775fb94d9",
     "gates": 249615,
     "opcodes": 73942
   },
   "sod_ecdsa_p384_sha384_tbs1000": {
+    "bytecode_sha256": "2122b93588f15665e4730163255e602497a3d87a8f2281c446e1b80a96a785d0",
     "gates": 321230,
     "opcodes": 114121
   },
   "sod_ecdsa_p384_sha384_tbs1200": {
+    "bytecode_sha256": "07443280ec69336d686eb8f7acf17bcd71d98e0f2620a6e77df886a22d7d6dc1",
     "gates": 323223,
     "opcodes": 115329
   },
   "sod_ecdsa_p384_sha384_tbs1600": {
+    "bytecode_sha256": "1b88ad79635edd3d93eecdb3cdd1270724d0c9a58201e8c9108890b3008130c0",
     "gates": 327257,
     "opcodes": 117746
   },
   "sod_ecdsa_p384_sha384_tbs700": {
+    "bytecode_sha256": "fe2e049da3d47f4ac511f24d6d9b9a2fe028ad5d7064aceeecfb2f8935c80b17",
     "gates": 318431,
     "opcodes": 112307
   },
   "sod_ecdsa_p384_sha512_tbs1000": {
+    "bytecode_sha256": "fa3a81826e01b8db3221750a3da488cd7c2b8febec1b6e483e2488fc2f10298e",
     "gates": 321230,
     "opcodes": 114121
   },
   "sod_ecdsa_p384_sha512_tbs1200": {
+    "bytecode_sha256": "90c34955155e8a415ede3fe9cfda2976c4aa1487df9b85c8938241741415d4c8",
     "gates": 323223,
     "opcodes": 115329
   },
   "sod_ecdsa_p384_sha512_tbs1600": {
+    "bytecode_sha256": "66a352613e5d7b8eb300d505579ddbbe7b761a55c7c618aff26d5dc8d8339279",
     "gates": 327257,
     "opcodes": 117746
   },
   "sod_ecdsa_p384_sha512_tbs700": {
+    "bytecode_sha256": "e6f7243f22e2659cc374596b34076921e6cc4ca29847348df7494206aebadcd6",
     "gates": 318431,
     "opcodes": 112307
   },
   "sod_ecdsa_p521_sha256_tbs1000": {
+    "bytecode_sha256": "9e0a0a01c4c10309173b6346a0dd80a62c5f309bda5e938bbdcfca75cbe7a727",
     "gates": 423204,
     "opcodes": 120610
   },
   "sod_ecdsa_p521_sha256_tbs1200": {
+    "bytecode_sha256": "b6e347ce037a404547274bb66a7910319fb50551b85b081b1290506dd33a41a5",
     "gates": 425221,
     "opcodes": 121818
   },
   "sod_ecdsa_p521_sha256_tbs1600": {
+    "bytecode_sha256": "cb673a93b75eb92d81f54cf1922d7aa116b604c5d15d29ad8b55c593d896415f",
     "gates": 429255,
     "opcodes": 124235
   },
   "sod_ecdsa_p521_sha256_tbs700": {
+    "bytecode_sha256": "bc679a11fdb4cb6e89e6885228254e2b064cfdd74ed6d17f00d3a3834c98e7de",
     "gates": 420105,
     "opcodes": 118796
   },
   "sod_ecdsa_p521_sha512_tbs1000": {
+    "bytecode_sha256": "c03114ba53df65ada3e3e475fb99ab97e341ecef0f8c07d1b44fc922619e2923",
     "gates": 491735,
     "opcodes": 158978
   },
   "sod_ecdsa_p521_sha512_tbs1200": {
+    "bytecode_sha256": "134f5d6dd8d7af7e92595141b9b4cb5c16c8c19339c57d0a80b2b34fff255be1",
     "gates": 493728,
     "opcodes": 160186
   },
   "sod_ecdsa_p521_sha512_tbs1600": {
+    "bytecode_sha256": "e6927fd6a37aca9554857c45c1105e946acefd07167ea165df2b3d08429f13e8",
     "gates": 497762,
     "opcodes": 162603
   },
   "sod_ecdsa_p521_sha512_tbs700": {
+    "bytecode_sha256": "d598a7533ccbda6861234e7ba6b9bd761f8f29719fcae86f9ab87bf54f756fae",
     "gates": 488936,
     "opcodes": 157164
   },
   "sod_rsa_pkcs1v15_2048_sha1_tbs1000": {
+    "bytecode_sha256": "88dc9aad2bb593935a9e9773a62b1f8b42777c2dc35c461f828273d4956f0f0b",
     "gates": 126593,
     "opcodes": 49704
   },
   "sod_rsa_pkcs1v15_2048_sha1_tbs1200": {
+    "bytecode_sha256": "a1cd69ceba6fb5f9a96ee61dd6ae0dc455682335aa6a792f9ead6a807b1b22c4",
     "gates": 128586,
     "opcodes": 50912
   },
   "sod_rsa_pkcs1v15_2048_sha1_tbs1600": {
+    "bytecode_sha256": "7e2d83d09973740cce7c8c85990216a852f7a7e9e2b2586fdc119bdf3e0df032",
     "gates": 132620,
     "opcodes": 53329
   },
   "sod_rsa_pkcs1v15_2048_sha1_tbs700": {
+    "bytecode_sha256": "3c0292c71eda00ceeb1ab54e38f309019b812f1fe81a4873c708c3f296837d63",
     "gates": 123794,
     "opcodes": 47890
   },
   "sod_rsa_pkcs1v15_2048_sha256_tbs1000": {
+    "bytecode_sha256": "ea1799a5d6971b996c808290f8bddef287f9d678b7103ae087b31e5c743392c5",
     "gates": 90305,
     "opcodes": 22263
   },
   "sod_rsa_pkcs1v15_2048_sha256_tbs1200": {
+    "bytecode_sha256": "2721f85dd36e7bbd071595e9cec8ee0395e59bd41149d04ca0b268c93662a7b6",
     "gates": 92322,
     "opcodes": 23471
   },
   "sod_rsa_pkcs1v15_2048_sha256_tbs1600": {
+    "bytecode_sha256": "d685d8b8915c651c8593afed7aec2900bc2e20c3164cc1e89c8755f15745df9e",
     "gates": 96356,
     "opcodes": 25888
   },
   "sod_rsa_pkcs1v15_2048_sha256_tbs700": {
+    "bytecode_sha256": "cdf69afed0208a8be274e64e2855618c20e228a9ef618b9590699bd123eccbba",
     "gates": 87206,
     "opcodes": 20449
   },
   "sod_rsa_pkcs1v15_2048_sha512_tbs1000": {
+    "bytecode_sha256": "ec0319ebe8295abf4f5685e59f95b50f2ef92b6c5dbc71ba62a9ac8bc72573cd",
     "gates": 159184,
     "opcodes": 60631
   },
   "sod_rsa_pkcs1v15_2048_sha512_tbs1200": {
+    "bytecode_sha256": "d49f714cfac72e563a08e1b789118eb9863c1d1c09cbb3923fb87c9ab32545c0",
     "gates": 161177,
     "opcodes": 61839
   },
   "sod_rsa_pkcs1v15_2048_sha512_tbs1600": {
+    "bytecode_sha256": "b81139a9756e210d14e107a3ef48b810f0078cd1d10c785c2ef517ca40b9956f",
     "gates": 165211,
     "opcodes": 64256
   },
   "sod_rsa_pkcs1v15_2048_sha512_tbs700": {
+    "bytecode_sha256": "40355f91f41dea0ea0d7cc6480f5850c492a0842e87ff4061e57f6c2e43d8831",
     "gates": 156385,
     "opcodes": 58817
   },
   "sod_rsa_pkcs1v15_3072_sha256_tbs1000": {
+    "bytecode_sha256": "03e14fe7ac7a6965c8bce9d79ba5b839ceaf17b26def59fa8673c1afaa2a736e",
     "gates": 122265,
     "opcodes": 26853
   },
   "sod_rsa_pkcs1v15_3072_sha256_tbs1200": {
+    "bytecode_sha256": "50577733304ffd818753e8eb5def3b4cdc1c44d2f4b2922531ebe0874a3b209f",
     "gates": 124282,
     "opcodes": 28061
   },
   "sod_rsa_pkcs1v15_3072_sha256_tbs1600": {
+    "bytecode_sha256": "0f76540cee53be98f175c602f6256a3129c33aa2f4df809e0fbb347d782659ff",
     "gates": 128316,
     "opcodes": 30478
   },
   "sod_rsa_pkcs1v15_3072_sha256_tbs700": {
+    "bytecode_sha256": "85e7155657bff9e7b86643f4e40e57614441bee694c9c2db4e779ee27fa2f855",
     "gates": 119166,
     "opcodes": 25039
   },
   "sod_rsa_pkcs1v15_3072_sha384_tbs1000": {
+    "bytecode_sha256": "2a4377819284d2a2c37934c9cda6d8d58527e44b4a72e8f44d49c81e0f9074c5",
     "gates": 191132,
     "opcodes": 65218
   },
   "sod_rsa_pkcs1v15_3072_sha384_tbs1200": {
+    "bytecode_sha256": "132e9146d1ab23fb62cb6e82e8172c71ff70f9cf03d2029e11849183d872bdf5",
     "gates": 193125,
     "opcodes": 66426
   },
   "sod_rsa_pkcs1v15_3072_sha384_tbs1600": {
+    "bytecode_sha256": "6d2b2128c4eed383a4a3c7bb07bbbbd74c9c813555f5a03a979f19ea1f309c8b",
     "gates": 197159,
     "opcodes": 68843
   },
   "sod_rsa_pkcs1v15_3072_sha384_tbs700": {
+    "bytecode_sha256": "015165e01a8726561d2ece4e9a4e7ad7c73bd646d8bdf058d39fa79428cf069d",
     "gates": 188333,
     "opcodes": 63404
   },
   "sod_rsa_pkcs1v15_4096_sha1_tbs1000": {
+    "bytecode_sha256": "69b7a6bcbe5cf219ff667364d4433114be39f90549fb3fff43a12f6ad83af122",
     "gates": 202779,
     "opcodes": 59229
   },
   "sod_rsa_pkcs1v15_4096_sha1_tbs1200": {
+    "bytecode_sha256": "fc0fd282644172ae4f8553a98bcb3320d3f9be4a06bbf07299554ad35a5951a5",
     "gates": 204772,
     "opcodes": 60437
   },
   "sod_rsa_pkcs1v15_4096_sha1_tbs1600": {
+    "bytecode_sha256": "1f75fa1421d1c674a7edf867ffa3985eca273ad91680bbe875ef25449e4a9cb3",
     "gates": 208806,
     "opcodes": 62854
   },
   "sod_rsa_pkcs1v15_4096_sha1_tbs700": {
+    "bytecode_sha256": "88013ea7a330b1b5d45f2a2831818074a718982d7460f56c1dc436b54f019637",
     "gates": 199980,
     "opcodes": 57415
   },
   "sod_rsa_pkcs1v15_4096_sha256_tbs1000": {
+    "bytecode_sha256": "4af22d1948da187569d0d793ae48a6c3ba86eb9c212fc721b7a23d5e3a3afd39",
     "gates": 166492,
     "opcodes": 31788
   },
   "sod_rsa_pkcs1v15_4096_sha256_tbs1200": {
+    "bytecode_sha256": "20106b979fc2b8acaf61f34ca12d931229a81fdd86711fbacdf4e8bf387aecf7",
     "gates": 168509,
     "opcodes": 32996
   },
   "sod_rsa_pkcs1v15_4096_sha256_tbs1600": {
+    "bytecode_sha256": "8de0f34701d8ac43b357aa9f2935c503759b1c47b7abed6f9b8defbb0cf550ef",
     "gates": 172543,
     "opcodes": 35413
   },
   "sod_rsa_pkcs1v15_4096_sha256_tbs700": {
+    "bytecode_sha256": "15d6f5f022e77fc2ca740b3d639f8da9c80e81f52c4612b5c4afd6753aa54933",
     "gates": 163393,
     "opcodes": 29974
   },
   "sod_rsa_pkcs1v15_4096_sha384_tbs1000": {
+    "bytecode_sha256": "3b521688ebe75063bca624612903dd5ecbdd0b72336843464ff00b00376ad9bf",
     "gates": 235359,
     "opcodes": 70153
   },
   "sod_rsa_pkcs1v15_4096_sha384_tbs1200": {
+    "bytecode_sha256": "2ab63f3d388e3425b90863a9bcd2c86a97d192614105f5ff6ffe72739b0ddf90",
     "gates": 237352,
     "opcodes": 71361
   },
   "sod_rsa_pkcs1v15_4096_sha384_tbs1600": {
+    "bytecode_sha256": "ed3f33cb33ea92e799b15a3b91381d6cafb115b96dd53d9102680f5387a6ba93",
     "gates": 241386,
     "opcodes": 73778
   },
   "sod_rsa_pkcs1v15_4096_sha384_tbs700": {
+    "bytecode_sha256": "366acaadc21e1cc7f730e0afc879c224ee02a44be99316ad0217b4589f996944",
     "gates": 232560,
     "opcodes": 68339
   },
   "sod_rsa_pkcs1v15_4096_sha512_tbs1000": {
+    "bytecode_sha256": "b47431818ef5d5ecc6fb66c0b70854602c238906ee7bd04c7111b8799ada4a34",
     "gates": 235371,
     "opcodes": 70156
   },
   "sod_rsa_pkcs1v15_4096_sha512_tbs1200": {
+    "bytecode_sha256": "d3317adb839fad0ef5faf1d5e976b99e720fe1b8f6b6c958cfc54c40e0f7a9d8",
     "gates": 237364,
     "opcodes": 71364
   },
   "sod_rsa_pkcs1v15_4096_sha512_tbs1600": {
+    "bytecode_sha256": "46ee489f33d326f4827df6b8e4f592cba51d1d3ed934086790725c7c60787461",
     "gates": 241398,
     "opcodes": 73781
   },
   "sod_rsa_pkcs1v15_4096_sha512_tbs700": {
+    "bytecode_sha256": "29c0831cd6fcb548541fe8286bced326b6154f92fe48ae9e94766d0f252296a2",
     "gates": 232572,
     "opcodes": 68342
   },
   "sod_rsa_pkcs1v15_6144_sha256_tbs1000": {
+    "bytecode_sha256": "3d7dda7af357d8dc86d2b8d17a867bfd61497026b42cedd3f60b1d9af5ff5e61",
     "gates": 276788,
     "opcodes": 41323
   },
   "sod_rsa_pkcs1v15_6144_sha256_tbs1200": {
+    "bytecode_sha256": "ec5e76de6e0bd3c20d6586c31f28b8b349a4986111fa2d0eaab74feadefcac21",
     "gates": 278805,
     "opcodes": 42531
   },
   "sod_rsa_pkcs1v15_6144_sha256_tbs1600": {
+    "bytecode_sha256": "d38685371b2967cb292036827ef5019ef02f7eede134214b5091c127a3f95ea3",
     "gates": 282839,
     "opcodes": 44948
   },
   "sod_rsa_pkcs1v15_6144_sha256_tbs700": {
+    "bytecode_sha256": "b1a9edc88b35309c95ce27d732fefdef75b50a71069f1cc82c5ae2906eb99abc",
     "gates": 273689,
     "opcodes": 39509
   },
   "sod_rsa_pss_3072_sha256_s32_tbs1000": {
+    "bytecode_sha256": "63297d4cba22a00d9d322f5f006cc0e536c19aca547f738e4403e8841870a3aa",
     "gates": 181541,
     "opcodes": 28120
   },
   "sod_rsa_pss_3072_sha256_s32_tbs1200": {
+    "bytecode_sha256": "60d6bd16c921aab98b5be7615c42e09697250bca19b4598ca514a55259c9027b",
     "gates": 183558,
     "opcodes": 29328
   },
   "sod_rsa_pss_3072_sha256_s32_tbs1600": {
+    "bytecode_sha256": "6a69d98b3981a6e11813bcce929322451d47eebd994ba624272fc0af8097d0b4",
     "gates": 187592,
     "opcodes": 31745
   },
   "sod_rsa_pss_3072_sha256_s32_tbs700": {
+    "bytecode_sha256": "2af7c0acbfcfc5341f5f15c75506737bb33e6da329570b39ca31049617df1cff",
     "gates": 178442,
     "opcodes": 26306
   },
   "sod_rsa_pss_3072_sha384_s48_tbs1000": {
+    "bytecode_sha256": "7c89fecc18a6c55a94b613aa856ecb7b9bf68be789506fb97f765e6ae8d1084c",
     "gates": 414805,
     "opcodes": 167907
   },
   "sod_rsa_pss_3072_sha384_s48_tbs1200": {
+    "bytecode_sha256": "f35760f986990fd52e80fbdb6c9d7e02b36de8baf0b5d94130d17b129c25cb10",
     "gates": 416798,
     "opcodes": 169115
   },
   "sod_rsa_pss_3072_sha384_s48_tbs1600": {
+    "bytecode_sha256": "e4cbb7bc8193a4fc87c098610b6f7b0bf608a394b364df94d9f23b1a8459088c",
     "gates": 420832,
     "opcodes": 171532
   },
   "sod_rsa_pss_3072_sha384_s48_tbs700": {
+    "bytecode_sha256": "400e6d103fb9d461ca9404b68ebc90d23685e7d9eb04159b8a6c012f58385a08",
     "gates": 412006,
     "opcodes": 166093
   },
   "sod_rsa_pss_4096_sha256_s20_tbs1000": {
+    "bytecode_sha256": "7b643dc31c7db391ea13cd2c3e77df830af6ea71dde2c3273ccd961bb564b80b",
     "gates": 242918,
     "opcodes": 33435
   },
   "sod_rsa_pss_4096_sha256_s20_tbs1200": {
+    "bytecode_sha256": "d488dec9fb94bb6888ad2ab7d3401ca3ddba1dfdd6614db5f4f5ab944eb414a1",
     "gates": 244935,
     "opcodes": 34643
   },
   "sod_rsa_pss_4096_sha256_s20_tbs1600": {
+    "bytecode_sha256": "89d02cb6c9cc01f0b27d3eeaae33a4415bc4434a68c8dfa9276ef01ada74dec4",
     "gates": 248969,
     "opcodes": 37060
   },
   "sod_rsa_pss_4096_sha256_s20_tbs700": {
+    "bytecode_sha256": "f29d7b0f1bdd30d2cf4d95c2e58d094f118bd0ae4a5ef501fa855c7cb9b7febe",
     "gates": 239819,
     "opcodes": 31621
   },
   "sod_rsa_pss_4096_sha256_s32_tbs1000": {
+    "bytecode_sha256": "043944d08bb11ec4d679eb4637137bb74ae1973c66e2dd8b159183ea1a7fa1ae",
     "gates": 242930,
     "opcodes": 33443
   },
   "sod_rsa_pss_4096_sha256_s32_tbs1200": {
+    "bytecode_sha256": "61c0abb2bbc4c6e52e5ed8d72066921a7b9a033bcde452a8e9ec0cf5c8f97152",
     "gates": 244947,
     "opcodes": 34651
   },
   "sod_rsa_pss_4096_sha256_s32_tbs1600": {
+    "bytecode_sha256": "c2b6e4d9f9277fab3fa7de5b7c93cfb1a76da3a3d9e76d08f26324fa65c002df",
     "gates": 248981,
     "opcodes": 37068
   },
   "sod_rsa_pss_4096_sha256_s32_tbs700": {
+    "bytecode_sha256": "40428c5b5312e5a0b291c82c621ed353829d603dd295d97eb1739e354ed93d87",
     "gates": 239831,
     "opcodes": 31629
   },
   "sod_rsa_pss_4096_sha384_s48_tbs1000": {
+    "bytecode_sha256": "b656f92118b2745816455fac424e61d9139336695f26f92640d2e6f566cccf5b",
     "gates": 532003,
     "opcodes": 206282
   },
   "sod_rsa_pss_4096_sha384_s48_tbs1200": {
+    "bytecode_sha256": "5e5c48d971e54d4cb855907a5b32c7a44a9f301ceb267789221fd87d3e7c43b2",
     "gates": 533996,
     "opcodes": 207490
   },
   "sod_rsa_pss_4096_sha384_s48_tbs1600": {
+    "bytecode_sha256": "4d2750095d1abaa369a9bfce48556517012690aa8262e9f2d50435cf8736b9f2",
     "gates": 538030,
     "opcodes": 209907
   },
   "sod_rsa_pss_4096_sha384_s48_tbs700": {
+    "bytecode_sha256": "4855b2995037a629e2d3a198a5bcbe4da92fa34c452f94365b6d27fb58a94382",
     "gates": 529204,
     "opcodes": 204468
   },
   "sod_rsa_pss_4096_sha512_s20_tbs1000": {
+    "bytecode_sha256": "0dde9dc5a9f6102d6a3e917a71ae5bc096a3b8db1cc0a4ebc1f09f724a985bb3",
     "gates": 455151,
     "opcodes": 170733
   },
   "sod_rsa_pss_4096_sha512_s20_tbs1200": {
+    "bytecode_sha256": "7341c8384b7d01b4367fb22993901daa8266fe10465afc595ca36f38d14e2e23",
     "gates": 457144,
     "opcodes": 171941
   },
   "sod_rsa_pss_4096_sha512_s20_tbs1600": {
+    "bytecode_sha256": "02a18413fe9d7f1492bc1b3e137e5bedfeef6447436659653f964c8578605812",
     "gates": 461178,
     "opcodes": 174358
   },
   "sod_rsa_pss_4096_sha512_s20_tbs700": {
+    "bytecode_sha256": "54d738f5859e5982f256088fdfccb85c841c610783df6abcec3bad23aa0ed0e1",
     "gates": 452352,
     "opcodes": 168919
   },
   "sod_rsa_pss_4096_sha512_s64_tbs1000": {
+    "bytecode_sha256": "bec5213c96318ae7541e6bc0bdb928dfb94c462b4b0489008694a3e9c943139a",
     "gates": 481577,
     "opcodes": 182979
   },
   "sod_rsa_pss_4096_sha512_s64_tbs1200": {
+    "bytecode_sha256": "436507f792e33cc820bde3937f7a99e1e0a860510c8745b96863805841c08447",
     "gates": 483570,
     "opcodes": 184187
   },
   "sod_rsa_pss_4096_sha512_s64_tbs1600": {
+    "bytecode_sha256": "6fb30872ba6eb02d6b6af3adc759147427506cb7409540a6a57aef021c11f5ec",
     "gates": 487604,
     "opcodes": 186604
   },
   "sod_rsa_pss_4096_sha512_s64_tbs700": {
+    "bytecode_sha256": "55d872696f6fa1b8b91cf470f12a9994088d219ab19cdc6baf08fe04540ed754",
     "gates": 478778,
     "opcodes": 181165
   }
