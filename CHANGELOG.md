@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.3.0 - 2026-09-27
+#### Features
+- (**eid-zk**) prove and verify documents through noir-zk with frozen circuits - (6571709) - Anton Velichko
+#### Bug Fixes
+- (**eid-circuits**) frozen vk-tree.json names noir-zk freeze as its writer - (3e895cf) - Anton Velichko
+#### Build system
+- pin noir-zk 3b4d534 - (022ad46) - Anton Velichko
+- <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>move to Noir 1.0.0-rc.3 and bb 7.0.0-nightly.20260927 - (daf89f8) - Anton Velichko
+#### Continuous Integration
+- fetch noir-zk anonymously now that it is public - (9b5266d) - Anton Velichko
+- fetch the private noir-zk and install libc++ for bb - (b8211e6) - Anton Velichko
+#### Refactoring
+- (**eid-circuits**) record proof system and Chonk role per circuit - (9752f4e) - Anton Velichko
+- (**eid-circuits**) fold wrapped apps (KernelX::select / wrap) - (6a19250) - Anton Velichko
+- (**eid-circuits**) typed bindings for noir-zk's folding backend - (1205ac3) - Anton Velichko
+- rename eid-zk to the eid-circuits crate - (d680320) - Anton Velichko
+
+- - -
+
 ## v0.2.0 - 2026-09-27
 #### Features
 - (**folding**) keep proven chains' proof, vk and public outputs with fold.py --out - (2d790fe) - Anton Velichko
