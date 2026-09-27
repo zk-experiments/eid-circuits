@@ -62,3 +62,21 @@ No AEAD tag is proven: the proof itself binds `C` to a verified plaintext, and a
 ## Cost
 
 Per-operation gate counts for every signature group are measured in CI and listed in [noir/bench/README.md](../noir/bench/README.md).
+
+## Future improvements
+
+### DSC registry
+
+Step A proves the same statement for every document a DSC signed: the CSCA is registered, it signed the DSC certificate, and the DSC isn't revoked. DSCs aren't secret (every SOD embeds one, and many countries publish theirs in the ICAO PKD), and each one signs thousands of documents over a few months. The CSCA signature check, which is most of step A's cost, can therefore be done once, natively, instead of on every phone.
+
+- **Registry.** csca-registry verifies DSC certificates against their CSCA with RustCrypto, as it already does for CSCA certificates, drops revoked ones, and publishes a Poseidon2 tree of DSC keys with their validity periods next to the CSCA tree.
+- **Circuits.** The SOD step gets a variant that proves the DSC key is a leaf of that tree (a Merkle path, a few thousand gates) instead of opening step A's commitment. The phone then produces two proofs instead of three. The leaf stays hidden, so the proof still doesn't reveal which DSC signed the document.
+- **Coverage.** A document can only use this path if its DSC is in the tree. Sources: the ICAO PKD DSC list (incomplete, manual download), national publications, and DSCs seen in submitted SODs. Step A stays as the fallback, so every document remains provable.
+- **When.** Each covered user saves 138k–674k gates, but maintaining coverage has a cost, so this pays off at scale. A and B are linked only by `c_A`, so it can be added later without changing the SOD or envelope steps.
+
+### Caching step A on the phone
+
+A holder's step A depends only on their DSC and the registry root, not on the transfer, so the app can keep the proof and reuse it:
+
+- **Freshness.** It proves non-revocation against the root `R` it was made for. It stays reusable only while the verifier accepts that root, and must be redone when the registry is republished with a new root.
+- **Linkability.** Reusing the proof reuses `c_A`, so transfers that share it can be linked as the same document. That's acceptable where transfers are linked anyway (the same account). Where they must be unlinkable, the app proves step A again with a fresh salt. It can still cache the witness (DSC certificate, CSCA leaf and paths) to skip the lookup.
