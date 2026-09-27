@@ -30,6 +30,12 @@ use noir_zk_core::codec::field_from_be_bytes_canonical;
 use noir_zk_core::{Error, Field};
 
 pub use noir_zk_backend::DirStore;
+
+/// Where releases publish the circuit packs: `<pack>@<version>.tar.gz`,
+/// `catalog@<version>.json`, `vk-tree@<version>.json`, and `catalog.json`
+/// (the latest release's catalog). Every asset in a pack is checked against
+/// its pin, so this host is a mirror, not a trust anchor.
+pub const PACKS_URL: &str = "https://circuits.zk-eid.dev";
 #[cfg(feature = "http")]
 pub use noir_zk_backend::HttpStore;
 
@@ -37,6 +43,29 @@ pub use noir_zk_backend::HttpStore;
 #[allow(missing_docs, clippy::all)]
 pub mod circuits {
     include!(concat!(env!("OUT_DIR"), "/circuits.rs"));
+}
+
+/// Circuits compiled and embedded at build time (feature `bundled`).
+#[cfg(feature = "bundled")]
+pub mod bundled {
+    use noir_zk_backend::ArtifactStore;
+    use noir_zk_core::Error;
+
+    include!(concat!(env!("OUT_DIR"), "/bundled.rs"));
+
+    /// The embedded assets as a store; [`artifacts`](crate::artifacts)
+    /// still checks each against its pin.
+    pub struct BundledStore;
+
+    impl ArtifactStore for BundledStore {
+        fn fetch(&self, asset: &str) -> Result<Vec<u8>, Error> {
+            ASSETS
+                .iter()
+                .find(|(name, _)| *name == asset)
+                .map(|(_, bytes)| bytes.to_vec())
+                .ok_or_else(|| Error::Artifact(format!("{asset} is not bundled")))
+        }
+    }
 }
 
 /// The frozen circuits with bytecode from `store`, for [`prove_document`].
@@ -51,6 +80,18 @@ pub fn vk_tree_root() -> Field {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Every bundled asset passes the pin check (feature `bundled`).
+    #[cfg(feature = "bundled")]
+    #[test]
+    fn bundled_assets_match_their_pins() {
+        use noir_zk_core::Artifacts;
+        let frozen = artifacts(bundled::BundledStore).unwrap();
+        for (asset, _) in bundled::ASSETS {
+            let label = asset.split('@').next().unwrap();
+            assert!(frozen.bytecode_b64(label).is_ok(), "{asset}");
+        }
+    }
     use noir_zk_core::registry::{active, Status};
     use noir_zk_core::{ChonkRole, Circuit, CircuitId, ProofSystem};
 

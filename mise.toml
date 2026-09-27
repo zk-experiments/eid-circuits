@@ -2,6 +2,10 @@
 # `mise run install:zk-toolchain` installs nargo and bb; every task documents
 # the raw command for non-mise users.
 
+[tools]
+# S3 client for uploads to the circuits R2 bucket (packs:publish-r2).
+aws-cli = "2"
+
 [env]
 # The Noir release every package is compiled and tested with.
 NOIR_VERSION = "1.0.0-rc.3"
@@ -52,6 +56,10 @@ curl -fsSL "https://github.com/AztecProtocol/barretenberg/releases/download/v$BB
 description = "Install nargo + bb at the pinned versions"
 depends = ["install:noir", "install:bb"]
 
+[tasks."compile"]
+description = "Compile every Noir package of the workspace into target/ (over an hour)"
+run = '"$NARGO" compile --workspace --silence-warnings'
+
 [tasks."vk-tree"]
 description = "Refresh noir/circuits/vk-tree.json (run after circuit-sizes; bb write_vk only for changed bytecode)"
 run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
@@ -60,17 +68,16 @@ run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
 
-# The noir-zk CLI at the rev rust/Cargo.toml pins (one source of truth), in
+# The noir-zk CLI at the version rust/Cargo.toml pins (one source of truth), in
 # its own toolchain directory.
 [tasks."install:noir-zk"]
-description = "Install the noir-zk CLI at the rev rust/Cargo.toml pins"
+description = "Install the noir-zk CLI from crates.io at the version rust/Cargo.toml pins"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-rev="$(sed -n 's/.*noir-zk", rev = "\([0-9a-f]*\)".*/\1/p' rust/Cargo.toml | head -1)"
-root="$HOME/.toolchains/noir-zk-$rev"
-[ -x "$root/bin/noir-zk" ] || \
-  cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
+version="$(sed -nE 's/^noir-zk-core = "=([^"]+)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$version"
+[ -x "$root/bin/noir-zk" ] || cargo install --locked noir-zk-cli --version "=$version" --root "$root"
 ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''
 
@@ -79,19 +86,72 @@ description = "Freeze changed circuits into rust/eid-circuits (after vk-tree; ad
 depends = ["install:noir-zk"]
 run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets --exclude bench_"
 
-[tasks."assets:publish"]
-description = "Upload new target/release-assets/*.b64 to the circuits release (existing assets are kept)"
+# Circuit packs: `common` and one per key family (rust/eid-circuits/circuits/
+# packs.toml), each a self-contained <pack>@<version>.tar.gz (bytecode, keys,
+# ABIs, key tree, manifest entries), plus catalog@<version>.json (the index)
+# and vk-tree@<version>.json. The version is the release's (rust/Cargo.toml),
+# so run these on a release tag; CI does on every release. The circuits bucket
+# serves them at https://circuits.zk-eid.dev/.
+[tasks."packs"]
+description = "Build target/packs: every circuit pack and the key tree, for this release's version"
+depends = ["install:noir-zk"]
 shell = "bash -c"
 run = '''
 set -euo pipefail
-release=circuits
-gh release view "$release" >/dev/null 2>&1 \
-  || gh release create "$release" --title "Frozen circuit bytecode" --notes "Bytecode assets, checked against rust/eid-circuits/circuits/manifest.toml."
-have="$(gh release view "$release" --json assets -q '.assets[].name')"
-for f in target/release-assets/*.b64; do
-  name="$(basename "$f")"
-  grep -qxF "$name" <<<"$have" || gh release upload "$release" "$f"
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
+rm -rf target/packs
+"$HOME/.toolchains/noir-zk-current" pack --out rust/eid-circuits --assets target/release-assets \
+  --packs rust/eid-circuits/circuits/packs.toml --dest target/packs --version "$version"
+cp rust/eid-circuits/resources/vk-tree.json "target/packs/vk-tree@$version.json"
+'''
+
+[tasks."packs:publish"]
+description = "Upload target/packs to this version's GitHub release (v<version>)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
+have="$(gh release view "v$version" --json assets -q '.assets[].name')"
+for f in target/packs/*; do
+  grep -qxF "$(basename "$f")" <<<"$have" || gh release upload "v$version" "$f"
 done
+'''
+
+[tasks."packs:publish-r2"]
+description = "Upload target/packs to the circuits R2 bucket (R2_CIRCUITS_BUCKET, R2_CIRCUITS_TOKEN, R2_ACCOUNT_ID)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+: "${R2_CIRCUITS_BUCKET:?set R2_CIRCUITS_BUCKET}" "${R2_CIRCUITS_TOKEN:?set R2_CIRCUITS_TOKEN}" "${R2_ACCOUNT_ID:?set R2_ACCOUNT_ID}"
+# The token is scoped to the circuits bucket, which only R2's S3 API honours:
+# its S3 credentials are the token's id and the SHA-256 of its value
+# (Cloudflare's documented derivation).
+id=""
+for url in "https://api.cloudflare.com/client/v4/accounts/$R2_ACCOUNT_ID/tokens/verify" \
+           "https://api.cloudflare.com/client/v4/user/tokens/verify"; do
+  id="$(curl -fsS -H "Authorization: Bearer $R2_CIRCUITS_TOKEN" "$url" | jq -r '.result.id // empty' || true)"
+  [ -n "$id" ] && break
+done
+[ -n "$id" ] || { echo "R2_CIRCUITS_TOKEN doesn't verify with Cloudflare" >&2; exit 1; }
+export AWS_ACCESS_KEY_ID="$id"
+AWS_SECRET_ACCESS_KEY="$(printf '%s' "$R2_CIRCUITS_TOKEN" | shasum -a 256 | cut -d' ' -f1)"
+export AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION=auto
+export AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
+endpoint="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
+put() {
+  aws s3 cp "$1" "s3://$R2_CIRCUITS_BUCKET/$2" --endpoint-url "$endpoint" --only-show-errors \
+    --content-type "$3" --cache-control "$4"
+}
+# Versioned files never change; catalog.json (the latest release's catalog)
+# goes last, so it only ever lists files already uploaded.
+for f in target/packs/*; do
+  case "$f" in
+    *.tar.gz) put "$f" "$(basename "$f")" application/gzip "public, max-age=31536000, immutable" ;;
+    *) put "$f" "$(basename "$f")" application/json "public, max-age=31536000, immutable" ;;
+  esac
+done
+put "target/packs/catalog@$version.json" catalog.json application/json "public, max-age=300"
 '''
 
 [tasks."test:prove"]

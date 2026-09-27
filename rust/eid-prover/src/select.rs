@@ -31,6 +31,11 @@ pub struct Selection {
     pub envelope: String,
     /// Whether any step hashes with SHA-1 (verifiers may refuse these).
     pub uses_sha1: bool,
+    /// Circuit packs holding these circuits: `common` (envelope, kernels),
+    /// the CSCA key's family (DSC step) and the DSC key's (SOD step). Fetch
+    /// these rather than single circuits, so the host learns only key
+    /// families.
+    pub packs: Vec<String>,
 }
 
 /// OID of a registry curve id (the curves the circuits support).
@@ -164,5 +169,10 @@ pub fn select(reg: &Registry, ef_sod: &[u8], dg1: &[u8], at: i64) -> Result<Sele
         sod: b.step_package("sod", t),
         envelope: envelope_package(sod.digest, dg_hash, e),
         uses_sha1: hashes.contains(&Hash::Sha1),
+        packs: {
+            let mut p = vec!["common".to_string(), a.family(), b.family()];
+            p.dedup();
+            p
+        },
     })
 }

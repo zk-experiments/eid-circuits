@@ -209,6 +209,16 @@ impl Config {
         format!("noir/circuits/{step}/{g}/{v}/tbs_{t}")
     }
 
+    /// The signing key's family (RSA size or EC curve), e.g. `rsa4096`,
+    /// `bp256`: the name of the circuit pack holding this configuration's
+    /// DSC and SOD circuits.
+    pub fn family(self) -> String {
+        match self {
+            Config::Pkcs1 { bits, .. } | Config::Pss { bits, .. } => format!("rsa{bits}"),
+            Config::Ecdsa { curve, .. } => curve.to_string(),
+        }
+    }
+
     /// The configuration's hash.
     pub fn hash(self) -> Hash {
         match self {

@@ -23,15 +23,16 @@ sha1 = "0.10"
 rsa = "0.9"
 rand_chacha = "0.3"
 serde_json = "1.0"
+toml = "0.9"
 # Envelope encryption (Grumpkin KEM + Poseidon2 duplex), shared with the circuits.
 eid-envelope = { path = "eid-envelope" }
 eid-prover = { path = "eid-prover" }
 pso-poseidon = "0.5"
 # Proving: generated bindings (codegen), witness solving and Chonk (backend).
-# The rev pins Noir and bb together (noir-zk's mise.toml).
-noir-zk-core = { git = "https://github.com/zk-experiments/noir-zk", rev = "7304502da22e81944e51a8bfb5e11237dae800c8" }
-noir-zk-backend = { git = "https://github.com/zk-experiments/noir-zk", rev = "7304502da22e81944e51a8bfb5e11237dae800c8" }
-noir-zk-codegen = { git = "https://github.com/zk-experiments/noir-zk", rev = "7304502da22e81944e51a8bfb5e11237dae800c8" }
+# The version pins Noir and bb together (noir-zk's mise.toml).
+noir-zk-core = "=0.2.1"
+noir-zk-backend = "=0.2.1"
+noir-zk-codegen = "=0.2.1"
 ark-bn254 = "0.6"
 ark-ec = "0.6"
 ark-ff = "0.6"
