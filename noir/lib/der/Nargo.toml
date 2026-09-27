@@ -1,0 +1,7 @@
+[package]
+name = "eid_der"
+type = "lib"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]

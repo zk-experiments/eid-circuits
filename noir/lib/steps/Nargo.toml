@@ -1,0 +1,12 @@
+[package]
+name = "eid_steps"
+type = "lib"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+csca_registry = { tag = "v0.3.0", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }
+eid_der = { path = "../der" }
+eid_envelope = { path = "../envelope" }
+# Only the tests hash; circuits hash in their generated binaries.
+eid_hash = { path = "../hash" }

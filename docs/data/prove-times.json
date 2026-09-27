@@ -1,0 +1,381 @@
+{
+  "machine": "Apple M5 Max, 18 cores (6 performance + 12 efficiency), 48 GB",
+  "bb": "5.0.0-nightly.20260522",
+  "nargo": "1.0.0-beta.22",
+  "target": "noir-recursive",
+  "date": "2026-09-27",
+  "runs": [
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha1_tbs1200",
+      "threads": 18,
+      "seconds": 0.93,
+      "peak_bytes": 746636392
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha1_tbs1200",
+      "threads": 4,
+      "seconds": 1.78,
+      "peak_bytes": 739722320
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha1_tbs700",
+      "threads": 18,
+      "seconds": 0.57,
+      "peak_bytes": 434111304
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha1_tbs700",
+      "threads": 4,
+      "seconds": 1.05,
+      "peak_bytes": 427737928
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.62,
+      "peak_bytes": 462062384
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 1.16,
+      "peak_bytes": 455394096
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_3072_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.52,
+      "peak_bytes": 378962760
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_3072_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 0.95,
+      "peak_bytes": 372540184
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.46,
+      "peak_bytes": 279413504
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 0.8,
+      "peak_bytes": 274334464
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_6144_sha256_tbs1600",
+      "threads": 18,
+      "seconds": 0.98,
+      "peak_bytes": 745079888
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_6144_sha256_tbs1600",
+      "threads": 4,
+      "seconds": 1.92,
+      "peak_bytes": 737215568
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha384_tbs1200",
+      "threads": 18,
+      "seconds": 1.13,
+      "peak_bytes": 941327632
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha384_tbs1200",
+      "threads": 4,
+      "seconds": 2.2,
+      "peak_bytes": 928580856
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_3072_sha384_tbs1000",
+      "threads": 18,
+      "seconds": 0.91,
+      "peak_bytes": 697254992
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_3072_sha384_tbs1000",
+      "threads": 4,
+      "seconds": 1.73,
+      "peak_bytes": 688653368
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha512_tbs1600",
+      "threads": 18,
+      "seconds": 1.38,
+      "peak_bytes": 1057457640
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_4096_sha512_tbs1600",
+      "threads": 4,
+      "seconds": 2.65,
+      "peak_bytes": 1045513680
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha512_tbs1600",
+      "threads": 18,
+      "seconds": 1.2,
+      "peak_bytes": 1031750976
+    },
+    {
+      "package": "dsc_rsa_pkcs1v15_2048_sha512_tbs1600",
+      "threads": 4,
+      "seconds": 2.29,
+      "peak_bytes": 1016071464
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha256_s20_tbs1000",
+      "threads": 18,
+      "seconds": 0.84,
+      "peak_bytes": 653165624
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha256_s20_tbs1000",
+      "threads": 4,
+      "seconds": 1.58,
+      "peak_bytes": 645022728
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha256_s32_tbs1200",
+      "threads": 18,
+      "seconds": 0.88,
+      "peak_bytes": 681460792
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha256_s32_tbs1200",
+      "threads": 4,
+      "seconds": 1.65,
+      "peak_bytes": 675775520
+    },
+    {
+      "package": "dsc_rsa_pss_3072_sha256_s32_tbs1200",
+      "threads": 18,
+      "seconds": 0.73,
+      "peak_bytes": 467157856
+    },
+    {
+      "package": "dsc_rsa_pss_3072_sha256_s32_tbs1200",
+      "threads": 4,
+      "seconds": 1.33,
+      "peak_bytes": 459572016
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha384_s48_tbs1600",
+      "threads": 18,
+      "seconds": 2.21,
+      "peak_bytes": 1906608240
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha384_s48_tbs1600",
+      "threads": 4,
+      "seconds": 4.13,
+      "peak_bytes": 1883441216
+    },
+    {
+      "package": "dsc_rsa_pss_3072_sha384_s48_tbs1200",
+      "threads": 18,
+      "seconds": 1.69,
+      "peak_bytes": 1444775640
+    },
+    {
+      "package": "dsc_rsa_pss_3072_sha384_s48_tbs1200",
+      "threads": 4,
+      "seconds": 3.19,
+      "peak_bytes": 1438516928
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha512_s20_tbs1600",
+      "threads": 18,
+      "seconds": 1.99,
+      "peak_bytes": 1707411400
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha512_s20_tbs1600",
+      "threads": 4,
+      "seconds": 3.79,
+      "peak_bytes": 1690224536
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha512_s64_tbs1600",
+      "threads": 18,
+      "seconds": 2.06,
+      "peak_bytes": 1730873264
+    },
+    {
+      "package": "dsc_rsa_pss_4096_sha512_s64_tbs1600",
+      "threads": 4,
+      "seconds": 4.0,
+      "peak_bytes": 1709705088
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha1_tbs700",
+      "threads": 18,
+      "seconds": 0.83,
+      "peak_bytes": 519488400
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha1_tbs700",
+      "threads": 4,
+      "seconds": 1.36,
+      "peak_bytes": 510903184
+    },
+    {
+      "package": "dsc_ecdsa_p256_sha1_tbs1000",
+      "threads": 18,
+      "seconds": 0.91,
+      "peak_bytes": 704365768
+    },
+    {
+      "package": "dsc_ecdsa_p256_sha1_tbs1000",
+      "threads": 4,
+      "seconds": 1.61,
+      "peak_bytes": 695485592
+    },
+    {
+      "package": "dsc_ecdsa_p256_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.64,
+      "peak_bytes": 441402232
+    },
+    {
+      "package": "dsc_ecdsa_p256_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 1.11,
+      "peak_bytes": 434176864
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.94,
+      "peak_bytes": 713802952
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 1.7,
+      "peak_bytes": 704103576
+    },
+    {
+      "package": "dsc_ecdsa_p521_sha256_tbs1200",
+      "threads": 18,
+      "seconds": 1.52,
+      "peak_bytes": 1037960584
+    },
+    {
+      "package": "dsc_ecdsa_p521_sha256_tbs1200",
+      "threads": 4,
+      "seconds": 2.67,
+      "peak_bytes": 1023493512
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.63,
+      "peak_bytes": 441140088
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 1.11,
+      "peak_bytes": 433783648
+    },
+    {
+      "package": "dsc_ecdsa_bp384_sha256_tbs1000",
+      "threads": 18,
+      "seconds": 0.95,
+      "peak_bytes": 714228912
+    },
+    {
+      "package": "dsc_ecdsa_bp384_sha256_tbs1000",
+      "threads": 4,
+      "seconds": 1.69,
+      "peak_bytes": 704021656
+    },
+    {
+      "package": "dsc_ecdsa_bp512_sha256_tbs1600",
+      "threads": 18,
+      "seconds": 1.68,
+      "peak_bytes": 1092863392
+    },
+    {
+      "package": "dsc_ecdsa_bp512_sha256_tbs1600",
+      "threads": 4,
+      "seconds": 2.98,
+      "peak_bytes": 1077806472
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha384_tbs1200",
+      "threads": 18,
+      "seconds": 1.67,
+      "peak_bytes": 1196476024
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha384_tbs1200",
+      "threads": 4,
+      "seconds": 3.01,
+      "peak_bytes": 1180452472
+    },
+    {
+      "package": "dsc_ecdsa_bp384_sha384_tbs1200",
+      "threads": 18,
+      "seconds": 1.69,
+      "peak_bytes": 1197082232
+    },
+    {
+      "package": "dsc_ecdsa_bp384_sha384_tbs1200",
+      "threads": 4,
+      "seconds": 3.14,
+      "peak_bytes": 1188890232
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha512_tbs700",
+      "threads": 18,
+      "seconds": 1.42,
+      "peak_bytes": 835372376
+    },
+    {
+      "package": "dsc_ecdsa_p384_sha512_tbs700",
+      "threads": 4,
+      "seconds": 2.54,
+      "peak_bytes": 836453696
+    },
+    {
+      "package": "dsc_ecdsa_p521_sha512_tbs700",
+      "threads": 18,
+      "seconds": 2.15,
+      "peak_bytes": 1308018416
+    },
+    {
+      "package": "dsc_ecdsa_p521_sha512_tbs700",
+      "threads": 4,
+      "seconds": 4.66,
+      "peak_bytes": 1303316184
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha512_tbs1000",
+      "threads": 18,
+      "seconds": 1.14,
+      "peak_bytes": 793756848
+    },
+    {
+      "package": "dsc_ecdsa_bp256_sha512_tbs1000",
+      "threads": 4,
+      "seconds": 2.16,
+      "peak_bytes": 786367664
+    },
+    {
+      "package": "dsc_ecdsa_bp512_sha512_tbs1200",
+      "threads": 18,
+      "seconds": 2.37,
+      "peak_bytes": 1658570672
+    },
+    {
+      "package": "dsc_ecdsa_bp512_sha512_tbs1200",
+      "threads": 4,
+      "seconds": 3.7,
+      "peak_bytes": 1639942064
+    }
+  ]
+}

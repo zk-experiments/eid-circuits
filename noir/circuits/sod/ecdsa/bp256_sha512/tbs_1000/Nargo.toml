@@ -1,0 +1,12 @@
+[package]
+name = "sod_ecdsa_bp256_sha512_tbs1000"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_der = { path = "../../../../../lib/der" }
+eid_ecdsa = { path = "../../../../../lib/ecdsa" }
+eid_hash = { path = "../../../../../lib/hash" }
+eid_steps = { path = "../../../../../lib/steps" }
+csca_registry = { tag = "v0.3.0", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }

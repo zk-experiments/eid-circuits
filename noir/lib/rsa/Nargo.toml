@@ -1,0 +1,9 @@
+[package]
+name = "eid_rsa"
+type = "lib"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+bignum = { tag = "v0.10.0", git = "https://github.com/noir-lang/noir-bignum" }
+eid_hash = { path = "../hash" }
