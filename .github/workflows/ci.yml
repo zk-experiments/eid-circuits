@@ -157,7 +157,7 @@ jobs:
       - name: Generated Noir files are current
         run: |
           set -euo pipefail
-          for what in rsa ecdsa curves der steps envelope documents circuits costs; do
+          for what in rsa ecdsa curves der steps envelope documents circuits costs packs; do
             cargo run -q -p eid-vectors -- "$what" --check
           done
 

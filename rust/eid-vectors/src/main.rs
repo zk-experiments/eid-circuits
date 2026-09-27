@@ -13,6 +13,7 @@
 //! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
 //! eid-vectors samples                                                     # print packages that have a Prover.toml
 //! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
+//! eid-vectors packs [--check]                                             # per-country circuit packs
 //! eid-vectors curves [--check]                                            # vendored noir_bigcurve curves/eid_*.nr
 //! ```
 //!
@@ -27,6 +28,7 @@ mod documents;
 mod ec;
 mod envelope;
 mod mock;
+mod packs;
 mod steps;
 mod vktree;
 
@@ -154,6 +156,12 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
+    /// Generate rust/eid-circuits/circuits/packs.toml (per-country circuit packs)
+    Packs {
+        /// Fail instead of writing when the file is stale
+        #[arg(long)]
+        check: bool,
+    },
     /// Print the packages that have a Prover.toml (executed in CI)
     Samples,
     /// Generate the vendored noir_bigcurve curves/eid_*.nr (fields and curve parameters)
@@ -249,6 +257,11 @@ fn main() -> Result<()> {
         Command::Costs { check } => {
             write_or_check(&root().join("docs/COSTS.md"), &costs::report()?, check)
         }
+        Command::Packs { check } => write_or_check(
+            &root().join("rust/eid-circuits/circuits/packs.toml"),
+            &packs::report()?,
+            check,
+        ),
         Command::Samples => {
             use std::io::Write as _;
             let mut stdout = std::io::stdout().lock();
@@ -662,6 +675,12 @@ mod tests {
         write_or_check(
             &root().join("docs/COSTS.md"),
             &costs::report().unwrap(),
+            true,
+        )
+        .unwrap();
+        write_or_check(
+            &root().join("rust/eid-circuits/circuits/packs.toml"),
+            &packs::report().unwrap(),
             true,
         )
         .unwrap();
