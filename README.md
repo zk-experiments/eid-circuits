@@ -31,7 +31,7 @@ All circuit code here is written for this repository and grouped by signature ty
 All tooling is pinned and installed by [mise](https://mise.jdx.dev), so start there:
 
 1. Install mise: `curl https://mise.run | sh` (or `brew install mise`), then activate it in your shell (`mise activate`, see its docs).
-2. In this repository, trust its config and install the tools: `mise trust && mise install` (aws-cli for R2 uploads).
+2. In this repository, trust its config and install the tools: `mise trust && mise install` (Node and wrangler, for R2 uploads).
 3. Install the zero-knowledge toolchain: `mise run install:zk-toolchain install:noir-zk`. This installs nargo and bb at the pinned versions into `~/.toolchains/<tool>-<version>`, not `~/.nargo` or `~/.bb`, and the noir-zk CLI at the version `rust/Cargo.toml` pins.
 
 `mise env` sets `NARGO` and `BB` to the pinned binaries. Every task below documents its raw command in `mise.toml`.
@@ -73,12 +73,18 @@ Instead of downloading packs, a build can compile circuits into the binary. With
 EID_CIRCUITS_BUNDLE=common,rsa4096 mise exec -- cargo build --release -p eid-circuits --features bundled
 ```
 
-On a release tag:
+Every release publishes them, from CI: it compiles every circuit from the tagged source, fails unless each matches its pin, builds the packs and uploads them to the GitHub release and to `https://circuits.zk-eid.dev` (`eid_circuits::PACKS_URL`):
+
+- `catalog.json`: the latest release's catalog (cached for 5 minutes), the index a client reads first: each pack's file, SHA-256, size and circuits, the country map, the toolchain and the key tree root;
+- `catalog@<version>.json`, `<pack>@<version>.tar.gz`, `vk-tree@<version>.json`: immutable.
+
+A client reads `catalog.json`, downloads the packs `Selection::packs` names, checks each archive's SHA-256 against the catalog, unpacks it, and checks the files against the pins compiled into this crate: `noir_zk_backend::frozen::verify_dir(eid_circuits::circuits::REGISTRY, dir)` (every circuit's `BYTECODE_SHA256` and `VK_SHA256`, also listed per version in `circuits/manifest.toml`). The catalog and the hosts are only for finding files; the crate is what a client trusts. Each release's notes list its packs with their links and SHA-256. By hand, on a release tag:
 
 ```sh
-mise run packs                  # target/packs: every pack and vk-tree@<version>.json
+mise run compile && mise run freeze -- --check && mise run freeze   # bytecode from source, checked against the pins
+mise run packs                  # target/packs: every pack, the catalog and vk-tree@<version>.json
 mise run packs:publish          # upload them to the GitHub release v<version>
-mise run packs:publish-r2       # and to R2 (R2_BUCKET, R2_ENDPOINT, AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)
+mise run packs:publish-r2       # and to the circuits R2 bucket (R2_CIRCUITS_BUCKET, R2_CIRCUITS_TOKEN, R2_ACCOUNT_ID)
 ```
 
 ```rust

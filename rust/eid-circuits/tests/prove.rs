@@ -41,6 +41,10 @@ fn proves_and_verifies_every_chain() {
         return;
     };
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
+    // Downloaded files match the pins compiled into the crate.
+    let checked =
+        noir_zk_backend::frozen::verify_dir(eid_circuits::circuits::REGISTRY, &assets).unwrap();
+    assert!(checked > 0);
     let frozen = artifacts(DirStore(assets.clone())).unwrap();
     let chains: serde_json::Value = serde_json::from_str(
         &std::fs::read_to_string(root.join("noir/circuits/chains.json")).unwrap(),
