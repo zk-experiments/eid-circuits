@@ -130,12 +130,6 @@ jobs:
         with:
           components: rustfmt, clippy
           rust-src-dir: rust
-      # noir-zk is private: fetch it with a token (repository secret
-      # NOIR_ZK_TOKEN, contents: read on zk-experiments/noir-zk).
-      - name: Access noir-zk
-        env:
-          TOKEN: ${{ secrets.NOIR_ZK_TOKEN }}
-        run: git config --global url."https://x-access-token:${TOKEN}@github.com/zk-experiments/noir-zk".insteadOf https://github.com/zk-experiments/noir-zk
       # noir-zk-backend links bb's static library against libc++.
       - name: Install libc++
         run: sudo apt-get update -q && sudo apt-get install -yq libc++-dev libc++abi-dev
@@ -307,12 +301,6 @@ jobs:
         with:
           components: llvm-tools-preview
           rust-src-dir: rust
-      # noir-zk is private: fetch it with a token (repository secret
-      # NOIR_ZK_TOKEN, contents: read on zk-experiments/noir-zk).
-      - name: Access noir-zk
-        env:
-          TOKEN: ${{ secrets.NOIR_ZK_TOKEN }}
-        run: git config --global url."https://x-access-token:${TOKEN}@github.com/zk-experiments/noir-zk".insteadOf https://github.com/zk-experiments/noir-zk
       # noir-zk-backend links bb's static library against libc++.
       - name: Install libc++
         run: sudo apt-get update -q && sudo apt-get install -yq libc++-dev libc++abi-dev
@@ -359,12 +347,6 @@ jobs:
         working-directory: rust
     steps:
       - uses: actions/checkout@v5
-      # noir-zk is private: fetch it with a token (repository secret
-      # NOIR_ZK_TOKEN, contents: read on zk-experiments/noir-zk).
-      - name: Access noir-zk
-        env:
-          TOKEN: ${{ secrets.NOIR_ZK_TOKEN }}
-        run: git config --global url."https://x-access-token:${TOKEN}@github.com/zk-experiments/noir-zk".insteadOf https://github.com/zk-experiments/noir-zk
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-deny,cargo-audit
@@ -414,12 +396,6 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-src-dir: rust
-      # noir-zk is private: fetch it with a token (repository secret
-      # NOIR_ZK_TOKEN, contents: read on zk-experiments/noir-zk).
-      - name: Access noir-zk
-        env:
-          TOKEN: ${{ secrets.NOIR_ZK_TOKEN }}
-        run: git config --global url."https://x-access-token:${TOKEN}@github.com/zk-experiments/noir-zk".insteadOf https://github.com/zk-experiments/noir-zk
       - name: Configure git identity
         run: |
           git config user.name "github-actions[bot]"

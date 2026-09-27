@@ -65,6 +65,6 @@ let public = verify::<KernelHiding>(&proof, eid_circuits::vk_tree_root())?;   //
 
 Each step is wrapped with the kernel that folds it, and the chain is checked at compile time. `KernelDsc::select` dispatches the runtime-selected label statically to its generated circuit type and rejects labels that aren't DSC apps. `KernelDsc::wrap::<C>(&inputs)` does the same for a circuit known at compile time.
 
-noir-zk is a private git dependency: locally, git needs credentials for https://github.com/zk-experiments/noir-zk. CI reads it with the `NOIR_ZK_TOKEN` secret. On Linux, bb's static library needs libc++ (`libc++-dev libc++abi-dev`).
+On Linux, bb's static library needs libc++ (`libc++-dev libc++abi-dev`).
 
 Generated files (Noir vectors, curves, circuits, root `Nargo.toml`, `docs/COSTS.md`) come from `rust/eid-vectors`; see its `--help`. Per-country proving cost estimates for mobile are in [docs/COSTS.md](docs/COSTS.md).

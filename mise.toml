@@ -69,7 +69,7 @@ run = '''
 set -euo pipefail
 rev="$(sed -n 's/.*noir-zk", rev = "\([0-9a-f]*\)".*/\1/p' rust/Cargo.toml | head -1)"
 root="$HOME/.toolchains/noir-zk-$rev"
-[ -x "$root/bin/noir-zk" ] || CARGO_NET_GIT_FETCH_WITH_CLI=true \
+[ -x "$root/bin/noir-zk" ] || \
   cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
 ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''

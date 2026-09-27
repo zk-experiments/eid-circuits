@@ -1,4 +1,0 @@
-# noir-zk is a private git dependency: fetch with git so its credentials
-# (a credential helper locally, a token in CI) apply.
-[net]
-git-fetch-with-cli = true
