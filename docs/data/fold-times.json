@@ -1,72 +1,72 @@
 {
   "machine": "Apple M5 Max (18 cores), macOS",
-  "bb": "5.0.0-nightly.20260522",
-  "nargo": "1.0.0-beta.22",
+  "bb": "7.0.0-nightly.20260927",
+  "nargo": "1.0.0-rc.3",
   "date": "2026-09-27",
   "runs": [
     {
       "chain": "rsa4096_csca_p256_dsc",
       "threads": 18,
-      "seconds": 2.03,
-      "peak_bytes": 492815224,
-      "total_gates": 535592,
-      "max_gates": 181288
+      "seconds": 1.51,
+      "peak_bytes": 504890232,
+      "total_gates": 507021,
+      "max_gates": 179182
     },
     {
       "chain": "rsa4096_csca_p256_dsc",
       "threads": 4,
-      "seconds": 3.75,
-      "peak_bytes": 485819208,
-      "total_gates": 535592,
-      "max_gates": 181288
+      "seconds": 2.68,
+      "peak_bytes": 500351840,
+      "total_gates": 507021,
+      "max_gates": 179182
     },
     {
       "chain": "bp512_csca_bp256_dsc",
       "threads": 18,
-      "seconds": 3.07,
-      "peak_bytes": 1327122184,
-      "total_gates": 939774,
-      "max_gates": 560310
+      "seconds": 2.27,
+      "peak_bytes": 1328400040,
+      "total_gates": 834875,
+      "max_gates": 495409
     },
     {
       "chain": "bp512_csca_bp256_dsc",
       "threads": 4,
-      "seconds": 5.75,
-      "peak_bytes": 1313916680,
-      "total_gates": 939774,
-      "max_gates": 560310
+      "seconds": 4.05,
+      "peak_bytes": 1330874000,
+      "total_gates": 834875,
+      "max_gates": 495409
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
       "threads": 18,
-      "seconds": 2.15,
-      "peak_bytes": 592544656,
-      "total_gates": 670461,
-      "max_gates": 257728
+      "seconds": 1.59,
+      "peak_bytes": 733758496,
+      "total_gates": 593604,
+      "max_gates": 255280
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
       "threads": 4,
-      "seconds": 4.14,
-      "peak_bytes": 588071800,
-      "total_gates": 670461,
-      "max_gates": 257728
+      "seconds": 2.9,
+      "peak_bytes": 729400328,
+      "total_gates": 593604,
+      "max_gates": 255280
     },
     {
       "chain": "p521_csca_pss_dsc",
       "threads": 18,
-      "seconds": 3.52,
-      "peak_bytes": 1457276776,
-      "total_gates": 1324176,
-      "max_gates": 569848
+      "seconds": 2.59,
+      "peak_bytes": 1383335640,
+      "total_gates": 1067068,
+      "max_gates": 504897
     },
     {
       "chain": "p521_csca_pss_dsc",
       "threads": 4,
-      "seconds": 6.71,
-      "peak_bytes": 1440876368,
-      "total_gates": 1324176,
-      "max_gates": 569848
+      "seconds": 4.64,
+      "peak_bytes": 1386677952,
+      "total_gates": 1067068,
+      "max_gates": 504897
     }
   ]
 }

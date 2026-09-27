@@ -24,16 +24,47 @@ All circuit code here is written for this repository and grouped by signature ty
 | `rust/eid-vectors` | test-vector generator (real certificates from master lists, synthetic documents) | done |
 | `rust/eid-envelope` | envelope encryption for provers (`seal`) and viewers (`open`) | done |
 | `rust/eid-prover` | from the NFC read (EF.SOD, DG1): circuit selection, native pre-checks, and the inputs of all three steps | done |
+| `rust/eid-circuits` | the frozen circuits as typed bindings for [noir-zk](https://github.com/zk-experiments/noir-zk)'s backend (generated `Inputs` / `Outputs`, `App` / `Kernel`, static label dispatch) | done |
 
 ## Build and test
 
 ```sh
-nargo test                     # every Noir package in the workspace (nargo 1.0.0-beta.22)
+mise run install:zk-toolchain  # nargo and bb at the pinned versions, into ~/.toolchains/<tool>-<version> (not ~/.nargo, ~/.bb)
+"$NARGO" test                  # every Noir package in the workspace (nargo from mise.toml; `mise env` sets NARGO and BB)
 cd rust && cargo test          # Rust tools, incl. the check that generated files are current
 mise run circuit-sizes         # refresh docs/data/circuit-sizes.json (CI checks it for the samples)
 mise run vk-tree               # refresh the verification key tree the kernels check (noir/circuits/vk-tree.json)
 scripts/fold.py                # execute the synthetic documents through the folding kernels (CI does this)
 scripts/fold.py --prove --threads 4,18 --record docs/data/fold-times.json --machine "<machine>"   # Chonk proofs, timed
 ```
+
+## Proving from Rust
+
+`rust/eid-circuits` holds the frozen circuits as bindings for noir-zk's backend (ACVM witness solving and Chonk folding over the bb FFI, no `nargo` or `bb` binaries). Its circuits are frozen with the noir-zk CLI. Keys, ABIs and the key tree are committed under `rust/eid-circuits`. The bytecode (about 730 MB) goes to the `circuits` release as `<label>@<version>.b64`, and every asset is checked against its pinned SHA-256 before use.
+
+```sh
+mise run freeze                 # after vk-tree: mint versions for changed circuits (-- --abi-change for ABI changes)
+mise run freeze -- --check      # fail if rust/eid-circuits is behind target/
+mise run assets:publish         # upload new bytecode assets
+mise run test:prove             # prove and verify every chain with the frozen registry
+```
+
+```rust
+use eid_circuits::circuits::{kernel_dsc::KernelDsc, kernel_envelope::KernelEnvelope, kernel_hiding::KernelHiding, kernel_sod::KernelSod, kernel_tail::KernelTail};
+use noir_zk_backend::fold::{verify, Folding};
+
+let w = eid_prover::witnesses(&registry, ef_sod, dg1, &params)?;   // selected labels + Prover.toml per step
+let (proof, public) = Folding::new(&eid_circuits::artifacts(DirStore(assets))?)
+    .app(KernelDsc::select(&w.selection.dsc, &w.dsc)?)?
+    .app(KernelSod::select(&w.selection.sod, &w.sod)?)?
+    .app(KernelEnvelope::select(&w.selection.envelope, &w.envelope)?)?
+    .kernel::<KernelTail>()?
+    .hiding::<KernelHiding>()?;
+let public = verify::<KernelHiding>(&proof, eid_circuits::vk_tree_root())?;   // kernel_hiding::Outputs
+```
+
+Each step is wrapped with the kernel that folds it, and the chain is checked at compile time. `KernelDsc::select` dispatches the runtime-selected label statically to its generated circuit type and rejects labels that aren't DSC apps. `KernelDsc::wrap::<C>(&inputs)` does the same for a circuit known at compile time.
+
+On Linux, bb's static library needs libc++ (`libc++-dev libc++abi-dev`).
 
 Generated files (Noir vectors, curves, circuits, root `Nargo.toml`, `docs/COSTS.md`) come from `rust/eid-vectors`; see its `--help`. Per-country proving cost estimates for mobile are in [docs/COSTS.md](docs/COSTS.md).

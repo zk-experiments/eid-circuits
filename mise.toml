@@ -4,26 +4,48 @@
 
 [env]
 # The Noir release every package is compiled and tested with.
-NOIR_VERSION = "1.0.0-beta.22"
-# Barretenberg used for gate counts (`bb gates`); same pin as pso-zk-circuits.
-BB_VERSION = "5.0.0-nightly.20260522"
+NOIR_VERSION = "1.0.0-rc.3"
+# Barretenberg for gates, verification keys and Chonk proofs: the nightly
+# built on exactly NOIR_VERSION's commit (bbup has no mapping past beta.22).
+# A bb bump changes every verification key and the proof format: proofs of
+# one version don't verify with another (docs/FOLDING.md).
+BB_VERSION = "7.0.0-nightly.20260927"
+# Per-version toolchain directories, so this repository never replaces the
+# nargo or bb that other projects use from ~/.nargo and ~/.bb.
+NARGO_HOME = "{{env.HOME}}/.toolchains/noir-{{env.NOIR_VERSION}}"
+BB_PATH = "{{env.HOME}}/.toolchains/bb-{{env.BB_VERSION}}"
+NARGO = "{{env.NARGO_HOME}}/bin/nargo"
+BB = "{{env.BB_PATH}}/bb"
 
 [tasks."install:noir"]
-description = "Install nargo $NOIR_VERSION via noirup → ~/.nargo/bin"
+description = "Install nargo $NOIR_VERSION into $NARGO_HOME (no shell profile changes)"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-[ -x "$HOME/.nargo/bin/noirup" ] || curl -fsSL https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
-"$HOME/.nargo/bin/noirup" --version "$NOIR_VERSION"
+mkdir -p "$NARGO_HOME/bin"
+if [ ! -x "$NARGO_HOME/bin/noirup" ]; then
+  curl -fsSL https://raw.githubusercontent.com/noir-lang/noirup/main/noirup -o "$NARGO_HOME/bin/noirup"
+  chmod +x "$NARGO_HOME/bin/noirup"
+fi
+"$NARGO_HOME/bin/noirup" --version "$NOIR_VERSION"
 '''
 
 [tasks."install:bb"]
-description = "Install Barretenberg bb $BB_VERSION via bbup → ~/.bb"
+description = "Install Barretenberg bb $BB_VERSION into $BB_PATH (no shell profile changes)"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-[ -x "$HOME/.bb/bbup" ] || curl -fsSL https://raw.githubusercontent.com/AztecProtocol/aztec-packages/master/barretenberg/bbup/install | bash
-"$HOME/.bb/bbup" --version "$BB_VERSION"
+if [ -x "$BB" ] && [ "$("$BB" --version)" = "$BB_VERSION" ]; then exit 0; fi
+case "$(uname -s)-$(uname -m)" in
+  Darwin-arm64) platform=arm64-darwin ;;
+  Darwin-x86_64) platform=amd64-darwin ;;
+  Linux-x86_64) platform=amd64-linux ;;
+  Linux-aarch64) platform=arm64-linux ;;
+  *) echo "unsupported platform $(uname -s)-$(uname -m)" >&2; exit 1 ;;
+esac
+mkdir -p "$BB_PATH"
+curl -fsSL "https://github.com/AztecProtocol/barretenberg/releases/download/v$BB_VERSION/barretenberg-$platform.tar.gz" | tar xz -C "$BB_PATH"
+"$BB" --version
 '''
 
 [tasks."install:zk-toolchain"]
@@ -32,8 +54,46 @@ depends = ["install:noir", "install:bb"]
 
 [tasks."vk-tree"]
 description = "Refresh noir/circuits/vk-tree.json (run after circuit-sizes; bb write_vk only for changed bytecode)"
-run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $HOME/.bb/bb"
+run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
 
 [tasks."circuit-sizes"]
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
-run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $HOME/.nargo/bin/nargo --bb $HOME/.bb/bb --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
+run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
+
+# The noir-zk CLI at the rev rust/Cargo.toml pins (one source of truth), in
+# its own toolchain directory.
+[tasks."install:noir-zk"]
+description = "Install the noir-zk CLI at the rev rust/Cargo.toml pins"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+rev="$(sed -n 's/.*noir-zk", rev = "\([0-9a-f]*\)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$rev"
+[ -x "$root/bin/noir-zk" ] || \
+  cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
+ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
+'''
+
+[tasks."freeze"]
+description = "Freeze changed circuits into rust/eid-circuits (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
+depends = ["install:noir-zk"]
+run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets --exclude bench_"
+
+[tasks."assets:publish"]
+description = "Upload new target/release-assets/*.b64 to the circuits release (existing assets are kept)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+release=circuits
+gh release view "$release" >/dev/null 2>&1 \
+  || gh release create "$release" --title "Frozen circuit bytecode" --notes "Bytecode assets, checked against rust/eid-circuits/circuits/manifest.toml."
+have="$(gh release view "$release" --json assets -q '.assets[].name')"
+for f in target/release-assets/*.b64; do
+  name="$(basename "$f")"
+  grep -qxF "$name" <<<"$have" || gh release upload "$release" "$f"
+done
+'''
+
+[tasks."test:prove"]
+description = "Prove and verify every chain with the frozen registry (needs target/release-assets or EID_ASSETS)"
+run = "cd rust && EID_ASSETS=${EID_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-circuits"

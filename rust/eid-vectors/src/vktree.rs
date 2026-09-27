@@ -50,6 +50,12 @@ fn vk_hash(bb: &str, artifact: &Path) -> Result<String> {
             "write_vk",
             "--scheme",
             "chonk",
+            "--circuit_kind",
+            if artifact.to_string_lossy().contains("kernel_") {
+                "kernel"
+            } else {
+                "app"
+            },
             "--output_format",
             "json",
             "-b",
