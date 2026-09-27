@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.4.0 - 2026-09-27
+#### Features
+- (**eid-circuits**) bundled feature compiles circuits at build time - (fe4fb35) - Anton Velichko
+- (**eid-vectors**) per-country circuit packs - (b0dd0a0) - Anton Velichko
+- pin verification keys and link releases to their packs - (d17bc8d) - Anton Velichko
+- circuit packs per key family, published per release - (cb1ad5f) - Anton Velichko
+#### Documentation
+- (**audit**) the noir_bigcurve MSM hint warning is a reviewed false positive - (d6c8eba) - Anton Velichko
+#### Build system
+- use noir-zk 0.2.1 from crates.io - (a652b43) - Anton Velichko
+#### Continuous Integration
+- upload packs to R2 through its S3 API - (76fcce7) - Anton Velichko
+- publish circuit packs on every release - (e5e0c9d) - Anton Velichko
+
+- - -
+
 ## v0.3.0 - 2026-09-27
 #### Features
 - (**eid-zk**) prove and verify documents through noir-zk with frozen circuits - (6571709) - Anton Velichko
