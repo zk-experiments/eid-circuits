@@ -60,17 +60,17 @@ run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
 
-# The noir-zk CLI at the rev rust/Cargo.toml pins (one source of truth), in
+# The noir-zk CLI at the tag rust/Cargo.toml pins (one source of truth), in
 # its own toolchain directory.
 [tasks."install:noir-zk"]
-description = "Install the noir-zk CLI at the rev rust/Cargo.toml pins"
+description = "Install the noir-zk CLI at the tag rust/Cargo.toml pins"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-rev="$(sed -n 's/.*noir-zk", rev = "\([0-9a-f]*\)".*/\1/p' rust/Cargo.toml | head -1)"
-root="$HOME/.toolchains/noir-zk-$rev"
+tag="$(sed -n 's/.*noir-zk", tag = "\([^"]*\)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$tag"
 [ -x "$root/bin/noir-zk" ] || \
-  cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
+  cargo install --locked --git https://github.com/zk-experiments/noir-zk --tag "$tag" noir-zk-cli --root "$root"
 ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''
 
