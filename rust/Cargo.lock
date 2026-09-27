@@ -1254,7 +1254,7 @@ dependencies = [
 [[package]]
 name = "noir-zk-backend"
 version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=e539e00b6083c495099565a9fb7e6d783576acc1#e539e00b6083c495099565a9fb7e6d783576acc1"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
 dependencies = [
  "acir",
  "acvm",
@@ -1275,16 +1275,18 @@ dependencies = [
 [[package]]
 name = "noir-zk-codegen"
 version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=e539e00b6083c495099565a9fb7e6d783576acc1#e539e00b6083c495099565a9fb7e6d783576acc1"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
 dependencies = [
+ "hex",
  "serde_json",
+ "sha2 0.10.9",
  "toml",
 ]
 
 [[package]]
 name = "noir-zk-core"
 version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=e539e00b6083c495099565a9fb7e6d783576acc1#e539e00b6083c495099565a9fb7e6d783576acc1"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
 dependencies = [
  "ark-bn254",
  "ark-ff",

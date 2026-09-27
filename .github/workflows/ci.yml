@@ -477,3 +477,29 @@ jobs:
           R2_CIRCUITS_BUCKET: ${{ vars.R2_CIRCUITS_BUCKET }}
           R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
         run: mise run packs:publish-r2
+      - name: Add the downloads to the release notes
+        env:
+          TAG: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
+          BASE: ${{ vars.R2_CIRCUITS_BUCKET != '' && 'https://circuits.zk-eid.dev' || '' }}
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          catalog="target/packs/catalog@$version.json"
+          base="${BASE:-https://github.com/${GITHUB_REPOSITORY}/releases/download/$TAG}"
+          {
+            gh release view "$TAG" --json body -q .body
+            echo
+            echo "## Circuit packs"
+            echo
+            echo "Download from \`$base\`. A prover reads the [catalog]($base/catalog@$version.json) first and fetches the packs \`eid_prover::select\` names: \`common\` and its keys' families."
+            echo
+            echo "| pack | circuits | size | SHA-256 |"
+            echo "|---|---:|---:|---|"
+            jq -r --arg base "$base" '.packs | to_entries[] |
+              "| [\(.key)](\($base)/\(.value.file)) | \(.value.circuits | length) | \(.value.bytes / 1e6 | floor) MB | `\(.value.sha256)` |"' "$catalog"
+            echo
+            echo "Also: [\`vk-tree@$version.json\`]($base/vk-tree@$version.json) (key tree root \`$(jq -r .vk_tree_root "$catalog")\`)."
+            echo
+            echo "Every bytecode and verification key is pinned in the \`eid-circuits\` crate (\`BYTECODE_SHA256\`, \`VK_SHA256\`): check an unpacked pack with \`noir_zk_backend::frozen::verify_dir(eid_circuits::circuits::REGISTRY, dir)\`. The hosts are mirrors, not trust anchors."
+          } > notes.md
+          gh release edit "$TAG" --notes-file notes.md
