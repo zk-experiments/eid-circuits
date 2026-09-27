@@ -15,6 +15,11 @@ hex.workspace = true
 
 [build-dependencies]
 noir-zk-codegen.workspace = true
+# Feature `bundled`: compile and check circuits at build time.
+hex.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true
 
 [dev-dependencies]
 noir-zk-core.workspace = true
@@ -24,6 +29,11 @@ serde_json.workspace = true
 [features]
 # Fetch bytecode release assets over HTTPS.
 http = ["noir-zk-backend/http"]
+# Compile circuits from the shipped Noir source at build time and embed them
+# (build.rs: needs the pinned nargo; EID_CIRCUITS_BUNDLE picks the packs).
+bundled = []
+# Unpack downloaded circuit packs (noir_zk_backend::pack).
+packs = ["noir-zk-backend/packs"]
 
 [lints]
 workspace = true

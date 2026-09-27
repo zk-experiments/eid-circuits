@@ -67,6 +67,12 @@ A prover fetches packs, not single circuits: fetching exactly its document's cir
 
 A document needs `common`, its CSCA key's family and its DSC key's; `eid_prover::select` returns them as `Selection::packs`. Each pack is a self-contained `<pack>@<version>.tar.gz`: per circuit its bytecode, verification key and ABI, plus the key tree and the manifest entries with their pinned hashes. The client unpacks it with `noir_zk_backend::pack::unpack` and reads it with `DirStore`.
 
+Instead of downloading packs, a build can compile circuits into the binary. With the `eid-circuits` feature `bundled`, `build.rs` compiles the chosen packs from the Noir source shipped with the crate, fails unless every result hashes to its pin, and embeds them (`eid_circuits::bundled::BundledStore`). It needs the pinned nargo (step 3 of getting started; `mise exec --` or an activated mise sets `$NARGO`) and network access for the Noir libraries' git dependencies. `EID_CIRCUITS_BUNDLE` picks the packs (`common,rsa4096`; unset: all, which takes over an hour; `none`: nothing):
+
+```sh
+EID_CIRCUITS_BUNDLE=common,rsa4096 mise exec -- cargo build --release -p eid-circuits --features bundled
+```
+
 On a release tag:
 
 ```sh

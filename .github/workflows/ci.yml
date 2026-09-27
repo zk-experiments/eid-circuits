@@ -43,6 +43,9 @@ permissions:
 
 env:
   CARGO_TERM_COLOR: always
+  # --all-features turns on eid-circuits' `bundled`, which would compile every
+  # circuit at build time: bundle none in CI.
+  EID_CIRCUITS_BUNDLE: none
 
 jobs:
   resolve:
