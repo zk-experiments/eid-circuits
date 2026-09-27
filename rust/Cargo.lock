@@ -1253,8 +1253,9 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-backend"
-version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4778205d565477ad9c285a9312caf541d888dc8ff34599b91d8568220bf5bee5"
 dependencies = [
  "acir",
  "acvm",
@@ -1274,8 +1275,9 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-codegen"
-version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3d2ba3c0c4bc527db086159255aa5aab9afc952ddd54a6c04835e1ce33da08fe"
 dependencies = [
  "hex",
  "serde_json",
@@ -1285,8 +1287,9 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-core"
-version = "0.1.0"
-source = "git+https://github.com/zk-experiments/noir-zk?rev=9be7066f52b193ec027ed4ea13eac8a71830a8f7#9be7066f52b193ec027ed4ea13eac8a71830a8f7"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5aa54fc4514b8a2b4cdecda6960b4ec26aedad2c3d10a33338d99ecc8faa2b04"
 dependencies = [
  "ark-bn254",
  "ark-ff",

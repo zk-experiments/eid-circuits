@@ -29,10 +29,10 @@ eid-envelope = { path = "eid-envelope" }
 eid-prover = { path = "eid-prover" }
 pso-poseidon = "0.5"
 # Proving: generated bindings (codegen), witness solving and Chonk (backend).
-# The rev pins Noir and bb together (noir-zk's mise.toml).
-noir-zk-core = { git = "https://github.com/zk-experiments/noir-zk", rev = "9be7066f52b193ec027ed4ea13eac8a71830a8f7" }
-noir-zk-backend = { git = "https://github.com/zk-experiments/noir-zk", rev = "9be7066f52b193ec027ed4ea13eac8a71830a8f7" }
-noir-zk-codegen = { git = "https://github.com/zk-experiments/noir-zk", rev = "9be7066f52b193ec027ed4ea13eac8a71830a8f7" }
+# The version pins Noir and bb together (noir-zk's mise.toml).
+noir-zk-core = "=0.2.1"
+noir-zk-backend = "=0.2.1"
+noir-zk-codegen = "=0.2.1"
 ark-bn254 = "0.6"
 ark-ec = "0.6"
 ark-ff = "0.6"
