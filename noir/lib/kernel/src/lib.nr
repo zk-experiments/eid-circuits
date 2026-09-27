@@ -16,16 +16,16 @@ use csca_registry::{hash, merkle_root, MerklePath};
 
 mod tests;
 
-/// Fields of a Chonk (Mega) verification key (bb 5.0.0-nightly.20260522).
-pub global VK_FIELDS: u32 = 143;
+/// Fields of a Chonk (Mega) verification key (bb 7.0.0-nightly.20260927).
+pub global VK_FIELDS: u32 = 151;
 /// Height of the verification key tree (512 leaves).
 pub global VK_TREE_HEIGHT: u32 = 9;
 
-/// Recursion proof types of bb 5.0.0-nightly.20260522.
+/// Recursion proof types of bb 7.0.0-nightly.20260927: OINK folds the first
+/// circuit, HN every later one (the tail included), HN_FINAL the hiding step.
 pub global PROOF_TYPE_OINK: u32 = 1;
 pub global PROOF_TYPE_HN: u32 = 2;
 pub global PROOF_TYPE_HN_FINAL: u32 = 7;
-pub global PROOF_TYPE_HN_TAIL: u32 = 8;
 
 /// Roles a key tree leaf commits to: `leaf = H(role, H(vk))`.
 pub global ROLE_DSC: Field = 1;

@@ -101,13 +101,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.nargo
-            ~/.bb
+            ~/.toolchains
           key: noir-toolchain-${{ hashFiles('mise.toml') }}
       - name: Install nargo + bb at the pinned versions
         if: steps.toolchain-cache.outputs.cache-hit != 'true'
         run: mise run install:zk-toolchain
-      - run: echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
+      # NARGO_HOME, BB_PATH, NARGO and BB from mise.toml (per-version directories).
+      - name: Toolchain paths
+        run: |
+          mise env --json | jq -r 'with_entries(select(.key | test("^(NARGO_HOME|BB_PATH|NARGO|BB|NOIR_VERSION|BB_VERSION)$"))) | to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+          echo "$(mise env --json | jq -r .NARGO_HOME)/bin" >> "$GITHUB_PATH"
       - name: nargo fmt --check
         run: nargo fmt --check
       - name: nargo test
@@ -179,13 +182,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.nargo
-            ~/.bb
+            ~/.toolchains
           key: noir-toolchain-${{ hashFiles('mise.toml') }}
       - name: Install nargo + bb at the pinned versions
         if: steps.toolchain-cache.outputs.cache-hit != 'true'
         run: mise run install:zk-toolchain
-      - run: echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
+      # NARGO_HOME, BB_PATH, NARGO and BB from mise.toml (per-version directories).
+      - name: Toolchain paths
+        run: |
+          mise env --json | jq -r 'with_entries(select(.key | test("^(NARGO_HOME|BB_PATH|NARGO|BB|NOIR_VERSION|BB_VERSION)$"))) | to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+          echo "$(mise env --json | jq -r .NARGO_HOME)/bin" >> "$GITHUB_PATH"
       - name: Execute every sample
         run: |
           set -euo pipefail
@@ -204,11 +210,11 @@ jobs:
       # fold them: key tree membership and step links are checked in-circuit.
       # Execution and verification keys only; nothing is proven.
       - name: Fold the end-to-end chains through the kernels
-        run: python3 scripts/fold.py --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb"
+        run: python3 scripts/fold.py --nargo "$NARGO" --bb "$BB"
       - name: Committed sizes are current for the samples
         run: |
           python3 .github/scripts/circuit_sizes.py collect . --packages samples.txt --no-compile \
-            --cache docs/data/circuit-sizes.json --bb "$HOME/.bb/bb" -o samples-sizes.json
+            --cache docs/data/circuit-sizes.json --bb "$BB" -o samples-sizes.json
           python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json \
             --vk-tree noir/circuits/vk-tree.json
       - name: Enforce the 2 GiB proving-memory cap

@@ -28,7 +28,8 @@ All circuit code here is written for this repository and grouped by signature ty
 ## Build and test
 
 ```sh
-nargo test                     # every Noir package in the workspace (nargo 1.0.0-beta.22)
+mise run install:zk-toolchain  # nargo and bb at the pinned versions, into ~/.toolchains/<tool>-<version> (not ~/.nargo, ~/.bb)
+"$NARGO" test                  # every Noir package in the workspace (nargo from mise.toml; `mise env` sets NARGO and BB)
 cd rust && cargo test          # Rust tools, incl. the check that generated files are current
 mise run circuit-sizes         # refresh docs/data/circuit-sizes.json (CI checks it for the samples)
 mise run vk-tree               # refresh the verification key tree the kernels check (noir/circuits/vk-tree.json)

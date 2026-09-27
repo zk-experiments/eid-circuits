@@ -15,6 +15,35 @@ A transfer carrying a document submits the Chonk proof and its public outputs (`
 | `viewers` | four Grumpkin viewer keys; `(0, 0)` marks an empty slot |
 | `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, four wrapped data keys, six ciphertext fields |
 
+## Parameters
+
+bb 7.0.0-nightly.20260927 (Noir 1.0.0-rc.3), measured on the four synthetic documents:
+
+| | size |
+|---|---|
+| proof | 39,872 bytes (1,246 field elements), the same for every document |
+| public inputs | 25 field elements, the first 800 bytes of the proof (below) |
+| hiding kernel verification key | 3,808 bytes, the same for every document |
+| verification | about 30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
+
+The public outputs are the proof's first 25 fields, 32 bytes each, big-endian, in this order:
+
+| field | offset | content |
+|---:|---:|---|
+| 0 | 0 | `registry_root` |
+| 1 | 32 | `vk_tree_root` |
+| 2 | 64 | `uses_sha1` (0 or 1) |
+| 3 | 96 | `date` (unix seconds) |
+| 4 | 128 | `context` |
+| 5–12 | 160 | `viewers`: 4 × (x, y) Grumpkin points, `(0, 0)` for an empty slot |
+| 13–14 | 416 | envelope `E` = (x, y) |
+| 15–18 | 480 | envelope `wrapped` × 4 (0 for an empty slot) |
+| 19–24 | 608 | envelope `ciphertext` × 6 |
+
+The envelope itself is fields 13–24, 384 bytes, fixed for every document; with the viewer keys, 640 bytes. Changing any of these bytes makes the proof fail to verify.
+
+A proof verifies only with the bb version that made it (bb 7 rejects bb 5 proofs and the reverse), so a verifier pins one bb version, and a bb upgrade switches the verifier at a cutover. A node replaying history needs the verifier of each past version.
+
 ## Checks
 
 The verifier accepts the bundle only if all of these hold:
@@ -37,7 +66,7 @@ Only the public outputs: the registry root, the date, the context, the viewer ke
 
 ## Keys to publish per release
 
-- the hiding kernel's verification key: `bb write_vk --scheme chonk --use_zk_flavor` on `kernel_hiding`;
+- the hiding kernel's verification key: `bb write_vk --scheme chonk --circuit_kind hiding` on `kernel_hiding`;
 - the key tree root from `noir/circuits/vk-tree.json`.
 
 Both change when a circuit or the toolchain (nargo, bb) changes.

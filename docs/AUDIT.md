@@ -48,7 +48,7 @@ These are reported in this file and don't affect our soundness.
 
    The circuit only rejects `e = 0`.
 
-8. **Toolchain coupling.** The kernels hard-code bb 5.0.0-nightly.20260522's recursion proof types (OINK 1, HN 2, HN_FINAL 7, HN_TAIL 8) and 143-field keys; Chonk is Aztec's client IVC, not a documented public API. A bb upgrade needs `eid_kernel` checked against it and the key tree rebuilt.
+8. **Toolchain coupling.** The kernels hard-code bb 7.0.0-nightly.20260927's recursion proof types (OINK 1, HN 2, HN_FINAL 7) and 151-field keys; Chonk is Aztec's client IVC, not a documented public API. A bb upgrade needs `eid_kernel` checked against it and the key tree rebuilt.
 9. **Chonk soundness and zero knowledge** are barretenberg's. The kernels only add the application checks (key tree, links, public outputs).
 
 ## Known limitations
