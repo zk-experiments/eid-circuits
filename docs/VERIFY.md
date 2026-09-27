@@ -69,4 +69,6 @@ Only the public outputs: the registry root, the date, the context, the viewer ke
 - the hiding kernel's verification key: `bb write_vk --scheme chonk --circuit_kind hiding` on `kernel_hiding`;
 - the key tree root from `noir/circuits/vk-tree.json`.
 
+`rust/eid-zk` embeds both from its frozen registry (`hiding_vk()`, `vk_tree_root()`), and `verify_document` checks the proof, the key tree root and the output layout above.
+
 Both change when a circuit or the toolchain (nargo, bb) changes.

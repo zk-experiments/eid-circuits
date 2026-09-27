@@ -1,5 +1,5 @@
 [workspace]
-members = ["eid-envelope", "eid-prover", "eid-vectors"]
+members = ["eid-envelope", "eid-prover", "eid-vectors", "eid-zk"]
 resolver = "2"
 
 [workspace.package]
@@ -27,6 +27,11 @@ serde_json = "1.0"
 eid-envelope = { path = "eid-envelope" }
 eid-prover = { path = "eid-prover" }
 pso-poseidon = "0.5"
+# Proving: generated bindings (codegen), witness solving and Chonk (backend).
+# The rev pins Noir and bb together (noir-zk's mise.toml).
+noir-zk-core = { git = "https://github.com/zk-experiments/noir-zk", rev = "295e0bce497600a418b24a8db36f96366983e813" }
+noir-zk-backend = { git = "https://github.com/zk-experiments/noir-zk", rev = "295e0bce497600a418b24a8db36f96366983e813" }
+noir-zk-codegen = { git = "https://github.com/zk-experiments/noir-zk", rev = "295e0bce497600a418b24a8db36f96366983e813" }
 ark-bn254 = "0.6"
 ark-ec = "0.6"
 ark-ff = "0.6"

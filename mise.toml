@@ -59,3 +59,41 @@ run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
 [tasks."circuit-sizes"]
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
+
+# The noir-zk CLI at the rev rust/Cargo.toml pins (one source of truth), in
+# its own toolchain directory.
+[tasks."install:noir-zk"]
+description = "Install the noir-zk CLI at the rev rust/Cargo.toml pins"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+rev="$(sed -n 's/.*noir-zk", rev = "\([0-9a-f]*\)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$rev"
+[ -x "$root/bin/noir-zk" ] || CARGO_NET_GIT_FETCH_WITH_CLI=true \
+  cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
+ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
+'''
+
+[tasks."freeze"]
+description = "Freeze changed circuits into rust/eid-zk (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
+depends = ["install:noir-zk"]
+run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-zk --assets target/release-assets"
+
+[tasks."assets:publish"]
+description = "Upload new target/release-assets/*.b64 to the circuits release (existing assets are kept)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+release=circuits
+gh release view "$release" >/dev/null 2>&1 \
+  || gh release create "$release" --title "Frozen circuit bytecode" --notes "Bytecode assets, checked against rust/eid-zk/circuits/manifest.toml."
+have="$(gh release view "$release" --json assets -q '.assets[].name')"
+for f in target/release-assets/*.b64; do
+  name="$(basename "$f")"
+  grep -qxF "$name" <<<"$have" || gh release upload "$release" "$f"
+done
+'''
+
+[tasks."test:prove"]
+description = "Prove and verify every chain with the frozen registry (needs target/release-assets or EID_ZK_ASSETS)"
+run = "cd rust && EID_ZK_ASSETS=${EID_ZK_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-zk"
