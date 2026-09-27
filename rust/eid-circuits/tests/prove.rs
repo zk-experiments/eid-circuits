@@ -16,7 +16,6 @@ use eid_circuits::circuits::kernel_envelope::KernelEnvelope;
 use eid_circuits::circuits::kernel_hiding::KernelHiding;
 use eid_circuits::circuits::kernel_sod::KernelSod;
 use eid_circuits::circuits::kernel_tail::KernelTail;
-use eid_circuits::circuits::Registry;
 use eid_circuits::{artifacts, vk_tree_root, DirStore};
 use noir_zk_backend::chonk::{self, FoldedProof};
 use noir_zk_backend::fold::{verify, Folding};
@@ -55,20 +54,14 @@ fn proves_and_verifies_every_chain() {
             chain_toml(&root, name("sod")),
             chain_toml(&root, name("envelope")),
         );
-        // Circuits picked at runtime (by label) dispatch statically to their
-        // generated types; the kernels type-check against their outputs.
+        // Circuits picked at runtime (by label) are wrapped with the kernel
+        // that folds them; the chain type-checks at compile time.
         let (proof, public) = Folding::new(&frozen)
-            .app_by_label::<Registry, _>(name("dsc"), &d)
+            .app(KernelDsc::select(name("dsc"), &d).unwrap())
             .unwrap()
-            .kernel::<KernelDsc>()
+            .app(KernelSod::select(name("sod"), &s).unwrap())
             .unwrap()
-            .app_by_label::<Registry, _>(name("sod"), &s)
-            .unwrap()
-            .kernel::<KernelSod>()
-            .unwrap()
-            .app_by_label::<Registry, _>(name("envelope"), &e)
-            .unwrap()
-            .kernel::<KernelEnvelope>()
+            .app(KernelEnvelope::select(name("envelope"), &e).unwrap())
             .unwrap()
             .kernel::<KernelTail>()
             .unwrap()

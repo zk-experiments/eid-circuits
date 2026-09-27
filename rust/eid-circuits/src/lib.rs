@@ -11,16 +11,14 @@
 //! `DSC -> kernel_dsc -> SOD -> kernel_sod -> envelope -> kernel_envelope -> kernel_tail -> kernel_hiding`
 //! with `noir_zk_backend::fold::Folding`, which type-checks that chain; the
 //! proof verifies with `noir_zk_backend::fold::verify::<KernelHiding>`.
-//! Kernels only link to the outputs they take. Skipping `kernel_dsc` is a
-//! compile error (`KernelSod::Prev` is `kernel_dsc`'s outputs, not `()`):
+//! Kernels only link to the outputs they take. Starting with the SOD step
+//! is a compile error (`KernelSod::Prev` is `kernel_dsc`'s outputs, not `()`):
 //!
 //! ```compile_fail
-//! # use eid_circuits::circuits::{kernel_sod::KernelSod, Registry};
+//! # use eid_circuits::circuits::kernel_sod::KernelSod;
 //! # fn chain<A: noir_zk_core::Artifacts>(a: &A) {
 //! let _ = noir_zk_backend::fold::Folding::new(a)
-//!     .app_by_label::<Registry, _>("sod_ecdsa_p256_sha256_tbs1000", "")
-//!     .unwrap()
-//!     .kernel::<KernelSod>();
+//!     .app(KernelSod::select("sod_ecdsa_p256_sha256_tbs1000", "").unwrap());
 //! # }
 //! ```
 //!

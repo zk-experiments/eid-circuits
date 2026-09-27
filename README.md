@@ -50,23 +50,20 @@ mise run test:prove             # prove and verify every chain with the frozen r
 ```
 
 ```rust
-use eid_circuits::circuits::{kernel_dsc::KernelDsc, kernel_envelope::KernelEnvelope, kernel_hiding::KernelHiding, kernel_sod::KernelSod, kernel_tail::KernelTail, Registry};
+use eid_circuits::circuits::{kernel_dsc::KernelDsc, kernel_envelope::KernelEnvelope, kernel_hiding::KernelHiding, kernel_sod::KernelSod, kernel_tail::KernelTail};
 use noir_zk_backend::fold::{verify, Folding};
 
-let w = eid_prover::witnesses(&registry, ef_sod, dg1, &params)?;   // selection + Prover.toml per step
+let w = eid_prover::witnesses(&registry, ef_sod, dg1, &params)?;   // selected labels + Prover.toml per step
 let (proof, public) = Folding::new(&eid_circuits::artifacts(DirStore(assets))?)
-    .app_by_label::<Registry, _>(&w.selection.dsc, &w.dsc)?
-    .kernel::<KernelDsc>()?
-    .app_by_label::<Registry, _>(&w.selection.sod, &w.sod)?
-    .kernel::<KernelSod>()?
-    .app_by_label::<Registry, _>(&w.selection.envelope, &w.envelope)?
-    .kernel::<KernelEnvelope>()?
+    .app(KernelDsc::select(&w.selection.dsc, &w.dsc)?)?
+    .app(KernelSod::select(&w.selection.sod, &w.sod)?)?
+    .app(KernelEnvelope::select(&w.selection.envelope, &w.envelope)?)?
     .kernel::<KernelTail>()?
     .hiding::<KernelHiding>()?;
-let public = verify::<KernelHiding>(&proof, eid_circuits::vk_tree_root())?;   // KernelHiding::Outputs
+let public = verify::<KernelHiding>(&proof, eid_circuits::vk_tree_root())?;   // kernel_hiding::Outputs
 ```
 
-The chain is typed: each kernel only compiles after the kernel and app whose outputs it takes. The step circuits are chosen at runtime, and `Registry` dispatches each label to its generated type statically.
+Each step is wrapped with the kernel that folds it, and the chain is checked at compile time. `KernelDsc::select` dispatches the runtime-selected label statically to its generated circuit type and rejects labels that aren't DSC apps. `KernelDsc::wrap::<C>(&inputs)` does the same for a circuit known at compile time.
 
 noir-zk is a private git dependency: locally, git needs credentials for https://github.com/zk-experiments/noir-zk. CI reads it with the `NOIR_ZK_TOKEN` secret. On Linux, bb's static library needs libc++ (`libc++-dev libc++abi-dev`).
 
