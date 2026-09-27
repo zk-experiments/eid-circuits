@@ -1,0 +1,29 @@
+{
+  "chains": [
+    {
+      "dsc": "dsc_rsa_pkcs1v15_4096_sha256_tbs700",
+      "envelope": "envelope_sha256_sha256_lds512",
+      "name": "rsa4096_csca_p256_dsc",
+      "sod": "sod_ecdsa_p256_sha256_tbs700"
+    },
+    {
+      "dsc": "dsc_ecdsa_bp512_sha512_tbs700",
+      "envelope": "envelope_sha256_sha512_lds512",
+      "name": "bp512_csca_bp256_dsc",
+      "sod": "sod_ecdsa_bp256_sha256_tbs700"
+    },
+    {
+      "dsc": "dsc_rsa_pss_4096_sha256_s32_tbs700",
+      "envelope": "envelope_sha1_sha1_lds512",
+      "name": "pss_csca_rsa2048_dsc",
+      "sod": "sod_rsa_pkcs1v15_2048_sha1_tbs700"
+    },
+    {
+      "dsc": "dsc_ecdsa_p521_sha512_tbs700",
+      "envelope": "envelope_sha384_sha384_lds512",
+      "name": "p521_csca_pss_dsc",
+      "sod": "sod_rsa_pss_3072_sha384_s48_tbs700"
+    }
+  ],
+  "generated_by": "eid-vectors documents (rust/eid-vectors/src/documents.rs); do not edit"
+}

@@ -7,10 +7,10 @@
 //! signature is re-verified with csca-registry's RustCrypto verifier before
 //! it is emitted. Keys are deterministic (seeded), so the output is stable.
 
-use crate::circuits::Config;
 use crate::curves::{curve, der_curve, oid_tlv};
 use anyhow::{bail, ensure, Context, Result};
 use csca_registry::crypto::{self, Hash, PublicKey, Scheme};
+use eid_prover::config::Config;
 use num_bigint::BigUint;
 use rand_chacha::rand_core::SeedableRng;
 use rand_chacha::ChaCha20Rng;
@@ -109,28 +109,43 @@ fn curve_name(label: &str) -> Result<&'static str> {
 }
 
 impl Key {
-    /// Deterministic key for `config`.
+    /// Deterministic DSC key for `config`.
     pub(crate) fn for_config(config: Config) -> Result<Self> {
+        Self::for_role(config, "")
+    }
+
+    /// Deterministic key for `config` in `role` ("" for DSCs, "csca" for the
+    /// mock CSCA): different roles get unrelated keys.
+    pub(crate) fn for_role(config: Config, role: &str) -> Result<Self> {
+        let label = |base: &str| {
+            if role.is_empty() {
+                base.to_string()
+            } else {
+                format!("{role} {base}")
+            }
+        };
         match config {
             Config::Pkcs1 { bits, .. } | Config::Pss { bits, .. } => {
-                static CACHE: Mutex<BTreeMap<u32, RsaPrivateKey>> = Mutex::new(BTreeMap::new());
+                static CACHE: Mutex<BTreeMap<String, RsaPrivateKey>> = Mutex::new(BTreeMap::new());
                 let mut cache = CACHE
                     .lock()
                     .map_err(|_| anyhow::anyhow!("key cache poisoned"))?;
-                let key = match cache.entry(bits) {
+                let key = match cache.entry(label(&format!("rsa-{bits}"))) {
                     Entry::Occupied(e) => e.get().clone(),
                     Entry::Vacant(v) => {
-                        let mut rng = ChaCha20Rng::from_seed(seed(&format!("rsa-{bits}")));
+                        let mut rng = ChaCha20Rng::from_seed(seed(v.key()));
                         v.insert(RsaPrivateKey::new(&mut rng, usize::try_from(bits)?)?)
                             .clone()
                     }
                 };
                 Ok(Self::Rsa(Box::new(key)))
             }
-            Config::Ecdsa { curve: label, .. } => {
-                let name = curve_name(label)?;
+            Config::Ecdsa {
+                curve: curve_id, ..
+            } => {
+                let name = curve_name(curve_id)?;
                 let c = curve(name)?;
-                let d = BigUint::from_bytes_be(&seed(name)) % (&c.n - 1u8) + 1u8;
+                let d = BigUint::from_bytes_be(&seed(&label(name))) % (&c.n - 1u8) + 1u8;
                 let q = c
                     .mul(&d, &Some(c.g.clone()))
                     .context("public key is infinity")?;
@@ -354,10 +369,126 @@ pub(crate) fn dg1(mrz: &str) -> Vec<u8> {
     tlv(0x61, &tlv_2(0x5f1f, mrz.as_bytes()))
 }
 
+/// A mock CSCA: a self-signed certificate under `config` for `country`
+/// (alpha-2), to be loaded into a test registry.
+pub(crate) struct Csca {
+    pub config: Config,
+    pub key: Key,
+    pub country: String,
+    pub cert: Vec<u8>,
+}
+
+impl Csca {
+    pub(crate) fn new(config: Config, country: &str) -> Result<Self> {
+        let key = Key::for_role(config, "csca")?;
+        let subject = dn(country, "Mock CSCA");
+        // basicConstraints (critical, CA) and keyUsage (critical, keyCertSign | cRLSign).
+        let extensions = tlv(
+            0xa3,
+            &seq(&[
+                seq(&[
+                    oid("2.5.29.19"),
+                    vec![0x01, 0x01, 0xff],
+                    tlv(0x04, &seq(&[vec![0x01, 0x01, 0xff]])),
+                ]),
+                seq(&[
+                    oid("2.5.29.15"),
+                    vec![0x01, 0x01, 0xff],
+                    tlv(0x04, &[0x03, 0x02, 0x01, 0x06]),
+                ]),
+            ]),
+        );
+        let tbs = seq(&[
+            tlv(0xa0, &uint(&[2])),
+            uint(&Sha256::digest(format!("csca {}", config.label()).as_bytes())[..8]),
+            signature_alg(config),
+            subject.clone(),
+            seq(&[tlv(0x17, b"200101000000Z"), tlv(0x18, b"20400101000000Z")]),
+            subject,
+            key.spki(config)?,
+            extensions,
+        ]);
+        let cert = certificate(tbs, config, &key)?;
+        Ok(Self {
+            config,
+            key,
+            country: country.to_string(),
+            cert,
+        })
+    }
+}
+
+/// `SEQUENCE { SET { C=country }, SET { CN=cn } }`.
+fn dn(country: &str, cn: &str) -> Vec<u8> {
+    seq(&[
+        set_of(vec![seq(&[oid("2.5.4.6"), tlv(0x13, country.as_bytes())])]),
+        set_of(vec![seq(&[oid("2.5.4.3"), tlv(0x13, cn.as_bytes())])]),
+    ])
+}
+
+/// The AlgorithmIdentifier of a signature under `config`, as certificates
+/// and SignerInfos write it.
+pub(crate) fn signature_alg(config: Config) -> Vec<u8> {
+    let hash_alg = |h: Hash| seq(&[oid(hash_oid(h)), vec![0x05, 0x00]]);
+    match config {
+        Config::Pkcs1 { hash, .. } => {
+            let o = match hash {
+                Hash::Sha1 => "1.2.840.113549.1.1.5",
+                Hash::Sha224 => "1.2.840.113549.1.1.14",
+                Hash::Sha256 => "1.2.840.113549.1.1.11",
+                Hash::Sha384 => "1.2.840.113549.1.1.12",
+                Hash::Sha512 => "1.2.840.113549.1.1.13",
+            };
+            seq(&[oid(o), vec![0x05, 0x00]])
+        }
+        Config::Pss { hash, salt, .. } => {
+            let salt = u32::try_from(salt).unwrap_or(0).to_be_bytes();
+            seq(&[
+                oid("1.2.840.113549.1.1.10"),
+                seq(&[
+                    tlv(0xa0, &hash_alg(hash)),
+                    tlv(0xa1, &seq(&[oid("1.2.840.113549.1.1.8"), hash_alg(hash)])),
+                    tlv(0xa2, &uint(&salt)),
+                ]),
+            ])
+        }
+        Config::Ecdsa { hash, .. } => {
+            let o = match hash {
+                Hash::Sha1 => "1.2.840.10045.4.1",
+                Hash::Sha224 => "1.2.840.10045.4.3.1",
+                Hash::Sha256 => "1.2.840.10045.4.3.2",
+                Hash::Sha384 => "1.2.840.10045.4.3.3",
+                Hash::Sha512 => "1.2.840.10045.4.3.4",
+            };
+            seq(&[oid(o)])
+        }
+    }
+}
+
+/// `SEQUENCE { tbs, signatureAlgorithm, BIT STRING signature }`.
+fn certificate(tbs: Vec<u8>, config: Config, signer: &Key) -> Result<Vec<u8>> {
+    let raw = signer.sign(config, &tbs)?;
+    let sig = match config {
+        Config::Ecdsa { .. } => {
+            let (r, s) = raw.split_at(raw.len() / 2);
+            seq(&[uint(r), uint(s)])
+        }
+        _ => raw,
+    };
+    Ok(seq(&[
+        tbs,
+        signature_alg(config),
+        tlv(0x03, &[vec![0], sig].concat()),
+    ]))
+}
+
 /// A synthetic document signed under `config`.
 pub(crate) struct Doc {
     /// DSC `TBSCertificate` (its CSCA signature is out of scope for step B).
     pub tbs: Vec<u8>,
+    /// The signed DSC certificate and the EF.SOD (only for [`Doc::issued`]).
+    pub dsc_cert: Vec<u8>,
+    pub ef_sod: Vec<u8>,
     /// DSC public key.
     pub dsc_key: PublicKey,
     /// signedAttrs in signed form (tag 0x31).
@@ -408,6 +539,29 @@ impl Doc {
 
     /// [`Doc::new`] with the security object described by `lds`.
     pub(crate) fn build(config: Config, lds: Lds, country: &str, expiry: &str) -> Result<Self> {
+        Self::build_with(config, lds, country, expiry, None)
+    }
+
+    /// A complete document: the DSC certificate is signed by `csca` and the
+    /// SOD is a full EF.SOD (ICAO 9303 part 10: CMS SignedData with the DSC).
+    /// `mrz_state` is the MRZ issuing state (e.g. `D<<`).
+    pub(crate) fn issued(
+        csca: &Csca,
+        config: Config,
+        lds: Lds,
+        mrz_state: &str,
+        expiry: &str,
+    ) -> Result<Self> {
+        Self::build_with(config, lds, mrz_state, expiry, Some(csca))
+    }
+
+    fn build_with(
+        config: Config,
+        lds: Lds,
+        country: &str,
+        expiry: &str,
+        csca: Option<&Csca>,
+    ) -> Result<Self> {
         let key = Key::for_config(config)?;
         let dsc_key = key.public()?;
 
@@ -472,13 +626,26 @@ impl Doc {
                 set_of(vec![seq(&[oid("2.5.4.3"), tlv(0x13, cn.as_bytes())])]),
             ])
         };
+        let serial = uint(&Sha256::digest(config.label().as_bytes())[..8]);
+        let (sig_alg, issuer, subject) = match csca {
+            Some(c) => (
+                signature_alg(c.config),
+                dn(&c.country, "Mock CSCA"),
+                dn(&c.country, "Mock DSC"),
+            ),
+            None => (
+                seq(&[oid("1.2.840.113549.1.1.11"), vec![0x05, 0x00]]),
+                name("Mock CSCA"),
+                name("Mock DSC"),
+            ),
+        };
         let tbs = seq(&[
             tlv(0xa0, &uint(&[2])),
-            uint(&Sha256::digest(config.label().as_bytes())[..8]),
-            seq(&[oid("1.2.840.113549.1.1.11"), vec![0x05, 0x00]]),
-            name("Mock CSCA"),
+            serial.clone(),
+            sig_alg,
+            issuer.clone(),
             seq(&[tlv(0x17, b"250101000000Z"), tlv(0x17, b"350101000000Z")]),
-            name("Mock DSC"),
+            subject,
             key.spki(config)?,
         ]);
         ensure!(
@@ -498,8 +665,38 @@ impl Doc {
             anyhow::anyhow!("{}: mock signature does not verify: {e}", config.label())
         })?;
 
+        let (dsc_cert, ef_sod) = match csca {
+            None => (vec![], vec![]),
+            Some(c) => {
+                let cert = certificate(tbs.clone(), c.config, &c.key)?;
+                let digest_alg = seq(&[oid(hash_oid(lds.md_hash)), vec![0x05, 0x00]]);
+                // In the SignerInfo the attributes are [0] IMPLICIT, not a SET.
+                let mut implicit = attrs.clone();
+                implicit[0] = 0xa0;
+                let signer_info = seq(&[
+                    uint(&[1]),
+                    seq(&[issuer.clone(), serial.clone()]),
+                    digest_alg.clone(),
+                    implicit,
+                    signature_alg(config),
+                    tlv(0x04, &der_sig),
+                ]);
+                let signed_data = seq(&[
+                    uint(&[3]),
+                    set_of(vec![digest_alg]),
+                    seq(&[oid("2.23.136.1.1.1"), tlv(0xa0, &tlv(0x04, &econtent))]),
+                    tlv(0xa0, &cert),
+                    set_of(vec![signer_info]),
+                ]);
+                let content_info = seq(&[oid("1.2.840.113549.1.7.2"), tlv(0xa0, &signed_data)]);
+                (cert, tlv(0x77, &content_info))
+            }
+        };
+
         Ok(Self {
             tbs,
+            dsc_cert,
+            ef_sod,
             dsc_key,
             attrs,
             md_offset,
@@ -548,7 +745,7 @@ mod tests {
 
     #[test]
     fn documents_verify_for_every_config() {
-        for &c in crate::circuits::DSC_CONFIGS {
+        for &c in eid_prover::config::DSC_CONFIGS {
             let d = Doc::new(c, "UTO", "340415").unwrap();
             assert_eq!(d.dg1.len(), 93);
             assert_eq!(d.attrs[d.md_offset], 0x30);

@@ -1,44 +1,43 @@
 # Verifying a document proof
 
-A document proof is three separate proofs, one per step, checked by the verifier (the chain). There is no aggregation proof: recursively verifying even one step proof costs about 705k gates, so aggregating three can't be done on a phone within the 2 GiB cap (see ARCHITECTURE.md).
+A document proof is one Chonk proof: the three steps folded with the kernels described in [FOLDING.md](FOLDING.md). It is verified natively (`bb verify --scheme chonk`, about 20 ms) against the hiding kernel's verification key. That's the same key for every document, whatever signature schemes and sizes it used. There is no Solidity verifier for Chonk; verification is meant for a chain precompile.
 
 ## Bundle
 
-A transfer carrying a document submits:
+A transfer carrying a document submits the Chonk proof and its public outputs (`eid_kernel::PublicOutputs`):
 
-| part | from | values |
-|---|---|---|
-| DSC proof | step A | public input `root`; outputs `c_A`, `hash_id_A` |
-| SOD proof | step B | outputs `c_A`, `c_B`, `hash_id_B` |
-| envelope proof | step C | public inputs `date`, `context`, `viewers[4]`; outputs `c_B`, `econtent_hash_id`, `dg_hash_id`, `envelope` (`E`, `wrapped[4]`, `ciphertext[6]`) |
-| circuit ids | prover | which circuit each proof is for (see *Verification keys*) |
+| output | meaning |
+|---|---|
+| `registry_root` | csca-registry root the CSCA and revocation checks used |
+| `vk_tree_root` | root of the key tree every step and kernel was checked against |
+| `uses_sha1` | 1 when any signature or hash on the path used SHA-1 |
+| `date`, `context` | proof date and the context the envelope is bound to |
+| `viewers` | four Grumpkin viewer keys; `(0, 0)` marks an empty slot |
+| `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, four wrapped data keys, six ciphertext fields |
 
 ## Checks
 
 The verifier accepts the bundle only if all of these hold:
 
-1. **Each proof verifies** under the verification key of the circuit it names, and that circuit is in the allowed set.
-2. **The steps are linked:** A's `c_A` equals B's `c_A`, and B's `c_B` equals C's `c_B`. The commitments are salted, so they reveal nothing, but they bind:
-   - B to the DSC certificate A verified;
-   - C to the `messageDigest` the DSC signed;
-   - all three to one country.
-3. **`root` is a published registry root** that the verifier still accepts: the current one, or one within a short window, so revocations take effect.
+1. **The proof verifies** under the pinned hiding kernel key.
+2. **`vk_tree_root` is the published key tree root** (`noir/circuits/vk-tree.json` for the release in use). The tree fixes which circuits may be used, so it must be pinned like the hiding kernel key.
+3. **`registry_root` is a published registry root** the verifier still accepts: the current one, or one within a short window, so revocations take effect.
 4. **`date` is now**, within the verifier's tolerance. The envelope step proves the document hasn't expired at `date`.
 5. **`context` identifies this transfer.** It's chosen before proving (for example `H(chain id, contract, sender, nonce)` or the transfer's note commitment; it can't be the transaction hash, which depends on the proof). The envelope is encrypted under it, so a bundle copied to another transfer fails this check, and viewers need `context` to decrypt.
 6. **`viewers` are registered viewer keys**, or `(0, 0)` for an unused slot. The circuit accepts any point.
-7. **Hash policy.** For example, reject bundles where any hash id is 1 (SHA-1).
+7. **Hash policy.** For example, reject `uses_sha1 = 1`.
+
+The step links (`c_A`, `c_B`) are checked inside the kernels, not by the verifier.
 
 Then the envelope (`E`, `wrapped`, `ciphertext`) is stored with the transfer. A viewer in slot `i` opens it with `eid_envelope::open(envelope, context, i, secret)` (`rust/eid-envelope`).
 
 ## What the verifier learns
 
-- **The circuits used.** Each verification key identifies a signature configuration and size bucket, which narrows down the issuing country: the CSCA and DSC schemes, and the eContent and data group hashes. Only an aggregation proof over a set of allowed keys would hide this.
-- **Nothing about the holder or the document beyond that.** No name, number, dates or country. `c_A` and `c_B` are fresh per bundle (fresh salts), so two bundles for the same document can't be linked unless the holder reuses a cached step A proof (see ARCHITECTURE.md, *Future improvements*).
+Only the public outputs: the registry root, the date, the context, the viewer keys, the envelope and whether SHA-1 was used. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
 
-## Verification keys
+## Keys to publish per release
 
-There is one circuit per variant: 124 DSC, 124 SOD and 48 envelope circuits. The verifier needs each variant's verification key, or the subset it accepts:
-- **EVM:** bb generates one Solidity verifier contract per key (`bb write_solidity_verifier`). Proofs and keys must use the `evm` target (Keccak transcript) instead of `noir-recursive`, which was chosen for recursion.
-- **Gates.** The circuits and gate counts are identical for both targets (checked with `bb gates -t evm`), so sizes, costs and the memory cap are unchanged.
+- the hiding kernel's verification key: `bb write_vk --scheme chonk --use_zk_flavor` on `kernel_hiding`;
+- the key tree root from `noir/circuits/vk-tree.json`.
 
-Keys only change when a circuit or the toolchain (nargo, bb) changes. They should be published with each release, together with a manifest mapping circuit ids to keys.
+Both change when a circuit or the toolchain (nargo, bb) changes.

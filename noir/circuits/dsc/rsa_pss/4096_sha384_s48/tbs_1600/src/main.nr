@@ -7,14 +7,15 @@ use eid_rsa::verify_pss;
 use eid_steps::dsc::{check, commitment, KeyKind, Witness};
 use eid_steps::HASH_SHA384;
 
-/// Public: registry root. Returns `[commitment, hash id]`.
+/// Returns `[registry root, commitment, hash id]` through the databus, to the
+/// DSC kernel that folds this proof.
 fn main(
-    root: pub Field,
+    root: Field,
     salt: Field,
     w: Witness<1600, 512>,
     redc: [u128; 35],
     signature: [u8; 512],
-) -> pub [Field; 2] {
+) -> return_data [Field; 3] {
     let f = check::<1600, 512, 17>(root, w, KeyKind { key_type: 1, curve: 0, bits: 4096 });
     let digest = sha384_var(w.tbs, f.len);
     verify_pss::<Sha384, 35, 4096, 17, 48, 48>(
@@ -24,5 +25,5 @@ fn main(
         signature,
         digest,
     );
-    [commitment(salt, w.header.country, HASH_SHA384, w.tbs, f.len), HASH_SHA384 as Field]
+    [root, commitment(salt, w.header.country, HASH_SHA384, w.tbs, f.len), HASH_SHA384 as Field]
 }

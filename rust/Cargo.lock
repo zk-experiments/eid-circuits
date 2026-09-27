@@ -615,14 +615,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "eid-prover"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "csca-registry",
+ "hex",
+ "num-bigint",
+ "serde_json",
+ "sha2 0.10.9",
+]
+
+[[package]]
 name = "eid-vectors"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "ark-bn254",
  "ark-ff",
  "clap",
  "csca-registry",
  "eid-envelope",
+ "eid-prover",
  "hex",
  "num-bigint",
  "rand_chacha",

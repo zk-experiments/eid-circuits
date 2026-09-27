@@ -7,158 +7,18 @@
 //! commitment. A sample of them also gets a `Prover.toml` built from a real
 //! certificate, which CI executes.
 
-use crate::steps::{bucket, dsc_case, registry, BUCKETS};
+use crate::steps::registry;
 use crate::{fixtures, root, ECDSA_CASES, RSA_CASES};
-use anyhow::{bail, ensure, Context, Result};
+use anyhow::{bail, Context, Result};
 use csca_registry::cert::Cert;
-use csca_registry::crypto::{Hash, PublicKey, Scheme};
-use num_bigint::BigUint;
+use csca_registry::crypto::{Hash, PublicKey};
+use eid_prover::config::{
+    bucket, envelope_dir, envelope_package, Config, BUCKETS, DSC_CONFIGS, LDS_BUCKETS, LDS_HASHES,
+};
+use eid_prover::witness;
+use sha2::Digest as _;
 use std::fmt::Write as _;
 use std::path::PathBuf;
-
-/// How a CSCA signs: key and scheme.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum Config {
-    Pkcs1 { bits: u32, hash: Hash },
-    Pss { bits: u32, hash: Hash, salt: usize },
-    Ecdsa { curve: &'static str, hash: Hash },
-}
-
-/// Every (CSCA key, signature scheme) pair among verified signatures in the
-/// DE + IT master lists (csca-registry fixtures), 2026-09-27.
-pub(crate) const DSC_CONFIGS: &[Config] = &[
-    Config::Ecdsa {
-        curve: "p256",
-        hash: Hash::Sha1,
-    },
-    Config::Ecdsa {
-        curve: "p256",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "p384",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "p384",
-        hash: Hash::Sha384,
-    },
-    Config::Ecdsa {
-        curve: "p384",
-        hash: Hash::Sha512,
-    },
-    Config::Ecdsa {
-        curve: "p521",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "p521",
-        hash: Hash::Sha512,
-    },
-    Config::Ecdsa {
-        curve: "bp256",
-        hash: Hash::Sha1,
-    },
-    Config::Ecdsa {
-        curve: "bp256",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "bp256",
-        hash: Hash::Sha512,
-    },
-    Config::Ecdsa {
-        curve: "bp384",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "bp384",
-        hash: Hash::Sha384,
-    },
-    Config::Ecdsa {
-        curve: "bp512",
-        hash: Hash::Sha256,
-    },
-    Config::Ecdsa {
-        curve: "bp512",
-        hash: Hash::Sha512,
-    },
-    Config::Pkcs1 {
-        bits: 2048,
-        hash: Hash::Sha1,
-    },
-    Config::Pkcs1 {
-        bits: 2048,
-        hash: Hash::Sha256,
-    },
-    Config::Pkcs1 {
-        bits: 2048,
-        hash: Hash::Sha512,
-    },
-    Config::Pkcs1 {
-        bits: 3072,
-        hash: Hash::Sha256,
-    },
-    Config::Pkcs1 {
-        bits: 3072,
-        hash: Hash::Sha384,
-    },
-    Config::Pss {
-        bits: 3072,
-        hash: Hash::Sha256,
-        salt: 32,
-    },
-    Config::Pss {
-        bits: 3072,
-        hash: Hash::Sha384,
-        salt: 48,
-    },
-    Config::Pkcs1 {
-        bits: 4096,
-        hash: Hash::Sha1,
-    },
-    Config::Pkcs1 {
-        bits: 4096,
-        hash: Hash::Sha256,
-    },
-    Config::Pkcs1 {
-        bits: 4096,
-        hash: Hash::Sha384,
-    },
-    Config::Pkcs1 {
-        bits: 4096,
-        hash: Hash::Sha512,
-    },
-    Config::Pss {
-        bits: 4096,
-        hash: Hash::Sha256,
-        salt: 20,
-    },
-    Config::Pss {
-        bits: 4096,
-        hash: Hash::Sha256,
-        salt: 32,
-    },
-    Config::Pss {
-        bits: 4096,
-        hash: Hash::Sha384,
-        salt: 48,
-    },
-    Config::Pss {
-        bits: 4096,
-        hash: Hash::Sha512,
-        salt: 20,
-    },
-    Config::Pss {
-        bits: 4096,
-        hash: Hash::Sha512,
-        salt: 64,
-    },
-    Config::Pkcs1 {
-        bits: 6144,
-        hash: Hash::Sha256,
-    },
-];
 
 /// Library and bench packages, listed before the generated circuits.
 const FIXED_MEMBERS: &[&str] = &[
@@ -167,7 +27,13 @@ const FIXED_MEMBERS: &[&str] = &[
     "noir/lib/ecdsa",
     "noir/lib/der",
     "noir/lib/envelope",
+    "noir/lib/kernel",
     "noir/lib/steps",
+    "noir/kernels/dsc",
+    "noir/kernels/sod",
+    "noir/kernels/envelope",
+    "noir/kernels/tail",
+    "noir/kernels/hiding",
 ];
 
 /// (curve label, csca-registry curve id, key bits, coordinate bytes, Noir wrapper)
@@ -238,103 +104,6 @@ fn hash(
     }
 }
 
-impl Config {
-    /// Human-readable key and scheme, e.g. `RSA-4096 · PSS SHA-256 salt 32`.
-    pub(crate) fn label(self) -> String {
-        let up = |h: Hash| hash(h).0.to_uppercase().replace("SHA", "SHA-");
-        match self {
-            Config::Pkcs1 { bits, hash: h } => format!("RSA-{bits} \u{b7} PKCS#1 v1.5 {}", up(h)),
-            Config::Pss {
-                bits,
-                hash: h,
-                salt,
-            } => format!("RSA-{bits} \u{b7} PSS {} salt {salt}", up(h)),
-            Config::Ecdsa { curve, hash: h } => {
-                let name = match curve {
-                    "p256" => "P-256",
-                    "p384" => "P-384",
-                    "p521" => "P-521",
-                    "bp256" => "brainpoolP256r1",
-                    "bp384" => "brainpoolP384r1",
-                    _ => "brainpoolP512r1",
-                };
-                format!("{name} \u{b7} ECDSA {}", up(h))
-            }
-        }
-    }
-
-    /// (group directory, variant directory)
-    fn dirs(self) -> (&'static str, String) {
-        match self {
-            Config::Pkcs1 { bits, hash: h } => ("rsa_pkcs1v15", format!("{bits}_{}", hash(h).0)),
-            Config::Pss {
-                bits,
-                hash: h,
-                salt,
-            } => ("rsa_pss", format!("{bits}_{}_s{salt}", hash(h).0)),
-            Config::Ecdsa { curve, hash: h } => ("ecdsa", format!("{curve}_{}", hash(h).0)),
-        }
-    }
-
-    pub(crate) fn package(self, t: usize) -> String {
-        self.step_package("dsc", t)
-    }
-
-    fn dir(self, t: usize) -> String {
-        self.step_dir("dsc", t)
-    }
-
-    /// Package of this configuration's circuit in `step` (`dsc`, `sod`).
-    pub(crate) fn step_package(self, step: &str, t: usize) -> String {
-        let (g, v) = self.dirs();
-        format!("{step}_{g}_{v}_tbs{t}")
-    }
-
-    fn step_dir(self, step: &str, t: usize) -> String {
-        let (g, v) = self.dirs();
-        format!("noir/circuits/{step}/{g}/{v}/tbs_{t}")
-    }
-
-    /// The configuration a certificate was signed with, if generated.
-    pub(crate) fn of(cert: &Cert, issuer_key: &PublicKey) -> Option<Self> {
-        let scheme = cert.scheme.clone().ok()?;
-        let found = match (scheme, issuer_key) {
-            (Scheme::RsaPkcs1(h), PublicKey::Rsa { .. }) => Config::Pkcs1 {
-                bits: u32::try_from(issuer_key.bits()).ok()?,
-                hash: h,
-            },
-            (Scheme::RsaPss { hash: h, salt, .. }, PublicKey::Rsa { .. }) => Config::Pss {
-                bits: u32::try_from(issuer_key.bits()).ok()?,
-                hash: h,
-                salt,
-            },
-            (
-                Scheme::Ecdsa {
-                    hash: h,
-                    plain: false,
-                },
-                PublicKey::Ec { curve: Some(c), .. },
-            ) => {
-                let label = match c.name() {
-                    "P-256" => "p256",
-                    "P-384" => "p384",
-                    "P-521" => "p521",
-                    "brainpoolP256r1" => "bp256",
-                    "brainpoolP384r1" => "bp384",
-                    "brainpoolP512r1" => "bp512",
-                    _ => return None,
-                };
-                Config::Ecdsa {
-                    curve: label,
-                    hash: h,
-                }
-            }
-            _ => return None,
-        };
-        DSC_CONFIGS.contains(&found).then_some(found)
-    }
-}
-
 /// `Nargo.toml` for a circuit `depth` directories below `noir/`.
 fn nargo_toml(package: &str, deps: &[&str], depth: usize) -> String {
     let mut s = format!(
@@ -382,7 +151,7 @@ fn dsc_circuit(c: Config, t: usize) -> Result<(String, String)> {
                 ),
             };
             let main = format!(
-                "//! DSC step \u{b7} {title} \u{b7} TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/dsc.md.\n\n{uses}\nuse eid_steps::dsc::{{check, commitment, KeyKind, Witness}};\nuse eid_steps::{id};\n\n/// Public: registry root. Returns `[commitment, hash id]`.\nfn main(\n    root: pub Field,\n    salt: Field,\n    w: Witness<{t}, {k}>,\n    redc: [u128; {limbs}],\n    signature: [u8; {k}],\n) -> pub [Field; 2] {{\n    let f = check::<{t}, {k}, {m}>(root, w, KeyKind {{ key_type: 1, curve: 0, bits: {bits} }});\n    let digest = {hf}(w.tbs, f.len);\n    {call}\n    [commitment(salt, w.header.country, {id}, w.tbs, f.len), {id} as Field]\n}}\n"
+                "//! DSC step \u{b7} {title} \u{b7} TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/dsc.md.\n\n{uses}\nuse eid_steps::dsc::{{check, commitment, KeyKind, Witness}};\nuse eid_steps::{id};\n\n/// Returns `[registry root, commitment, hash id]` through the databus, to the\n/// DSC kernel that folds this proof.\nfn main(\n    root: Field,\n    salt: Field,\n    w: Witness<{t}, {k}>,\n    redc: [u128; {limbs}],\n    signature: [u8; {k}],\n) -> return_data [Field; 3] {{\n    let f = check::<{t}, {k}, {m}>(root, w, KeyKind {{ key_type: 1, curve: 0, bits: {bits} }});\n    let digest = {hf}(w.tbs, f.len);\n    {call}\n    [root, commitment(salt, w.header.country, {id}, w.tbs, f.len), {id} as Field]\n}}\n"
             );
             let deps = vec!["eid_hash", "eid_rsa", "eid_steps"];
             (main, deps)
@@ -396,7 +165,7 @@ fn dsc_circuit(c: Config, t: usize) -> Result<(String, String)> {
             let k = 2 * sz;
             let m = k.div_ceil(31);
             let main = format!(
-                "//! DSC step \u{b7} ECDSA \u{b7} {label} \u{b7} {} \u{b7} TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/dsc.md.\n\nuse eid_ecdsa::{wrapper};\nuse eid_hash::{hf};\nuse eid_steps::dsc::{{check, commitment, KeyKind, Witness}};\nuse eid_steps::{id};\n\n/// Public: registry root. Returns `[commitment, hash id]`.\nfn main(\n    root: pub Field,\n    salt: Field,\n    w: Witness<{t}, {k}>,\n    r: [u8; {sz}],\n    s: [u8; {sz}],\n) -> pub [Field; 2] {{\n    let f = check::<{t}, {k}, {m}>(root, w, KeyKind {{ key_type: 2, curve: {curve_id}, bits: {bits} }});\n    let mut x: [u8; {sz}] = [0; {sz}];\n    let mut y: [u8; {sz}] = [0; {sz}];\n    for i in 0..{sz} {{\n        x[i] = w.csca_key[i];\n        y[i] = w.csca_key[{sz} + i];\n    }}\n    {wrapper}::<{d}>(x, y, r, s, {hf}(w.tbs, f.len));\n    [commitment(salt, w.header.country, {id}, w.tbs, f.len), {id} as Field]\n}}\n",
+                "//! DSC step \u{b7} ECDSA \u{b7} {label} \u{b7} {} \u{b7} TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/dsc.md.\n\nuse eid_ecdsa::{wrapper};\nuse eid_hash::{hf};\nuse eid_steps::dsc::{{check, commitment, KeyKind, Witness}};\nuse eid_steps::{id};\n\n/// Returns `[registry root, commitment, hash id]` through the databus, to the\n/// DSC kernel that folds this proof.\nfn main(\n    root: Field,\n    salt: Field,\n    w: Witness<{t}, {k}>,\n    r: [u8; {sz}],\n    s: [u8; {sz}],\n) -> return_data [Field; 3] {{\n    let f = check::<{t}, {k}, {m}>(root, w, KeyKind {{ key_type: 2, curve: {curve_id}, bits: {bits} }});\n    let mut x: [u8; {sz}] = [0; {sz}];\n    let mut y: [u8; {sz}] = [0; {sz}];\n    for i in 0..{sz} {{\n        x[i] = w.csca_key[i];\n        y[i] = w.csca_key[{sz} + i];\n    }}\n    {wrapper}::<{d}>(x, y, r, s, {hf}(w.tbs, f.len));\n    [root, commitment(salt, w.header.country, {id}, w.tbs, f.len), {id} as Field]\n}}\n",
                 hn.to_uppercase()
             );
             (main, vec!["eid_ecdsa", "eid_hash", "eid_steps"])
@@ -457,7 +226,7 @@ fn sod_circuit(c: Config, t: usize) -> Result<(String, String)> {
     let (uses, params, verify) = sod_verify(c)?;
     let verify = verify.replace("spki_rsa::<T,", &format!("spki_rsa::<{t},"));
     let main = format!(
-        "//! SOD step \u{b7} {} \u{b7} DSC TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/sod.md.\n\n{uses}\nuse eid_steps::{{dsc, sod}};\nuse eid_steps::{id};\n\n/// Returns `[DSC commitment, SOD commitment, hash id]`. The first must equal\n/// the DSC step's output.\nfn main(\n    dsc_salt: Field,\n    dsc_hash_id: u8,\n    country: [u8; 3],\n    salt: Field,\n    tbs: [u8; {t}],\n    attrs: [u8; 256],\n    md_offset: u32,\n{params}) -> pub [Field; 3] {{\n    let (f, a) = sod::parse(tbs, attrs, md_offset);\n    {verify}\n    [\n        dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len),\n        sod::commitment(salt, country, a),\n        {id} as Field,\n    ]\n}}\n",
+        "//! SOD step \u{b7} {} \u{b7} DSC TBSCertificate \u{2264} {t} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/sod.md.\n\n{uses}\nuse eid_steps::{{dsc, sod}};\nuse eid_steps::{id};\n\n/// Returns `[DSC commitment, SOD commitment, hash id]` through the databus, to\n/// the SOD kernel, which checks the first equals the DSC step's.\nfn main(\n    dsc_salt: Field,\n    dsc_hash_id: u8,\n    country: [u8; 3],\n    salt: Field,\n    tbs: [u8; {t}],\n    attrs: [u8; 256],\n    md_offset: u32,\n{params}) -> return_data [Field; 3] {{\n    let (f, a) = sod::parse(tbs, attrs, md_offset);\n    {verify}\n    [\n        dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len),\n        sod::commitment(salt, country, a),\n        {id} as Field,\n    ]\n}}\n",
         c.label()
     );
     let deps: Vec<&str> = match c {
@@ -465,25 +234,6 @@ fn sod_circuit(c: Config, t: usize) -> Result<(String, String)> {
         _ => vec!["eid_der", "eid_hash", "eid_rsa", "eid_steps"],
     };
     Ok((nargo_toml(&pkg, &deps, 5), main))
-}
-
-/// Hashes an LDS security object and its data groups use: every pair
-/// (eContent hash, data group hash) gets a circuit per eContent bucket.
-pub(crate) const LDS_HASHES: [Hash; 4] = [Hash::Sha1, Hash::Sha256, Hash::Sha384, Hash::Sha512];
-
-/// eContent size buckets: 16 data groups with SHA-512 hashes take about 1.2 kB.
-pub(crate) const LDS_BUCKETS: [usize; 3] = [512, 1024, 1536];
-
-fn envelope_package(md: Hash, dg: Hash, e: usize) -> String {
-    format!("envelope_{}_{}_lds{e}", hash(md).0, hash(dg).0)
-}
-
-fn envelope_dir(md: Hash, dg: Hash, e: usize) -> String {
-    format!(
-        "noir/circuits/envelope/{}_{}/lds_{e}",
-        hash(md).0,
-        hash(dg).0
-    )
 }
 
 /// `Nargo.toml` and `main.nr` for one envelope step circuit.
@@ -506,7 +256,7 @@ fn envelope_circuit(md: Hash, dg: Hash, e: usize) -> (String, String) {
     let (fns, ids) = (names(mf, df), names(mid, did));
     let up = |h: &str| h.to_uppercase().replace("SHA", "SHA-");
     let main = format!(
-        "//! Envelope step \u{b7} eContent {} \u{b7} data groups {} \u{b7} eContent \u{2264} {e} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/envelope.md.\n\nuse eid_hash::{fns};\nuse eid_steps::envelope::{{\n    assert_hash_at, assert_message_digest, check, {oid}, Outputs, outputs, Witness,\n}};\nuse eid_steps::{ids};\nuse std::embedded_curve_ops::EmbeddedCurvePoint;\n\n/// Public: proof date (unix seconds), the context the envelope is bound to\n/// (e.g. the transfer), and viewer keys (`(0, 0)` leaves a slot empty).\n/// Returns step B's commitment, the hash ids and the envelope.\nfn main(\n    date: pub u64,\n    context: pub Field,\n    viewers: pub [EmbeddedCurvePoint; 4],\n    w: Witness<{e}>,\n) -> pub Outputs {{\n    let p = check::<{e}, {oid_len}, {dd}>(date, w, {oid});\n    assert_message_digest(w, {mf}(w.econtent, p.lds.len));\n    assert_hash_at(w.econtent, p.lds.dg1_hash_at, {df}(w.dg1, p.dg1.len));\n    outputs(viewers, context, w, p, {mid}, {did})\n}}\n",
+        "//! Envelope step \u{b7} eContent {} \u{b7} data groups {} \u{b7} eContent \u{2264} {e} bytes.\n//!\n//! Generated by `eid-vectors circuits`; specification: docs/circuits/envelope.md.\n\nuse eid_hash::{fns};\nuse eid_steps::envelope::{{\n    assert_hash_at, assert_message_digest, check, flatten, {oid}, outputs, Witness,\n}};\nuse eid_steps::{ids};\nuse std::embedded_curve_ops::EmbeddedCurvePoint;\n\n/// Takes the proof date (unix seconds), the context the envelope is bound to\n/// (e.g. the transfer) and the viewer keys (`(0, 0)` leaves a slot empty), and\n/// returns them with step B's commitment, the hash ids and the envelope\n/// through the databus (`envelope::flatten`), to the envelope kernel.\nfn main(\n    date: u64,\n    context: Field,\n    viewers: [EmbeddedCurvePoint; 4],\n    w: Witness<{e}>,\n) -> return_data [Field; 25] {{\n    let p = check::<{e}, {oid_len}, {dd}>(date, w, {oid});\n    assert_message_digest(w, {mf}(w.econtent, p.lds.len));\n    assert_hash_at(w.econtent, p.lds.dg1_hash_at, {df}(w.dg1, p.dg1.len));\n    flatten(date, context, viewers, outputs(viewers, context, w, p, {mid}, {did}))\n}}\n",
         up(mn),
         up(dn),
     );
@@ -548,33 +298,28 @@ fn envelope_provers() -> Result<Vec<(PathBuf, String)>> {
                 .into_iter()
                 .find(|b| *b >= doc.econtent.len())
                 .context("eContent fits no bucket")?;
-            let pad = |b: &[u8], n: usize| {
-                let mut v = b.to_vec();
-                v.resize(n, 0);
-                v
-            };
             let digest = md.digest(&doc.econtent);
-            let viewers: Vec<String> = sample_viewers()
-                .iter()
-                .map(|v| {
-                    let (x, y) = v.unwrap_or_default();
-                    format!("{{ x = \"{}\", y = \"{}\" }}", field(x), field(y))
-                })
-                .collect();
+            let viewers = sample_viewers().map(|v| {
+                let (x, y) = v.unwrap_or_default();
+                (field(x), field(y))
+            });
             let mut toml = String::from(
                 "# Generated by `eid-vectors circuits` from a synthetic document (rust/eid-vectors/src/mock.rs). Do not edit.\n",
             );
-            writeln!(
-                toml,
-                "date = {SAMPLE_DATE}\ncontext = \"{CONTEXT}\"\nviewers = [{}]\n\n[w]\nsod_salt = \"67890\"\ncountry = {}\ndigest = {}\ndigest_len = {}\necontent = {}\ndg1_offset = {}\ndg1 = {}\nephemeral = \"{EPHEMERAL}\"\nkey = \"{DATA_KEY}\"",
-                viewers.join(", "),
-                toml_bytes(SAMPLE_COUNTRY.as_bytes()),
-                toml_bytes(&pad(&digest, 64)),
-                digest.len(),
-                toml_bytes(&pad(&doc.econtent, e)),
-                doc.dg1_offset,
-                toml_bytes(&pad(&doc.dg1, eid_envelope::DG1_MAX)),
-            )?;
+            toml.push_str(&witness::envelope_toml(&witness::Envelope {
+                econtent: &doc.econtent,
+                bucket: e,
+                digest: &digest,
+                dg1: &doc.dg1,
+                dg1_offset: doc.dg1_offset,
+                sod_salt: "67890",
+                country: SAMPLE_COUNTRY,
+                date: i64::try_from(SAMPLE_DATE)?,
+                context: &CONTEXT.to_string(),
+                viewers: &viewers,
+                ephemeral: &EPHEMERAL.to_string(),
+                key: &DATA_KEY.to_string(),
+            })?);
             out.push((
                 PathBuf::from(format!("{}/Prover.toml", envelope_dir(md, dg, e))),
                 toml,
@@ -594,49 +339,81 @@ fn sod_provers() -> Result<Vec<(PathBuf, String)>> {
     for &c in DSC_CONFIGS {
         let doc = crate::mock::Doc::new(c, SAMPLE_COUNTRY, SAMPLE_EXPIRY)?;
         let t = bucket(doc.tbs.len()).context("mock TBS fits no bucket")?;
-        let mut tbs = doc.tbs.clone();
-        tbs.resize(t, 0);
-        let mut attrs = doc.attrs.clone();
-        ensure!(attrs.len() <= 256, "mock signedAttrs exceed the bucket");
-        attrs.resize(256, 0);
+        let sig = match &doc.dsc_key {
+            PublicKey::Rsa { .. } => witness::Signature::Rsa(doc.signature.clone()),
+            PublicKey::Ec { .. } => {
+                let (r, s) = doc.signature.split_at(doc.signature.len() / 2);
+                witness::Signature::Ecdsa {
+                    r: r.to_vec(),
+                    s: s.to_vec(),
+                }
+            }
+        };
         let mut toml = String::from(
             "# Generated by `eid-vectors circuits` from a synthetic document (rust/eid-vectors/src/mock.rs). Do not edit.\n",
         );
-        writeln!(
-            toml,
-            "dsc_salt = \"12345\"\ndsc_hash_id = 3\ncountry = {}\nsalt = \"67890\"\ntbs = {}\nattrs = {}\nmd_offset = {}",
-            toml_bytes(SAMPLE_COUNTRY.as_bytes()),
-            toml_bytes(&tbs),
-            toml_bytes(&attrs),
-            doc.md_offset
-        )?;
-        match &doc.dsc_key {
-            PublicKey::Rsa { n, .. } => {
-                let modulus = BigUint::from_bytes_be(n);
-                let bits = usize::try_from(modulus.bits())?;
-                let redc = (BigUint::from(1u8) << (2 * bits + 6)) / &modulus;
-                let mask = (BigUint::from(1u8) << 120u32) - 1u8;
-                let r: Vec<String> = (0..bits.div_ceil(120))
-                    .map(|i| format!("\"0x{:x}\"", (&redc >> (120 * i)) & &mask))
-                    .collect();
-                writeln!(
-                    toml,
-                    "redc = [{}]\nsignature = {}",
-                    r.join(", "),
-                    toml_bytes(&doc.signature)
-                )?;
-            }
-            PublicKey::Ec { .. } => {
-                let (r, s) = doc.signature.split_at(doc.signature.len() / 2);
-                writeln!(toml, "r = {}\ns = {}", toml_bytes(r), toml_bytes(s))?;
-            }
-        }
+        toml.push_str(&witness::sod_toml(
+            &doc.tbs,
+            &doc.attrs,
+            doc.md_offset,
+            &doc.dsc_key,
+            &sig,
+            "12345",
+            3,
+            SAMPLE_COUNTRY,
+            "67890",
+        )?);
         out.push((
             PathBuf::from(format!("{}/Prover.toml", c.step_dir("sod", t))),
             toml,
         ));
     }
     Ok(out)
+}
+
+/// Names of every bin package in the root Nargo.toml's workspace.
+pub(crate) fn bin_packages() -> Result<Vec<String>> {
+    let ws = std::fs::read_to_string(root().join("Nargo.toml"))?;
+    let mut out = vec![];
+    for member in ws
+        .lines()
+        .filter_map(|l| l.trim().strip_prefix('"')?.strip_suffix("\","))
+    {
+        let toml = std::fs::read_to_string(root().join(member).join("Nargo.toml"))?;
+        if toml.contains("type = \"bin\"") {
+            if let Some(name) = toml
+                .lines()
+                .find_map(|l| l.strip_prefix("name = \"")?.strip_suffix('"'))
+            {
+                out.push(name.to_string());
+            }
+        }
+    }
+    out.sort();
+    Ok(out)
+}
+
+/// Directory of a generated circuit package, from its name.
+pub(crate) fn package_dir(pkg: &str) -> Option<String> {
+    for &c in DSC_CONFIGS {
+        for t in BUCKETS {
+            for step in ["dsc", "sod"] {
+                if c.step_package(step, t) == pkg {
+                    return Some(c.step_dir(step, t));
+                }
+            }
+        }
+    }
+    for md in LDS_HASHES {
+        for dg in LDS_HASHES {
+            for e in LDS_BUCKETS {
+                if envelope_package(md, dg, e) == pkg {
+                    return Some(envelope_dir(md, dg, e));
+                }
+            }
+        }
+    }
+    None
 }
 
 /// Every generated file (relative path, contents), including the root Nargo.toml.
@@ -710,11 +487,6 @@ fn bench_members() -> Result<Vec<String>> {
     Ok(v)
 }
 
-fn toml_bytes(b: &[u8]) -> String {
-    let body: Vec<String> = b.iter().map(|x| x.to_string()).collect();
-    format!("[{}]", body.join(", "))
-}
-
 /// `Prover.toml` for every fixture certificate whose configuration is
 /// generated (first certificate per configuration), in its bucket's circuit.
 fn provers() -> Result<Vec<(PathBuf, String)>> {
@@ -737,102 +509,18 @@ fn provers() -> Result<Vec<(PathBuf, String)>> {
             continue;
         }
         done.push(config);
-        let dc = dsc_case(&reg, name)?;
-        let (tbs, _, _, sig) =
-            csca_registry::der::signed_parts(&cert.der).context("signed parts")?;
+        let (tbs, ..) = csca_registry::der::signed_parts(&cert.der).context("signed parts")?;
         let t = bucket(tbs.len()).context("bucket")?;
+        let key_id = hex::encode(sha2::Sha256::digest(key.material()));
         let mut toml =
             format!("# Generated by `eid-vectors circuits` from fixture {name}. Do not edit.\n");
-        writeln!(toml, "root = \"{}\"\nsalt = \"12345\"", reg.commitment.root)?;
-        match &key {
-            PublicKey::Rsa { n, .. } => {
-                let modulus = BigUint::from_bytes_be(n);
-                let bits = usize::try_from(modulus.bits())?;
-                let limbs = bits.div_ceil(120);
-                let redc = (BigUint::from(1u8) << (2 * bits + 6)) / &modulus;
-                let mask = (BigUint::from(1u8) << 120u32) - 1u8;
-                let r: Vec<String> = (0..limbs)
-                    .map(|i| format!("\"0x{:x}\"", (&redc >> (120 * i)) & &mask))
-                    .collect();
-                let mut signature = vec![0u8; n.len() - sig.len()];
-                signature.extend_from_slice(sig);
-                writeln!(
-                    toml,
-                    "redc = [{}]\nsignature = {}",
-                    r.join(", "),
-                    toml_bytes(&signature)
-                )?;
-            }
-            PublicKey::Ec { point, .. } => {
-                let sz = (point.len() - 1) / 2;
-                let (seq, _) = csca_registry::der::expect(sig, 0x30).context("ECDSA signature")?;
-                let parts = csca_registry::der::children(seq.content).context("ECDSA signature")?;
-                let [r, s] = parts.as_slice() else {
-                    bail!("{name}: signature is not (r, s)")
-                };
-                let pad = |v: &[u8]| {
-                    let v = csca_registry::der::uint(v);
-                    let mut o = vec![0u8; sz - v.len()];
-                    o.extend_from_slice(v);
-                    o
-                };
-                writeln!(
-                    toml,
-                    "r = {}\ns = {}",
-                    toml_bytes(&pad(r.content)),
-                    toml_bytes(&pad(s.content))
-                )?;
-            }
-        }
-        toml.push_str(&witness_toml(&dc.witness_parts));
+        toml.push_str(&witness::dsc_toml(&reg, &key_id, &cert, "12345")?);
         out.push((
             PathBuf::from(format!("{}/Prover.toml", config.dir(t))),
             toml,
         ));
     }
     Ok(out)
-}
-
-/// The `w` table of a Prover.toml.
-fn witness_toml(p: &crate::steps::WitnessParts) -> String {
-    let path = |idx: &str, sib: &[String]| {
-        format!(
-            "index = \"{idx}\"\nsiblings = [{}]\n",
-            sib.iter()
-                .map(|s| format!("\"{s}\""))
-                .collect::<Vec<_>>()
-                .join(", ")
-        )
-    };
-    let mut s = String::new();
-    s.push_str(&format!(
-        "\n[w]\ntbs = {}\ncsca_key = {}\nrevocations_root = \"{}\"\n",
-        toml_bytes(&p.tbs),
-        toml_bytes(&p.csca_key),
-        p.revocations_root
-    ));
-    let h = &p.header;
-    s.push_str(&format!(
-        "\n[w.header]\ncountry = {}\nkey_type = {}\ncurve = {}\nbits = {}\nexponent = {}\nopen = \"{}\"\nclose = \"{}\"\n",
-        toml_bytes(&h.country), h.key_type, h.curve, h.bits, h.exponent, h.open, h.close
-    ));
-    s.push_str(&format!(
-        "\n[w.key_path]\n{}",
-        path(&p.key_index, &p.key_siblings)
-    ));
-    s.push_str(&format!(
-        "\n[w.not_revoked]\nhas_lower = {}\nlower_leaf = \"{}\"\nupper_leaf = \"{}\"\n",
-        p.has_lower, p.lower_leaf, p.upper_leaf
-    ));
-    s.push_str(&format!(
-        "\n[w.not_revoked.lower]\n{}",
-        path(&p.lower_index, &p.lower_siblings)
-    ));
-    s.push_str(&format!(
-        "\n[w.not_revoked.upper]\n{}",
-        path(&p.upper_index, &p.upper_siblings)
-    ));
-    s
 }
 
 /// Packages that get a Prover.toml (CI executes them).

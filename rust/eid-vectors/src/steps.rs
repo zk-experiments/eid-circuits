@@ -12,20 +12,14 @@ use csca_registry::cert::Cert;
 use csca_registry::commands::prove::{prove_key, prove_not_revoked, ProofJson};
 use csca_registry::output::Registry;
 use csca_registry::registry::Builder;
+use eid_prover::config::bucket;
 use sha2::{Digest, Sha256};
 use std::fmt::Write as _;
-
-/// TBSCertificate size buckets (same as zkpassport's DSC circuits).
-pub(crate) const BUCKETS: [usize; 4] = [700, 1000, 1200, 1600];
 
 pub(crate) fn registry() -> Result<Registry> {
     let mut b = Builder::default();
     b.add_path(&fixtures().join("sources"))?;
     b.finish()
-}
-
-pub(crate) fn bucket(len: usize) -> Option<usize> {
-    BUCKETS.into_iter().find(|b| *b >= len)
 }
 
 fn path(p: &ProofJson) -> String {
@@ -36,40 +30,11 @@ fn path(p: &ProofJson) -> String {
     )
 }
 
-/// CSCA leaf header values.
-pub(crate) struct HeaderParts {
-    pub country: Vec<u8>,
-    pub key_type: u8,
-    pub curve: u8,
-    pub bits: u16,
-    pub exponent: u32,
-    pub open: i64,
-    pub close: i64,
-}
-
-/// The DSC step witness as plain values (rendered as Noir or TOML).
-pub(crate) struct WitnessParts {
-    pub tbs: Vec<u8>,
-    pub csca_key: Vec<u8>,
-    pub header: HeaderParts,
-    pub key_index: String,
-    pub key_siblings: Vec<String>,
-    pub revocations_root: String,
-    pub has_lower: bool,
-    pub lower_leaf: String,
-    pub lower_index: String,
-    pub lower_siblings: Vec<String>,
-    pub upper_leaf: String,
-    pub upper_index: String,
-    pub upper_siblings: Vec<String>,
-}
-
 /// Noir expression building `Witness` for one certificate, plus its
 /// `KeyKind` and generic sizes (T, K, M).
 pub(crate) struct DscCase {
     pub name: String,
     pub witness: String,
-    pub witness_parts: WitnessParts,
     pub kind: String,
     pub t: usize,
     pub k: usize,
@@ -100,29 +65,6 @@ pub(crate) fn dsc_case(reg: &Registry, name: &str) -> Result<DscCase> {
     let nr = prove_not_revoked(reg, &key_id, &hex::encode(&cert.serial))?;
     let c = kp.country_code.as_bytes();
     let lower = nr.lower.as_ref();
-    let witness_parts = WitnessParts {
-        tbs: padded.clone(),
-        csca_key: key.material().to_vec(),
-        header: HeaderParts {
-            country: c.to_vec(),
-            key_type: kp.key_type,
-            curve: kp.curve,
-            bits: kp.bits,
-            exponent: kp.exponent,
-            open: kp.open,
-            close: kp.close,
-        },
-        key_index: kp.proof.index.to_string(),
-        key_siblings: kp.proof.siblings.clone(),
-        revocations_root: kp.revocations_root.clone(),
-        has_lower: lower.is_some(),
-        lower_leaf: lower.map_or("0".into(), |l| l.leaf.clone()),
-        lower_index: lower.map_or("0".into(), |l| l.index.to_string()),
-        lower_siblings: lower.map_or(vec!["0".into(); 14], |l| l.siblings.clone()),
-        upper_leaf: nr.upper.leaf.clone(),
-        upper_index: nr.upper.index.to_string(),
-        upper_siblings: nr.upper.siblings.clone(),
-    };
     let witness = format!(
         "Witness {{\n        tbs: {},\n        csca_key: {},\n        header: KeyHeader {{ country: [{}, {}, {}], key_type: {}, curve: {}, bits: {}, exponent: {}, open: {}, close: {} }},\n        key_path: {},\n        revocations_root: {},\n        not_revoked: Exclusion {{\n            has_lower: {},\n            lower_leaf: {},\n            lower: {},\n            upper_leaf: {},\n            upper: {},\n        }},\n    }}",
         bytes(&padded),
@@ -154,7 +96,6 @@ pub(crate) fn dsc_case(reg: &Registry, name: &str) -> Result<DscCase> {
     Ok(DscCase {
         name: name.into(),
         witness,
-        witness_parts,
         kind,
         t,
         k: key.material().len(),
@@ -212,17 +153,17 @@ pub(crate) fn steps_vectors() -> Result<String> {
 /// SOD step cases: (vector name, configuration). They cover rsaEncryption
 /// and id-RSASSA-PSS keys, a named curve (P-256) and explicit parameters
 /// (brainpoolP256r1, P-521 with 66-byte coordinates).
-const SOD_CASES: &[(&str, crate::circuits::Config)] = &[
+const SOD_CASES: &[(&str, eid_prover::config::Config)] = &[
     (
         "pkcs1_2048",
-        crate::circuits::Config::Pkcs1 {
+        eid_prover::config::Config::Pkcs1 {
             bits: 2048,
             hash: csca_registry::crypto::Hash::Sha256,
         },
     ),
     (
         "pss_3072",
-        crate::circuits::Config::Pss {
+        eid_prover::config::Config::Pss {
             bits: 3072,
             hash: csca_registry::crypto::Hash::Sha256,
             salt: 32,
@@ -230,21 +171,21 @@ const SOD_CASES: &[(&str, crate::circuits::Config)] = &[
     ),
     (
         "p256",
-        crate::circuits::Config::Ecdsa {
+        eid_prover::config::Config::Ecdsa {
             curve: "p256",
             hash: csca_registry::crypto::Hash::Sha256,
         },
     ),
     (
         "bp256",
-        crate::circuits::Config::Ecdsa {
+        eid_prover::config::Config::Ecdsa {
             curve: "bp256",
             hash: csca_registry::crypto::Hash::Sha256,
         },
     ),
     (
         "p521",
-        crate::circuits::Config::Ecdsa {
+        eid_prover::config::Config::Ecdsa {
             curve: "p521",
             hash: csca_registry::crypto::Hash::Sha512,
         },
@@ -333,9 +274,10 @@ fn mrz_expires(yymmdd: &str) -> Result<u64> {
 /// `noir/lib/steps/src/envelope_vectors.nr`: `envelope::check` on synthetic
 /// documents, and `parse_dg1` on TD1, TD2 and TD3 MRZs.
 pub(crate) fn envelope_vectors() -> Result<String> {
-    use crate::circuits::{Config, SAMPLE_COUNTRY, SAMPLE_DATE, SAMPLE_EXPIRY};
+    use crate::circuits::{SAMPLE_COUNTRY, SAMPLE_DATE, SAMPLE_EXPIRY};
     use crate::mock::{dg1, td1_mrz, td2_mrz, td3_mrz, Doc, Lds};
     use csca_registry::crypto::Hash;
+    use eid_prover::config::Config;
     let mut out = String::from(
         "// Generated by `eid-vectors steps` from synthetic documents (rust/eid-vectors/src/mock.rs). Do not edit.\n\n\
          use crate::envelope::{check, OID_SHA256, OID_SHA512, parse_dg1, Witness};\n\n",

@@ -4,22 +4,28 @@
 
 use eid_hash::sha256_var;
 use eid_steps::envelope::{
-    assert_hash_at, assert_message_digest, check, OID_SHA256, Outputs, outputs, Witness,
+    assert_hash_at, assert_message_digest, check, flatten, OID_SHA256, outputs, Witness,
 };
 use eid_steps::HASH_SHA256;
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
-/// Public: proof date (unix seconds), the context the envelope is bound to
-/// (e.g. the transfer), and viewer keys (`(0, 0)` leaves a slot empty).
-/// Returns step B's commitment, the hash ids and the envelope.
+/// Takes the proof date (unix seconds), the context the envelope is bound to
+/// (e.g. the transfer) and the viewer keys (`(0, 0)` leaves a slot empty), and
+/// returns them with step B's commitment, the hash ids and the envelope
+/// through the databus (`envelope::flatten`), to the envelope kernel.
 fn main(
-    date: pub u64,
-    context: pub Field,
-    viewers: pub [EmbeddedCurvePoint; 4],
+    date: u64,
+    context: Field,
+    viewers: [EmbeddedCurvePoint; 4],
     w: Witness<512>,
-) -> pub Outputs {
+) -> return_data [Field; 25] {
     let p = check::<512, 11, 32>(date, w, OID_SHA256);
     assert_message_digest(w, sha256_var(w.econtent, p.lds.len));
     assert_hash_at(w.econtent, p.lds.dg1_hash_at, sha256_var(w.dg1, p.dg1.len));
-    outputs(viewers, context, w, p, HASH_SHA256, HASH_SHA256)
+    flatten(
+        date,
+        context,
+        viewers,
+        outputs(viewers, context, w, p, HASH_SHA256, HASH_SHA256),
+    )
 }

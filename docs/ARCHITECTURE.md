@@ -15,20 +15,20 @@ For a public registry root `R`, date `D`, context `X` (the transfer the envelope
 
 A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing and encryption would be very large, and it would have to exist for every combination of signature types. The statement is therefore split into steps, each a separate circuit per signature type. The steps are linked by salted Poseidon2 commitments (`H(salt, values…)`), which reveal nothing and bind the private values passed between steps:
 
-| step | circuits | checks | public | commits to |
+| step | circuits | checks | returns (databus) | commits to |
 |---|---|---|---|---|
-| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R` | country, DSC `TBSCertificate` |
-| B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | — | country, `messageDigest` |
-| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `X`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
+| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `c_A`, hash id | country, DSC `TBSCertificate` |
+| B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | `c_A`, `c_B`, hash id | country, `messageDigest` |
+| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `X`, `Vᵢ`, `c_B`, hash ids, `E`, wrapped keys, `C` | — |
 
-The verifier checks all three proofs and that their commitments match (A's output equals B's input, B's output equals C's input); see [VERIFY.md](VERIFY.md). There is no aggregation proof: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
+The steps are folded into one Chonk proof by kernel circuits. The kernels check each step's verification key against a published key tree and the commitment links (A's `c_A` reappears in B, B's `c_B` in C), and the hiding kernel makes the statement public ([FOLDING.md](FOLDING.md)). Every document is verified under the same key, so its variants stay private; see [VERIFY.md](VERIFY.md). Recursive aggregation was ruled out: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
 
 `<scheme>` is the signature group: `rsa_pkcs1v15/<bits>_<hash>`, `rsa_pss/<bits>_<hash>_s<salt>`, `ecdsa/<curve>_<hash>`. Each circuit is a thin generated binary over the shared library for its signature type (`noir/lib/rsa`, `noir/lib/ecdsa`) and `noir/lib/steps`. Only the parameters differ between members of a group.
 
 ### Decisions
 
 - **Size buckets.** Certificate and SOD buffers come in fixed buckets (700, 1000, 1200, 1600 bytes for the DSC `TBSCertificate`), and the prover uses the smallest that fits. Hashing cost follows the bucket.
-- **Hash ids are public.** Every step outputs the hash algorithm it used. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
+- **SHA-1 is visible, other hashes aren't.** Every step outputs the hash algorithm it used; the kernels reduce them to one public "uses SHA-1" flag. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
 - **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
 
 Status: all three steps are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/envelope.md](circuits/envelope.md), costs are in [docs/COSTS.md](COSTS.md), and verification is in [docs/VERIFY.md](VERIFY.md).
@@ -44,6 +44,28 @@ Status: all three steps are built. Their specifications are [docs/circuits/dsc.m
 | `eid_rsa` | A, B | [noir/lib/rsa](../noir/lib/rsa/README.md) |
 | `eid_ecdsa` | A, B | [noir/lib/ecdsa](../noir/lib/ecdsa/README.md) |
 | `eid_envelope` | C | [noir/lib/envelope](../noir/lib/envelope/README.md); Rust: [rust/eid-envelope](../rust/eid-envelope) |
+
+## Prover
+
+`rust/eid-prover` takes what the phone reads over NFC (EF.SOD and DG1) and the published registry, and selects the circuit of each step (`eid_prover::select`):
+
+| step | chosen by | read from |
+|---|---|---|
+| DSC | the CSCA's key (the registry key that verifies the DSC certificate) and the DSC certificate's signature scheme; `TBSCertificate` bucket | the DSC certificate embedded in EF.SOD, the registry |
+| SOD | the DSC's key and the SignerInfo signature scheme; same bucket | EF.SOD |
+| envelope | the SignerInfo digest algorithm (eContent hash) and the LDS security object's hash algorithm; eContent bucket | EF.SOD |
+
+Before any proving, it checks natively everything the proofs will state:
+- the CSCA's registry period covers the DSC's `notBefore`, and the DSC isn't revoked;
+- the DSC certificate and the SOD signatures verify;
+- `messageDigest` matches the eContent, and DG1 matches its listed hash;
+- the MRZ issuing state is the CSCA's country, and the document hasn't expired.
+
+A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*).
+
+`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, viewers). The same step functions write the `Prover.toml` samples in `eid-vectors`.
+
+Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and checks that the commitments link from step to step.
 
 ## Date policy
 

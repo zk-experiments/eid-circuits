@@ -2,12 +2,13 @@
 //! over a synthetic DG1, which the Noir `seal` must reproduce.
 
 use crate::bytes;
-use crate::circuits::{Config, SAMPLE_COUNTRY, SAMPLE_EXPIRY};
+use crate::circuits::{SAMPLE_COUNTRY, SAMPLE_EXPIRY};
 use crate::mock::Doc;
 use anyhow::Result;
 use ark_ff::PrimeField;
 use csca_registry::crypto::Hash;
 use eid_envelope::{public_key, seal, Fr, Point, DG1_MAX, VIEWERS};
+use eid_prover::config::Config;
 use std::fmt::Write as _;
 
 /// Decimal string of a field element (Noir accepts it as a literal).

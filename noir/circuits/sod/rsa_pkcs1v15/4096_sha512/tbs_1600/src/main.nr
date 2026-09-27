@@ -8,8 +8,8 @@ use eid_rsa::{DIGEST_INFO_SHA512, verify_pkcs1v15};
 use eid_steps::{dsc, sod};
 use eid_steps::HASH_SHA512;
 
-/// Returns `[DSC commitment, SOD commitment, hash id]`. The first must equal
-/// the DSC step's output.
+/// Returns `[DSC commitment, SOD commitment, hash id]` through the databus, to
+/// the SOD kernel, which checks the first equals the DSC step's.
 fn main(
     dsc_salt: Field,
     dsc_hash_id: u8,
@@ -20,7 +20,7 @@ fn main(
     md_offset: u32,
     redc: [u128; 35],
     signature: [u8; 512],
-) -> pub [Field; 3] {
+) -> return_data [Field; 3] {
     let (f, a) = sod::parse(tbs, attrs, md_offset);
     let (modulus, exponent) = spki_rsa::<1600, 512>(tbs, f.spki_offset, f.len);
     let digest = sha512_var(attrs, a.len);

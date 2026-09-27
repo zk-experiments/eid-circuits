@@ -151,7 +151,7 @@ jobs:
       - name: Generated Noir files are current
         run: |
           set -euo pipefail
-          for what in rsa ecdsa curves der steps envelope circuits costs; do
+          for what in rsa ecdsa curves der steps envelope documents circuits costs; do
             cargo run -q -p eid-vectors -- "$what" --check
           done
 
@@ -195,11 +195,22 @@ jobs:
             | sort > samples.txt
           echo "$(wc -l < samples.txt) samples"
           xargs -P "$(nproc)" -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
+      - name: Cache the bb CRS
+        uses: actions/cache@v4
+        with:
+          path: ~/.bb-crs
+          key: bb-crs-${{ hashFiles('mise.toml') }}
+      # The prover's inputs for synthetic documents, through the kernels that
+      # fold them: key tree membership and step links are checked in-circuit.
+      # Execution and verification keys only; nothing is proven.
+      - name: Fold the end-to-end chains through the kernels
+        run: python3 scripts/fold.py --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb"
       - name: Committed sizes are current for the samples
         run: |
           python3 .github/scripts/circuit_sizes.py collect . --packages samples.txt --no-compile \
             --cache docs/data/circuit-sizes.json --bb "$HOME/.bb/bb" -o samples-sizes.json
-          python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json
+          python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json \
+            --vk-tree noir/circuits/vk-tree.json
       - name: Enforce the 2 GiB proving-memory cap
         run: python3 .github/scripts/circuit_sizes.py check docs/data/circuit-sizes.json
 

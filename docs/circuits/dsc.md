@@ -14,12 +14,12 @@ The configurations are exactly the 31 (CSCA key, scheme) pairs used by verified 
 
 ```noir
 fn main(
-    root: pub Field,                // registry root (csca-registry commitment)
+    root: Field,                    // registry root (csca-registry commitment), returned for the kernels
     salt: Field,                    // blinds the output commitment
     w: eid_steps::dsc::Witness<T, K>,
     // RSA:   redc: [u128; N], signature: [u8; K]
     // ECDSA: r: [u8; S], s: [u8; S]
-) -> pub [Field; 2]                 // [commitment, hash id]
+) -> return_data [Field; 3]         // [root, commitment, hash id], to kernel_dsc
 ```
 
 `Witness` holds:
@@ -42,7 +42,7 @@ With `f = eid_der::parse_tbs(w.tbs)`, the circuit asserts:
    - **ECDSA:** `w.csca_key` splits into `x ‖ y`.
 
    The signature is over `hash(tbs[..f.len])`, checked with `eid_rsa` or `eid_ecdsa`.
-6. **Outputs.** The circuit returns `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))` and `hash_id` (1 = SHA-1 … 5 = SHA-512). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key. The verifier sees the hash ids, so it can refuse SHA-1-derived proofs by policy.
+6. **Outputs.** The circuit returns, through the databus, `root`, `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))` and `hash_id` (1 = SHA-1 … 5 = SHA-512). `kernel_dsc` folds it and makes `root` public ([FOLDING.md](../FOLDING.md)). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key. The kernels reduce the hash ids to a public SHA-1 flag, so a verifier can refuse SHA-1-derived proofs by policy.
 
 ## Review notes
 
