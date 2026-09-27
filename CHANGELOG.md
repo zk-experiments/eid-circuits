@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.2.0 - 2026-09-27
+#### Features
+- (**folding**) keep proven chains' proof, vk and public outputs with fold.py --out - (2d790fe) - Anton Velichko
+- <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**folding**) fold the three steps into one Chonk proof - (bef327f) - Anton Velichko
+- (**prover**) build the inputs of all three steps from a document - (ce411e9) - Anton Velichko
+- (**prover**) select the step circuits from a document's NFC data - (3e7967a) - Anton Velichko
+#### Miscellaneous Chores
+- use csca-registry v0.3.1 and update the audit notes - (1c8c5cb) - Anton Velichko
+
+- - -
+
 ## v0.1.0 - 2026-09-27
 #### Features
 - (**der**) add constrained DER reading for TBSCertificates - (a6d9ea3) - Anton Velichko

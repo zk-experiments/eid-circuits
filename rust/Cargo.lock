@@ -605,7 +605,7 @@ dependencies = [
 
 [[package]]
 name = "eid-envelope"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "ark-bn254",
  "ark-ec",
@@ -616,7 +616,7 @@ dependencies = [
 
 [[package]]
 name = "eid-prover"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "csca-registry",
@@ -628,7 +628,7 @@ dependencies = [
 
 [[package]]
 name = "eid-vectors"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "ark-bn254",
