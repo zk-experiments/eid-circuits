@@ -8,7 +8,7 @@ For viewer keys `V₀…V₃` (Grumpkin points; `(0, 0)` marks an empty slot), e
 
 1. **Ephemeral key.** `E = e·G`, with `G` Noir's embedded-curve generator (`std::embedded_curve_ops`).
 2. **Key wrapping.** For each non-empty slot `i`: `S = e·Vᵢ`, `kᵢ = H(WRAP, S.x, S.y, i)`, `wrappedᵢ = K + kᵢ`. Empty slots publish 0.
-3. **Encryption.** `state = P(K, E.x, E.y, CIPHER)`. Then for each block of three plaintext fields, `cⱼ = pⱼ + state[j]`, `state[j] = cⱼ`, `state = P(state)`.
+3. **Encryption.** `state = P(K, E.x, E.y, CIPHER)`, then `state[0] += context` and `state = P(state)`. Then for each block of three plaintext fields, `cⱼ = pⱼ + state[j]`, `state[j] = cⱼ`, `state = P(state)`.
 4. **Plaintext.** 24 fields: `dg1_len + 2^16·dg11_len`; `pack_be` of the 95-byte DG1 buffer (4 fields) and of the 512-byte DG11 buffer (17 fields), as `csca_registry::pack_be` packs them; then zeros.
 
 - `P` is the BN254 Poseidon2 permutation (width 4) and `H` Noir's Poseidon2 sponge (`csca_registry::hash`).
@@ -18,7 +18,7 @@ A viewer with secret `v` (`Vᵢ = v·G`) computes `v·E = e·Vᵢ`, unwraps `K`,
 
 ## API
 
-- **`seal(viewers, e, key, plaintext) -> Envelope`**: returns `ephemeral`, `wrapped[4]` and `ciphertext[24]`.
+- **`seal(viewers, e, key, context, plaintext) -> Envelope`**: returns `ephemeral`, `wrapped[4]` and `ciphertext[24]`.
 - **`plaintext(dg1, dg1_len, dg11, dg11_len)`**: builds the 24 plaintext fields. The caller asserts the buffers are zero past their lengths.
 - Constants: `VIEWERS`, `DG1_MAX`, `DG11_MAX`, `PLAINTEXT_FIELDS`, `WRAP_DOMAIN`, `CIPHER_DOMAIN`.
 
@@ -27,6 +27,7 @@ A viewer with secret `v` (`Vᵢ = v·G`) computes `v·E = e·Vᵢ`, unwraps `K`,
 - **Freshness.** `e` and `K` must be uniformly random and never reused: reusing `(K, E)` reuses the keystream. The circuit only asserts `e ≠ 0`. `K` is a full field element masked by `kᵢ`, which is pseudorandom as long as the CDH-style assumption holds on Grumpkin and Poseidon2 behaves as a random oracle.
 - **No authentication tag.** Integrity comes from the proof: it binds `C` to plaintext whose hashes the issuer signed. A viewer must only trust an envelope whose proof verified on chain.
 - **Fixed size.** The ciphertext always has 24 fields, so its length reveals nothing about DG11 (not even whether it exists).
+- **Context.** `context` (the transfer the envelope travels with) is absorbed before encryption, so a copied envelope attached to another transfer doesn't decrypt there and the step C proof doesn't verify under the other context.
 - **Viewer keys** are public inputs and aren't checked to be on the curve here; the verifier must only accept registered keys. The Rust `seal` rejects off-curve keys.
 - **Slot index in `kᵢ`.** Including `i` keeps wrapped keys distinct when the same viewer key occupies two slots.
 

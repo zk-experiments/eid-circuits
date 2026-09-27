@@ -2,14 +2,14 @@
 
 ## Statement
 
-For a public registry root `R`, date `D`, viewer keys `V₁…Vₙ` and ciphertext `C`, the full proof asserts that there is an eMRTD for which all of the following hold:
+For a public registry root `R`, date `D`, context `X` (the transfer the envelope travels with), viewer keys `V₁…Vₙ` and ciphertext `C`, the three step proofs together assert that there is an eMRTD for which all of the following hold:
 
 1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the DSC's `notBefore` (see *Date policy*). The leaf's country equals the document's issuing state.
 2. `K_csca` signed the DSC certificate, and the DSC's serial is not revoked under `K_csca` in `R`'s revocation tree.
 3. The DSC key signed the SOD's signed attributes. Their `messageDigest` is the hash of the SOD's eContent (the LDS security object).
 4. The eContent lists the hashes of DG1 and DG11, and they match the DG1 and DG11 the prover holds.
 5. The document's expiry date (from DG1) is on or after `D`.
-6. `C` is DG1 ‖ DG11 encrypted under a fresh data key, and that key is wrapped to each `Vᵢ` in the proof's outputs.
+6. `C` is DG1 ‖ DG11 encrypted under a fresh data key and bound to `X`, and that key is wrapped to each `Vᵢ` in the proof's outputs.
 
 ## Proof pipeline
 
@@ -17,20 +17,21 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 
 | step | circuits | checks | public | commits to |
 |---|---|---|---|---|
-| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `D` | country, DSC key, DSC serial |
+| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R` | country, DSC `TBSCertificate` |
 | B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | — | country, `messageDigest` |
-| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
-| D · aggregate | `circuits/aggregate` | verifies A, B and C recursively, and checks their commitments chain | everything above | — |
+| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `X`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
+
+The verifier checks all three proofs and that their commitments match (A's output equals B's input, B's output equals C's input); see [VERIFY.md](VERIFY.md). There is no aggregation proof: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
 
 `<scheme>` is the signature group: `rsa_pkcs1v15/<bits>_<hash>`, `rsa_pss/<bits>_<hash>_s<salt>`, `ecdsa/<curve>_<hash>`. Each circuit is a thin generated binary over the shared library for its signature type (`noir/lib/rsa`, `noir/lib/ecdsa`) and `noir/lib/steps`. Only the parameters differ between members of a group.
 
 ### Decisions
 
 - **Size buckets.** Certificate and SOD buffers come in fixed buckets (700, 1000, 1200, 1600 bytes for the DSC `TBSCertificate`), and the prover uses the smallest that fits. Hashing cost follows the bucket.
-- **Hash ids are public.** Every step outputs the hash algorithm it used, and the aggregation exposes the weakest one. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
+- **Hash ids are public.** Every step outputs the hash algorithm it used. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
 - **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
 
-Status: steps A (DSC), B (SOD) and C (envelope) are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/envelope.md](circuits/envelope.md); step A's costs are in [docs/COSTS.md](COSTS.md). Step D (aggregation) is next.
+Status: all three steps are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/envelope.md](circuits/envelope.md), costs are in [docs/COSTS.md](COSTS.md), and verification is in [docs/VERIFY.md](VERIFY.md).
 
 ## Libraries
 

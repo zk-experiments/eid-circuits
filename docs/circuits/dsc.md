@@ -42,7 +42,7 @@ With `f = eid_der::parse_tbs(w.tbs)`, the circuit asserts:
    - **ECDSA:** `w.csca_key` splits into `x ‖ y`.
 
    The signature is over `hash(tbs[..f.len])`, checked with `eid_rsa` or `eid_ecdsa`.
-6. **Outputs.** The circuit returns `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))` and `hash_id` (1 = SHA-1 … 5 = SHA-512). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key. The aggregation exposes the hash ids, so a verifier can refuse SHA-1-derived proofs by policy.
+6. **Outputs.** The circuit returns `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))` and `hash_id` (1 = SHA-1 … 5 = SHA-512). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key. The verifier sees the hash ids, so it can refuse SHA-1-derived proofs by policy.
 
 ## Review notes
 

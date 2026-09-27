@@ -24,7 +24,8 @@ import sys
 import tomllib
 from pathlib import Path
 
-# The verifier target the step circuits are proven for (recursive aggregation).
+# Gate counts are the same for every bb target (checked for noir-recursive and
+# evm), so one target measures all of them.
 TARGET = "noir-recursive"
 # Below this, a move is noise from a compiler detail rather than a change
 # worth a reviewer's attention.

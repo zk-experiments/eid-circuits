@@ -16,6 +16,7 @@ There is one circuit per (eContent hash, data group hash) pair and eContent size
 ```noir
 fn main(
     date: pub u64,                                  // proof date D, unix seconds
+    context: pub Field,                             // the transfer the envelope is bound to
     viewers: pub [EmbeddedCurvePoint; 4],           // Grumpkin viewer keys; (0, 0) leaves a slot empty
     w: eid_steps::envelope::Witness<E>,
 ) -> pub eid_steps::envelope::Outputs
@@ -51,9 +52,9 @@ With `p = eid_steps::envelope::check(date, w, hash_oid)`, the circuit asserts:
    - its issuing state, normalised with `csca_registry::country_from_mrz` (`D<<` → `DEU`), equals the committed country.
 5. **Not expired.** The MRZ date of expiry, YYMMDD read as 20YY, ends on or after `date`: `date ≤ days(20YY-MM-DD)·86400 + 86399`.
 6. **DG11 is one element (tag `6B`) followed by zeros**, or all zeros when absent.
-7. **The envelope** is `eid_envelope::seal(viewers, e, K, plaintext(DG1, DG11))`: see [noir/lib/envelope](../../noir/lib/envelope/README.md). The plaintext holds both lengths and the whole zero-padded buffers, so viewers get exactly the bytes whose hashes were checked.
+7. **The envelope** is `eid_envelope::seal(viewers, e, K, context, plaintext(DG1, DG11))`, bound to `context`: see [noir/lib/envelope](../../noir/lib/envelope/README.md). The plaintext holds both lengths and the whole zero-padded buffers, so viewers get exactly the bytes whose hashes were checked.
 
-The outputs let the aggregation check `sod_commitment` against step B, and a verifier refuse SHA-1-derived proofs by the hash ids.
+The outputs let the verifier check `sod_commitment` against step B and refuse SHA-1-derived proofs by the hash ids (see [VERIFY.md](../VERIFY.md)).
 
 ## Review notes
 

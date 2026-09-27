@@ -56,7 +56,10 @@ pub fn plaintext(
 }
 
 /// Seals `plaintext` under data key `key` with ephemeral scalar `e`, wrapping
-/// `key` to every viewer key that is not the point at infinity.
+/// `key` to every viewer key that is not the point at infinity. `context`
+/// binds the ciphertext to one use (for example the transfer it travels
+/// with): it is absorbed before encryption, so the same plaintext and keys
+/// under another context give an unrelated ciphertext.
 ///
 /// `e` and `key` must be fresh and uniformly random per envelope; `e ≠ 0` is
 /// asserted. Viewer keys are public inputs: the verifier is responsible for
@@ -65,6 +68,7 @@ pub fn seal(
     viewers: [EmbeddedCurvePoint; VIEWERS],
     e: Field,
     key: Field,
+    context: Field,
     plaintext: [Field; PLAINTEXT_FIELDS],
 ) -> Envelope {
     assert(e != 0, "ephemeral scalar must not be zero");
@@ -80,6 +84,8 @@ pub fn seal(
 
     let mut state: [Field; 4] =
         std::hash::poseidon2_permutation([key, ephemeral.x, ephemeral.y, CIPHER_DOMAIN]);
+    state[0] += context;
+    state = std::hash::poseidon2_permutation(state);
     let mut ciphertext: [Field; PLAINTEXT_FIELDS] = [0; PLAINTEXT_FIELDS];
     for block in 0..PLAINTEXT_FIELDS / 3 {
         for j in 0..3 {

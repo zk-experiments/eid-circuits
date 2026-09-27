@@ -9,9 +9,15 @@ use eid_steps::envelope::{
 use eid_steps::{HASH_SHA1, HASH_SHA512};
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
-/// Public: proof date (unix seconds) and viewer keys (`(0, 0)` leaves a slot
-/// empty). Returns step B's commitment, the hash ids and the envelope.
-fn main(date: pub u64, viewers: pub [EmbeddedCurvePoint; 4], w: Witness<1024>) -> pub Outputs {
+/// Public: proof date (unix seconds), the context the envelope is bound to
+/// (e.g. the transfer), and viewer keys (`(0, 0)` leaves a slot empty).
+/// Returns step B's commitment, the hash ids and the envelope.
+fn main(
+    date: pub u64,
+    context: pub Field,
+    viewers: pub [EmbeddedCurvePoint; 4],
+    w: Witness<1024>,
+) -> pub Outputs {
     let p = check::<1024, 7, 20>(date, w, OID_SHA1);
     assert_message_digest(w, sha512_var(w.econtent, p.lds.len));
     assert_hash_at(w.econtent, p.lds.dg1_hash_at, sha1_var(w.dg1, p.dg1.len));
@@ -19,5 +25,5 @@ fn main(date: pub u64, viewers: pub [EmbeddedCurvePoint; 4], w: Witness<1024>) -
     if w.has_dg11 {
         assert_hash_at(w.econtent, p.lds.dg11_hash_at, dg11);
     }
-    outputs(viewers, w, p, HASH_SHA512, HASH_SHA1)
+    outputs(viewers, context, w, p, HASH_SHA512, HASH_SHA1)
 }

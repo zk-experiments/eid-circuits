@@ -19,6 +19,8 @@ pub(crate) fn field(f: Fr) -> String {
 pub(crate) const VIEWER_SECRETS: [Option<u64>; VIEWERS] = [Some(1111), None, Some(2222), None];
 pub(crate) const EPHEMERAL: u64 = 424_242;
 pub(crate) const DATA_KEY: u64 = 777_777;
+/// Sample binding context (stands in for a transfer identifier).
+pub(crate) const CONTEXT: u64 = 31_337;
 
 pub(crate) fn sample_viewers() -> [Point; VIEWERS] {
     VIEWER_SECRETS.map(|s| s.and_then(|s| public_key(Fr::from(s))))
@@ -60,12 +62,13 @@ pub(crate) fn vectors() -> Result<String> {
             &viewers,
             Fr::from(EPHEMERAL),
             Fr::from(DATA_KEY),
+            Fr::from(CONTEXT),
         )
         .map_err(|e| anyhow::anyhow!("{e}"))?;
         // Viewers must be able to open it.
         for (slot, secret) in VIEWER_SECRETS.iter().enumerate() {
             if let Some(s) = secret {
-                let (dg1, opened) = eid_envelope::open(&env, slot, Fr::from(*s))
+                let (dg1, opened) = eid_envelope::open(&env, Fr::from(CONTEXT), slot, Fr::from(*s))
                     .map_err(|e| anyhow::anyhow!("{e}"))?;
                 anyhow::ensure!(dg1 == doc.dg1 && opened.as_deref() == dg11, "open failed");
             }
@@ -74,7 +77,7 @@ pub(crate) fn vectors() -> Result<String> {
         let list = |v: &[Fr]| v.iter().map(|f| field(*f)).collect::<Vec<_>>().join(", ");
         writeln!(
             out,
-            "#[test]\nfn {name}() {{\n    let viewers = [{}];\n    let p = plaintext({}, {}, {}, {});\n    let env = seal(viewers, {EPHEMERAL}, {DATA_KEY}, p);\n    assert_eq(env.ephemeral, {});\n    assert_eq(env.wrapped, [{}]);\n    assert_eq(env.ciphertext, [{}]);\n}}\n",
+            "#[test]\nfn {name}() {{\n    let viewers = [{}];\n    let p = plaintext({}, {}, {}, {});\n    let env = seal(viewers, {EPHEMERAL}, {DATA_KEY}, {CONTEXT}, p);\n    assert_eq(env.ephemeral, {});\n    assert_eq(env.wrapped, [{}]);\n    assert_eq(env.ciphertext, [{}]);\n}}\n",
             viewers.iter().map(|v| point(*v)).collect::<Vec<_>>().join(", "),
             bytes(&padded(&doc.dg1, DG1_MAX)),
             doc.dg1.len(),

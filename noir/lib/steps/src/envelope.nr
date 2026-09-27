@@ -170,9 +170,10 @@ pub fn assert_hash_at<let N: u32, let D: u32>(buf: [u8; N], at: u32, digest: [u8
 }
 
 /// Step C outputs: step B's commitment recomputed from the witness, the hash
-/// ids, and the envelope of DG1 and DG11 to `viewers`.
+/// ids, and the envelope of DG1 and DG11 to `viewers`, bound to `context`.
 pub fn outputs<let E: u32>(
     viewers: [EmbeddedCurvePoint; VIEWERS],
+    context: Field,
     w: Witness<E>,
     p: Parsed,
     econtent_hash_id: u8,
@@ -184,6 +185,6 @@ pub fn outputs<let E: u32>(
         sod_commitment: crate::sod::commitment(w.sod_salt, w.country, attrs),
         econtent_hash_id: econtent_hash_id as Field,
         dg_hash_id: dg_hash_id as Field,
-        envelope: seal(viewers, w.ephemeral, w.key, pt),
+        envelope: seal(viewers, w.ephemeral, w.key, context, pt),
     }
 }

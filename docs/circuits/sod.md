@@ -31,7 +31,7 @@ With `(f, a) = eid_steps::sod::parse(tbs, attrs, md_offset)`, the circuit assert
 3. **The signed attributes are well formed.** `attrs` is a DER SET of at most 8 attributes that exactly fill it, followed only by zeros. `md_offset` is the start of one of them, and that attribute is `SEQUENCE { id-messageDigest, SET { OCTET STRING d } }` with exactly one value of 20, 28, 32, 48 or 64 bytes.
 4. **The DSC signed them.** The signature over `hash(attrs[..a.len])` verifies under the DSC key with the circuit's scheme (`eid_rsa` or `eid_ecdsa`).
 5. **Outputs.**
-   - `dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len)`: the aggregation checks it equals step A's output, which ties this `TBSCertificate`, and so the DSC key, to a registered, unrevoked CSCA.
+   - `dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len)`: the verifier checks it equals step A's output, which ties this `TBSCertificate`, and so the DSC key, to a registered, unrevoked CSCA.
    - `sod::commitment(salt, country, a) = H(salt, country, digest_len, pack_be(digest))`, with the digest zero-padded to 64 bytes: passed to step C.
    - The hash id of the signature, so a verifier can refuse SHA-1-derived proofs.
 
