@@ -1,15 +1,19 @@
-//! Generates `rust/eid-circuits/circuits/packs.toml`: per country, every
-//! frozen circuit its documents may select, so a prover can fetch (or an app
-//! bundle) one country's circuits at once. Fetching exactly a document's
-//! circuits would tell the host its configuration; a pack only tells it the
-//! country.
+//! Generates `rust/eid-circuits/circuits/packs.toml`: the circuit packs a
+//! prover fetches instead of single circuits. Fetching exactly a document's
+//! circuits would tell the download host its configuration; a pack only
+//! tells it a key family, which many countries share.
 //!
-//! A country's pack holds the DSC and SOD circuits of every configuration
-//! whose key matches one of its CSCA keys (RSA size, or EC curve) in every
-//! TBSCertificate bucket. The `common` pack holds what every document may
-//! need whatever its country: all envelope circuits and the kernels. Like
-//! `docs/COSTS.md`, it assumes a DSC's key has its CSCA's key family: the
-//! master lists hold CSCAs only.
+//! - `common`: every envelope circuit and the kernels, which any document
+//!   may need.
+//! - One pack per key family (`rsa4096`, `bp256`, ...): the DSC circuits of
+//!   every configuration whose CSCA key has that family, and the SOD circuits
+//!   of every configuration whose DSC key has it, in every size bucket. A
+//!   document needs `common`, its CSCA key's family and its DSC key's
+//!   (`eid_prover::select::Selection::packs`).
+//! - `[countries]`: per country (alpha-2), the families of its CSCA keys.
+//!   Like `docs/COSTS.md`, it assumes DSC keys share their CSCA's family, as
+//!   the master lists hold CSCAs only; the pack a document needs is decided
+//!   by the document, not by this map.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt::Write as _;
@@ -17,29 +21,16 @@ use std::fmt::Write as _;
 use anyhow::{Context, Result};
 use csca_registry::crypto::PublicKey;
 use eid_prover::config::{
-    curve_label, envelope_package, Config, BUCKETS, DSC_CONFIGS, LDS_BUCKETS, LDS_HASHES,
+    curve_label, envelope_package, BUCKETS, DSC_CONFIGS, LDS_BUCKETS, LDS_HASHES,
 };
 
 use crate::root;
 
-/// A signing key's family: what a circuit is specialised on.
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum Family {
-    Rsa(u32),
-    Ec(&'static str),
-}
-
-fn family_of_config(c: Config) -> Family {
-    match c {
-        Config::Pkcs1 { bits, .. } | Config::Pss { bits, .. } => Family::Rsa(bits),
-        Config::Ecdsa { curve, .. } => Family::Ec(curve),
-    }
-}
-
-fn family_of_key(k: &PublicKey) -> Option<Family> {
+/// A key's family, named as `Config::family` names a configuration's.
+fn family_of_key(k: &PublicKey) -> Option<String> {
     match k {
-        PublicKey::Rsa { .. } => Some(Family::Rsa(u32::try_from(k.bits()).ok()?)),
-        PublicKey::Ec { curve: Some(c), .. } => Some(Family::Ec(curve_label(c.name())?)),
+        PublicKey::Rsa { .. } => Some(format!("rsa{}", k.bits())),
+        PublicKey::Ec { curve: Some(c), .. } => curve_label(c.name()).map(str::to_string),
         PublicKey::Ec { curve: None, .. } => None,
     }
 }
@@ -59,22 +50,18 @@ fn frozen() -> Result<BTreeSet<String>> {
         .collect())
 }
 
-pub(crate) fn report() -> Result<String> {
-    let reg = crate::steps::registry()?;
-    let frozen = frozen()?;
-    let mut families: BTreeMap<String, BTreeSet<Family>> = BTreeMap::new();
-    for k in &reg.keys {
-        if let Some(f) = eid_prover::select::public_key(k)
-            .as_ref()
-            .and_then(family_of_key)
-        {
-            families
-                .entry(k.country.to_uppercase())
-                .or_default()
-                .insert(f);
-        }
+fn write_pack(out: &mut String, name: &str, labels: &BTreeSet<String>) -> Result<()> {
+    writeln!(out, "\n[{name}]\ncircuits = [")?;
+    for l in labels {
+        writeln!(out, "  \"{l}\",")?;
     }
-    let shared: Vec<String> = LDS_HASHES
+    writeln!(out, "]")?;
+    Ok(())
+}
+
+pub(crate) fn report() -> Result<String> {
+    let frozen = frozen()?;
+    let common: BTreeSet<String> = LDS_HASHES
         .iter()
         .flat_map(|&md| LDS_HASHES.iter().map(move |&dg| (md, dg)))
         .flat_map(|(md, dg)| {
@@ -85,37 +72,49 @@ pub(crate) fn report() -> Result<String> {
         .chain(frozen.iter().filter(|l| l.starts_with("kernel_")).cloned())
         .filter(|l| frozen.contains(l))
         .collect();
+    let mut families: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for c in DSC_CONFIGS {
+        let pack = families.entry(c.family()).or_default();
+        for step in ["dsc", "sod"] {
+            for &t in &BUCKETS {
+                let label = c.step_package(step, t);
+                if frozen.contains(&label) {
+                    pack.insert(label);
+                }
+            }
+        }
+    }
+    families.retain(|_, labels| !labels.is_empty());
+
+    let reg = crate::steps::registry()?;
+    let mut countries: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for k in &reg.keys {
+        if let Some(f) = eid_prover::select::public_key(k)
+            .as_ref()
+            .and_then(family_of_key)
+            .filter(|f| families.contains_key(f))
+        {
+            countries
+                .entry(k.country.to_uppercase())
+                .or_default()
+                .insert(f);
+        }
+    }
 
     let mut out = String::from(
         "# Generated by `eid-vectors packs` (rust/eid-vectors/src/packs.rs) from the\n\
          # registry fixtures and circuits/manifest.toml; do not edit.\n\
-         # `common`: envelopes and kernels, for every document. Per country\n\
-         # (alpha-2): the DSC and SOD circuits its documents may select.\n",
+         # Packs: `common` (envelopes, kernels) and one per key family (DSC and SOD\n\
+         # circuits). `[countries]`: each country's CSCA key families.\n",
     );
-    writeln!(out, "\n[common]\ncircuits = [")?;
-    for l in &shared {
-        writeln!(out, "  \"{l}\",")?;
+    write_pack(&mut out, "common", &common)?;
+    for (family, labels) in &families {
+        write_pack(&mut out, family, labels)?;
     }
-    writeln!(out, "]")?;
-    for (country, fams) in &families {
-        let labels: BTreeSet<String> = DSC_CONFIGS
-            .iter()
-            .filter(|c| fams.contains(&family_of_config(**c)))
-            .flat_map(|c| {
-                ["dsc", "sod"]
-                    .into_iter()
-                    .flat_map(move |step| BUCKETS.iter().map(move |&t| c.step_package(step, t)))
-            })
-            .filter(|l| frozen.contains(l))
-            .collect();
-        if labels.is_empty() {
-            continue;
-        }
-        writeln!(out, "\n[{country}]\ncircuits = [")?;
-        for l in &labels {
-            writeln!(out, "  \"{l}\",")?;
-        }
-        writeln!(out, "]")?;
+    writeln!(out, "\n[countries]")?;
+    for (country, fams) in &countries {
+        let list: Vec<String> = fams.iter().map(|f| format!("\"{f}\"")).collect();
+        writeln!(out, "{country} = [{}]", list.join(", "))?;
     }
     Ok(out)
 }

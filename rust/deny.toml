@@ -35,5 +35,4 @@ unknown-git = "deny"
 allow-git = [
   "https://github.com/zk-experiments/csca-registry",
   "https://github.com/zk-experiments/noir-zk",
-  "https://github.com/noir-lang/noir",
 ]
