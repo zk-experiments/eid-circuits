@@ -30,40 +30,11 @@ fn path(p: &ProofJson) -> String {
     )
 }
 
-/// CSCA leaf header values.
-pub(crate) struct HeaderParts {
-    pub country: Vec<u8>,
-    pub key_type: u8,
-    pub curve: u8,
-    pub bits: u16,
-    pub exponent: u32,
-    pub open: i64,
-    pub close: i64,
-}
-
-/// The DSC step witness as plain values (rendered as Noir or TOML).
-pub(crate) struct WitnessParts {
-    pub tbs: Vec<u8>,
-    pub csca_key: Vec<u8>,
-    pub header: HeaderParts,
-    pub key_index: String,
-    pub key_siblings: Vec<String>,
-    pub revocations_root: String,
-    pub has_lower: bool,
-    pub lower_leaf: String,
-    pub lower_index: String,
-    pub lower_siblings: Vec<String>,
-    pub upper_leaf: String,
-    pub upper_index: String,
-    pub upper_siblings: Vec<String>,
-}
-
 /// Noir expression building `Witness` for one certificate, plus its
 /// `KeyKind` and generic sizes (T, K, M).
 pub(crate) struct DscCase {
     pub name: String,
     pub witness: String,
-    pub witness_parts: WitnessParts,
     pub kind: String,
     pub t: usize,
     pub k: usize,
@@ -94,29 +65,6 @@ pub(crate) fn dsc_case(reg: &Registry, name: &str) -> Result<DscCase> {
     let nr = prove_not_revoked(reg, &key_id, &hex::encode(&cert.serial))?;
     let c = kp.country_code.as_bytes();
     let lower = nr.lower.as_ref();
-    let witness_parts = WitnessParts {
-        tbs: padded.clone(),
-        csca_key: key.material().to_vec(),
-        header: HeaderParts {
-            country: c.to_vec(),
-            key_type: kp.key_type,
-            curve: kp.curve,
-            bits: kp.bits,
-            exponent: kp.exponent,
-            open: kp.open,
-            close: kp.close,
-        },
-        key_index: kp.proof.index.to_string(),
-        key_siblings: kp.proof.siblings.clone(),
-        revocations_root: kp.revocations_root.clone(),
-        has_lower: lower.is_some(),
-        lower_leaf: lower.map_or("0".into(), |l| l.leaf.clone()),
-        lower_index: lower.map_or("0".into(), |l| l.index.to_string()),
-        lower_siblings: lower.map_or(vec!["0".into(); 14], |l| l.siblings.clone()),
-        upper_leaf: nr.upper.leaf.clone(),
-        upper_index: nr.upper.index.to_string(),
-        upper_siblings: nr.upper.siblings.clone(),
-    };
     let witness = format!(
         "Witness {{\n        tbs: {},\n        csca_key: {},\n        header: KeyHeader {{ country: [{}, {}, {}], key_type: {}, curve: {}, bits: {}, exponent: {}, open: {}, close: {} }},\n        key_path: {},\n        revocations_root: {},\n        not_revoked: Exclusion {{\n            has_lower: {},\n            lower_leaf: {},\n            lower: {},\n            upper_leaf: {},\n            upper: {},\n        }},\n    }}",
         bytes(&padded),
@@ -148,7 +96,6 @@ pub(crate) fn dsc_case(reg: &Registry, name: &str) -> Result<DscCase> {
     Ok(DscCase {
         name: name.into(),
         witness,
-        witness_parts,
         kind,
         t,
         k: key.material().len(),

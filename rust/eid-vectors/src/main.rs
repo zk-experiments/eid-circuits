@@ -8,7 +8,7 @@
 //! eid-vectors der [--check]                                               # noir/lib/der/src/{vectors,curves}.nr
 //! eid-vectors steps [--check]                                             # noir/lib/steps/src/{vectors,sod_vectors,envelope_vectors}.nr
 //! eid-vectors envelope [--check]                                          # noir/lib/envelope/src/vectors.nr
-//! eid-vectors documents [--check]                                         # rust/eid-prover/tests/data/documents.json
+//! eid-vectors documents [--check]                                         # documents.json, chains.json, Chain.toml
 //! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
 //! eid-vectors samples                                                     # print packages that have a Prover.toml
 //! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
@@ -210,11 +210,14 @@ fn main() -> Result<()> {
             check,
         ),
         Command::Documents { check } => {
-            let path = root().join("rust/eid-prover/tests/data/documents.json");
-            if let Some(dir) = path.parent() {
-                std::fs::create_dir_all(dir)?;
+            for (rel, contents) in documents::documents()? {
+                let path = root().join(rel);
+                if let Some(dir) = path.parent() {
+                    std::fs::create_dir_all(dir)?;
+                }
+                write_or_check(&path, &contents, check)?;
             }
-            write_or_check(&path, &documents::documents()?, check)
+            Ok(())
         }
         Command::Circuits { check } => {
             for (rel, contents) in circuits::files()? {

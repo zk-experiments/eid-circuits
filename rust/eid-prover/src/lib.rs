@@ -6,5 +6,7 @@ pub mod config;
 pub mod mrz;
 pub mod select;
 pub mod sod;
+pub mod witness;
 
 pub use select::{select, Selection};
+pub use witness::{witnesses, Params, Witnesses};

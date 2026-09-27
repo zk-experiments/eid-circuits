@@ -87,3 +87,27 @@ fn refuses_tampered_expired_or_unregistered_documents() {
     bad_sig[last] ^= 0x01;
     assert!(refusal(d, &reg, &bad_sig, &dg1, date(d)).contains("SOD signature"));
 }
+
+#[test]
+fn builds_inputs_for_the_selected_circuits() {
+    for d in documents() {
+        let reg = registry(&[bytes(&d, "csca")]);
+        let zero = ("0".to_string(), "0".to_string());
+        let p = eid_prover::Params {
+            dsc_salt: "1".into(),
+            sod_salt: "2".into(),
+            date: date(&d),
+            context: "3".into(),
+            viewers: [zero.clone(), zero.clone(), zero.clone(), zero],
+            ephemeral: "4".into(),
+            key: "5".into(),
+        };
+        let w = eid_prover::witnesses(&reg, &bytes(&d, "ef_sod"), &bytes(&d, "dg1"), &p)
+            .unwrap_or_else(|e| panic!("{}: {e:#}", d["name"]));
+        assert!(w
+            .dsc
+            .contains(&format!("root = \"{}\"", reg.commitment.root)));
+        assert!(w.sod.contains("dsc_salt = \"1\"") && w.sod.contains("salt = \"2\""));
+        assert!(w.envelope.contains("sod_salt = \"2\"") && w.envelope.contains("context = \"3\""));
+    }
+}

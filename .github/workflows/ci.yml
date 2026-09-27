@@ -195,6 +195,8 @@ jobs:
             | sort > samples.txt
           echo "$(wc -l < samples.txt) samples"
           xargs -P "$(nproc)" -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
+      - name: End-to-end chains link (prover inputs from synthetic EF.SOD + DG1)
+        run: python3 .github/scripts/check_chains.py --nargo "$HOME/.nargo/bin/nargo"
       - name: Committed sizes are current for the samples
         run: |
           python3 .github/scripts/circuit_sizes.py collect . --packages samples.txt --no-compile \

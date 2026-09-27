@@ -136,6 +136,25 @@ impl Sod {
         })
     }
 
+    /// Offset in the eContent of data group `n`'s `DataGroupHash` entry.
+    pub fn data_group_entry_offset(&self, n: u8) -> Result<usize> {
+        let (_, value) = self.data_group_hash(n)?;
+        let body = [
+            &[0x02, 0x01, n][..],
+            &[0x04, u8::try_from(value.len())?][..],
+            &value[..],
+        ]
+        .concat();
+        let entry = [&[0x30, u8::try_from(body.len())?][..], &body[..]].concat();
+        let found: Vec<usize> = (0..self.econtent.len())
+            .filter(|&i| self.econtent[i..].starts_with(&entry))
+            .collect();
+        match found.as_slice() {
+            [i] => Ok(*i),
+            _ => bail!("DG{n}'s entry is not unique in the LDS security object"),
+        }
+    }
+
     /// The LDS security object's data group hash algorithm and the hash it
     /// lists for data group `n`.
     pub fn data_group_hash(&self, n: u8) -> Result<(Hash, Vec<u8>)> {

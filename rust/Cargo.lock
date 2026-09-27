@@ -621,6 +621,7 @@ dependencies = [
  "anyhow",
  "csca-registry",
  "hex",
+ "num-bigint",
  "serde_json",
  "sha2 0.10.9",
 ]

@@ -61,7 +61,11 @@ Before any proving, it checks natively everything the proofs will state:
 - `messageDigest` matches the eContent, and DG1 matches its listed hash;
 - the MRZ issuing state is the CSCA's country, and the document hasn't expired.
 
-A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*). Its tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`).
+A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*).
+
+`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, viewers). The same step functions write the `Prover.toml` samples in `eid-vectors`.
+
+Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and checks that the commitments link from step to step.
 
 ## Date policy
 

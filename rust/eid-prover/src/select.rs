@@ -47,7 +47,7 @@ fn curve_oid(id: u8) -> Option<&'static str> {
 }
 
 /// A registry key as a verifiable public key.
-fn public_key(k: &Key) -> Option<PublicKey> {
+pub fn public_key(k: &Key) -> Option<PublicKey> {
     let material = hex::decode(k.public_key.trim_start_matches("0x")).ok()?;
     match k.key_type {
         1 => {

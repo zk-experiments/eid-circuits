@@ -293,3 +293,10 @@ pub fn envelope_dir(md: Hash, dg: Hash, e: usize) -> String {
 pub fn lds_bucket(len: usize) -> Option<usize> {
     LDS_BUCKETS.into_iter().find(|b| *b >= len)
 }
+
+/// The hash a signature scheme digests with.
+pub fn scheme_hash(s: &Scheme) -> Hash {
+    match *s {
+        Scheme::RsaPkcs1(h) | Scheme::RsaPss { hash: h, .. } | Scheme::Ecdsa { hash: h, .. } => h,
+    }
+}
