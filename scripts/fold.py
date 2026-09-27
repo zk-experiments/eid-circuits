@@ -15,7 +15,8 @@ bb's IVC input stack and proven and verified with Chonk.
   scripts/fold.py [--chain NAME] [--prove [--threads 4,18] [--record FILE --machine TEXT]]
                   [--nargo PATH] [--bb PATH]
 
---record writes the measured runs (time, peak memory, total and largest
+--out DIR keeps each proven chain's proof, verification key and public
+outputs. --record writes the measured runs (time, peak memory, total and largest
 circuit gates) for docs/data/fold-times.json, which `eid-vectors costs` reads.
 
 CI runs it without --prove: nothing is proven there.
@@ -43,7 +44,7 @@ def run(cmd, env=None):
 
 class Folder:
     def __init__(self, nargo, bb, work):
-        self.nargo, self.bb, self.work = nargo, bb, work
+        self.nargo, self.bb, self.work, self.keep = nargo, bb, work, None
         self.tree = json.load(open("noir/circuits/vk-tree.json"))
         self.leaves = {l["package"]: l for l in self.tree["leaves"]}
 
@@ -152,6 +153,13 @@ def fold(f, chain, prove, threads, runs):
               f"{secs:.2f} s, peak {peak / 2**20:.0f} MiB, verified", file=sys.stderr)
         runs.append({"chain": name, "threads": th, "seconds": secs, "peak_bytes": peak,
                      "total_gates": sum(gates), "max_gates": max(gates)})
+        if f.keep:
+            dest = os.path.join(f.keep, name)
+            os.makedirs(dest, exist_ok=True)
+            for fn in ("proof", "vk"):
+                with open(os.path.join(out, fn), "rb") as src, open(os.path.join(dest, fn), "wb") as dst:
+                    dst.write(src.read())
+            json.dump({"public_outputs": public}, open(os.path.join(dest, "public_outputs.json"), "w"), indent=2)
 
 
 def main():
@@ -163,6 +171,7 @@ def main():
     ap.add_argument("--threads", default="4", help="comma-separated thread counts to prove with")
     ap.add_argument("--record", help="write the measured runs to this JSON file")
     ap.add_argument("--machine", default="unknown machine")
+    ap.add_argument("--out", help="keep each chain's proof, vk and public outputs under this directory")
     a = ap.parse_args()
     chains = json.load(open("noir/circuits/chains.json"))["chains"]
     if a.chain:
@@ -171,6 +180,7 @@ def main():
     runs = []
     with tempfile.TemporaryDirectory() as work:
         f = Folder(a.nargo, a.bb, work)
+        f.keep = a.out
         for c in chains:
             fold(f, c, a.prove, threads, runs)
     if a.record:
