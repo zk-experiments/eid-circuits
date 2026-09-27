@@ -30,6 +30,12 @@ use noir_zk_core::codec::field_from_be_bytes_canonical;
 use noir_zk_core::{Error, Field};
 
 pub use noir_zk_backend::DirStore;
+
+/// Where releases publish the circuit packs: `<pack>@<version>.tar.gz`,
+/// `catalog@<version>.json`, `vk-tree@<version>.json`, and `catalog.json`
+/// (the latest release's catalog). Every asset in a pack is checked against
+/// its pin, so this host is a mirror, not a trust anchor.
+pub const PACKS_URL: &str = "https://circuits.zk-eid.dev";
 #[cfg(feature = "http")]
 pub use noir_zk_backend::HttpStore;
 

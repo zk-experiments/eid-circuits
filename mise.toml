@@ -3,8 +3,9 @@
 # the raw command for non-mise users.
 
 [tools]
-# S3-compatible uploads to R2 (packs:publish-r2).
-aws-cli = "2"
+# Cloudflare's CLI, for uploads to the circuits R2 bucket (packs:publish-r2).
+node = "22"
+"npm:wrangler" = "4"
 
 [env]
 # The Noir release every package is compiled and tested with.
@@ -56,6 +57,10 @@ curl -fsSL "https://github.com/AztecProtocol/barretenberg/releases/download/v$BB
 description = "Install nargo + bb at the pinned versions"
 depends = ["install:noir", "install:bb"]
 
+[tasks."compile"]
+description = "Compile every Noir package of the workspace into target/ (over an hour)"
+run = '"$NARGO" compile --workspace --silence-warnings'
+
 [tasks."vk-tree"]
 description = "Refresh noir/circuits/vk-tree.json (run after circuit-sizes; bb write_vk only for changed bytecode)"
 run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
@@ -86,8 +91,10 @@ run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/c
 
 # Circuit packs: `common` and one per key family (rust/eid-circuits/circuits/
 # packs.toml), each a self-contained <pack>@<version>.tar.gz (bytecode, keys,
-# ABIs, key tree, manifest entries), plus vk-tree@<version>.json. The version is
-# the release's (rust/Cargo.toml), so run these on a release tag.
+# ABIs, key tree, manifest entries), plus catalog@<version>.json (the index)
+# and vk-tree@<version>.json. The version is the release's (rust/Cargo.toml),
+# so run these on a release tag; CI does on every release. The circuits bucket
+# serves them at https://circuits.zk-eid.dev/.
 [tasks."packs"]
 description = "Build target/packs: every circuit pack and the key tree, for this release's version"
 depends = ["install:noir-zk"]
@@ -114,13 +121,26 @@ done
 '''
 
 [tasks."packs:publish-r2"]
-description = "Upload target/packs to R2 (R2_BUCKET, R2_ENDPOINT, AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)"
+description = "Upload target/packs to the circuits R2 bucket (R2_CIRCUITS_BUCKET, R2_CIRCUITS_TOKEN, R2_ACCOUNT_ID)"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-: "${R2_BUCKET:?set R2_BUCKET}" "${R2_ENDPOINT:?set R2_ENDPOINT (https://<account>.r2.cloudflarestorage.com)}"
-# Names carry the version, so existing objects never change: sync uploads new ones only.
-aws s3 sync target/packs "s3://$R2_BUCKET/eid-circuits/" --endpoint-url "$R2_ENDPOINT" --size-only
+: "${R2_CIRCUITS_BUCKET:?set R2_CIRCUITS_BUCKET}" "${R2_CIRCUITS_TOKEN:?set R2_CIRCUITS_TOKEN}" "${R2_ACCOUNT_ID:?set R2_ACCOUNT_ID}"
+export CLOUDFLARE_API_TOKEN="$R2_CIRCUITS_TOKEN" CLOUDFLARE_ACCOUNT_ID="$R2_ACCOUNT_ID"
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
+put() {
+  wrangler r2 object put "$R2_CIRCUITS_BUCKET/$2" --file "$1" --remote \
+    --content-type "$3" --cache-control "$4"
+}
+# Versioned files never change; catalog.json (the latest release's catalog)
+# goes last, so it only ever lists files already uploaded.
+for f in target/packs/*; do
+  case "$f" in
+    *.tar.gz) put "$f" "$(basename "$f")" application/gzip "public, max-age=31536000, immutable" ;;
+    *) put "$f" "$(basename "$f")" application/json "public, max-age=31536000, immutable" ;;
+  esac
+done
+put "target/packs/catalog@$version.json" catalog.json application/json "public, max-age=300"
 '''
 
 [tasks."test:prove"]

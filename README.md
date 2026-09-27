@@ -31,7 +31,7 @@ All circuit code here is written for this repository and grouped by signature ty
 All tooling is pinned and installed by [mise](https://mise.jdx.dev), so start there:
 
 1. Install mise: `curl https://mise.run | sh` (or `brew install mise`), then activate it in your shell (`mise activate`, see its docs).
-2. In this repository, trust its config and install the tools: `mise trust && mise install` (aws-cli for R2 uploads).
+2. In this repository, trust its config and install the tools: `mise trust && mise install` (Node and wrangler, for R2 uploads).
 3. Install the zero-knowledge toolchain: `mise run install:zk-toolchain install:noir-zk`. This installs nargo and bb at the pinned versions into `~/.toolchains/<tool>-<version>`, not `~/.nargo` or `~/.bb`, and the noir-zk CLI at the version `rust/Cargo.toml` pins.
 
 `mise env` sets `NARGO` and `BB` to the pinned binaries. Every task below documents its raw command in `mise.toml`.
@@ -67,12 +67,18 @@ A prover fetches packs, not single circuits: fetching exactly its document's cir
 
 A document needs `common`, its CSCA key's family and its DSC key's; `eid_prover::select` returns them as `Selection::packs`. Each pack is a self-contained `<pack>@<version>.tar.gz`: per circuit its bytecode, verification key and ABI, plus the key tree and the manifest entries with their pinned hashes. The client unpacks it with `noir_zk_backend::pack::unpack` and reads it with `DirStore`.
 
-On a release tag:
+Every release publishes them, from CI: it compiles every circuit from the tagged source, fails unless each matches its pin, builds the packs and uploads them to the GitHub release and to `https://circuits.zk-eid.dev` (`eid_circuits::PACKS_URL`):
+
+- `catalog.json`: the latest release's catalog (cached for 5 minutes), the index a client reads first: each pack's file, SHA-256, size and circuits, the country map, the toolchain and the key tree root;
+- `catalog@<version>.json`, `<pack>@<version>.tar.gz`, `vk-tree@<version>.json`: immutable.
+
+A client reads `catalog.json`, downloads the packs `Selection::packs` names, checks each archive's SHA-256 against the catalog, and unpacks it. By hand, on a release tag:
 
 ```sh
-mise run packs                  # target/packs: every pack and vk-tree@<version>.json
+mise run compile && mise run freeze -- --check && mise run freeze   # bytecode from source, checked against the pins
+mise run packs                  # target/packs: every pack, the catalog and vk-tree@<version>.json
 mise run packs:publish          # upload them to the GitHub release v<version>
-mise run packs:publish-r2       # and to R2 (R2_BUCKET, R2_ENDPOINT, AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)
+mise run packs:publish-r2       # and to the circuits R2 bucket (R2_CIRCUITS_BUCKET, R2_CIRCUITS_TOKEN, R2_ACCOUNT_ID)
 ```
 
 ```rust

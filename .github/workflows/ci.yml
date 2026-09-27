@@ -2,7 +2,7 @@
 # libraries).
 #
 #   noir ────────────┐
-#   rust ────────────┼─> ci ──> tag (cog, push:main) ──> github-release
+#   rust ────────────┼─> ci ──> tag (cog, push:main) ──> github-release ──> packs
 #   circuit-samples ─┤   (samples execute, committed sizes current, 2 GiB cap)
 #   typos ───────────┤
 #   supply-chain
@@ -429,3 +429,51 @@ jobs:
           tag_name: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
           name: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
           generate_release_notes: true
+
+  # Circuit packs for the release: every circuit compiled from the tagged
+  # source with the pinned nargo, checked against its pin (freeze --check
+  # fails otherwise), packed per key family (mise run packs) and uploaded to
+  # the release and to the circuits R2 bucket (https://circuits.zk-eid.dev).
+  # Compiling everything takes over an hour, so it only runs on releases.
+  packs:
+    name: Publish circuit packs
+    runs-on: ubuntu-latest
+    needs: [resolve, tag, github-release]
+    if: always() && needs.github-release.result == 'success'
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # nargo compiles packages in parallel; the largest peaks at 4.6 GB.
+      RAYON_NUM_THREADS: "3"
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rust-src-dir: rust
+      # noir-zk links bb's static library against libc++.
+      - name: Install libc++
+        run: sudo apt-get update -q && sudo apt-get install -yq libc++-dev libc++abi-dev
+      - uses: jdx/mise-action@v4
+      - name: Install nargo, bb and the noir-zk CLI
+        run: mise run install:zk-toolchain install:noir-zk
+      - name: Compile every circuit
+        run: mise run compile
+      - name: Check the compiled circuits against their pins
+        run: mise run freeze -- --check
+      - name: Write the release assets and packs
+        run: |
+          set -euo pipefail
+          mise run freeze
+          git diff --exit-code -- rust/eid-circuits
+          mise run packs
+      - name: Upload to the release
+        run: mise run packs:publish
+      - name: Upload to the circuits R2 bucket
+        if: vars.R2_CIRCUITS_BUCKET != ''
+        env:
+          R2_CIRCUITS_TOKEN: ${{ secrets.R2_CIRCUITS_TOKEN }}
+          R2_CIRCUITS_BUCKET: ${{ vars.R2_CIRCUITS_BUCKET }}
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
+        run: mise run packs:publish-r2
