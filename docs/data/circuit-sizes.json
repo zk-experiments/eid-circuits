@@ -562,5 +562,501 @@
   "dsc_rsa_pss_4096_sha512_s64_tbs700": {
     "gates": 562274,
     "opcodes": 212288
+  },
+  "sod_ecdsa_bp256_sha1_tbs1000": {
+    "gates": 177632,
+    "opcodes": 71716
+  },
+  "sod_ecdsa_bp256_sha1_tbs1200": {
+    "gates": 179625,
+    "opcodes": 72924
+  },
+  "sod_ecdsa_bp256_sha1_tbs1600": {
+    "gates": 183659,
+    "opcodes": 75341
+  },
+  "sod_ecdsa_bp256_sha1_tbs700": {
+    "gates": 174833,
+    "opcodes": 69902
+  },
+  "sod_ecdsa_bp256_sha256_tbs1000": {
+    "gates": 139972,
+    "opcodes": 44275
+  },
+  "sod_ecdsa_bp256_sha256_tbs1200": {
+    "gates": 141989,
+    "opcodes": 45483
+  },
+  "sod_ecdsa_bp256_sha256_tbs1600": {
+    "gates": 146023,
+    "opcodes": 47900
+  },
+  "sod_ecdsa_bp256_sha256_tbs700": {
+    "gates": 136873,
+    "opcodes": 42461
+  },
+  "sod_ecdsa_bp256_sha512_tbs1000": {
+    "gates": 208480,
+    "opcodes": 82637
+  },
+  "sod_ecdsa_bp256_sha512_tbs1200": {
+    "gates": 210473,
+    "opcodes": 83845
+  },
+  "sod_ecdsa_bp256_sha512_tbs1600": {
+    "gates": 214507,
+    "opcodes": 86262
+  },
+  "sod_ecdsa_bp256_sha512_tbs700": {
+    "gates": 205681,
+    "opcodes": 80823
+  },
+  "sod_ecdsa_bp384_sha256_tbs1000": {
+    "gates": 252749,
+    "opcodes": 75784
+  },
+  "sod_ecdsa_bp384_sha256_tbs1200": {
+    "gates": 254766,
+    "opcodes": 76992
+  },
+  "sod_ecdsa_bp384_sha256_tbs1600": {
+    "gates": 258800,
+    "opcodes": 79409
+  },
+  "sod_ecdsa_bp384_sha256_tbs700": {
+    "gates": 249650,
+    "opcodes": 73970
+  },
+  "sod_ecdsa_bp384_sha384_tbs1000": {
+    "gates": 321265,
+    "opcodes": 114149
+  },
+  "sod_ecdsa_bp384_sha384_tbs1200": {
+    "gates": 323258,
+    "opcodes": 115357
+  },
+  "sod_ecdsa_bp384_sha384_tbs1600": {
+    "gates": 327292,
+    "opcodes": 117774
+  },
+  "sod_ecdsa_bp384_sha384_tbs700": {
+    "gates": 318466,
+    "opcodes": 112335
+  },
+  "sod_ecdsa_bp512_sha256_tbs1000": {
+    "gates": 413573,
+    "opcodes": 117617
+  },
+  "sod_ecdsa_bp512_sha256_tbs1200": {
+    "gates": 415590,
+    "opcodes": 118825
+  },
+  "sod_ecdsa_bp512_sha256_tbs1600": {
+    "gates": 419624,
+    "opcodes": 121242
+  },
+  "sod_ecdsa_bp512_sha256_tbs700": {
+    "gates": 410474,
+    "opcodes": 115803
+  },
+  "sod_ecdsa_bp512_sha512_tbs1000": {
+    "gates": 482104,
+    "opcodes": 155985
+  },
+  "sod_ecdsa_bp512_sha512_tbs1200": {
+    "gates": 484097,
+    "opcodes": 157193
+  },
+  "sod_ecdsa_bp512_sha512_tbs1600": {
+    "gates": 488131,
+    "opcodes": 159610
+  },
+  "sod_ecdsa_bp512_sha512_tbs700": {
+    "gates": 479305,
+    "opcodes": 154171
+  },
+  "sod_ecdsa_p256_sha1_tbs1000": {
+    "gates": 177609,
+    "opcodes": 71696
+  },
+  "sod_ecdsa_p256_sha1_tbs1200": {
+    "gates": 179602,
+    "opcodes": 72904
+  },
+  "sod_ecdsa_p256_sha1_tbs1600": {
+    "gates": 183636,
+    "opcodes": 75321
+  },
+  "sod_ecdsa_p256_sha1_tbs700": {
+    "gates": 174810,
+    "opcodes": 69882
+  },
+  "sod_ecdsa_p256_sha256_tbs1000": {
+    "gates": 139949,
+    "opcodes": 44255
+  },
+  "sod_ecdsa_p256_sha256_tbs1200": {
+    "gates": 141966,
+    "opcodes": 45463
+  },
+  "sod_ecdsa_p256_sha256_tbs1600": {
+    "gates": 146000,
+    "opcodes": 47880
+  },
+  "sod_ecdsa_p256_sha256_tbs700": {
+    "gates": 136850,
+    "opcodes": 42441
+  },
+  "sod_ecdsa_p384_sha256_tbs1000": {
+    "gates": 252714,
+    "opcodes": 75756
+  },
+  "sod_ecdsa_p384_sha256_tbs1200": {
+    "gates": 254731,
+    "opcodes": 76964
+  },
+  "sod_ecdsa_p384_sha256_tbs1600": {
+    "gates": 258765,
+    "opcodes": 79381
+  },
+  "sod_ecdsa_p384_sha256_tbs700": {
+    "gates": 249615,
+    "opcodes": 73942
+  },
+  "sod_ecdsa_p384_sha384_tbs1000": {
+    "gates": 321230,
+    "opcodes": 114121
+  },
+  "sod_ecdsa_p384_sha384_tbs1200": {
+    "gates": 323223,
+    "opcodes": 115329
+  },
+  "sod_ecdsa_p384_sha384_tbs1600": {
+    "gates": 327257,
+    "opcodes": 117746
+  },
+  "sod_ecdsa_p384_sha384_tbs700": {
+    "gates": 318431,
+    "opcodes": 112307
+  },
+  "sod_ecdsa_p384_sha512_tbs1000": {
+    "gates": 321230,
+    "opcodes": 114121
+  },
+  "sod_ecdsa_p384_sha512_tbs1200": {
+    "gates": 323223,
+    "opcodes": 115329
+  },
+  "sod_ecdsa_p384_sha512_tbs1600": {
+    "gates": 327257,
+    "opcodes": 117746
+  },
+  "sod_ecdsa_p384_sha512_tbs700": {
+    "gates": 318431,
+    "opcodes": 112307
+  },
+  "sod_ecdsa_p521_sha256_tbs1000": {
+    "gates": 423204,
+    "opcodes": 120610
+  },
+  "sod_ecdsa_p521_sha256_tbs1200": {
+    "gates": 425221,
+    "opcodes": 121818
+  },
+  "sod_ecdsa_p521_sha256_tbs1600": {
+    "gates": 429255,
+    "opcodes": 124235
+  },
+  "sod_ecdsa_p521_sha256_tbs700": {
+    "gates": 420105,
+    "opcodes": 118796
+  },
+  "sod_ecdsa_p521_sha512_tbs1000": {
+    "gates": 491735,
+    "opcodes": 158978
+  },
+  "sod_ecdsa_p521_sha512_tbs1200": {
+    "gates": 493728,
+    "opcodes": 160186
+  },
+  "sod_ecdsa_p521_sha512_tbs1600": {
+    "gates": 497762,
+    "opcodes": 162603
+  },
+  "sod_ecdsa_p521_sha512_tbs700": {
+    "gates": 488936,
+    "opcodes": 157164
+  },
+  "sod_rsa_pkcs1v15_2048_sha1_tbs1000": {
+    "gates": 126593,
+    "opcodes": 49704
+  },
+  "sod_rsa_pkcs1v15_2048_sha1_tbs1200": {
+    "gates": 128586,
+    "opcodes": 50912
+  },
+  "sod_rsa_pkcs1v15_2048_sha1_tbs1600": {
+    "gates": 132620,
+    "opcodes": 53329
+  },
+  "sod_rsa_pkcs1v15_2048_sha1_tbs700": {
+    "gates": 123794,
+    "opcodes": 47890
+  },
+  "sod_rsa_pkcs1v15_2048_sha256_tbs1000": {
+    "gates": 90305,
+    "opcodes": 22263
+  },
+  "sod_rsa_pkcs1v15_2048_sha256_tbs1200": {
+    "gates": 92322,
+    "opcodes": 23471
+  },
+  "sod_rsa_pkcs1v15_2048_sha256_tbs1600": {
+    "gates": 96356,
+    "opcodes": 25888
+  },
+  "sod_rsa_pkcs1v15_2048_sha256_tbs700": {
+    "gates": 87206,
+    "opcodes": 20449
+  },
+  "sod_rsa_pkcs1v15_2048_sha512_tbs1000": {
+    "gates": 159184,
+    "opcodes": 60631
+  },
+  "sod_rsa_pkcs1v15_2048_sha512_tbs1200": {
+    "gates": 161177,
+    "opcodes": 61839
+  },
+  "sod_rsa_pkcs1v15_2048_sha512_tbs1600": {
+    "gates": 165211,
+    "opcodes": 64256
+  },
+  "sod_rsa_pkcs1v15_2048_sha512_tbs700": {
+    "gates": 156385,
+    "opcodes": 58817
+  },
+  "sod_rsa_pkcs1v15_3072_sha256_tbs1000": {
+    "gates": 122265,
+    "opcodes": 26853
+  },
+  "sod_rsa_pkcs1v15_3072_sha256_tbs1200": {
+    "gates": 124282,
+    "opcodes": 28061
+  },
+  "sod_rsa_pkcs1v15_3072_sha256_tbs1600": {
+    "gates": 128316,
+    "opcodes": 30478
+  },
+  "sod_rsa_pkcs1v15_3072_sha256_tbs700": {
+    "gates": 119166,
+    "opcodes": 25039
+  },
+  "sod_rsa_pkcs1v15_3072_sha384_tbs1000": {
+    "gates": 191132,
+    "opcodes": 65218
+  },
+  "sod_rsa_pkcs1v15_3072_sha384_tbs1200": {
+    "gates": 193125,
+    "opcodes": 66426
+  },
+  "sod_rsa_pkcs1v15_3072_sha384_tbs1600": {
+    "gates": 197159,
+    "opcodes": 68843
+  },
+  "sod_rsa_pkcs1v15_3072_sha384_tbs700": {
+    "gates": 188333,
+    "opcodes": 63404
+  },
+  "sod_rsa_pkcs1v15_4096_sha1_tbs1000": {
+    "gates": 202779,
+    "opcodes": 59229
+  },
+  "sod_rsa_pkcs1v15_4096_sha1_tbs1200": {
+    "gates": 204772,
+    "opcodes": 60437
+  },
+  "sod_rsa_pkcs1v15_4096_sha1_tbs1600": {
+    "gates": 208806,
+    "opcodes": 62854
+  },
+  "sod_rsa_pkcs1v15_4096_sha1_tbs700": {
+    "gates": 199980,
+    "opcodes": 57415
+  },
+  "sod_rsa_pkcs1v15_4096_sha256_tbs1000": {
+    "gates": 166492,
+    "opcodes": 31788
+  },
+  "sod_rsa_pkcs1v15_4096_sha256_tbs1200": {
+    "gates": 168509,
+    "opcodes": 32996
+  },
+  "sod_rsa_pkcs1v15_4096_sha256_tbs1600": {
+    "gates": 172543,
+    "opcodes": 35413
+  },
+  "sod_rsa_pkcs1v15_4096_sha256_tbs700": {
+    "gates": 163393,
+    "opcodes": 29974
+  },
+  "sod_rsa_pkcs1v15_4096_sha384_tbs1000": {
+    "gates": 235359,
+    "opcodes": 70153
+  },
+  "sod_rsa_pkcs1v15_4096_sha384_tbs1200": {
+    "gates": 237352,
+    "opcodes": 71361
+  },
+  "sod_rsa_pkcs1v15_4096_sha384_tbs1600": {
+    "gates": 241386,
+    "opcodes": 73778
+  },
+  "sod_rsa_pkcs1v15_4096_sha384_tbs700": {
+    "gates": 232560,
+    "opcodes": 68339
+  },
+  "sod_rsa_pkcs1v15_4096_sha512_tbs1000": {
+    "gates": 235371,
+    "opcodes": 70156
+  },
+  "sod_rsa_pkcs1v15_4096_sha512_tbs1200": {
+    "gates": 237364,
+    "opcodes": 71364
+  },
+  "sod_rsa_pkcs1v15_4096_sha512_tbs1600": {
+    "gates": 241398,
+    "opcodes": 73781
+  },
+  "sod_rsa_pkcs1v15_4096_sha512_tbs700": {
+    "gates": 232572,
+    "opcodes": 68342
+  },
+  "sod_rsa_pkcs1v15_6144_sha256_tbs1000": {
+    "gates": 276788,
+    "opcodes": 41323
+  },
+  "sod_rsa_pkcs1v15_6144_sha256_tbs1200": {
+    "gates": 278805,
+    "opcodes": 42531
+  },
+  "sod_rsa_pkcs1v15_6144_sha256_tbs1600": {
+    "gates": 282839,
+    "opcodes": 44948
+  },
+  "sod_rsa_pkcs1v15_6144_sha256_tbs700": {
+    "gates": 273689,
+    "opcodes": 39509
+  },
+  "sod_rsa_pss_3072_sha256_s32_tbs1000": {
+    "gates": 181541,
+    "opcodes": 28120
+  },
+  "sod_rsa_pss_3072_sha256_s32_tbs1200": {
+    "gates": 183558,
+    "opcodes": 29328
+  },
+  "sod_rsa_pss_3072_sha256_s32_tbs1600": {
+    "gates": 187592,
+    "opcodes": 31745
+  },
+  "sod_rsa_pss_3072_sha256_s32_tbs700": {
+    "gates": 178442,
+    "opcodes": 26306
+  },
+  "sod_rsa_pss_3072_sha384_s48_tbs1000": {
+    "gates": 414805,
+    "opcodes": 167907
+  },
+  "sod_rsa_pss_3072_sha384_s48_tbs1200": {
+    "gates": 416798,
+    "opcodes": 169115
+  },
+  "sod_rsa_pss_3072_sha384_s48_tbs1600": {
+    "gates": 420832,
+    "opcodes": 171532
+  },
+  "sod_rsa_pss_3072_sha384_s48_tbs700": {
+    "gates": 412006,
+    "opcodes": 166093
+  },
+  "sod_rsa_pss_4096_sha256_s20_tbs1000": {
+    "gates": 242918,
+    "opcodes": 33435
+  },
+  "sod_rsa_pss_4096_sha256_s20_tbs1200": {
+    "gates": 244935,
+    "opcodes": 34643
+  },
+  "sod_rsa_pss_4096_sha256_s20_tbs1600": {
+    "gates": 248969,
+    "opcodes": 37060
+  },
+  "sod_rsa_pss_4096_sha256_s20_tbs700": {
+    "gates": 239819,
+    "opcodes": 31621
+  },
+  "sod_rsa_pss_4096_sha256_s32_tbs1000": {
+    "gates": 242930,
+    "opcodes": 33443
+  },
+  "sod_rsa_pss_4096_sha256_s32_tbs1200": {
+    "gates": 244947,
+    "opcodes": 34651
+  },
+  "sod_rsa_pss_4096_sha256_s32_tbs1600": {
+    "gates": 248981,
+    "opcodes": 37068
+  },
+  "sod_rsa_pss_4096_sha256_s32_tbs700": {
+    "gates": 239831,
+    "opcodes": 31629
+  },
+  "sod_rsa_pss_4096_sha384_s48_tbs1000": {
+    "gates": 532003,
+    "opcodes": 206282
+  },
+  "sod_rsa_pss_4096_sha384_s48_tbs1200": {
+    "gates": 533996,
+    "opcodes": 207490
+  },
+  "sod_rsa_pss_4096_sha384_s48_tbs1600": {
+    "gates": 538030,
+    "opcodes": 209907
+  },
+  "sod_rsa_pss_4096_sha384_s48_tbs700": {
+    "gates": 529204,
+    "opcodes": 204468
+  },
+  "sod_rsa_pss_4096_sha512_s20_tbs1000": {
+    "gates": 455151,
+    "opcodes": 170733
+  },
+  "sod_rsa_pss_4096_sha512_s20_tbs1200": {
+    "gates": 457144,
+    "opcodes": 171941
+  },
+  "sod_rsa_pss_4096_sha512_s20_tbs1600": {
+    "gates": 461178,
+    "opcodes": 174358
+  },
+  "sod_rsa_pss_4096_sha512_s20_tbs700": {
+    "gates": 452352,
+    "opcodes": 168919
+  },
+  "sod_rsa_pss_4096_sha512_s64_tbs1000": {
+    "gates": 481577,
+    "opcodes": 182979
+  },
+  "sod_rsa_pss_4096_sha512_s64_tbs1200": {
+    "gates": 483570,
+    "opcodes": 184187
+  },
+  "sod_rsa_pss_4096_sha512_s64_tbs1600": {
+    "gates": 487604,
+    "opcodes": 186604
+  },
+  "sod_rsa_pss_4096_sha512_s64_tbs700": {
+    "gates": 478778,
+    "opcodes": 181165
   }
 }

@@ -7,9 +7,10 @@ all-features = true
 version = 2
 yanked = "deny"
 ignore = [
-  # Marvin (rsa, via csca-registry): private-key timing leak. The tools only
-  # verify signatures with public keys.
-  { id = "RUSTSEC-2023-0071", reason = "public-key verification only; no private-key operations" },
+  # Marvin (rsa): private-key timing leak. Verification uses public keys only;
+  # the one private-key use signs synthetic test documents with fixed,
+  # published mock keys (eid-vectors/src/mock.rs), so there is nothing to leak.
+  { id = "RUSTSEC-2023-0071", reason = "private keys are public mock test keys; no secrets" },
 ]
 
 [bans]

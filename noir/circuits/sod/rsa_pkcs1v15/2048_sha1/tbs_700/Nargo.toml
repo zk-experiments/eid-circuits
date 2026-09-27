@@ -1,0 +1,12 @@
+[package]
+name = "sod_rsa_pkcs1v15_2048_sha1_tbs700"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_der = { path = "../../../../../lib/der" }
+eid_hash = { path = "../../../../../lib/hash" }
+eid_rsa = { path = "../../../../../lib/rsa" }
+eid_steps = { path = "../../../../../lib/steps" }
+csca_registry = { tag = "v0.3.0", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }

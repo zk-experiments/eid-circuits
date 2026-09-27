@@ -83,11 +83,9 @@ pub fn commitment<let T: u32>(
     len: u32,
 ) -> Field {
     let packed: [Field; (T + 30) / 31] = pack_be(tbs);
-    let country_field =
-        (country[0] as Field) * 65536 + (country[1] as Field) * 256 + (country[2] as Field);
     let mut inputs: [Field; 4 + (T + 30) / 31] = [0; 4 + (T + 30) / 31];
     inputs[0] = salt;
-    inputs[1] = country_field;
+    inputs[1] = crate::country_field(country);
     inputs[2] = hash_id as Field;
     inputs[3] = len as Field;
     for i in 0..(T + 30) / 31 {

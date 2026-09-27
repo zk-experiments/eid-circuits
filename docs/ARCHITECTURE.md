@@ -18,8 +18,8 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 | step | circuits | checks | public | commits to |
 |---|---|---|---|---|
 | A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `D` | country, DSC key, DSC serial |
-| B · SOD | `circuits/sod/<scheme>` | 3 (DSC key from A) | — | country, eContent digest input |
-| C · envelope | `circuits/envelope/<hash>` | 4, 5, 6 | `D`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
+| B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | — | country, `messageDigest` |
+| C · envelope | `circuits/envelope/<hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `Vᵢ`, ephemeral key, wrapped keys, `C` | — |
 | D · aggregate | `circuits/aggregate` | verifies A, B and C recursively, and checks their commitments chain | everything above | — |
 
 `<scheme>` is the signature group: `rsa_pkcs1v15/<bits>_<hash>`, `rsa_pss/<bits>_<hash>_s<salt>`, `ecdsa/<curve>_<hash>`. Each circuit is a thin generated binary over the shared library for its signature type (`noir/lib/rsa`, `noir/lib/ecdsa`) and `noir/lib/steps`. Only the parameters differ between members of a group.
@@ -30,13 +30,15 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 - **Hash ids are public.** Every step outputs the hash algorithm it used, and the aggregation exposes the weakest one. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
 - **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
 
-Status: step A (DSC) is built. Its specification is [docs/circuits/dsc.md](circuits/dsc.md) and its costs are in [docs/COSTS.md](COSTS.md). Steps B, C and D are next.
+Status: steps A (DSC) and B (SOD) are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md) and [docs/circuits/sod.md](circuits/sod.md); step A's costs are in [docs/COSTS.md](COSTS.md). Steps C and D are next.
 
 ## Libraries
 
 | library | used by | spec |
 |---|---|---|
 | `csca_registry` (from csca-registry, git tag) | A | [csca-registry/noir/csca_registry](https://github.com/zk-experiments/csca-registry/tree/main/noir/csca_registry) |
+| `eid_der` | A, B, C | [noir/lib/der](../noir/lib/der/README.md) |
+| `eid_steps` | A, B, C | [noir/lib/steps](../noir/lib/steps/README.md) |
 | `eid_hash` | A, B, C | [noir/lib/hash](../noir/lib/hash/README.md) |
 | `eid_rsa` | A, B | [noir/lib/rsa](../noir/lib/rsa/README.md) |
 | `eid_ecdsa` | A, B | [noir/lib/ecdsa](../noir/lib/ecdsa/README.md) |
