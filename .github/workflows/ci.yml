@@ -478,7 +478,7 @@ jobs:
         env:
           R2_CIRCUITS_TOKEN: ${{ secrets.R2_CIRCUITS_TOKEN }}
           R2_CIRCUITS_BUCKET: ${{ vars.R2_CIRCUITS_BUCKET }}
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
         run: mise run packs:publish-r2
       - name: Add the downloads to the release notes
         env:
