@@ -10,7 +10,14 @@
 | `noir-lang/sha512` | commit `e92ffb4`, vendored in `noir/vendor/sha512` | Apache-2.0 | SHA-384/512 |
 | `noir-lang/noir_bigcurve` | tag `v0.14.0`, vendored in `noir/vendor/noir_bigcurve` with four generated curve files added | **none in repository** | ECDSA curve arithmetic |
 | `noir-lang/poseidon` | tag `v0.3.0` (via csca_registry) | Apache-2.0 | Poseidon2 |
-| `zk-experiments/csca-registry` | tag `v0.3.0` | MIT | registry leaf/Merkle checks (Noir), certificate parsing for vectors (Rust) |
+| `zk-experiments/csca-registry` | tag `v0.3.1` | MIT | registry leaf/Merkle checks (Noir), certificate parsing for vectors (Rust) |
+
+Rust crates outside the circuits:
+
+| crate | used by | used for |
+|---|---|---|
+| `pso-poseidon` 0.5, `ark-grumpkin`/`ark-bn254` 0.6 | `rust/eid-envelope` | the envelope encryption (Poseidon2, Grumpkin) for provers and viewers |
+| `rsa` 0.9, `rand_chacha` 0.3 | `rust/eid-vectors` | signing synthetic test documents with published mock keys (RUSTSEC-2023-0071 doesn't apply: there are no secret keys) |
 
 `noir-lang/sha256` and `noir-lang/noir_bigcurve` have no LICENSE file. The project owner accepted using them pinned; the gap stays open here until upstream adds a license.
 
@@ -20,7 +27,7 @@ These are reported in this file and don't affect our soundness.
 
 - **noir_bigcurve's `derive_curve_impl` can't be used from another crate.** It expands to references to private modules. That's why the library is vendored and our curves are defined inside it (see its `PROVENANCE.md`).
 - **noir_bigcurve's `hash_to_curve` seed packing is broken.** `poseidon_hash_bytes` never writes the packed seed into the array it hashes, so every seed hashes to the same value. We derive offset generators independently (see `noir/lib/ecdsa`).
-- **csca_registry's exclusion check rejects an empty revocation tree.** It says an "empty revocation tree needs no exclusion witness" but gives no alternative, so with zero revocations every DSC step would be unprovable. The current registry has revocations; the fix belongs in csca_registry (accept `upper.index = 0`, `upper_leaf = 0` when the tree is empty).
+- **csca_registry's exclusion check rejected an empty revocation tree**, which would have made every DSC step unprovable with zero revocations. Fixed in csca-registry v0.3.1 (zk-experiments/csca-registry#3): without a lower bound, slot 0 may hold the zero leaf, which a canonical tree only has when it is empty.
 - **`pso-poseidon`'s `hash` differed from `noir-lang/poseidon` for input lengths that are a multiple of 3.** Fixed upstream with `hash_noir` (psonet/pso-poseidon#8); csca-registry uses it.
 
 ## Assumptions every circuit relies on
@@ -28,7 +35,18 @@ These are reported in this file and don't affect our soundness.
 1. **Registry root.** It must be a public input checked against the published root; `csca_registry` only proves consistency with it. The revocation tree must be canonical (see the csca_registry README).
 2. **Key binding.** RSA and ECDSA libraries check a signature under the key they are given. The circuit must source that key from a registry leaf (CSCA) or from the signed DSC certificate (DSC).
 3. **Barrett parameters.** They are prover-supplied and only used in unconstrained code; they affect completeness, not soundness (see `noir/lib/rsa`).
-4. **Hash inputs.** Hash inputs are the first `len` bytes of fixed buffers, and trailing bytes are ignored by construction. Every circuit must derive `len` from constrained data, such as the DER length of the element being hashed.
+4. **Hash inputs.** Hash inputs are the first `len` bytes of fixed buffers, and trailing bytes are ignored by construction. Every circuit must derive `len` from constrained data, such as the DER length of the element being hashed. Every buffer is also asserted zero past its length, so commitments over whole buffers have one preimage per value.
+5. **Step links.** The three step proofs are only meaningful together. The verifier must check A's `c_A` equals B's, and B's `c_B` equals C's (see docs/VERIFY.md). There is no aggregation proof.
+6. **Verifier-side inputs.** The verifier must check that:
+   - `root` is a published registry root it still accepts;
+   - `date` is the current date;
+   - `context` identifies the transfer;
+   - the viewer keys are registered Grumpkin keys (the circuit accepts any point).
+7. **Prover randomness.** Soundness doesn't depend on it, but privacy does:
+   - the salts must be fresh, or `c_A`/`c_B` link bundles;
+   - `e` and `K` must be fresh and uniform, or envelopes share a keystream.
+
+   The circuit only rejects `e = 0`.
 
 ## Known limitations
 
@@ -37,6 +55,13 @@ These are reported in this file and don't affect our soundness.
 - **RSA-PSS** requires MGF1 with the same hash as the message.
 - **RSA exponents** must be odd and below `2^E_BITS`.
 - **Curves.** ECDSA covers P-256/384/521 and brainpoolP256/384/512r1. Signatures on other curves (P-192, P-224, the smaller brainpool curves and the twisted t1 variants) are rejected. The registry reports them as unsupported, and none occur among verified CSCA signatures in the fixtures.
+- **DSC keys with explicit EC parameters** are bound by `p`, `a` and `b`. The generator, order and cofactor aren't compared; the ECDSA library checks the point is on the circuit's curve (see docs/circuits/sod.md). Coefficients are compared as numbers, because at least one issuer writes them with a leading `0x00`.
+- **Signed attributes:** at most 8, in at most 256 bytes. Only `messageDigest` is interpreted; `contentType` and `signingTime` are ignored.
+- **LDS security object:** at most 16 data groups and 1536 bytes. Only DG1 is interpreted and encrypted; DG11 was dropped for cost (docs/circuits/envelope.md).
+- **MRZ dates** are read as 20YY in UTC, and check digits aren't verified (the data group is signed).
+- **The DSC's own validity period isn't checked.** Documents outlive their DSC's signing period, as ICAO 9303 intends.
+- **Circuit variants are public.** Each step proof's verification key reveals its signature configuration and size bucket, which narrows down the issuing country.
+- **SOD configurations mirror the CSCA configurations.** Real DSC statistics may add or remove variants.
 
 ## How test vectors are produced
 
@@ -46,3 +71,9 @@ These are reported in this file and don't affect our soundness.
 3. It re-verifies every case with RustCrypto before writing `vectors.nr`.
 
 CI regenerates the vectors and fails if the committed file differs.
+
+The SOD and envelope steps can't use real documents: SODs and data groups are personal data. `rust/eid-vectors/src/mock.rs` builds synthetic ones:
+- a DSC `TBSCertificate` for each configuration, with a deterministic key (seeded RSA key generation; ECDSA over our own curve arithmetic, with deterministic nonces);
+- signed attributes, an LDS security object (v0 or v1), and DG1 from the ICAO 9303 specimen MRZs (TD1/TD2/TD3, check digits reproduced).
+
+Every synthetic signature is verified with csca-registry's RustCrypto verifier before it is written, and every key read is also tested on the 33 real certificates. The mock keys are public, so these documents prove nothing about real issuers; they only exercise the circuits.

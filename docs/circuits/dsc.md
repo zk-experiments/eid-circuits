@@ -49,7 +49,7 @@ With `f = eid_der::parse_tbs(w.tbs)`, the circuit asserts:
 - **The signature value isn't bound to the certificate bytes.** It's a witness: any valid CSCA signature over `tbs[..len]` proves the CSCA signed those bytes. The certificate's own `signatureAlgorithm` field isn't compared with the circuit's scheme, for the same reason.
 - **Serials must be positive and at most 20 bytes, plus an optional leading `0x00`.** Negative serials are rejected. RFC 5280 forbids them, but a few issuers produce them, and such DSCs would need a separate path.
 - **Only X.509 v3 is accepted.** A DSC without the `[0]` version field (v1) is rejected.
-- **The revocation tree must not be empty.** csca_registry's exclusion check needs at least one committed revocation leaf. The registry has had revocations since the IT CRL was added; an empty tree would make every DSC step unprovable until that check accepts empty trees (tracked in docs/AUDIT.md).
+- **An empty revocation tree is accepted** (csca-registry v0.3.1): with no revocations, the exclusion witness is slot 0 holding the zero leaf.
 - **Costs per country and circuit** are in [docs/COSTS.md](../COSTS.md).
 
 ## Tests

@@ -112,7 +112,7 @@ fn nargo_toml(package: &str, deps: &[&str], depth: usize) -> String {
         .ok();
     }
     s.push_str(
-        "csca_registry = { tag = \"v0.3.0\", git = \"https://github.com/zk-experiments/csca-registry\", directory = \"noir/csca_registry\" }\n",
+        "csca_registry = { tag = \"v0.3.1\", git = \"https://github.com/zk-experiments/csca-registry\", directory = \"noir/csca_registry\" }\n",
     );
     s
 }
