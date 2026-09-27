@@ -11,10 +11,16 @@
 
 use std::path::{Path, PathBuf};
 
-use eid_circuits::{artifacts, hiding_vk, prove_document, verify_document, vk_tree_root};
-use eid_circuits::{DirStore, Document, FoldedProof, Inputs};
-use noir_zk_backend::chonk;
-use noir_zk_core::Artifacts;
+use eid_circuits::circuits::kernel_dsc::KernelDsc;
+use eid_circuits::circuits::kernel_envelope::KernelEnvelope;
+use eid_circuits::circuits::kernel_hiding::KernelHiding;
+use eid_circuits::circuits::kernel_sod::KernelSod;
+use eid_circuits::circuits::kernel_tail::KernelTail;
+use eid_circuits::circuits::Registry;
+use eid_circuits::{artifacts, vk_tree_root, DirStore};
+use noir_zk_backend::chonk::{self, FoldedProof};
+use noir_zk_backend::fold::{verify, Folding};
+use noir_zk_core::{Artifacts, CircuitId};
 
 fn chain_toml(root: &Path, name: &str) -> String {
     let ws = std::fs::read_to_string(root.join("Nargo.toml")).unwrap();
@@ -49,28 +55,43 @@ fn proves_and_verifies_every_chain() {
             chain_toml(&root, name("sod")),
             chain_toml(&root, name("envelope")),
         );
-        let doc = Document {
-            dsc: (name("dsc"), Inputs::Toml(&d)),
-            sod: (name("sod"), Inputs::Toml(&s)),
-            envelope: (name("envelope"), Inputs::Toml(&e)),
-        };
-        let (proof, public) = prove_document(&frozen, &doc).unwrap();
+        // Circuits picked at runtime (by label) dispatch statically to their
+        // generated types; the kernels type-check against their outputs.
+        let (proof, public) = Folding::new(&frozen)
+            .app_by_label::<Registry, _>(name("dsc"), &d)
+            .unwrap()
+            .kernel::<KernelDsc>()
+            .unwrap()
+            .app_by_label::<Registry, _>(name("sod"), &s)
+            .unwrap()
+            .kernel::<KernelSod>()
+            .unwrap()
+            .app_by_label::<Registry, _>(name("envelope"), &e)
+            .unwrap()
+            .kernel::<KernelEnvelope>()
+            .unwrap()
+            .kernel::<KernelTail>()
+            .unwrap()
+            .hiding::<KernelHiding>()
+            .unwrap();
         let bytes = proof.to_bytes();
         assert_eq!(bytes.len(), 39_872);
-        let verified = verify_document(
-            &FoldedProof::from_bytes(&bytes).unwrap(),
-            hiding_vk(),
-            vk_tree_root(),
-        )
-        .unwrap();
+        let verified =
+            verify::<KernelHiding>(&FoldedProof::from_bytes(&bytes).unwrap(), vk_tree_root())
+                .unwrap();
         assert_eq!(verified, public);
+        assert_eq!(public.vk_tree_root, vk_tree_root());
         last = Some(bytes);
     }
 
     // A flipped public byte breaks verification.
     let mut tampered = last.unwrap();
     tampered[31] ^= 1;
-    assert!(!chonk::verify(&FoldedProof::from_bytes(&tampered).unwrap(), hiding_vk()).unwrap());
+    assert!(!chonk::verify(
+        &FoldedProof::from_bytes(&tampered).unwrap(),
+        KernelHiding::VK_BYTES
+    )
+    .unwrap());
 
     // A tampered asset is refused before it reaches the solver.
     let tmp = std::env::temp_dir().join(format!("eid-circuits-tamper-{}", std::process::id()));
