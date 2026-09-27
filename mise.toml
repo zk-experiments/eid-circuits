@@ -77,7 +77,7 @@ ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 [tasks."freeze"]
 description = "Freeze changed circuits into rust/eid-circuits (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
 depends = ["install:noir-zk"]
-run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets"
+run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets --exclude bench_"
 
 [tasks."assets:publish"]
 description = "Upload new target/release-assets/*.b64 to the circuits release (existing assets are kept)"

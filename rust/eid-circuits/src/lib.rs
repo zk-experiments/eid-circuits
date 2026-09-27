@@ -52,7 +52,7 @@ pub fn vk_tree_root() -> Field {
 mod tests {
     use super::*;
     use noir_zk_core::registry::{active, Status};
-    use noir_zk_core::{Circuit, CircuitId, CircuitKind};
+    use noir_zk_core::{ChonkRole, Circuit, CircuitId, ProofSystem};
 
     #[test]
     fn registry_is_complete() {
@@ -64,20 +64,20 @@ mod tests {
         assert_eq!(
             active
                 .iter()
-                .filter(|e| e.kind == CircuitKind::Kernel)
+                .filter(|e| e.system == ProofSystem::Chonk(ChonkRole::Kernel))
                 .count(),
             4
         );
         assert_eq!(
             active
                 .iter()
-                .filter(|e| e.kind == CircuitKind::Hiding)
+                .filter(|e| e.system == ProofSystem::Chonk(ChonkRole::Hiding))
                 .count(),
             1
         );
         assert!(active
             .iter()
-            .all(|e| e.kind == CircuitKind::Hiding || e.vk_index.is_some()));
+            .all(|e| e.system == ProofSystem::Chonk(ChonkRole::Hiding) || e.vk_index.is_some()));
         assert!(!circuits::kernel_hiding::KernelHiding::VK_BYTES.is_empty());
     }
 
@@ -101,7 +101,7 @@ mod tests {
             (1u64, 2, 3, 4).into_fields()
         );
         assert_eq!(KernelTail::LABEL, "kernel_tail");
-        assert_eq!(KernelTail::KIND, CircuitKind::Kernel);
+        assert_eq!(KernelTail::SYSTEM, ProofSystem::Chonk(ChonkRole::Kernel));
         assert_eq!(
             KernelTail::VK_BYTES,
             active(circuits::REGISTRY, "kernel_tail").unwrap().vk
