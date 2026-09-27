@@ -6,9 +6,22 @@ size is the cost model: ACIR opcode count drives witness generation, and
 `circuit_size` (the backend gate count) drives proving time, memory and the
 VK. Both move silently, so CI measures them and a PR comment shows the delta.
 
-  collect <workspace> -o sizes.json   compile the workspace, record each bin's sizes
+  collect <workspace> -o sizes.json   record each bin's sizes (see below)
+  verify <committed.json> <measured>  fail if measured entries differ from the committed ones
   report <base.json> <head.json>      render the comparison as Markdown
   check <sizes.json>                  fail if a circuit exceeds the memory cap
+
+Compiling and measuring all ~300 circuits takes over an hour on a CI runner,
+so CI never does it. The full set lives in docs/data/circuit-sizes.json,
+refreshed locally with
+
+  python3 .github/scripts/circuit_sizes.py collect . \
+      --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json
+
+Each entry records a SHA-256 of the circuit's compiled bytecode; with
+`--cache`, circuits whose bytecode is unchanged keep their entry and skip
+`bb gates`. CI compiles only the executed samples, measures them with the
+same cache, and `verify` fails when the committed file is stale.
 
 Differences from the psonet original: circuits are discovered from the root
 Nargo.toml `members` (every package with `type = "bin"`) instead of a fixed
@@ -17,6 +30,7 @@ the step circuits are verified inside the aggregation circuit.
 """
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -58,24 +72,40 @@ def bin_packages(workspace: Path) -> list[str]:
     return sorted(names)
 
 
-def collect(workspace: Path, nargo: str, bb: str) -> dict:
+def bytecode_hash(artifact: Path) -> str:
+    """SHA-256 of the compiled bytecode (nargo's own `hash` depends on paths)."""
+    return hashlib.sha256(json.loads(artifact.read_text())["bytecode"].encode()).hexdigest()
+
+
+def collect(workspace: Path, nargo: str, bb: str, packages: list[str] | None,
+            compile_: bool, cache: dict) -> dict:
     out = {}
     if not (workspace / "Nargo.toml").exists():
         # A base that predates the workspace has nothing to measure.
         return out
-    names = bin_packages(workspace)
-    if names:
-        run([nargo, "compile", "--workspace"], cwd=workspace)
+    names = packages if packages is not None else bin_packages(workspace)
+    if names and compile_:
+        if packages is None:
+            run([nargo, "compile", "--workspace"], cwd=workspace)
+        else:
+            for name in names:
+                run([nargo, "compile", "--package", name], cwd=workspace)
     for module in names:
         artifact = workspace / "target" / f"{module}.json"
         if not artifact.exists():
-            raise SystemExit(f"nargo compile produced no {artifact}")
+            raise SystemExit(f"no compiled {artifact}")
+        digest = bytecode_hash(artifact)
+        cached = cache.get(module)
+        if cached and cached.get("bytecode_sha256") == digest:
+            out[module] = cached
+            continue
         raw = run([bb, "gates", "-b", str(artifact), "-t", TARGET])
         doc = json.loads(raw)
         fns = doc.get("functions") or []
         if not fns:
             raise SystemExit(f"bb gates returned no functions for {module}: {raw[:200]}")
         out[module] = {
+            "bytecode_sha256": digest,
             "opcodes": sum(f["acir_opcodes"] for f in fns),
             "gates": sum(f["circuit_size"] for f in fns),
         }
@@ -126,11 +156,33 @@ def report(base: dict, head: dict, base_ref: str) -> str:
         "|---|---:|---:|---:|---:|",
         *rows,
         "",
-        f"<sub>`bb gates -t {TARGET}`, the target the step circuits are proven for. "
+        f"<sub>Committed `docs/data/circuit-sizes.json` (`bb gates -t {TARGET}`). "
         "Gate count drives proving time, memory and the VK; opcodes drive witness "
         "generation.</sub>",
     ]
     return "\n".join(out)
+
+
+def verify(committed: dict, measured: dict, workspace: Path) -> int:
+    """Measured entries must equal the committed ones, and the committed file
+    must list exactly the workspace's bin packages."""
+    bad = 0
+    names = set(bin_packages(workspace))
+    for m in sorted(names ^ set(committed)):
+        print(f"::error::{m}: {'missing from' if m in names else 'not a package but in'} "
+              "docs/data/circuit-sizes.json")
+        bad += 1
+    for m, v in sorted(measured.items()):
+        if committed.get(m) != v:
+            print(f"::error::{m}: committed {committed.get(m)} but measured {v}")
+            bad += 1
+    if bad:
+        print("docs/data/circuit-sizes.json is stale; refresh it with `python3 "
+              ".github/scripts/circuit_sizes.py collect . --cache "
+              "docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json`", file=sys.stderr)
+    else:
+        print(f"{len(measured)} measured circuits match the committed sizes", file=sys.stderr)
+    return 1 if bad else 0
 
 
 def check(sizes: dict) -> int:
@@ -152,6 +204,17 @@ def main() -> None:
     c.add_argument("-o", "--output", type=Path, required=True)
     c.add_argument("--nargo", default="nargo")
     c.add_argument("--bb", default="bb")
+    c.add_argument("--packages", type=Path,
+                   help="file with one package name per line (default: every bin)")
+    c.add_argument("--no-compile", action="store_true",
+                   help="use the artifacts already in target/")
+    c.add_argument("--cache", type=Path,
+                   help="sizes file whose entries are reused when the bytecode is unchanged")
+
+    v = sub.add_parser("verify")
+    v.add_argument("committed", type=Path)
+    v.add_argument("measured", type=Path)
+    v.add_argument("--workspace", type=Path, default=Path("."))
 
     r = sub.add_parser("report")
     r.add_argument("base", type=Path)
@@ -163,8 +226,14 @@ def main() -> None:
 
     a = ap.parse_args()
     if a.cmd == "collect":
-        a.output.write_text(json.dumps(collect(a.workspace, a.nargo, a.bb), indent=2, sort_keys=True))
+        packages = a.packages.read_text().split() if a.packages else None
+        cache = json.loads(a.cache.read_text()) if a.cache and a.cache.exists() else {}
+        sizes = collect(a.workspace, a.nargo, a.bb, packages, not a.no_compile, cache)
+        a.output.write_text(json.dumps(sizes, indent=2, sort_keys=True) + "\n")
         print(f"wrote {a.output}", file=sys.stderr)
+    elif a.cmd == "verify":
+        raise SystemExit(verify(json.loads(a.committed.read_text()),
+                                json.loads(a.measured.read_text()), a.workspace))
     elif a.cmd == "check":
         raise SystemExit(check(json.loads(a.sizes.read_text())))
     else:

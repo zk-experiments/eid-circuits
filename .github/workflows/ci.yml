@@ -1,9 +1,10 @@
 # CI + release for eid-circuits (same shape as csca-registry and the psonet
 # libraries).
 #
-#   noir ──┐
-#   rust ──┼─> ci ──> tag (cog, push:main) ──> github-release
-#   typos ─┤
+#   noir ────────────┐
+#   rust ────────────┼─> ci ──> tag (cog, push:main) ──> github-release
+#   circuit-samples ─┤   (samples execute, committed sizes current, 2 GiB cap)
+#   typos ───────────┤
 #   supply-chain
 #
 #   circuit-size, coverage   reports only (PR comments), outside `ci`
@@ -156,9 +157,15 @@ jobs:
 
   # Every step circuit with a Prover.toml is executed: the whole statement
   # holds for one real certificate per DSC signing configuration, and for one
-  # synthetic document per SOD configuration and envelope hash pair.
+  # synthetic document per SOD configuration and envelope hash pair. The same
+  # compiled samples then check docs/data/circuit-sizes.json is current (only
+  # circuits whose bytecode changed are run through `bb gates`), and the 2 GiB
+  # proving-memory cap is enforced on that file. Compiling all ~300 circuits
+  # takes over an hour on a runner, so CI never does it; the full file is
+  # refreshed locally (see .github/scripts/circuit_sizes.py). Nothing here
+  # proves: no time or memory is measured in CI.
   circuit-samples:
-    name: Circuit samples (nargo execute)
+    name: Circuit samples (nargo execute, sizes)
     runs-on: ubuntu-latest
     needs: [resolve]
     if: needs.resolve.outputs.release_tag == '' && github.event_name != 'schedule'
@@ -187,7 +194,14 @@ jobs:
             | xargs -I{} sed -n 's/^name = "\(.*\)"/\1/p' {}/Nargo.toml \
             | sort > samples.txt
           echo "$(wc -l < samples.txt) samples"
-          xargs -P 2 -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
+          xargs -P "$(nproc)" -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
+      - name: Committed sizes are current for the samples
+        run: |
+          python3 .github/scripts/circuit_sizes.py collect . --packages samples.txt --no-compile \
+            --cache docs/data/circuit-sizes.json --bb "$HOME/.bb/bb" -o samples-sizes.json
+          python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json
+      - name: Enforce the 2 GiB proving-memory cap
+        run: python3 .github/scripts/circuit_sizes.py check docs/data/circuit-sizes.json
 
   # Which parts of the tree moved; circuit-size only runs when circuits did.
   changes:
@@ -207,19 +221,13 @@ jobs:
         with:
           filters: |
             circuits:
-              - 'noir/**'
-              - 'Nargo.toml'
-              - 'mise.toml'
-              # A change to how sizes are measured should also produce a
-              # comparison, not silently skip one.
+              - 'docs/data/circuit-sizes.json'
               - '.github/scripts/circuit_sizes.py'
 
   # Circuit size against the pull request's base (ported from
-  # pso-zk-circuits). Gate count drives proving time, memory and the VK;
-  # opcodes drive witness generation. Neither shows in a diff, so this measures
-  # every bin circuit (the per-signature-type benchmarks and the step
-  # circuits) and comments. The comparison only reports; the memory cap
-  # (`circuit_sizes.py check`) gates, so `ci` needs this job.
+  # pso-zk-circuits): the committed docs/data/circuit-sizes.json of the base
+  # and of the head, which circuit-samples keeps current. Nothing is compiled.
+  # Reports only; the memory cap is enforced in circuit-samples.
   circuit-size:
     name: circuit size
     runs-on: ubuntu-latest
@@ -233,64 +241,25 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v5
-      # The base as the pull request targets it, measured with the same toolchain.
-      - uses: actions/checkout@v5
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
-          path: base
-      - uses: jdx/mise-action@v4
-        with:
-          install: false
-      - name: Cache the Noir toolchain
-        id: toolchain-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.nargo
-            ~/.bb
-          key: noir-toolchain-${{ hashFiles('mise.toml') }}
-      - name: Install nargo + bb at the pinned versions
-        if: steps.toolchain-cache.outputs.cache-hit != 'true'
-        run: mise run install:zk-toolchain
-      - name: Cache the bb CRS
-        uses: actions/cache@v4
-        with:
-          path: ~/.bb-crs
-          key: bb-crs-${{ hashFiles('mise.toml') }}
-      - name: Measure this branch
-        run: |
-          python3 .github/scripts/circuit_sizes.py collect . \
-            --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb" \
-            -o head-sizes.json
-      - name: Enforce the 2 GiB proving-memory cap
-        run: python3 .github/scripts/circuit_sizes.py check head-sizes.json
-      # The base is measured with the HEAD copy of the script, so a change to
-      # the measurement itself cannot read as a change in the circuits.
-      - name: Measure the base
-        run: |
-          python3 .github/scripts/circuit_sizes.py collect base \
-            --nargo "$HOME/.nargo/bin/nargo" --bb "$HOME/.bb/bb" \
-            -o base-sizes.json
+          fetch-depth: 0
       - name: Render the comparison
         env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
           BASE_REF: ${{ github.base_ref }}
         run: |
+          set -euo pipefail
+          # A base that predates the file compares against nothing.
+          git show "$BASE_SHA:docs/data/circuit-sizes.json" > base-sizes.json 2>/dev/null \
+            || echo '{}' > base-sizes.json
           python3 .github/scripts/circuit_sizes.py report \
-            base-sizes.json head-sizes.json --base-ref "$BASE_REF" > circuit-size.md
+            base-sizes.json docs/data/circuit-sizes.json --base-ref "$BASE_REF" > circuit-size.md
           cat circuit-size.md >> "$GITHUB_STEP_SUMMARY"
       - name: Circuit size PR comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: circuit-size
           path: circuit-size.md
-      - uses: actions/upload-artifact@v5
-        with:
-          name: circuit-sizes
-          path: |
-            base-sizes.json
-            head-sizes.json
-            circuit-size.md
-          retention-days: 14
 
   # Coverage of the Rust tools (ported from pso-zk-circuits). Reported, never
   # enforced, and outside `ci`'s needs so it cannot hold up a merge. Noir has
@@ -367,7 +336,7 @@ jobs:
     name: ci
     runs-on: ubuntu-latest
     if: always()
-    needs: [noir, rust, circuit-samples, circuit-size, typos, supply-chain]
+    needs: [noir, rust, circuit-samples, typos, supply-chain]
     steps:
       - name: Check dependency results
         env:

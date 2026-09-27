@@ -31,5 +31,5 @@ description = "Install nargo + bb at the pinned versions"
 depends = ["install:noir", "install:bb"]
 
 [tasks."circuit-sizes"]
-description = "Gates and opcodes of every bin circuit: python3 .github/scripts/circuit_sizes.py collect . -o sizes.json"
-run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $HOME/.nargo/bin/nargo --bb $HOME/.bb/bb -o target/sizes.json"
+description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
+run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $HOME/.nargo/bin/nargo --bb $HOME/.bb/bb --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
