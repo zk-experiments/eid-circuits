@@ -1,5 +1,5 @@
 {
-  "generated_by": "eid-vectors vk-tree (rust/eid-vectors/src/vktree.rs); do not edit",
+  "generated_by": "noir-zk freeze, from noir/circuits/vk-tree.json; do not edit",
   "height": 9,
   "leaves": [
     {

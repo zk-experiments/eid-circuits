@@ -1,3 +1,5 @@
+# Written by noir-zk freeze; do not edit.
+
 noir = "1.0.0-rc.3"
 bb = "7.0.0-nightly.20260927"
 vk_tree_root = "0x25d3ee909adb8d8e13248248a121fbf63568234bc0498b18447cec69fc5605bd"
