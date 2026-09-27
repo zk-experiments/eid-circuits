@@ -31,7 +31,7 @@ All circuit code here is written for this repository and grouped by signature ty
 All tooling is pinned and installed by [mise](https://mise.jdx.dev), so start there:
 
 1. Install mise: `curl https://mise.run | sh` (or `brew install mise`), then activate it in your shell (`mise activate`, see its docs).
-2. In this repository, trust its config and install the tools: `mise trust && mise install` (Node and wrangler, for R2 uploads).
+2. In this repository, trust its config and install the tools: `mise trust && mise install` (aws-cli, for R2 uploads).
 3. Install the zero-knowledge toolchain: `mise run install:zk-toolchain install:noir-zk`. This installs nargo and bb at the pinned versions into `~/.toolchains/<tool>-<version>`, not `~/.nargo` or `~/.bb`, and the noir-zk CLI at the version `rust/Cargo.toml` pins.
 
 `mise env` sets `NARGO` and `BB` to the pinned binaries. Every task below documents its raw command in `mise.toml`.
