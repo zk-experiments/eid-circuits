@@ -2,12 +2,12 @@
 //! the DSC step, from the registry fixtures (who signs with what, how large
 //! their certificates are) and the committed measurements in `docs/data/`.
 
-use crate::circuits::{Config, DSC_CONFIGS};
-use crate::steps::{bucket, BUCKETS};
 use crate::{fixtures, root};
 use anyhow::{Context, Result};
 use csca_registry::cert::Cert;
 use csca_registry::masterlist;
+use eid_prover::config::{bucket, BUCKETS};
+use eid_prover::config::{Config, DSC_CONFIGS};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fmt::Write as _;

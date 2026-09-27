@@ -8,6 +8,7 @@
 //! eid-vectors der [--check]                                               # noir/lib/der/src/{vectors,curves}.nr
 //! eid-vectors steps [--check]                                             # noir/lib/steps/src/{vectors,sod_vectors,envelope_vectors}.nr
 //! eid-vectors envelope [--check]                                          # noir/lib/envelope/src/vectors.nr
+//! eid-vectors documents [--check]                                         # rust/eid-prover/tests/data/documents.json
 //! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
 //! eid-vectors samples                                                     # print packages that have a Prover.toml
 //! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
@@ -21,6 +22,7 @@ mod circuits;
 mod costs;
 mod curve_params;
 mod curves;
+mod documents;
 mod ec;
 mod envelope;
 mod mock;
@@ -126,6 +128,12 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
+    /// Generate rust/eid-prover/tests/data/documents.json (complete synthetic documents)
+    Documents {
+        /// Fail instead of writing when the file is stale
+        #[arg(long)]
+        check: bool,
+    },
     /// Generate the step circuits, their Prover.toml samples and the root Nargo.toml
     Circuits {
         /// Fail instead of writing when a file is stale
@@ -201,6 +209,13 @@ fn main() -> Result<()> {
             &envelope::vectors()?,
             check,
         ),
+        Command::Documents { check } => {
+            let path = root().join("rust/eid-prover/tests/data/documents.json");
+            if let Some(dir) = path.parent() {
+                std::fs::create_dir_all(dir)?;
+            }
+            write_or_check(&path, &documents::documents()?, check)
+        }
         Command::Circuits { check } => {
             for (rel, contents) in circuits::files()? {
                 let path = root().join(rel);

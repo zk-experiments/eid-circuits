@@ -45,6 +45,24 @@ Status: all three steps are built. Their specifications are [docs/circuits/dsc.m
 | `eid_ecdsa` | A, B | [noir/lib/ecdsa](../noir/lib/ecdsa/README.md) |
 | `eid_envelope` | C | [noir/lib/envelope](../noir/lib/envelope/README.md); Rust: [rust/eid-envelope](../rust/eid-envelope) |
 
+## Prover
+
+`rust/eid-prover` takes what the phone reads over NFC (EF.SOD and DG1) and the published registry, and selects the circuit of each step (`eid_prover::select`):
+
+| step | chosen by | read from |
+|---|---|---|
+| DSC | the CSCA's key (the registry key that verifies the DSC certificate) and the DSC certificate's signature scheme; `TBSCertificate` bucket | the DSC certificate embedded in EF.SOD, the registry |
+| SOD | the DSC's key and the SignerInfo signature scheme; same bucket | EF.SOD |
+| envelope | the SignerInfo digest algorithm (eContent hash) and the LDS security object's hash algorithm; eContent bucket | EF.SOD |
+
+Before any proving, it checks natively everything the proofs will state:
+- the CSCA's registry period covers the DSC's `notBefore`, and the DSC isn't revoked;
+- the DSC certificate and the SOD signatures verify;
+- `messageDigest` matches the eContent, and DG1 matches its listed hash;
+- the MRZ issuing state is the CSCA's country, and the document hasn't expired.
+
+A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*). Its tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`).
+
 ## Date policy
 
 Decided: the **ICAO chain model**. `csca_registry::verify_key` checks the CSCA leaf's validity period against the DSC's `notBefore`, meaning the CSCA had to be valid when it issued the DSC. The document can then stay valid after its CSCA expires, as ICAO 9303 intends. The document's own expiry (DG1) is checked against the proof date `D`. The DSC's `notBefore` has to come from the signed DSC certificate (its `TBSCertificate` validity), not from a free input.

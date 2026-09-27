@@ -1,0 +1,20 @@
+[package]
+name = "eid-prover"
+description = "Prover side of eid-circuits: reads an eMRTD's NFC data, picks the step circuits it needs and checks it natively before proving"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+csca-registry.workspace = true
+anyhow.workspace = true
+hex.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

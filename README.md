@@ -22,6 +22,7 @@ All circuit code here is written for this repository and grouped by signature ty
 | `noir/vendor/noir_bigcurve` | `noir-lang/noir_bigcurve` v0.14.0 plus generated curves | vendored |
 | `rust/eid-vectors` | test-vector generator (real certificates from master lists, synthetic documents) | done |
 | `rust/eid-envelope` | envelope encryption for provers (`seal`) and viewers (`open`) | done |
+| `rust/eid-prover` | circuit selection from the NFC read (EF.SOD, DG1) with native pre-checks; witness generation next | in progress |
 
 ## Build and test
 
