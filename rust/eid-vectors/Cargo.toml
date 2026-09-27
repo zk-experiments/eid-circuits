@@ -9,6 +9,8 @@ publish.workspace = true
 
 [dependencies]
 csca-registry.workspace = true
+eid-envelope.workspace = true
+ark-ff.workspace = true
 anyhow.workspace = true
 clap.workspace = true
 hex.workspace = true

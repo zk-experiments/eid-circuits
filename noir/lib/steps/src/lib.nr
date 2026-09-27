@@ -4,7 +4,10 @@
 //! Specification and review notes: README.md.
 
 pub mod dsc;
+pub mod envelope;
 pub mod sod;
+mod envelope_tests;
+mod envelope_vectors;
 mod sod_tests;
 mod sod_vectors;
 mod tests;

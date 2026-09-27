@@ -1,5 +1,5 @@
 [workspace]
-members = ["eid-vectors"]
+members = ["eid-envelope", "eid-vectors"]
 resolver = "2"
 
 [workspace.package]
@@ -23,6 +23,13 @@ sha1 = "0.10"
 rsa = "0.9"
 rand_chacha = "0.3"
 serde_json = "1.0"
+# Envelope encryption (Grumpkin KEM + Poseidon2 duplex), shared with the circuits.
+eid-envelope = { path = "eid-envelope" }
+pso-poseidon = "0.5"
+ark-bn254 = "0.6"
+ark-ec = "0.6"
+ark-ff = "0.6"
+ark-grumpkin = "0.6"
 
 [workspace.lints.rust]
 unsafe_code = "deny"

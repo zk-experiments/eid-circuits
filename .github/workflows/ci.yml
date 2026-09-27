@@ -150,13 +150,13 @@ jobs:
       - name: Generated Noir files are current
         run: |
           set -euo pipefail
-          for what in rsa ecdsa curves der steps circuits costs; do
+          for what in rsa ecdsa curves der steps envelope circuits costs; do
             cargo run -q -p eid-vectors -- "$what" --check
           done
 
-  # Every step circuit with a real-certificate Prover.toml is executed: the
-  # whole statement (parsing, registry, revocation, hash, signature) holds for
-  # one real certificate per signing configuration.
+  # Every step circuit with a Prover.toml is executed: the whole statement
+  # holds for one real certificate per DSC signing configuration, and for one
+  # synthetic document per SOD configuration and envelope hash pair.
   circuit-samples:
     name: Circuit samples (nargo execute)
     runs-on: ubuntu-latest

@@ -324,6 +324,36 @@ pub(crate) fn td3_mrz(country: &str, expiry: &str) -> String {
     format!("{line1}{n}{country}{b}F{e}{o}{composite}")
 }
 
+/// TD1 (ID card, 3 × 30) MRZ for the ICAO 9303 specimen.
+pub(crate) fn td1_mrz(country: &str, expiry: &str) -> String {
+    let number = "D23145890";
+    let line1 = format!("I<{country}{number}{}<<<<<<<<<<<<<<<", check_digit(number));
+    let (birth, e) = (
+        format!("740812{}", check_digit("740812")),
+        format!("{expiry}{}", check_digit(expiry)),
+    );
+    let upper = format!("{}{birth}{e}<<<<<<<<<<<", &line1[5..30]);
+    let line2 = format!("{birth}F{e}{country}<<<<<<<<<<<{}", check_digit(&upper));
+    format!("{line1}{line2}ERIKSSON<<ANNA<MARIA<<<<<<<<<<")
+}
+
+/// TD2 (2 × 36) MRZ for the ICAO 9303 specimen.
+pub(crate) fn td2_mrz(country: &str, expiry: &str) -> String {
+    let number = "D23145890";
+    let (n, b, e) = (
+        format!("{number}{}", check_digit(number)),
+        format!("740812{}", check_digit("740812")),
+        format!("{expiry}{}", check_digit(expiry)),
+    );
+    let composite = check_digit(&format!("{n}{b}{e}<<<<<<<"));
+    format!("I<{country}ERIKSSON<<ANNA<MARIA<<<<<<<<<<<{n}{country}{b}F{e}<<<<<<<{composite}")
+}
+
+/// DG1 for an MRZ: `61 L 5F1F L' MRZ`.
+pub(crate) fn dg1(mrz: &str) -> Vec<u8> {
+    tlv(0x61, &tlv_2(0x5f1f, mrz.as_bytes()))
+}
+
 /// A synthetic document signed under `config`.
 pub(crate) struct Doc {
     /// DSC `TBSCertificate` (its CSCA signature is out of scope for step B).
@@ -338,15 +368,26 @@ pub(crate) struct Doc {
     pub signature: Vec<u8>,
     /// eContent: the LDS security object.
     pub econtent: Vec<u8>,
-    /// Hash of the LDS data group hashes (and of `econtent` in messageDigest).
-    pub lds_hash: Hash,
-    #[cfg_attr(
-        not(test),
-        expect(dead_code, reason = "read by the envelope step vectors")
-    )]
+    /// Hash of `econtent` in messageDigest.
+    pub md_hash: Hash,
+    /// Offsets of the DG1 and DG11 entries in `econtent`.
+    pub dg1_offset: usize,
+    pub dg11_offset: Option<usize>,
     pub dg1: Vec<u8>,
-    #[expect(dead_code, reason = "read by the envelope step vectors")]
+    /// Empty when the document has no DG11.
     pub dg11: Vec<u8>,
+}
+
+/// How a synthetic document's security object is built.
+#[derive(Debug, Clone, Copy)]
+pub(crate) struct Lds {
+    /// Hash of the eContent (messageDigest).
+    pub md_hash: Hash,
+    /// Hash of the data groups.
+    pub dg_hash: Hash,
+    /// LDS 1.8 (version 1, with ldsVersionInfo) instead of version 0.
+    pub v1: bool,
+    pub with_dg11: bool,
 }
 
 impl Doc {
@@ -358,11 +399,22 @@ impl Doc {
                 hash
             }
         };
+        let lds = Lds {
+            md_hash: hash,
+            dg_hash: hash,
+            v1: false,
+            with_dg11: true,
+        };
+        Self::build(config, lds, country, expiry)
+    }
+
+    /// [`Doc::new`] with the security object described by `lds`.
+    pub(crate) fn build(config: Config, lds: Lds, country: &str, expiry: &str) -> Result<Self> {
         let key = Key::for_config(config)?;
         let dsc_key = key.public()?;
 
         let mrz = td3_mrz(country, expiry);
-        let dg1 = tlv(0x61, &tlv_2(0x5f1f, mrz.as_bytes()));
+        let dg1 = dg1(&mrz);
         let dg11 = tlv(
             0x6b,
             &[
@@ -374,22 +426,38 @@ impl Doc {
         );
         let dg2 = tlv(0x75, b"mock face image");
         let dg14 = tlv(0x6e, b"mock security infos");
-        let lds_hash = hash;
-        let dg_hash = |n: u8, dg: &[u8]| seq(&[uint(&[n]), tlv(0x04, &lds_hash.digest(dg))]);
-        let econtent = seq(&[
-            uint(&[0]),
-            seq(&[oid(hash_oid(lds_hash))]),
-            seq(&[
-                dg_hash(1, &dg1),
-                dg_hash(2, &dg2),
-                dg_hash(11, &dg11),
-                dg_hash(14, &dg14),
-            ]),
-        ]);
+        let entry = |n: u8, dg: &[u8]| seq(&[uint(&[n]), tlv(0x04, &lds.dg_hash.digest(dg))]);
+        let mut entries = vec![entry(1, &dg1), entry(2, &dg2)];
+        if lds.with_dg11 {
+            entries.push(entry(11, &dg11));
+        }
+        entries.push(entry(14, &dg14));
+        let mut parts = vec![
+            uint(&[u8::from(lds.v1)]),
+            // v1 documents write the NULL parameter, v0 ones omit it.
+            if lds.v1 {
+                seq(&[oid(hash_oid(lds.dg_hash)), vec![0x05, 0x00]])
+            } else {
+                seq(&[oid(hash_oid(lds.dg_hash))])
+            },
+            seq(&entries),
+        ];
+        if lds.v1 {
+            parts.push(seq(&[tlv(0x13, b"0108"), tlv(0x13, b"040000")]));
+        }
+        let econtent = seq(&parts);
+        let find = |needle: &[u8]| (0..econtent.len()).find(|&i| econtent[i..].starts_with(needle));
+        let dg1_offset = find(&entry(1, &dg1)).context("DG1 entry")?;
+        let dg11_offset = if lds.with_dg11 {
+            Some(find(&entry(11, &dg11)).context("DG11 entry")?)
+        } else {
+            None
+        };
+        let dg11 = if lds.with_dg11 { dg11 } else { vec![] };
 
         let md_attr = seq(&[
             oid("1.2.840.113549.1.9.4"),
-            set_of(vec![tlv(0x04, &lds_hash.digest(&econtent))]),
+            set_of(vec![tlv(0x04, &lds.md_hash.digest(&econtent))]),
         ]);
         let attrs = set_of(vec![
             seq(&[
@@ -445,7 +513,9 @@ impl Doc {
             md_offset,
             signature,
             econtent,
-            lds_hash,
+            md_hash: lds.md_hash,
+            dg1_offset,
+            dg11_offset,
             dg1,
             dg11,
         })
@@ -470,6 +540,19 @@ mod tests {
         assert_eq!(
             td3_mrz("UTO", "120415"),
             "P<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<L898902C36UTO7408122F1204159ZE184226B<<<<<10"
+        );
+    }
+
+    #[test]
+    fn mrz_formats() {
+        assert_eq!(td1_mrz("UTO", "120415").len(), 90);
+        assert_eq!(td2_mrz("UTO", "120415").len(), 72);
+        // ICAO 9303 part 5/6 specimens.
+        assert!(td1_mrz("UTO", "120415")
+            .starts_with("I<UTOD231458907<<<<<<<<<<<<<<<7408122F1204159UTO"));
+        assert_eq!(
+            &td2_mrz("UTO", "120415")[36..],
+            "D231458907UTO7408122F1204159<<<<<<<6"
         );
     }
 

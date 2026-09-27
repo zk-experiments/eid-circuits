@@ -563,6 +563,198 @@
     "gates": 562274,
     "opcodes": 212288
   },
+  "envelope_sha1_sha1_lds1024": {
+    "gates": 332538,
+    "opcodes": 172135
+  },
+  "envelope_sha1_sha1_lds1536": {
+    "gates": 422740,
+    "opcodes": 221167
+  },
+  "envelope_sha1_sha1_lds512": {
+    "gates": 242125,
+    "opcodes": 123087
+  },
+  "envelope_sha1_sha256_lds1024": {
+    "gates": 272671,
+    "opcodes": 113357
+  },
+  "envelope_sha1_sha256_lds1536": {
+    "gates": 362873,
+    "opcodes": 162389
+  },
+  "envelope_sha1_sha256_lds512": {
+    "gates": 182455,
+    "opcodes": 64309
+  },
+  "envelope_sha1_sha384_lds1024": {
+    "gates": 396697,
+    "opcodes": 188216
+  },
+  "envelope_sha1_sha384_lds1536": {
+    "gates": 486899,
+    "opcodes": 237248
+  },
+  "envelope_sha1_sha384_lds512": {
+    "gates": 306673,
+    "opcodes": 139232
+  },
+  "envelope_sha1_sha512_lds1024": {
+    "gates": 396885,
+    "opcodes": 188344
+  },
+  "envelope_sha1_sha512_lds1536": {
+    "gates": 487087,
+    "opcodes": 237376
+  },
+  "envelope_sha1_sha512_lds512": {
+    "gates": 306861,
+    "opcodes": 139360
+  },
+  "envelope_sha256_sha1_lds1024": {
+    "gates": 229095,
+    "opcodes": 80120
+  },
+  "envelope_sha256_sha1_lds1536": {
+    "gates": 268226,
+    "opcodes": 85584
+  },
+  "envelope_sha256_sha1_lds512": {
+    "gates": 190343,
+    "opcodes": 74656
+  },
+  "envelope_sha256_sha256_lds1024": {
+    "gates": 158188,
+    "opcodes": 20543
+  },
+  "envelope_sha256_sha256_lds1536": {
+    "gates": 197452,
+    "opcodes": 26007
+  },
+  "envelope_sha256_sha256_lds512": {
+    "gates": 118924,
+    "opcodes": 15079
+  },
+  "envelope_sha256_sha384_lds1024": {
+    "gates": 283354,
+    "opcodes": 96260
+  },
+  "envelope_sha256_sha384_lds1536": {
+    "gates": 322357,
+    "opcodes": 101724
+  },
+  "envelope_sha256_sha384_lds512": {
+    "gates": 244602,
+    "opcodes": 90796
+  },
+  "envelope_sha256_sha512_lds1024": {
+    "gates": 283542,
+    "opcodes": 96388
+  },
+  "envelope_sha256_sha512_lds1536": {
+    "gates": 322545,
+    "opcodes": 101852
+  },
+  "envelope_sha256_sha512_lds512": {
+    "gates": 244790,
+    "opcodes": 90924
+  },
+  "envelope_sha384_sha1_lds1024": {
+    "gates": 419190,
+    "opcodes": 193219
+  },
+  "envelope_sha384_sha1_lds1536": {
+    "gates": 539315,
+    "opcodes": 249015
+  },
+  "envelope_sha384_sha1_lds512": {
+    "gates": 299065,
+    "opcodes": 137423
+  },
+  "envelope_sha384_sha256_lds1024": {
+    "gates": 349231,
+    "opcodes": 134436
+  },
+  "envelope_sha384_sha256_lds1536": {
+    "gates": 469356,
+    "opcodes": 190232
+  },
+  "envelope_sha384_sha256_lds512": {
+    "gates": 229106,
+    "opcodes": 78640
+  },
+  "envelope_sha384_sha384_lds1024": {
+    "gates": 463767,
+    "opcodes": 209028
+  },
+  "envelope_sha384_sha384_lds1536": {
+    "gates": 583892,
+    "opcodes": 264824
+  },
+  "envelope_sha384_sha384_lds512": {
+    "gates": 343423,
+    "opcodes": 153232
+  },
+  "envelope_sha384_sha512_lds1024": {
+    "gates": 463955,
+    "opcodes": 209156
+  },
+  "envelope_sha384_sha512_lds1536": {
+    "gates": 584080,
+    "opcodes": 264952
+  },
+  "envelope_sha384_sha512_lds512": {
+    "gates": 343611,
+    "opcodes": 153360
+  },
+  "envelope_sha512_sha1_lds1024": {
+    "gates": 419206,
+    "opcodes": 193235
+  },
+  "envelope_sha512_sha1_lds1536": {
+    "gates": 539331,
+    "opcodes": 249031
+  },
+  "envelope_sha512_sha1_lds512": {
+    "gates": 299081,
+    "opcodes": 137439
+  },
+  "envelope_sha512_sha256_lds1024": {
+    "gates": 349247,
+    "opcodes": 134452
+  },
+  "envelope_sha512_sha256_lds1536": {
+    "gates": 469372,
+    "opcodes": 190248
+  },
+  "envelope_sha512_sha256_lds512": {
+    "gates": 229122,
+    "opcodes": 78656
+  },
+  "envelope_sha512_sha384_lds1024": {
+    "gates": 463783,
+    "opcodes": 209044
+  },
+  "envelope_sha512_sha384_lds1536": {
+    "gates": 583908,
+    "opcodes": 264840
+  },
+  "envelope_sha512_sha384_lds512": {
+    "gates": 343439,
+    "opcodes": 153248
+  },
+  "envelope_sha512_sha512_lds1024": {
+    "gates": 463971,
+    "opcodes": 209172
+  },
+  "envelope_sha512_sha512_lds1536": {
+    "gates": 584096,
+    "opcodes": 264968
+  },
+  "envelope_sha512_sha512_lds512": {
+    "gates": 343627,
+    "opcodes": 153376
+  },
   "sod_ecdsa_bp256_sha1_tbs1000": {
     "gates": 177632,
     "opcodes": 71716
