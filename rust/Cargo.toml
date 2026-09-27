@@ -12,7 +12,7 @@ publish = false
 [workspace.dependencies]
 # Certificate parsing and signature schemes come from the registry itself, so
 # vectors are built from exactly what the registry verified.
-csca-registry = { git = "https://github.com/zk-experiments/csca-registry", tag = "v0.3.0" }
+csca-registry = { git = "https://github.com/zk-experiments/csca-registry", tag = "v0.3.1" }
 anyhow = "1.0"
 clap = { version = "4", features = ["derive"] }
 hex = "0.4"
