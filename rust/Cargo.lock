@@ -631,6 +631,7 @@ name = "eid-vectors"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "ark-bn254",
  "ark-ff",
  "clap",
  "csca-registry",

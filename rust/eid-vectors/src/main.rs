@@ -9,6 +9,7 @@
 //! eid-vectors steps [--check]                                             # noir/lib/steps/src/{vectors,sod_vectors,envelope_vectors}.nr
 //! eid-vectors envelope [--check]                                          # noir/lib/envelope/src/vectors.nr
 //! eid-vectors documents [--check]                                         # documents.json, chains.json, Chain.toml
+//! eid-vectors vk-tree [--bb PATH]                                         # noir/circuits/vk-tree.json (after nargo compile --workspace)
 //! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
 //! eid-vectors samples                                                     # print packages that have a Prover.toml
 //! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
@@ -27,6 +28,7 @@ mod ec;
 mod envelope;
 mod mock;
 mod steps;
+mod vktree;
 
 use anyhow::{bail, ensure, Context, Result};
 use clap::{Parser, Subcommand};
@@ -134,6 +136,12 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
+    /// Generate noir/circuits/vk-tree.json from the compiled artifacts in target/
+    VkTree {
+        /// Path to bb
+        #[arg(long, default_value = "bb")]
+        bb: String,
+    },
     /// Generate the step circuits, their Prover.toml samples and the root Nargo.toml
     Circuits {
         /// Fail instead of writing when a file is stale
@@ -217,6 +225,15 @@ fn main() -> Result<()> {
                 }
                 write_or_check(&path, &contents, check)?;
             }
+            Ok(())
+        }
+        Command::VkTree { bb } => {
+            let path = root().join(vktree::PATH);
+            let previous: Option<serde_json::Value> = std::fs::read_to_string(&path)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok());
+            let packages = circuits::bin_packages()?;
+            std::fs::write(&path, vktree::build(&packages, previous.as_ref(), &bb)?)?;
             Ok(())
         }
         Command::Circuits { check } => {

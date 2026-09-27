@@ -36,8 +36,8 @@ These are reported in this file and don't affect our soundness.
 2. **Key binding.** RSA and ECDSA libraries check a signature under the key they are given. The circuit must source that key from a registry leaf (CSCA) or from the signed DSC certificate (DSC).
 3. **Barrett parameters.** They are prover-supplied and only used in unconstrained code; they affect completeness, not soundness (see `noir/lib/rsa`).
 4. **Hash inputs.** Hash inputs are the first `len` bytes of fixed buffers, and trailing bytes are ignored by construction. Every circuit must derive `len` from constrained data, such as the DER length of the element being hashed. Every buffer is also asserted zero past its length, so commitments over whole buffers have one preimage per value.
-5. **Step links.** The three step proofs are only meaningful together. The verifier must check A's `c_A` equals B's, and B's `c_B` equals C's (see docs/VERIFY.md). There is no aggregation proof.
-6. **Verifier-side inputs.** The verifier must check that:
+5. **Step links and variants.** The kernels fold the three steps and check, in-circuit, that each step's verification key is in the key tree under its role and that A's `c_A` reappears in B and B's `c_B` in C (docs/FOLDING.md). The verifier must pin the hiding kernel's key and the key tree root, or any circuit could be folded.
+6. **Verifier-side inputs.** The verifier must check, against the proof's public outputs, that:
    - `root` is a published registry root it still accepts;
    - `date` is the current date;
    - `context` identifies the transfer;
@@ -47,6 +47,9 @@ These are reported in this file and don't affect our soundness.
    - `e` and `K` must be fresh and uniform, or envelopes share a keystream.
 
    The circuit only rejects `e = 0`.
+
+8. **Toolchain coupling.** The kernels hard-code bb 5.0.0-nightly.20260522's recursion proof types (OINK 1, HN 2, HN_FINAL 7, HN_TAIL 8) and 143-field keys; Chonk is Aztec's client IVC, not a documented public API. A bb upgrade needs `eid_kernel` checked against it and the key tree rebuilt.
+9. **Chonk soundness and zero knowledge** are barretenberg's. The kernels only add the application checks (key tree, links, public outputs).
 
 ## Known limitations
 
@@ -60,7 +63,7 @@ These are reported in this file and don't affect our soundness.
 - **LDS security object:** at most 16 data groups and 1536 bytes. Only DG1 is interpreted and encrypted; DG11 was dropped for cost (docs/circuits/envelope.md).
 - **MRZ dates** are read as 20YY in UTC, and check digits aren't verified (the data group is signed).
 - **The DSC's own validity period isn't checked.** Documents outlive their DSC's signing period, as ICAO 9303 intends.
-- **Circuit variants are public.** Each step proof's verification key reveals its signature configuration and size bucket, which narrows down the issuing country.
+- **Circuit variants stay private** because every document is folded under the same hiding kernel key; only a single SHA-1 flag is public. Every proof is the same size (43,968 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
 - **SOD configurations mirror the CSCA configurations.** Real DSC statistics may add or remove variants.
 
 ## How test vectors are produced

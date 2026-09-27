@@ -1,0 +1,8 @@
+[package]
+name = "kernel_sod"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_kernel = { path = "../../lib/kernel" }

@@ -25,8 +25,8 @@ same cache, and `verify` fails when the committed file is stale.
 
 Differences from the psonet original: circuits are discovered from the root
 Nargo.toml `members` (every package with `type = "bin"`) instead of a fixed
-list, the workspace is compiled once, and the target is `noir-recursive`:
-the step circuits are verified inside the aggregation circuit.
+list, the workspace is compiled once, and circuits are measured for Chonk
+(`bb gates --scheme chonk`, the Mega arithmetisation the folded proof uses).
 """
 
 import argparse
@@ -38,15 +38,15 @@ import sys
 import tomllib
 from pathlib import Path
 
-# Gate counts are the same for every bb target (checked for noir-recursive and
-# evm), so one target measures all of them.
-TARGET = "noir-recursive"
+# Circuits are folded with Chonk; UltraHonk can't build databus circuits.
+SCHEME = "chonk"
 # Below this, a move is noise from a compiler detail rather than a change
 # worth a reviewer's attention.
 NOTABLE_PCT = 1.0
 # Hard cap on proving memory, so every circuit proves on a phone. Peak memory
 # is linear in gates, not in the padded power-of-two size: `bb prove` measured
-# 1,985–2,418 bytes per gate (docs/data/prove-times.json), so 2,500 bytes per
+# 1,985–2,418 bytes per gate (UltraHonk, 31 circuits; a folded Chonk document
+# peaks at about 2,350 bytes per gate of its largest circuit), so 2,500 bytes per
 # gate leaves a margin. The cap is 2 GiB / 2,500 = 858,993 gates.
 MEMORY_CAP_BYTES = 2 * 2**30
 BYTES_PER_GATE = 2500
@@ -99,7 +99,7 @@ def collect(workspace: Path, nargo: str, bb: str, packages: list[str] | None,
         if cached and cached.get("bytecode_sha256") == digest:
             out[module] = cached
             continue
-        raw = run([bb, "gates", "-b", str(artifact), "-t", TARGET])
+        raw = run([bb, "gates", "--scheme", SCHEME, "-b", str(artifact)])
         doc = json.loads(raw)
         fns = doc.get("functions") or []
         if not fns:
@@ -156,17 +156,24 @@ def report(base: dict, head: dict, base_ref: str) -> str:
         "|---|---:|---:|---:|---:|",
         *rows,
         "",
-        f"<sub>Committed `docs/data/circuit-sizes.json` (`bb gates -t {TARGET}`). "
+        f"<sub>Committed `docs/data/circuit-sizes.json` (`bb gates --scheme {SCHEME}`). "
         "Gate count drives proving time, memory and the VK; opcodes drive witness "
         "generation.</sub>",
     ]
     return "\n".join(out)
 
 
-def verify(committed: dict, measured: dict, workspace: Path) -> int:
-    """Measured entries must equal the committed ones, and the committed file
-    must list exactly the workspace's bin packages."""
+def verify(committed: dict, measured: dict, workspace: Path, vk_tree: dict | None = None) -> int:
+    """Measured entries must equal the committed ones, the committed file
+    must list exactly the workspace's bin packages, and the verification key
+    tree must have been built from the same bytecode."""
     bad = 0
+    for leaf in (vk_tree or {}).get("leaves", []):
+        entry = committed.get(leaf["package"], {})
+        if entry.get("bytecode_sha256") != leaf["bytecode_sha256"]:
+            print(f"::error::{leaf['package']}: noir/circuits/vk-tree.json is stale; "
+                  "run `eid-vectors vk-tree` after compiling the workspace")
+            bad += 1
     names = set(bin_packages(workspace))
     for m in sorted(names ^ set(committed)):
         print(f"::error::{m}: {'missing from' if m in names else 'not a package but in'} "
@@ -215,6 +222,7 @@ def main() -> None:
     v.add_argument("committed", type=Path)
     v.add_argument("measured", type=Path)
     v.add_argument("--workspace", type=Path, default=Path("."))
+    v.add_argument("--vk-tree", type=Path)
 
     r = sub.add_parser("report")
     r.add_argument("base", type=Path)
@@ -233,7 +241,8 @@ def main() -> None:
         print(f"wrote {a.output}", file=sys.stderr)
     elif a.cmd == "verify":
         raise SystemExit(verify(json.loads(a.committed.read_text()),
-                                json.loads(a.measured.read_text()), a.workspace))
+                                json.loads(a.measured.read_text()), a.workspace,
+                                json.loads(a.vk_tree.read_text()) if a.vk_tree else None))
     elif a.cmd == "check":
         raise SystemExit(check(json.loads(a.sizes.read_text())))
     else:

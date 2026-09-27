@@ -2,3 +2,4 @@ target/
 /rust/target
 .DS_Store
 .idea
+noir/kernels/*/Fold.toml

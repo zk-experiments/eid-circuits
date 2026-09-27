@@ -8,8 +8,8 @@ use eid_hash::sha512_var;
 use eid_steps::{dsc, sod};
 use eid_steps::HASH_SHA512;
 
-/// Returns `[DSC commitment, SOD commitment, hash id]`. The first must equal
-/// the DSC step's output.
+/// Returns `[DSC commitment, SOD commitment, hash id]` through the databus, to
+/// the SOD kernel, which checks the first equals the DSC step's.
 fn main(
     dsc_salt: Field,
     dsc_hash_id: u8,
@@ -20,7 +20,7 @@ fn main(
     md_offset: u32,
     r: [u8; 64],
     s: [u8; 64],
-) -> pub [Field; 3] {
+) -> return_data [Field; 3] {
     let (f, a) = sod::parse(tbs, attrs, md_offset);
     let (x, y) = spki_ec(tbs, f.spki_offset, f.len, BP512);
     verify_bp512::<64>(x, y, r, s, sha512_var(attrs, a.len));

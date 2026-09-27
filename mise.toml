@@ -30,6 +30,10 @@ set -euo pipefail
 description = "Install nargo + bb at the pinned versions"
 depends = ["install:noir", "install:bb"]
 
+[tasks."vk-tree"]
+description = "Refresh noir/circuits/vk-tree.json (run after circuit-sizes; bb write_vk only for changed bytecode)"
+run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $HOME/.bb/bb"
+
 [tasks."circuit-sizes"]
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $HOME/.nargo/bin/nargo --bb $HOME/.bb/bb --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
