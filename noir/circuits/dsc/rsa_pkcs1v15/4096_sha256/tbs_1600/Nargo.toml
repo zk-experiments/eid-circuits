@@ -8,4 +8,4 @@ compiler_version = ">=1.0.0"
 eid_hash = { path = "../../../../../lib/hash" }
 eid_rsa = { path = "../../../../../lib/rsa" }
 eid_steps = { path = "../../../../../lib/steps" }
-csca_registry = { tag = "v0.3.0", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }
+csca_registry = { tag = "v0.3.1", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }
