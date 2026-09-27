@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.4.1 - 2026-09-27
+#### Bug Fixes
+- (**ci**) read R2_ACCOUNT_ID from a variable or a secret - (a72edc8) - Anton Velichko
+
+- - -
+
 ## v0.4.0 - 2026-09-27
 #### Features
 - (**eid-circuits**) bundled feature compiles circuits at build time - (fe4fb35) - Anton Velichko
