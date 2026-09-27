@@ -839,6 +839,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "eid-circuits"
+version = "0.1.0"
+dependencies = [
+ "ark-ff",
+ "hex",
+ "noir-zk-backend",
+ "noir-zk-codegen",
+ "noir-zk-core",
+ "serde_json",
+]
+
+[[package]]
 name = "eid-envelope"
 version = "0.1.0"
 dependencies = [
@@ -879,18 +891,6 @@ dependencies = [
  "serde_json",
  "sha1",
  "sha2 0.10.9",
-]
-
-[[package]]
-name = "eid-zk"
-version = "0.1.0"
-dependencies = [
- "ark-ff",
- "hex",
- "noir-zk-backend",
- "noir-zk-codegen",
- "noir-zk-core",
- "serde_json",
 ]
 
 [[package]]

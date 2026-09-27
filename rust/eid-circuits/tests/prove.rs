@@ -2,8 +2,8 @@
 //! each package's Chain.toml) with the frozen registry, bytecode from a
 //! release-asset directory checked against its pinned hash.
 //!
-//! Runs when `EID_ZK_ASSETS` is set (`mise run test:prove`: the directory
-//! `noir-zk freeze` wrote, or a downloaded release). `EID_ZK_CLI_PROOF`
+//! Runs when `EID_ASSETS` is set (`mise run test:prove`: the directory
+//! `noir-zk freeze` wrote, or a downloaded release). `EID_CLI_PROOF`
 //! optionally names a `fold.py --out` directory whose `bb` CLI proof must
 //! verify here too.
 
@@ -11,8 +11,8 @@
 
 use std::path::{Path, PathBuf};
 
-use eid_zk::{artifacts, hiding_vk, prove_document, verify_document, vk_tree_root};
-use eid_zk::{DirStore, Document, FoldedProof, Inputs};
+use eid_circuits::{artifacts, hiding_vk, prove_document, verify_document, vk_tree_root};
+use eid_circuits::{DirStore, Document, FoldedProof, Inputs};
 use noir_zk_backend::chonk;
 use noir_zk_core::Artifacts;
 
@@ -32,7 +32,7 @@ fn chain_toml(root: &Path, name: &str) -> String {
 
 #[test]
 fn proves_and_verifies_every_chain() {
-    let Some(assets) = std::env::var_os("EID_ZK_ASSETS").map(PathBuf::from) else {
+    let Some(assets) = std::env::var_os("EID_ASSETS").map(PathBuf::from) else {
         return;
     };
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
@@ -73,7 +73,7 @@ fn proves_and_verifies_every_chain() {
     assert!(!chonk::verify(&FoldedProof::from_bytes(&tampered).unwrap(), hiding_vk()).unwrap());
 
     // A tampered asset is refused before it reaches the solver.
-    let tmp = std::env::temp_dir().join(format!("eid-zk-tamper-{}", std::process::id()));
+    let tmp = std::env::temp_dir().join(format!("eid-circuits-tamper-{}", std::process::id()));
     std::fs::create_dir_all(&tmp).unwrap();
     let asset = std::fs::read_dir(&assets).unwrap().next().unwrap().unwrap();
     let mut bytes = std::fs::read(asset.path()).unwrap();
@@ -94,7 +94,7 @@ fn proves_and_verifies_every_chain() {
     let _ = std::fs::remove_dir_all(tmp);
 
     // A proof written by `bb prove --scheme chonk` verifies here too.
-    if let Some(dir) = std::env::var_os("EID_ZK_CLI_PROOF").map(PathBuf::from) {
+    if let Some(dir) = std::env::var_os("EID_CLI_PROOF").map(PathBuf::from) {
         let cli = FoldedProof::from_bytes(&std::fs::read(dir.join("proof")).unwrap()).unwrap();
         assert!(chonk::verify(&cli, &std::fs::read(dir.join("vk")).unwrap()).unwrap());
     }

@@ -1,5 +1,5 @@
 [workspace]
-members = ["eid-envelope", "eid-prover", "eid-vectors", "eid-zk"]
+members = ["eid-envelope", "eid-prover", "eid-vectors", "eid-circuits"]
 resolver = "2"
 
 [workspace.package]

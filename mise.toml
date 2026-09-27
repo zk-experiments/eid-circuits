@@ -75,9 +75,9 @@ ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''
 
 [tasks."freeze"]
-description = "Freeze changed circuits into rust/eid-zk (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
+description = "Freeze changed circuits into rust/eid-circuits (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
 depends = ["install:noir-zk"]
-run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-zk --assets target/release-assets"
+run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets"
 
 [tasks."assets:publish"]
 description = "Upload new target/release-assets/*.b64 to the circuits release (existing assets are kept)"
@@ -86,7 +86,7 @@ run = '''
 set -euo pipefail
 release=circuits
 gh release view "$release" >/dev/null 2>&1 \
-  || gh release create "$release" --title "Frozen circuit bytecode" --notes "Bytecode assets, checked against rust/eid-zk/circuits/manifest.toml."
+  || gh release create "$release" --title "Frozen circuit bytecode" --notes "Bytecode assets, checked against rust/eid-circuits/circuits/manifest.toml."
 have="$(gh release view "$release" --json assets -q '.assets[].name')"
 for f in target/release-assets/*.b64; do
   name="$(basename "$f")"
@@ -95,5 +95,5 @@ done
 '''
 
 [tasks."test:prove"]
-description = "Prove and verify every chain with the frozen registry (needs target/release-assets or EID_ZK_ASSETS)"
-run = "cd rust && EID_ZK_ASSETS=${EID_ZK_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-zk"
+description = "Prove and verify every chain with the frozen registry (needs target/release-assets or EID_ASSETS)"
+run = "cd rust && EID_ASSETS=${EID_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-circuits"
