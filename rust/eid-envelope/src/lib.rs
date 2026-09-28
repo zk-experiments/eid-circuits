@@ -27,7 +27,7 @@ use pso_poseidon::poseidon2::Poseidon2;
 pub use ark_bn254::Fr;
 
 /// Viewer slots per envelope.
-pub const VIEWERS: usize = 4;
+pub const VIEWERS: usize = 1;
 /// DG1 buffer size (TD1 MRZ: 95 bytes with its tags).
 pub const DG1_MAX: usize = 95;
 /// 31-byte fields for DG1.
@@ -54,7 +54,7 @@ pub type Point = Option<(Fr, Fr)>;
 pub struct Envelope {
     /// `E = e·G`.
     pub ephemeral: (Fr, Fr),
-    /// `K + kᵢ` per viewer slot, 0 for an empty slot.
+    /// `K + kᵢ` per viewer slot.
     pub wrapped: [Fr; VIEWERS],
     pub ciphertext: [Fr; PLAINTEXT_FIELDS],
 }
@@ -68,6 +68,8 @@ pub enum Error {
     ZeroScalar,
     /// A viewer key is not on Grumpkin.
     NotOnCurve,
+    /// A viewer slot has no key: every slot must have one.
+    NoViewer,
     /// The slot is empty or out of range.
     NoSuchSlot,
     /// The decrypted header or padding is inconsistent (wrong key or slot).
@@ -80,6 +82,7 @@ impl std::fmt::Display for Error {
             Self::TooLong => "data group longer than its buffer",
             Self::ZeroScalar => "ephemeral scalar is zero",
             Self::NotOnCurve => "viewer key is not on Grumpkin",
+            Self::NoViewer => "every viewer slot needs a key",
             Self::NoSuchSlot => "no such viewer slot",
             Self::Malformed => "plaintext is malformed (wrong key or slot)",
         })
@@ -178,8 +181,8 @@ fn slot_key(shared: (Fr, Fr), slot: usize) -> Fr {
     hash(&[wrap_domain(), shared.0, shared.1, Fr::from(slot as u64)])
 }
 
-/// Encrypts DG1 to up to `VIEWERS` keys (`None` leaves a slot
-/// empty) with ephemeral scalar `e` and data key `key`, both fresh and
+/// Encrypts DG1 to `VIEWERS` keys (each required; the client uses a fresh
+/// viewer key per transfer) with ephemeral scalar `e` and data key `key`, both fresh and
 /// uniformly random per envelope. `context` binds the envelope to one use
 /// (the step C public input of the same name); viewers need it to open.
 pub fn seal(
@@ -195,10 +198,9 @@ pub fn seal(
     let eph = public_key(e).ok_or(Error::ZeroScalar)?;
     let mut wrapped = [Fr::zero(); VIEWERS];
     for (i, v) in viewers.iter().enumerate() {
-        if let Some(v) = v {
-            let shared = mul(e, affine(*v)?).ok_or(Error::NotOnCurve)?;
-            wrapped[i] = key + slot_key(shared, i);
-        }
+        let v = v.ok_or(Error::NoViewer)?;
+        let shared = mul(e, affine(v)?).ok_or(Error::NotOnCurve)?;
+        wrapped[i] = key + slot_key(shared, i);
     }
     let ciphertext = duplex(key, eph, context, &plaintext(dg1)?, true);
     Ok(Envelope {
@@ -281,9 +283,9 @@ mod tests {
     }
 
     #[test]
-    fn round_trip_per_slot() {
+    fn round_trip() {
         let secrets = [Fr::from(11u64), Fr::from(22u64)];
-        let viewers = [public_key(secrets[0]), None, public_key(secrets[1]), None];
+        let viewers = [public_key(secrets[0])];
         let dg1 = [0x61u8; 93];
         let env = seal(
             &dg1,
@@ -293,12 +295,21 @@ mod tests {
             Fr::from(99u64),
         )
         .unwrap();
-        assert_eq!(env.wrapped[1], Fr::zero());
         assert_eq!(open(&env, Fr::from(99u64), 0, secrets[0]).unwrap(), dg1);
-        assert_eq!(open(&env, Fr::from(99u64), 2, secrets[1]).unwrap(), dg1);
         assert_eq!(
             open(&env, Fr::from(99u64), 1, secrets[0]),
             Err(Error::NoSuchSlot)
+        );
+        // The slot must have a key.
+        assert_eq!(
+            seal(
+                &dg1,
+                &[None],
+                Fr::from(5u64),
+                Fr::from(7u64),
+                Fr::from(99u64)
+            ),
+            Err(Error::NoViewer)
         );
         assert_eq!(
             open(&env, Fr::from(99u64), 0, secrets[1]),
@@ -313,7 +324,7 @@ mod tests {
 
     #[test]
     fn short_dg1_and_limits() {
-        let v = [public_key(Fr::from(3u64)), None, None, None];
+        let v = [public_key(Fr::from(3u64))];
         let env = seal(
             &[1, 2, 3],
             &v,
@@ -340,7 +351,7 @@ mod tests {
             seal(&[1], &v, Fr::zero(), Fr::from(4u64), Fr::from(99u64)),
             Err(Error::ZeroScalar)
         );
-        let off = [Some((Fr::from(1u64), Fr::from(1u64))), None, None, None];
+        let off = [Some((Fr::from(1u64), Fr::from(1u64)))];
         assert_eq!(
             seal(&[1], &off, Fr::from(9u64), Fr::from(4u64), Fr::from(99u64)),
             Err(Error::NotOnCurve)

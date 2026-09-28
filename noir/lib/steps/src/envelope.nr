@@ -175,12 +175,12 @@ pub fn outputs<let E: u32>(
 /// Values of the envelope step's databus output: date, context, the viewer
 /// keys, `Outputs` (step B's commitment, the hash ids, the envelope), the
 /// scope and the nullifier.
-pub global OUTPUT_FIELDS: u32 = 27;
+pub global OUTPUT_FIELDS: u32 = 18;
 
 /// The envelope step's databus output, flattened in this order: `[date,
-/// context, viewers (x, y) × 4, sod_commitment, econtent_hash_id, dg_hash_id,
-/// E.x, E.y, wrapped × 4, ciphertext × 6, scope, nullifier]`. The envelope
-/// kernel reads it back.
+/// context, viewer (x, y), sod_commitment, econtent_hash_id, dg_hash_id, E.x,
+/// E.y, wrapped, ciphertext × 6, scope, nullifier]`. The envelope kernel
+/// reads it back.
 pub fn flatten(
     date: u64,
     context: Field,
@@ -195,18 +195,18 @@ pub fn flatten(
         out[2 + 2 * i] = viewers[i].x;
         out[3 + 2 * i] = viewers[i].y;
     }
-    out[10] = o.sod_commitment;
-    out[11] = o.econtent_hash_id;
-    out[12] = o.dg_hash_id;
-    out[13] = o.envelope.ephemeral.x;
-    out[14] = o.envelope.ephemeral.y;
+    out[4] = o.sod_commitment;
+    out[5] = o.econtent_hash_id;
+    out[6] = o.dg_hash_id;
+    out[7] = o.envelope.ephemeral.x;
+    out[8] = o.envelope.ephemeral.y;
     for i in 0..VIEWERS {
-        out[15 + i] = o.envelope.wrapped[i];
+        out[9 + i] = o.envelope.wrapped[i];
     }
     for i in 0..6 {
-        out[19 + i] = o.envelope.ciphertext[i];
+        out[10 + i] = o.envelope.ciphertext[i];
     }
-    out[25] = scope;
-    out[26] = o.nullifier;
+    out[16] = scope;
+    out[17] = o.nullifier;
     out
 }

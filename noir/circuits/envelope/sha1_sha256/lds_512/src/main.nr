@@ -10,17 +10,17 @@ use eid_steps::{HASH_SHA1, HASH_SHA256};
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
 /// Takes the proof date (unix seconds), the context the envelope is bound to
-/// (e.g. the transfer), the nullifier scope (0 for none) and the viewer keys
-/// (`(0, 0)` leaves a slot empty), and returns them with step B's commitment,
-/// the hash ids, the envelope and the nullifier through the databus
-/// (`envelope::flatten`), to the envelope kernel.
+/// (e.g. the transfer), the nullifier scope (0 for none) and the viewer key
+/// (fresh per transfer, never `(0, 0)`), and returns them with step B's
+/// commitment, the hash ids, the envelope and the nullifier through the
+/// databus (`envelope::flatten`), to the envelope kernel.
 fn main(
     date: u64,
     context: Field,
     scope: Field,
-    viewers: [EmbeddedCurvePoint; 4],
+    viewers: [EmbeddedCurvePoint; 1],
     w: Witness<512>,
-) -> return_data [Field; 27] {
+) -> return_data [Field; 18] {
     let p = check::<512, 11, 32>(date, w, OID_SHA256);
     assert_message_digest(w, sha1_var(w.econtent, p.lds.len));
     assert_hash_at(w.econtent, p.lds.dg1_hash_at, sha256_var(w.dg1, p.dg1.len));

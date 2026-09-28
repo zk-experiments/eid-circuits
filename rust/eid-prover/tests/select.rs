@@ -92,14 +92,13 @@ fn refuses_tampered_expired_or_unregistered_documents() {
 fn builds_inputs_for_the_selected_circuits() {
     for d in documents() {
         let reg = registry(&[bytes(&d, "csca")]);
-        let zero = ("0".to_string(), "0".to_string());
         let p = eid_prover::Params {
             dsc_salt: "1".into(),
             sod_salt: "2".into(),
             date: date(&d),
             context: "3".into(),
             scope: "6".into(),
-            viewers: [zero.clone(), zero.clone(), zero.clone(), zero],
+            viewers: [("7".to_string(), "8".to_string())],
             ephemeral: "4".into(),
             key: "5".into(),
         };

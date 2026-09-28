@@ -126,7 +126,7 @@ mod tests {
     fn generated_types_flatten_to_the_abi_size() {
         use circuits::kernel_tail::{Inputs, KernelTail, MerklePath, Vk};
         let w = Inputs {
-            prev: [Field::from(1u64); 28],
+            prev: [Field::from(1u64); 19],
             prev_vk: Vk {
                 key: [Field::from(2u64); 151],
                 path: MerklePath {
@@ -136,9 +136,9 @@ mod tests {
             },
         };
         let v = KernelTail::witness_inputs(&w, &());
-        assert_eq!(v.len(), 28 + 151 + 1 + 9);
+        assert_eq!(v.len(), 19 + 151 + 1 + 9);
         assert_eq!(
-            (v[0], v[28], v[28 + 151], v[28 + 152]),
+            (v[0], v[19], v[19 + 151], v[19 + 152]),
             (1u64, 2, 3, 4).into_fields()
         );
         assert_eq!(KernelTail::LABEL, "kernel_tail");

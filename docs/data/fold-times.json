@@ -7,65 +7,65 @@
     {
       "chain": "rsa4096_csca_p256_dsc",
       "threads": 4,
-      "seconds": 2.74,
-      "peak_bytes": 498598752,
-      "total_gates": 507117,
+      "seconds": 2.68,
+      "peak_bytes": 498582368,
+      "total_gates": 504467,
       "max_gates": 179182
     },
     {
       "chain": "rsa4096_csca_p256_dsc",
       "threads": 18,
-      "seconds": 1.52,
-      "peak_bytes": 507216736,
-      "total_gates": 507117,
+      "seconds": 1.45,
+      "peak_bytes": 506119008,
+      "total_gates": 504467,
       "max_gates": 179182
     },
     {
       "chain": "bp512_csca_bp256_dsc",
       "threads": 4,
-      "seconds": 4.11,
-      "peak_bytes": 1327482536,
-      "total_gates": 834971,
+      "seconds": 4.02,
+      "peak_bytes": 1330579088,
+      "total_gates": 832321,
       "max_gates": 495409
     },
     {
       "chain": "bp512_csca_bp256_dsc",
       "threads": 18,
-      "seconds": 2.33,
-      "peak_bytes": 1324025512,
-      "total_gates": 834971,
+      "seconds": 2.22,
+      "peak_bytes": 1325827728,
+      "total_gates": 832321,
       "max_gates": 495409
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
       "threads": 4,
-      "seconds": 2.94,
-      "peak_bytes": 729170952,
-      "total_gates": 593700,
+      "seconds": 2.88,
+      "peak_bytes": 729203720,
+      "total_gates": 591051,
       "max_gates": 255280
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
       "threads": 18,
-      "seconds": 1.62,
-      "peak_bytes": 734184456,
-      "total_gates": 593700,
+      "seconds": 1.55,
+      "peak_bytes": 734594056,
+      "total_gates": 591051,
       "max_gates": 255280
     },
     {
       "chain": "p521_csca_pss_dsc",
       "threads": 4,
-      "seconds": 4.64,
-      "peak_bytes": 1386972864,
-      "total_gates": 1067164,
+      "seconds": 4.61,
+      "peak_bytes": 1386956504,
+      "total_gates": 1064514,
       "max_gates": 504897
     },
     {
       "chain": "p521_csca_pss_dsc",
       "threads": 18,
-      "seconds": 2.63,
-      "peak_bytes": 1383237360,
-      "total_gates": 1067164,
+      "seconds": 2.58,
+      "peak_bytes": 1383319256,
+      "total_gates": 1064514,
       "max_gates": 504897
     }
   ]

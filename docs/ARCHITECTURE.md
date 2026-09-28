@@ -2,7 +2,7 @@
 
 ## Statement
 
-For a public registry root `R`, date `D`, context `X` (the transfer the envelope travels with), viewer keys `V₁…Vₙ` and ciphertext `C`, the three step proofs together assert that there is an eMRTD for which all of the following hold:
+For a public registry root `R`, date `D`, context `X` (the transfer the envelope travels with), viewer key `V` (the receiver's, fresh per transfer) and ciphertext `C`, the three step proofs together assert that there is an eMRTD for which all of the following hold:
 
 1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the DSC's `notBefore` (see *Date policy*). The leaf's country equals the document's issuing state.
 2. `K_csca` signed the DSC certificate, and the DSC's serial is not revoked under `K_csca` in `R`'s revocation tree.
@@ -64,7 +64,7 @@ Before any proving, it checks natively everything the proofs will state:
 
 A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*).
 
-`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, scope, viewers). The same step functions write the `Prover.toml` samples in `eid-vectors`.
+`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, scope, viewer key). The same step functions write the `Prover.toml` samples in `eid-vectors`.
 
 Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and checks that the commitments link from step to step.
 
@@ -76,7 +76,7 @@ Decided: the **ICAO chain model**. `csca_registry::verify_key` checks the CSCA l
 
 KEM/DEM:
 1. The prover picks an ephemeral Grumpkin key `e` and publishes `E = e·G`.
-2. For each viewer, it computes `kᵢ = Poseidon2(WRAP, e·Vᵢ, i)` and wraps a random data key `K` as `K + kᵢ`.
+2. For the viewer key `V` (one slot, `i = 0`), it computes `k = Poseidon2(WRAP, e·V, 0)` and wraps a random data key `K` as `K + k`.
 3. It encrypts DG1 under `K` with a Poseidon2 duplex, as fixed-length field elements.
 
 The full construction is in [noir/lib/envelope](../noir/lib/envelope/README.md).

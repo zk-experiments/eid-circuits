@@ -12,7 +12,7 @@ use std::embedded_curve_ops::{
 };
 
 /// Viewer slots per envelope.
-pub global VIEWERS: u32 = 4;
+pub global VIEWERS: u32 = 1;
 /// DG1 buffer size (a TD1 MRZ with its tags is 95 bytes).
 pub global DG1_MAX: u32 = 95;
 /// Header and 4 DG1 fields, padded to whole blocks of 3.
@@ -28,7 +28,7 @@ pub global NULLIFIER_DOMAIN: Field = 0x6569642d6e756c6c69666965722f7631;
 pub struct Envelope {
     /// `E = e·G`.
     pub ephemeral: EmbeddedCurvePoint,
-    /// `K + kᵢ` per viewer slot; 0 for an empty slot (the point at infinity, `(0, 0)`).
+    /// `K + kᵢ` per viewer slot.
     pub wrapped: [Field; VIEWERS],
     pub ciphertext: [Field; PLAINTEXT_FIELDS],
 }
@@ -61,14 +61,14 @@ pub fn nullifier(scope: Field, digest: [u8; 64], digest_len: u32) -> Field {
 }
 
 /// Seals `plaintext` under data key `key` with ephemeral scalar `e`, wrapping
-/// `key` to every viewer key that is not the point at infinity. `context`
+/// `key` to the viewer key, which must not be the point at infinity. `context`
 /// binds the ciphertext to one use (for example the transfer it travels
 /// with): it is absorbed before encryption, so the same plaintext and keys
 /// under another context give an unrelated ciphertext.
 ///
 /// `e` and `key` must be fresh and uniformly random per envelope; `e ≠ 0` is
-/// asserted. Viewer keys are public inputs: the verifier is responsible for
-/// them being real Grumpkin keys.
+/// asserted. The viewer key is a public input: the receiver's, issued fresh
+/// for each transfer (a reused key links transfers).
 pub fn seal(
     viewers: [EmbeddedCurvePoint; VIEWERS],
     e: Field,
@@ -82,9 +82,10 @@ pub fn seal(
 
     let mut wrapped: [Field; VIEWERS] = [0; VIEWERS];
     for i in 0..VIEWERS {
+        assert(!viewers[i].is_infinite(), "viewer key must not be the point at infinity");
         let shared = multi_scalar_mul([viewers[i]], [s]);
         let k = hash([WRAP_DOMAIN, shared.x, shared.y, i as Field]);
-        wrapped[i] = if viewers[i].is_infinite() { 0 } else { key + k };
+        wrapped[i] = key + k;
     }
 
     let mut state: [Field; 4] =
