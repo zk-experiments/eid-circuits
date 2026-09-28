@@ -23,7 +23,7 @@ fn main(
     scope: Field,                                   // the nullifier's scope; 0 for none
     viewers: [EmbeddedCurvePoint; 1],               // the Grumpkin viewer key, fresh per transfer; (0, 0) is rejected
     w: eid_steps::envelope::Witness<E>,
-) -> return_data [Field; 18]                        // eid_steps::envelope::flatten, to kernel_envelope
+) -> return_data [Field; 16]                        // eid_steps::envelope::flatten, to kernel_envelope
 ```
 
 `Witness` holds:

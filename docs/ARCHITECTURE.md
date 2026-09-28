@@ -9,7 +9,7 @@ For a public registry root `R`, date `D`, context `X` (the transfer the envelope
 3. The DSC key signed the SOD's signed attributes. Their `messageDigest` is the hash of the SOD's eContent (the LDS security object).
 4. The eContent lists the hash of DG1, and it matches the DG1 the prover holds.
 5. The document's expiry date (from DG1) is on or after `D`.
-6. `C` is DG1 encrypted under a fresh data key and bound to `X`, and that key is wrapped to each `Vᵢ` in the proof's outputs.
+6. `C` is DG1 encrypted under a fresh data key and bound to `X`, and that key is wrapped to `V` in the proof's outputs.
 7. For a public scope `S ≠ 0`, the nullifier `N = H(NULLIFIER, S, |md|, md)` over the SOD's `messageDigest` `md`; `N = 0` when `S = 0` ([circuits/envelope.md](circuits/envelope.md), *Nullifier*).
 
 ## Proof pipeline

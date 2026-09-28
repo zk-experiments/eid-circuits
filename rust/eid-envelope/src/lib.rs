@@ -1,12 +1,12 @@
-//! Envelope encryption of an eMRTD's DG1 to viewer keys, byte-for-byte the
-//! construction the envelope step circuit (step C) proves. Provers use
-//! [`seal`] to build the witness; viewers use [`open`] to decrypt what a
-//! proof published. Specification: docs/circuits/envelope.md.
+//! Envelope encryption of an eMRTD's DG1 to the receiver's key, byte-for-byte
+//! the construction the envelope step circuit (step C) proves. Provers use
+//! [`seal`] to build the witness; the receiver uses [`open`] to decrypt what
+//! a proof published. Specification: docs/circuits/envelope.md.
 //!
-//! - **KEM.** An ephemeral Grumpkin scalar `e` gives `E = e·G`. Each viewer
-//!   key `Vᵢ` gets `kᵢ = H(WRAP, (e·Vᵢ).x, (e·Vᵢ).y, i)` and the data key `K`
-//!   is published as `K + kᵢ`. A viewer with secret `v` (`Vᵢ = v·G`)
-//!   recomputes `v·E = e·Vᵢ`.
+//! - **KEM.** An ephemeral Grumpkin scalar `e` gives `E = e·G`. The viewer
+//!   key `V` in slot `i` (one slot) gets `kᵢ = H(WRAP, (e·V).x, (e·V).y, i)`
+//!   and the data key `K` is published as `K + kᵢ`. The receiver with secret
+//!   `v` (`V = v·G`) recomputes `v·E = e·V`.
 //! - **DEM.** A Poseidon2 duplex (width 4, rate 3) keyed with
 //!   `(K, E.x, E.y, CIPHER)`, then the caller's `context` absorbed: each
 //!   ciphertext element is the plaintext plus a state element, and replaces

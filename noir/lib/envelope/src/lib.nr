@@ -1,4 +1,4 @@
-//! Envelope encryption of DG1 to viewer keys: a Grumpkin KEM and a
+//! Envelope encryption of DG1 to the receiver's key: a Grumpkin KEM and a
 //! Poseidon2 duplex. `rust/eid-envelope` implements the same construction
 //! for provers (`seal`) and viewers (`open`), and the generated vectors check
 //! both agree. Specification and review notes: README.md.
