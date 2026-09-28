@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.6.0 - 2026-09-28
+#### Features
+- <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**envelope**) seal the envelope to one viewer key, the receiver's - (94f1ac0) - Anton Velichko
+
+- - -
+
 ## v0.5.0 - 2026-09-28
 #### Features
 - <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**envelope**) add a scoped nullifier for Sybil resistance - (67fc858) - Anton Velichko
