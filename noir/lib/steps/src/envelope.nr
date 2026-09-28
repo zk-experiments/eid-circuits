@@ -15,7 +15,7 @@
 
 use csca_registry::country_from_mrz;
 use eid_der::{assert_zero_padded, days_from_civil, expect, Lds, parse_lds, SignedAttrs};
-use eid_envelope::{DG1_MAX, Envelope, plaintext, seal, VIEWERS};
+use eid_envelope::{DG1_MAX, Envelope, nullifier, plaintext, seal, VIEWERS};
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
 /// Hash algorithm OIDs (whole TLV) as an LDS security object names them.
@@ -72,6 +72,8 @@ pub struct Outputs {
     pub econtent_hash_id: Field,
     pub dg_hash_id: Field,
     pub envelope: Envelope,
+    /// The document's nullifier in the proof's scope (0 for scope 0).
+    pub nullifier: Field,
 }
 
 fn digit(b: u8) -> u64 {
@@ -148,10 +150,12 @@ pub fn assert_hash_at<let N: u32, let D: u32>(buf: [u8; N], at: u32, digest: [u8
 }
 
 /// Step C outputs: step B's commitment recomputed from the witness, the hash
-/// ids, and the envelope of DG1 to `viewers`, bound to `context`.
+/// ids, the envelope of DG1 to `viewers`, bound to `context`, and the
+/// nullifier of the messageDigest in `scope`.
 pub fn outputs<let E: u32>(
     viewers: [EmbeddedCurvePoint; VIEWERS],
     context: Field,
+    scope: Field,
     w: Witness<E>,
     p: Parsed,
     econtent_hash_id: u8,
@@ -164,19 +168,23 @@ pub fn outputs<let E: u32>(
         econtent_hash_id: econtent_hash_id as Field,
         dg_hash_id: dg_hash_id as Field,
         envelope: seal(viewers, w.ephemeral, w.key, context, pt),
+        nullifier: nullifier(scope, w.digest, w.digest_len),
     }
 }
 
 /// Values of the envelope step's databus output: date, context, the viewer
-/// keys, `Outputs` (step B's commitment, the hash ids, the envelope).
-pub global OUTPUT_FIELDS: u32 = 25;
+/// keys, `Outputs` (step B's commitment, the hash ids, the envelope), the
+/// scope and the nullifier.
+pub global OUTPUT_FIELDS: u32 = 27;
 
 /// The envelope step's databus output, flattened in this order: `[date,
 /// context, viewers (x, y) × 4, sod_commitment, econtent_hash_id, dg_hash_id,
-/// E.x, E.y, wrapped × 4, ciphertext × 6]`. The envelope kernel reads it back.
+/// E.x, E.y, wrapped × 4, ciphertext × 6, scope, nullifier]`. The envelope
+/// kernel reads it back.
 pub fn flatten(
     date: u64,
     context: Field,
+    scope: Field,
     viewers: [EmbeddedCurvePoint; VIEWERS],
     o: Outputs,
 ) -> [Field; OUTPUT_FIELDS] {
@@ -198,5 +206,7 @@ pub fn flatten(
     for i in 0..6 {
         out[19 + i] = o.envelope.ciphertext[i];
     }
+    out[25] = scope;
+    out[26] = o.nullifier;
     out
 }

@@ -56,14 +56,17 @@ pub fn check_vk(root: Field, role: Field, vk: Vk) -> Field {
 
 /// State passed between kernels:
 /// `[registry_root, vk_tree_root, link, uses_sha1, date, context,
-///   viewers (x, y) × 4, E.x, E.y, wrapped × 4, ciphertext × 6]`.
+///   viewers (x, y) × 4, E.x, E.y, wrapped × 4, ciphertext × 6, scope,
+///   nullifier]`.
 /// `link` is the commitment the next step must continue from.
-pub global STATE_FIELDS: u32 = 26;
+pub global STATE_FIELDS: u32 = 28;
 pub global S_REGISTRY_ROOT: u32 = 0;
 pub global S_VK_TREE_ROOT: u32 = 1;
 pub global S_LINK: u32 = 2;
 pub global S_USES_SHA1: u32 = 3;
 pub global S_ENVELOPE: u32 = 4;
+pub global S_SCOPE: u32 = 26;
+pub global S_NULLIFIER: u32 = 27;
 
 /// Hash id of SHA-1 (`eid_steps::HASH_SHA1`).
 pub global HASH_SHA1: Field = 1;
@@ -94,6 +97,10 @@ pub struct PublicOutputs {
     pub ephemeral: [Field; 2],
     pub wrapped: [Field; 4],
     pub ciphertext: [Field; 6],
+    /// The scope the nullifier is for, and the document's nullifier in it
+    /// (both 0 when the proof has no scope).
+    pub scope: Field,
+    pub nullifier: Field,
 }
 
 /// The public outputs from the final state.
@@ -120,5 +127,7 @@ pub fn public_outputs(s: [Field; STATE_FIELDS]) -> PublicOutputs {
         ephemeral: [s[14], s[15]],
         wrapped,
         ciphertext,
+        scope: s[S_SCOPE],
+        nullifier: s[S_NULLIFIER],
     }
 }

@@ -1,15 +1,16 @@
 //! Folds the SOD kernel and the envelope step, whose databus output is
 //! `eid_steps::envelope::flatten`: date, context, viewers, `c_B` (at 10), the
-//! hash ids, the envelope. `c_B` must be the SOD step's link.
+//! hash ids, the envelope, the scope and the nullifier. `c_B` must be the SOD
+//! step's link.
 
 use eid_kernel::{
     check_vk, is_sha1, or, PROOF_TYPE_HN, ROLE_ENVELOPE, ROLE_KERNEL_SOD, S_ENVELOPE, S_LINK,
-    S_USES_SHA1, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
+    S_NULLIFIER, S_SCOPE, S_USES_SHA1, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
 };
 
 fn main(
     prev: call_data(0) [Field; STATE_FIELDS],
-    step: call_data(1) [Field; 25],
+    step: call_data(1) [Field; 27],
     prev_vk: Vk,
     step_vk: Vk,
 ) -> return_data [Field; STATE_FIELDS] {
@@ -30,5 +31,7 @@ fn main(
     for i in 0..12 {
         s[S_ENVELOPE + 10 + i] = step[13 + i];
     }
+    s[S_SCOPE] = step[25];
+    s[S_NULLIFIER] = step[26];
     s
 }

@@ -705,269 +705,269 @@
     "opcodes": 212271
   },
   "envelope_sha1_sha1_lds1024": {
-    "bytecode_sha256": "79b584fe6261a5bf1b962b5c990a445def7720da6c839ad45688a1b37af25222",
-    "gates": 178624,
-    "opcodes": 117610
+    "bytecode_sha256": "d34753a40e3388725e92fac7e29597e1f3ece0fd0cafe62263a3cd752eae1c79",
+    "gates": 178687,
+    "opcodes": 117625
   },
   "envelope_sha1_sha1_lds1536": {
-    "bytecode_sha256": "b8c2ab6246e56f479414f43af3078bb08caaedc3eadb1b51aca6a1dff251fccc",
-    "gates": 247886,
-    "opcodes": 166642
+    "bytecode_sha256": "6ea998cbfa51bd8ed7227ae2814b3869e22a48a8e760d2ad78d52ad029b2d480",
+    "gates": 247949,
+    "opcodes": 166657
   },
   "envelope_sha1_sha1_lds512": {
-    "bytecode_sha256": "f7dcc267dcaac5f1b071d6b40a8adeecaae0879f530ae58913a84319e441f222",
-    "gates": 109356,
-    "opcodes": 68562
+    "bytecode_sha256": "3a5f4e907e091482b8a2b1f60ab43f39d945f271d17c32c76b6b34fd3beb4e79",
+    "gates": 109419,
+    "opcodes": 68577
   },
   "envelope_sha1_sha256_lds1024": {
-    "bytecode_sha256": "4f1d5700d1dc4c7dd8dec1ddd9a0a77c7c9d569ffce313c232c50d1122c8ee85",
-    "gates": 175501,
-    "opcodes": 107184
+    "bytecode_sha256": "ec145661d1fe52deda117561ebd604203a578e7e5e827ef67b1447b4b358c4b3",
+    "gates": 175564,
+    "opcodes": 107199
   },
   "envelope_sha1_sha256_lds1536": {
-    "bytecode_sha256": "e1af9110d3dbef26643575301620b9147d3564f028ae2d021d24f93a1ff9aaf4",
-    "gates": 244763,
-    "opcodes": 156216
+    "bytecode_sha256": "957ebce58756c0d33ed2ba363c16a05103b508eb1404787fca15be6890c2f226",
+    "gates": 244826,
+    "opcodes": 156231
   },
   "envelope_sha1_sha256_lds512": {
-    "bytecode_sha256": "17c45502bc3d9653084b91f4e9240630ef99c8733c60f9580855eccc176b691e",
-    "gates": 106233,
-    "opcodes": 58136
+    "bytecode_sha256": "717365c01cd51d877efa0d1be1ad72f390fd7ab1f5ac632fa451e443b571f35f",
+    "gates": 106296,
+    "opcodes": 58151
   },
   "envelope_sha1_sha384_lds1024": {
-    "bytecode_sha256": "9f0239e439d74c455c933af449bbf57434bda1372dd3f48f04affc9b8a46dd53",
-    "gates": 186367,
-    "opcodes": 119574
+    "bytecode_sha256": "4ebe3909bd7a58f880a77a0fb951a0a9657505436bed6e2ec5b1b33f2a539668",
+    "gates": 186430,
+    "opcodes": 119589
   },
   "envelope_sha1_sha384_lds1536": {
-    "bytecode_sha256": "6a7686fc7744fcf9b3cdbf074335dd6d21ef1a00abf530fe3a73d28e5bd1e50a",
-    "gates": 255629,
-    "opcodes": 168606
+    "bytecode_sha256": "e46905f3f51d7f1b617bd5f975eb3ceefa5da1f1337da672da6e854821d507df",
+    "gates": 255692,
+    "opcodes": 168621
   },
   "envelope_sha1_sha384_lds512": {
-    "bytecode_sha256": "4ff760a3f3f9e9e1c0f58dfa30088de24b13f1f92d3b97003727148e19583fac",
-    "gates": 117099,
-    "opcodes": 70526
+    "bytecode_sha256": "3f2c9170795da3e06b65c5aa5c459e8fdac2008cf1105b4765ac2cf8807752c5",
+    "gates": 117162,
+    "opcodes": 70541
   },
   "envelope_sha1_sha512_lds1024": {
-    "bytecode_sha256": "0bdc45fe8fc962a42eadbaf1227ccbbde4e7cd6958fd8849bfda0b7268f94bbb",
-    "gates": 186399,
-    "opcodes": 119622
+    "bytecode_sha256": "6c2086e45e546c48612b917a5ca2eb83e775a10593fba0b97e6dd5772db52d9d",
+    "gates": 186462,
+    "opcodes": 119637
   },
   "envelope_sha1_sha512_lds1536": {
-    "bytecode_sha256": "b8575147347c543b1434b9f8f7c7e6bb089d50fa15cdc5d0dd157b425730571a",
-    "gates": 255661,
-    "opcodes": 168654
+    "bytecode_sha256": "5e9b57a8186713073d3f8915f6620aa980509332742ee0cc1b628352bfe6bb85",
+    "gates": 255724,
+    "opcodes": 168669
   },
   "envelope_sha1_sha512_lds512": {
-    "bytecode_sha256": "49b7fefd27f491d537ae33847f9925772a741f61c0794e8a3e4e7861d4cf9792",
-    "gates": 117131,
-    "opcodes": 70574
+    "bytecode_sha256": "2d66a049b8c56eff1cdbcc5063caf45dd4274f5b77742cb082f20121a91f7321",
+    "gates": 117194,
+    "opcodes": 70589
   },
   "envelope_sha256_sha1_lds1024": {
-    "bytecode_sha256": "cb7ab8f9693a5673a5fb885b9521cba51e6afe550f2b0342285ae15b48b7c52c",
-    "gates": 117472,
-    "opcodes": 25164
+    "bytecode_sha256": "aa5cd9978e49ecf1d132dc74de0e01c8aa67f5593f04d00a53e0b31e681e73e6",
+    "gates": 117535,
+    "opcodes": 25179
   },
   "envelope_sha256_sha1_lds1536": {
-    "bytecode_sha256": "8dbf48d425c6f410db86f42bbb2e5e698bed2f712e3f807045f68d053fe05fcc",
-    "gates": 156046,
-    "opcodes": 30628
+    "bytecode_sha256": "e5c627023be31d3b497ba5b5194b2016699f519aebcba4920b0f2a553e9344a8",
+    "gates": 156109,
+    "opcodes": 30643
   },
   "envelope_sha256_sha1_lds512": {
-    "bytecode_sha256": "c154088ff3c12423d9b331974c8efbe8f9a2df7569f30f6fa91aa35235744892",
-    "gates": 79410,
-    "opcodes": 19700
+    "bytecode_sha256": "1f3a9cdef667d6591ce78716393394eabbe2d056d31f44f1555c512d29ec495e",
+    "gates": 79473,
+    "opcodes": 19715
   },
   "envelope_sha256_sha256_lds1024": {
-    "bytecode_sha256": "666a220c5b369e0ca58457cdf8638f690bc36c6ec11178b2e91d98c32750656d",
-    "gates": 108423,
-    "opcodes": 14370
+    "bytecode_sha256": "6b215e277cb8eb643e425669554e6a3056aad8deea4971e667c03f75cd127ec0",
+    "gates": 108486,
+    "opcodes": 14385
   },
   "envelope_sha256_sha256_lds1536": {
-    "bytecode_sha256": "59df64d872bc3655bc71152a3fcb28c66fbb941c527fcaa2706968be658ceb65",
-    "gates": 146997,
-    "opcodes": 19834
+    "bytecode_sha256": "0902971c545fc62fc02ac4190645d904e3efaf2ba48b527290ef97cbe7981a5d",
+    "gates": 147060,
+    "opcodes": 19849
   },
   "envelope_sha256_sha256_lds512": {
-    "bytecode_sha256": "a948690309bf7ce4b78d5fd48ddef3361b35815f1c6815bbddd75ccf0fa0f3f3",
-    "gates": 69849,
-    "opcodes": 8906
+    "bytecode_sha256": "5231d73e2c5243d14aeb82c8a578086cabaf2cf9c3be0f779967662e3f27145f",
+    "gates": 69912,
+    "opcodes": 8921
   },
   "envelope_sha256_sha384_lds1024": {
-    "bytecode_sha256": "780f076c9860ad5f54bf46a6593eef141243a4a824dd3fffcf8685e62f98b236",
-    "gates": 119485,
-    "opcodes": 27123
+    "bytecode_sha256": "55be05166c0decefa2cdb288edbf7f1fbe78a8a896be16403eb3a69eecfe939e",
+    "gates": 119548,
+    "opcodes": 27138
   },
   "envelope_sha256_sha384_lds1536": {
-    "bytecode_sha256": "6d4a084fac267520035666a7918b72c5a41b7ecf9ace5d24e87733bc22c982fa",
-    "gates": 158059,
-    "opcodes": 32587
+    "bytecode_sha256": "18e254a6fde6ea5d1765bcc95f47268f4c95fb03f7d8438fbb524f1bbc7eb3b7",
+    "gates": 158122,
+    "opcodes": 32602
   },
   "envelope_sha256_sha384_lds512": {
-    "bytecode_sha256": "edcf1efde480c9d12f94037c5d6e22b71284306271b18fa870c27cc32546751f",
-    "gates": 81423,
-    "opcodes": 21659
+    "bytecode_sha256": "0d76715ff4db8d6d642a9f3e58e0b0f1b100ee80d040880efe2c4fd955b66af2",
+    "gates": 81486,
+    "opcodes": 21674
   },
   "envelope_sha256_sha512_lds1024": {
-    "bytecode_sha256": "ce5e40ef1ffdfb6c6e3ad4b3cf1d6024dc74ab488a8c84f10ac4f62816376bab",
-    "gates": 119517,
-    "opcodes": 27171
+    "bytecode_sha256": "52e3672b5c74a83008805bd2e177a0a4dfac91f609e0f0caac1ad892c5c953e6",
+    "gates": 119580,
+    "opcodes": 27186
   },
   "envelope_sha256_sha512_lds1536": {
-    "bytecode_sha256": "53eecff7c2a524d25f02e024eb16f74f01ba636058d8b1b267d805aed16f4c0a",
-    "gates": 158091,
-    "opcodes": 32635
+    "bytecode_sha256": "8817f8276002b0ab6acc6c1dd015807931d0a36d6a63acec2ffbc30a81ac9b68",
+    "gates": 158154,
+    "opcodes": 32650
   },
   "envelope_sha256_sha512_lds512": {
-    "bytecode_sha256": "6dc96aa3021fee15788c008f3c31f8afcfb274110a753ed29b8f56bca68fd5d1",
-    "gates": 81455,
-    "opcodes": 21707
+    "bytecode_sha256": "26868cad5711e730b6979ee62b956b77e4bd4e748158bfd3913449b24b4ec082",
+    "gates": 81518,
+    "opcodes": 21722
   },
   "envelope_sha384_sha1_lds1024": {
-    "bytecode_sha256": "51e574cde6be3d6c56019789f777f70b5ed0be5216f3fc13457f08a26f4a782a",
-    "gates": 220310,
-    "opcodes": 138694
+    "bytecode_sha256": "e5d4bd35b58f44a96bc3f785a4563629403041a8cf3a072aa915f5a853771504",
+    "gates": 220373,
+    "opcodes": 138709
   },
   "envelope_sha384_sha1_lds1536": {
-    "bytecode_sha256": "5828e31351d1b68badfe9d97346460be4c19273484a3f74700aa318cfa564eaa",
-    "gates": 302495,
-    "opcodes": 194490
+    "bytecode_sha256": "0ede45ee755913a0ebecdec3be7a1112ab4fd9af44c96d81fd4f6ac09038b9f5",
+    "gates": 302558,
+    "opcodes": 194505
   },
   "envelope_sha384_sha1_lds512": {
-    "bytecode_sha256": "eab285fe79c4b920548135e72fa4882a398f1a33737898bbd3031a7b06561b9d",
-    "gates": 138125,
-    "opcodes": 82898
+    "bytecode_sha256": "e32bc3402aa3f8c9bca4ff1f93ac497a4be64f38b6b67944a257aff361ef5ab2",
+    "gates": 138188,
+    "opcodes": 82913
   },
   "envelope_sha384_sha256_lds1024": {
-    "bytecode_sha256": "83dcf4a6e6213bb524a1bf10239cb503d166f6c20e61c861f90dad845174ff9e",
-    "gates": 211457,
-    "opcodes": 128263
+    "bytecode_sha256": "edbf87147acd9d0a08ada0a8708f9961e01b5685e3bb2328f14b9d32046a357a",
+    "gates": 211520,
+    "opcodes": 128278
   },
   "envelope_sha384_sha256_lds1536": {
-    "bytecode_sha256": "5fcd7ab71cf6ec36334dc47692390f603e521023144d7512bed0fcc851727359",
-    "gates": 293642,
-    "opcodes": 184059
+    "bytecode_sha256": "d279ebd4cc95cbef7e3a142b4184cb0022c636e246121d1a00163a5a5a46bcae",
+    "gates": 293705,
+    "opcodes": 184074
   },
   "envelope_sha384_sha256_lds512": {
-    "bytecode_sha256": "25cfab6136ca9b3d4a8086353ce078764ab1b975ba2b360610432cb353c8d011",
-    "gates": 129272,
-    "opcodes": 72467
+    "bytecode_sha256": "b3588ed7aba84f8b91a3b1fade35b3ba2c0e3cfecc66224e20aa79565542b236",
+    "gates": 129335,
+    "opcodes": 72482
   },
   "envelope_sha384_sha384_lds1024": {
-    "bytecode_sha256": "c6f4cfa9662a634692e4086003dd5d9aeaae1c4804b674b2c92040b66aa8ba07",
-    "gates": 217072,
-    "opcodes": 140386
+    "bytecode_sha256": "a54737e8082341eb7022e18a9da9a810623c3b45299691c10050c63266f17959",
+    "gates": 217135,
+    "opcodes": 140401
   },
   "envelope_sha384_sha384_lds1536": {
-    "bytecode_sha256": "6debb02f48ebb36b8c1709fdb7f7b26851036e106468045f935353312c63f68a",
-    "gates": 299257,
-    "opcodes": 196182
+    "bytecode_sha256": "f90bf0f1013bea40dfdd35d093847dde4724cfc0d887d1c4f71055c38026856f",
+    "gates": 299320,
+    "opcodes": 196197
   },
   "envelope_sha384_sha384_lds512": {
-    "bytecode_sha256": "c1921e86c37d12ecbd5425f238efea5c07ca9050d93d80235d8006e6e6714364",
-    "gates": 134887,
-    "opcodes": 84590
+    "bytecode_sha256": "08e35e293b778c46068004c69a0160792552d4812e6ced2ebfcc9579259f8aa3",
+    "gates": 134950,
+    "opcodes": 84605
   },
   "envelope_sha384_sha512_lds1024": {
-    "bytecode_sha256": "4ade25731a99837cc419b6c88dfbd9f24fefdc3221bc97a467d819ff8bdaf4a7",
-    "gates": 217104,
-    "opcodes": 140434
+    "bytecode_sha256": "1f84a034c5e681b90fb966fa75690b3f7073aee523ce4e570394e46350f7ba9e",
+    "gates": 217167,
+    "opcodes": 140449
   },
   "envelope_sha384_sha512_lds1536": {
-    "bytecode_sha256": "6cfea877f0dbea909922ed69fb99aa33b7687015ac45740eab56bd23e42dbf2c",
-    "gates": 299289,
-    "opcodes": 196230
+    "bytecode_sha256": "dc40d4a3750d9200f51deaecf828e17715d3875f3be64ed29a2d94c915e3136c",
+    "gates": 299352,
+    "opcodes": 196245
   },
   "envelope_sha384_sha512_lds512": {
-    "bytecode_sha256": "6ec14c032e7797a7e3012bd52a156fc84d028a75f47b6a62ea1aa08b8d4ef2e1",
-    "gates": 134919,
-    "opcodes": 84638
+    "bytecode_sha256": "2b732aa6fedaf80b6f1bb2bcd01d8e63ac06778ec4c6f5afa8531daaeed23ded",
+    "gates": 134982,
+    "opcodes": 84653
   },
   "envelope_sha512_sha1_lds1024": {
-    "bytecode_sha256": "227322e5863eb9283a248afa136a17f8f85e0673a272f9741f88450e0a2dd83f",
-    "gates": 220318,
-    "opcodes": 138710
+    "bytecode_sha256": "fb232e5da7ce4ceffa5043188350b1310079cd6449bf04dd369268d60f7ddbee",
+    "gates": 220381,
+    "opcodes": 138725
   },
   "envelope_sha512_sha1_lds1536": {
-    "bytecode_sha256": "e0f5929444aeff0106f98b6d7ab7137d51dec71734097237125a1a3351eff6af",
-    "gates": 302503,
-    "opcodes": 194506
+    "bytecode_sha256": "171b275dad0ab9c7929f64cc402e36745ef5aa459c2cfc95b9a9c7d7fa32eef7",
+    "gates": 302566,
+    "opcodes": 194521
   },
   "envelope_sha512_sha1_lds512": {
-    "bytecode_sha256": "dabe0b3cc684df6c063ea84410d4ac7b1e6c5c7a6937752e837cde01dca2104e",
-    "gates": 138133,
-    "opcodes": 82914
+    "bytecode_sha256": "19b4d902202c448560006b88645d6111fa85aee5ccb04600821f91236b0639a0",
+    "gates": 138196,
+    "opcodes": 82929
   },
   "envelope_sha512_sha256_lds1024": {
-    "bytecode_sha256": "4b5e0e7f640ea7f9455cf4b18487c6cba897c68ea31bc248ad71de9deb72c6ef",
-    "gates": 211465,
-    "opcodes": 128279
+    "bytecode_sha256": "b9c517ded548d195d589ce001390f1b77db2f3b0a5cad8d804aaa0c5d9e0c9c7",
+    "gates": 211528,
+    "opcodes": 128294
   },
   "envelope_sha512_sha256_lds1536": {
-    "bytecode_sha256": "86751bed54037295266a1aaf2ebc15d665d1e2f97e950be78b610157b411d3ca",
-    "gates": 293650,
-    "opcodes": 184075
+    "bytecode_sha256": "09a521381da03769db79c3c5882dab5a7330f17a4ef82f757ed6a9ffcbf9c166",
+    "gates": 293713,
+    "opcodes": 184090
   },
   "envelope_sha512_sha256_lds512": {
-    "bytecode_sha256": "34aad6efecc3e12520450f01c1cdd73e1ab3542008297823a2ca8285ed81242a",
-    "gates": 129280,
-    "opcodes": 72483
+    "bytecode_sha256": "52f22f8ccb677f21ba8e450da499f3d3cb96435b6eee828f00c022570e42fab9",
+    "gates": 129343,
+    "opcodes": 72498
   },
   "envelope_sha512_sha384_lds1024": {
-    "bytecode_sha256": "90cf939aafcdf1408926bdbbc3fa0a61648ff7a0405f545de78f232392c04681",
-    "gates": 217080,
-    "opcodes": 140402
+    "bytecode_sha256": "eecf6001be6c3e45b333f8212a5ca5e9c0b4629cd2727cc5c90b0b5a54552576",
+    "gates": 217143,
+    "opcodes": 140417
   },
   "envelope_sha512_sha384_lds1536": {
-    "bytecode_sha256": "0c46b406376d22486f235fcfca225028ac84bee92c7524f9afb9715a40a3de32",
-    "gates": 299265,
-    "opcodes": 196198
+    "bytecode_sha256": "01502178751fd8b91872da6312f2a7754e62a40185e7f748dffa9bc4bc4997a0",
+    "gates": 299328,
+    "opcodes": 196213
   },
   "envelope_sha512_sha384_lds512": {
-    "bytecode_sha256": "f77b16679e10df28e4a300b9bf5104695a651f16af4bc00c7af4d0166f261813",
-    "gates": 134895,
-    "opcodes": 84606
+    "bytecode_sha256": "61a967714483886b5d6b1a10323a34d86bc22d87b41a044f4375564544929ba5",
+    "gates": 134958,
+    "opcodes": 84621
   },
   "envelope_sha512_sha512_lds1024": {
-    "bytecode_sha256": "4ef94bd241259a813c60cb761f28642260d63bf6200c510ae48dfeeab52ceefb",
-    "gates": 217112,
-    "opcodes": 140450
+    "bytecode_sha256": "f83497aa5dca9896fe653ce48672bc8188109f5dba6310cb8c169e46dc064d46",
+    "gates": 217175,
+    "opcodes": 140465
   },
   "envelope_sha512_sha512_lds1536": {
-    "bytecode_sha256": "0051b00a402b01a6313533de45cff563ab116f286325f46d3c9cc71c558618d3",
-    "gates": 299297,
-    "opcodes": 196246
+    "bytecode_sha256": "ed372e4490bddc6110284011fb48f3c59ca8ed494bd4a03ce20b812be0159481",
+    "gates": 299360,
+    "opcodes": 196261
   },
   "envelope_sha512_sha512_lds512": {
-    "bytecode_sha256": "fbcd8e9edc74aca512a682f7bb386c77c6fbc2dbac6f5c98ad51ecb662796047",
-    "gates": 134927,
-    "opcodes": 84654
+    "bytecode_sha256": "602c9f7c25dfd24473754c11f0e05ff5c9746516484ee1e1f5f12ccc51091614",
+    "gates": 134990,
+    "opcodes": 84669
   },
   "kernel_dsc": {
-    "bytecode_sha256": "521a8e846c2a4e1895a4754f6f8551e443cddfaf3550fcc1dbbed7508b33bcb5",
-    "gates": 13410,
-    "opcodes": 274
+    "bytecode_sha256": "b77c4c0f693a341c37123eb819ea9c98e200d18005836da4fdec748dd1db5405",
+    "gates": 13415,
+    "opcodes": 276
   },
   "kernel_envelope": {
-    "bytecode_sha256": "e8a0bf80c000cefb19e23b6e17c2373b5fe7632b22b485c4835c8153821b5110",
-    "gates": 27903,
-    "opcodes": 520
+    "bytecode_sha256": "0b52e6245df7df82cee8774abdb3d56eaf0ef71079a04ffcd42b9becd877cc9a",
+    "gates": 27912,
+    "opcodes": 522
   },
   "kernel_hiding": {
-    "bytecode_sha256": "bbd5837ae8fd70476ab51583681d5c5bc9908bfde140c1464ec7e73d2bf29952",
-    "gates": 38564,
-    "opcodes": 269
+    "bytecode_sha256": "2f48ebef043811447ad18fb6600859432574430f9011b7a948295a3663ba3d3c",
+    "gates": 38569,
+    "opcodes": 271
   },
   "kernel_sod": {
-    "bytecode_sha256": "d36dbd75b20a0da0b289426c6e429baa676591128b14dd7b5a695b0a2eacc2f8",
-    "gates": 27877,
-    "opcodes": 516
+    "bytecode_sha256": "019d479879802bb5ef4b7f2ec4a3f73ebfbed5ecd39545d13d74e6e792e5002d",
+    "gates": 27884,
+    "opcodes": 518
   },
   "kernel_tail": {
-    "bytecode_sha256": "8eb0cbd5491676a5203dcfea44e14fa64e4561a01d40ba41c9d20a7cb299646a",
-    "gates": 17289,
-    "opcodes": 271
+    "bytecode_sha256": "49e7f65109d17c4e4aec2c75ca31320ee8e851f2289dcb6884b9c59b2d55c549",
+    "gates": 17296,
+    "opcodes": 273
   },
   "sod_ecdsa_bp256_sha1_tbs1000": {
     "bytecode_sha256": "8fe17832c673885710196ae6e00acbb929b4f0d716bf6a9f3a6aa0c244ba2640",

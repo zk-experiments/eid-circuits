@@ -24,7 +24,9 @@ toml.workspace = true
 [dev-dependencies]
 noir-zk-core.workspace = true
 noir-zk-backend.workspace = true
+eid-envelope.workspace = true
 serde_json.workspace = true
+toml.workspace = true
 
 [features]
 # Fetch bytecode release assets over HTTPS.

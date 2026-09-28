@@ -42,6 +42,7 @@ These are reported in this file and don't affect our soundness.
    - `root` is a published registry root it still accepts;
    - `date` is the current date;
    - `context` identifies the transfer;
+   - `scope` is the verifier's own (or 0 when it runs no Sybil check), and `nullifier` hasn't been recorded in that scope before;
    - the viewer keys are registered Grumpkin keys (the circuit accepts any point).
 7. **Prover randomness.** Soundness doesn't depend on it, but privacy does:
    - the salts must be fresh, or `c_A`/`c_B` link bundles;
@@ -64,7 +65,9 @@ These are reported in this file and don't affect our soundness.
 - **LDS security object:** at most 16 data groups and 1536 bytes. Only DG1 is interpreted and encrypted; DG11 was dropped for cost (docs/circuits/envelope.md).
 - **MRZ dates** are read as 20YY in UTC, and check digits aren't verified (the data group is signed).
 - **The DSC's own validity period isn't checked.** Documents outlive their DSC's signing period, as ICAO 9303 intends.
-- **Circuit variants stay private** because every document is folded under the same hiding kernel key; only a single SHA-1 flag is public. Every proof is the same size (43,968 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
+- **Circuit variants stay private** because every document is folded under the same hiding kernel key; only a single SHA-1 flag is public. Every proof is the same size (39,936 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
+- **Nullifiers are per document, not per person.** A renewed passport or a second nationality gives a new nullifier in the same scope.
+- **Anyone who read the chip can compute a nullifier.** An NFC read gives the SOD, so its reader can compute the document's nullifier for any scope: test whether it's registered there, or claim it first. Optical MRZ scans don't give the SOD.
 - **SOD configurations mirror the CSCA configurations.** Real DSC statistics may add or remove variants.
 
 ## How test vectors are produced

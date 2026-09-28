@@ -83,7 +83,7 @@ const CASES: &[(&str, Config, Config, Hash, Hash, bool, bool)] = &[
 
 /// Every file `eid-vectors documents` writes (path relative to the repository root).
 pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
-    use crate::envelope::{field, sample_viewers, CONTEXT, DATA_KEY, EPHEMERAL};
+    use crate::envelope::{field, sample_viewers, CONTEXT, DATA_KEY, EPHEMERAL, SCOPE};
     let mut files = vec![];
     let mut chains = vec![];
     let mut cases = vec![];
@@ -135,6 +135,7 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
                 sod_salt: "67890".into(),
                 date: i64::try_from(SAMPLE_DATE)?,
                 context: CONTEXT.to_string(),
+                scope: SCOPE.to_string(),
                 viewers,
                 ephemeral: EPHEMERAL.to_string(),
                 key: DATA_KEY.to_string(),

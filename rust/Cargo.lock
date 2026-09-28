@@ -856,6 +856,7 @@ name = "eid-circuits"
 version = "0.4.2"
 dependencies = [
  "ark-ff",
+ "eid-envelope",
  "hex",
  "noir-zk-backend",
  "noir-zk-codegen",
