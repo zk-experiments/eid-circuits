@@ -55,7 +55,7 @@ These are reported in this file and don't affect our soundness.
 
 ## Known limitations
 
-- **SHA-1 is accepted** where issuers sign with it (see `noir/lib/hash`).
+- **SHA-1 is accepted** where issuers sign or hash with it (see `noir/lib/hash`), as ICAO 9303 allows; keeping those keys sound is ICAO's and the issuers' responsibility. The public "uses SHA-1" flag was removed, so SHA-1 use is no longer visible to verifiers, and they can't refuse SHA-1-derived proofs.
 - **PKCS#1 v1.5 DigestInfo** must include the NULL parameter.
 - **RSA-PSS** requires MGF1 with the same hash as the message.
 - **RSA exponents** must be odd and below `2^E_BITS`.
@@ -65,7 +65,7 @@ These are reported in this file and don't affect our soundness.
 - **LDS security object:** at most 16 data groups and 1536 bytes. Only DG1 is interpreted and encrypted; DG11 was dropped for cost (docs/circuits/envelope.md).
 - **MRZ dates** are read as 20YY in UTC, and check digits aren't verified (the data group is signed).
 - **The DSC's own validity period isn't checked.** Documents outlive their DSC's signing period, as ICAO 9303 intends.
-- **Circuit variants stay private** because every document is folded under the same hiding kernel key; only a single SHA-1 flag is public. Every proof is the same size (39,936 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
+- **Circuit variants stay private** because every document is folded under the same hiding kernel key, and no step outputs its hash algorithm. Every proof is the same size (39,616 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
 - **Nullifiers are per document, not per person.** A renewed passport or a second nationality gives a new nullifier in the same scope.
 - **Anyone who read the chip can compute a nullifier.** An NFC read gives the SOD, so its reader can compute the document's nullifier for any scope: test whether it's registered there, or claim it first. Optical MRZ scans don't give the SOD.
 - **Viewer key freshness isn't enforced.** There's one viewer slot, and the viewer is the transfer's receiver: it gives the sender a fresh Grumpkin key off-chain for every transfer. A reused key links the transfers it appears in, and neither the circuit (which only rejects `(0, 0)`) nor the verifier enforces freshness. The receiver checks the proof's viewer key is the one it issued, and keeps the secret of every key it issued.

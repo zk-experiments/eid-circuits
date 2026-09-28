@@ -7,15 +7,15 @@ use eid_rsa::{DIGEST_INFO_SHA512, verify_pkcs1v15};
 use eid_steps::dsc::{check, commitment, KeyKind, Witness};
 use eid_steps::HASH_SHA512;
 
-/// Returns `[registry root, commitment, hash id]` through the databus, to the
-/// DSC kernel that folds this proof.
+/// Returns `[registry root, commitment]` through the databus, to the DSC
+/// kernel that folds this proof.
 fn main(
     root: Field,
     salt: Field,
     w: Witness<1600, 512>,
     redc: [u128; 35],
     signature: [u8; 512],
-) -> return_data [Field; 3] {
+) -> return_data [Field; 2] {
     let f = check::<1600, 512, 17>(root, w, KeyKind { key_type: 1, curve: 0, bits: 4096 });
     let digest = sha512_var(w.tbs, f.len);
     verify_pkcs1v15::<35, 4096, 17, 64, 19>(
@@ -26,5 +26,5 @@ fn main(
         digest,
         DIGEST_INFO_SHA512,
     );
-    [root, commitment(salt, w.header.country, HASH_SHA512, w.tbs, f.len), HASH_SHA512 as Field]
+    [root, commitment(salt, w.header.country, HASH_SHA512, w.tbs, f.len)]
 }

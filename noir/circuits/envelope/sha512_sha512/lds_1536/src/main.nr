@@ -6,21 +6,20 @@ use eid_hash::sha512_var;
 use eid_steps::envelope::{
     assert_hash_at, assert_message_digest, check, flatten, OID_SHA512, outputs, Witness,
 };
-use eid_steps::HASH_SHA512;
 use std::embedded_curve_ops::EmbeddedCurvePoint;
 
 /// Takes the proof date (unix seconds), the context the envelope is bound to
 /// (e.g. the transfer), the nullifier scope (0 for none) and the viewer key
 /// (fresh per transfer, never `(0, 0)`), and returns them with step B's
-/// commitment, the hash ids, the envelope and the nullifier through the
-/// databus (`envelope::flatten`), to the envelope kernel.
+/// commitment, the envelope and the nullifier through the databus
+/// (`envelope::flatten`), to the envelope kernel.
 fn main(
     date: u64,
     context: Field,
     scope: Field,
     viewers: [EmbeddedCurvePoint; 1],
     w: Witness<1536>,
-) -> return_data [Field; 18] {
+) -> return_data [Field; 16] {
     let p = check::<1536, 11, 64>(date, w, OID_SHA512);
     assert_message_digest(w, sha512_var(w.econtent, p.lds.len));
     assert_hash_at(w.econtent, p.lds.dg1_hash_at, sha512_var(w.dg1, p.dg1.len));
@@ -29,6 +28,6 @@ fn main(
         context,
         scope,
         viewers,
-        outputs(viewers, context, scope, w, p, HASH_SHA512, HASH_SHA512),
+        outputs(viewers, context, scope, w, p),
     )
 }

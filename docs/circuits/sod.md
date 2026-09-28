@@ -15,7 +15,7 @@ fn main(
     md_offset: u32,         // offset of the messageDigest attribute in attrs
     // RSA:   redc: [u128; N], signature: [u8; K]
     // ECDSA: r: [u8; S], s: [u8; S]
-) -> return_data [Field; 3] // [DSC commitment, SOD commitment, hash id], to kernel_sod
+) -> return_data [Field; 2] // [DSC commitment, SOD commitment], to kernel_sod
 ```
 
 Only the signed attributes and the DSC signature are taken from the SOD. The rest of the CMS `SignedData` wrapper (certificates, digest algorithm sets, unsigned attributes) doesn't affect the statement.
@@ -33,7 +33,6 @@ With `(f, a) = eid_steps::sod::parse(tbs, attrs, md_offset)`, the circuit assert
 5. **Outputs.**
    - `dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len)`: `kernel_sod` checks it equals step A's output, which ties this `TBSCertificate`, and so the DSC key, to a registered, unrevoked CSCA.
    - `sod::commitment(salt, country, a) = H(salt, country, digest_len, pack_be(digest))`, with the digest zero-padded to 64 bytes: passed to step C.
-   - The hash id of the signature, so a verifier can refuse SHA-1-derived proofs.
 
 ## Review notes
 

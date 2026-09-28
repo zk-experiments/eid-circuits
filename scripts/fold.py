@@ -115,7 +115,7 @@ def fold(f, chain, prove, threads, runs):
     s = f.kernel("kernel_tail", {"prev": s, "prev_vk": f.vk_table("kernel_envelope", kvk3[0])})
     kvk4 = f.vk("kernel_tail")
     public = f.kernel("kernel_hiding", {"prev": s, "prev_vk": f.vk_table("kernel_tail", kvk4[0])})
-    # PublicOutputs: registry root, key tree root, uses_sha1, date, context, ...
+    # PublicOutputs: registry root, key tree root, date, context, ...
     expect = [outs[0][0], root]
     if [int(x, 16) for x in public[:2]] != [int(x, 16) for x in expect]:
         sys.exit(f"{name}: public outputs {public[:2]} don't match {expect}")

@@ -6,7 +6,8 @@
 //!    registry and revocation checks (below);
 //! 2. hashes `tbs[..f.len]` with its hash and verifies the CSCA signature with
 //!    the same `csca_key` bytes (and, for RSA, `header.exponent`);
-//! 3. returns `[dsc::commitment(...), hash_id]` as public outputs.
+//! 3. returns `[root, dsc::commitment(...)]` through the databus. The hash id
+//!    stays inside the commitment, which the SOD step recomputes.
 
 use csca_registry::{
     Exclusion, hash, KEY_TREE_HEIGHT, KeyHeader, MerklePath, pack_be, REVOCATION_TREE_HEIGHT,

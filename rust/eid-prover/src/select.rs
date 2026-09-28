@@ -15,7 +15,7 @@ use crate::mrz::{parse_dg1, registry_country};
 use crate::sod::Sod;
 use anyhow::{bail, ensure, Context, Result};
 use csca_registry::commands::prove::{prove_key, prove_not_revoked};
-use csca_registry::crypto::{self, Curve, Hash, PublicKey};
+use csca_registry::crypto::{self, Curve, PublicKey};
 use csca_registry::output::{Key, Registry};
 
 /// The circuits a document needs, with what they were chosen from.
@@ -29,8 +29,6 @@ pub struct Selection {
     pub dsc: String,
     pub sod: String,
     pub envelope: String,
-    /// Whether any step hashes with SHA-1 (verifiers may refuse these).
-    pub uses_sha1: bool,
     /// Circuit packs holding these circuits: `common` (envelope, kernels),
     /// the CSCA key's family (DSC step) and the DSC key's (SOD step). Fetch
     /// these rather than single circuits, so the host learns only key
@@ -161,14 +159,12 @@ pub fn select(reg: &Registry, ef_sod: &[u8], dg1: &[u8], at: i64) -> Result<Sele
         bail!("the document expired before the given date");
     }
 
-    let hashes = [a.hash(), b.hash(), sod.digest, dg_hash];
     Ok(Selection {
         country,
         csca_key: csca.id.clone(),
         dsc: a.step_package("dsc", t),
         sod: b.step_package("sod", t),
         envelope: envelope_package(sod.digest, dg_hash, e),
-        uses_sha1: hashes.contains(&Hash::Sha1),
         packs: {
             let mut p = vec!["common".to_string(), a.family(), b.family()];
             p.dedup();

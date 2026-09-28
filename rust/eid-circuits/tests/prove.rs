@@ -23,7 +23,7 @@ use noir_zk_backend::fold::{verify, Folding};
 use noir_zk_core::{Artifacts, CircuitId, Error, Field};
 
 /// A document proof's size, the same for every document.
-const PROOF_BYTES: usize = 39_648;
+const PROOF_BYTES: usize = 39_616;
 
 /// `toml` with the line `key = ...` replaced by `key = "value"`.
 fn set(toml: &str, key: &str, value: &str) -> String {

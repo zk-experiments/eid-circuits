@@ -1,16 +1,16 @@
 //! Folds the SOD kernel and the envelope step, whose databus output is
-//! `eid_steps::envelope::flatten`: date, context, the viewer key, `c_B` (at 4), the
-//! hash ids, the envelope, the scope and the nullifier. `c_B` must be the SOD
-//! step's link.
+//! `eid_steps::envelope::flatten`: date, context, the viewer key, `c_B` (at 4),
+//! the envelope, the scope and the nullifier. `c_B` must be the SOD step's
+//! link.
 
 use eid_kernel::{
-    check_vk, is_sha1, or, PROOF_TYPE_HN, ROLE_ENVELOPE, ROLE_KERNEL_SOD, S_ENVELOPE, S_LINK,
-    S_NULLIFIER, S_SCOPE, S_USES_SHA1, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
+    check_vk, PROOF_TYPE_HN, ROLE_ENVELOPE, ROLE_KERNEL_SOD, S_ENVELOPE, S_LINK, S_NULLIFIER,
+    S_SCOPE, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
 };
 
 fn main(
     prev: call_data(0) [Field; STATE_FIELDS],
-    step: call_data(1) [Field; 18],
+    step: call_data(1) [Field; 16],
     prev_vk: Vk,
     step_vk: Vk,
 ) -> return_data [Field; STATE_FIELDS] {
@@ -22,16 +22,15 @@ fn main(
     assert_eq(step[4], prev[S_LINK], "envelope step does not continue the SOD step");
     let mut s = prev;
     s[S_LINK] = 0;
-    s[S_USES_SHA1] = or(prev[S_USES_SHA1], or(is_sha1(step[5]), is_sha1(step[6])));
     // date, context, viewer
     for i in 0..4 {
         s[S_ENVELOPE + i] = step[i];
     }
     // E, wrapped key, ciphertext
     for i in 0..9 {
-        s[S_ENVELOPE + 4 + i] = step[7 + i];
+        s[S_ENVELOPE + 4 + i] = step[5 + i];
     }
-    s[S_SCOPE] = step[16];
-    s[S_NULLIFIER] = step[17];
+    s[S_SCOPE] = step[14];
+    s[S_NULLIFIER] = step[15];
     s
 }

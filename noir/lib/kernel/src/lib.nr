@@ -55,30 +55,16 @@ pub fn check_vk(root: Field, role: Field, vk: Vk) -> Field {
 }
 
 /// State passed between kernels:
-/// `[registry_root, vk_tree_root, link, uses_sha1, date, context,
-///   viewer (x, y), E.x, E.y, wrapped, ciphertext × 6, scope, nullifier]`.
+/// `[registry_root, vk_tree_root, link, date, context, viewer (x, y), E.x,
+///   E.y, wrapped, ciphertext × 6, scope, nullifier]`.
 /// `link` is the commitment the next step must continue from.
-pub global STATE_FIELDS: u32 = 19;
+pub global STATE_FIELDS: u32 = 18;
 pub global S_REGISTRY_ROOT: u32 = 0;
 pub global S_VK_TREE_ROOT: u32 = 1;
 pub global S_LINK: u32 = 2;
-pub global S_USES_SHA1: u32 = 3;
-pub global S_ENVELOPE: u32 = 4;
-pub global S_SCOPE: u32 = 17;
-pub global S_NULLIFIER: u32 = 18;
-
-/// Hash id of SHA-1 (`eid_steps::HASH_SHA1`).
-pub global HASH_SHA1: Field = 1;
-
-/// 1 when `hash_id` is SHA-1, else 0.
-pub fn is_sha1(hash_id: Field) -> Field {
-    (hash_id == HASH_SHA1) as Field
-}
-
-/// `a` or `b` for 0/1 flags.
-pub fn or(a: Field, b: Field) -> Field {
-    a + b - a * b
-}
+pub global S_ENVELOPE: u32 = 3;
+pub global S_SCOPE: u32 = 16;
+pub global S_NULLIFIER: u32 = 17;
 
 /// What the folded proof makes public (the hiding kernel's outputs).
 pub struct PublicOutputs {
@@ -86,8 +72,6 @@ pub struct PublicOutputs {
     pub registry_root: Field,
     /// Root of the verification key tree every step and kernel was checked against.
     pub vk_tree_root: Field,
-    /// 1 when any step hashed with SHA-1.
-    pub uses_sha1: Field,
     /// Proof date, context and the viewer key the envelope step used.
     pub date: Field,
     pub context: Field,
@@ -106,17 +90,16 @@ pub struct PublicOutputs {
 pub fn public_outputs(s: [Field; STATE_FIELDS]) -> PublicOutputs {
     let mut ciphertext: [Field; 6] = [0; 6];
     for i in 0..6 {
-        ciphertext[i] = s[11 + i];
+        ciphertext[i] = s[10 + i];
     }
     PublicOutputs {
         registry_root: s[S_REGISTRY_ROOT],
         vk_tree_root: s[S_VK_TREE_ROOT],
-        uses_sha1: s[S_USES_SHA1],
-        date: s[4],
-        context: s[5],
-        viewer: [s[6], s[7]],
-        ephemeral: [s[8], s[9]],
-        wrapped: s[10],
+        date: s[3],
+        context: s[4],
+        viewer: [s[5], s[6]],
+        ephemeral: [s[7], s[8]],
+        wrapped: s[9],
         ciphertext,
         scope: s[S_SCOPE],
         nullifier: s[S_NULLIFIER],

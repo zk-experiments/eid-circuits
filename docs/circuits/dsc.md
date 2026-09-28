@@ -19,7 +19,7 @@ fn main(
     w: eid_steps::dsc::Witness<T, K>,
     // RSA:   redc: [u128; N], signature: [u8; K]
     // ECDSA: r: [u8; S], s: [u8; S]
-) -> return_data [Field; 3]         // [root, commitment, hash id], to kernel_dsc
+) -> return_data [Field; 2]         // [root, commitment], to kernel_dsc
 ```
 
 `Witness` holds:
@@ -42,7 +42,7 @@ With `f = eid_der::parse_tbs(w.tbs)`, the circuit asserts:
    - **ECDSA:** `w.csca_key` splits into `x ‖ y`.
 
    The signature is over `hash(tbs[..f.len])`, checked with `eid_rsa` or `eid_ecdsa`.
-6. **Outputs.** The circuit returns, through the databus, `root`, `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))` and `hash_id` (1 = SHA-1 … 5 = SHA-512). `kernel_dsc` folds it and makes `root` public ([FOLDING.md](../FOLDING.md)). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key. The kernels reduce the hash ids to a public SHA-1 flag, so a verifier can refuse SHA-1-derived proofs by policy.
+6. **Outputs.** The circuit returns, through the databus, `root`, and `commitment = H(salt, country, hash_id, f.len, pack_be(tbs))`, where `hash_id` (1 = SHA-1 … 5 = SHA-512) is the TBS hash, committed but not output. `kernel_dsc` folds it and makes `root` public ([FOLDING.md](../FOLDING.md)). The SOD step recomputes the commitment from the same `TBSCertificate` to read the DSC key.
 
 ## Review notes
 

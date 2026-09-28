@@ -13,7 +13,7 @@ mod sod_vectors;
 mod tests;
 mod vectors;
 
-/// Hash identifiers exposed by every step (same numbering as `eid_hash`).
+/// Hash identifiers, committed in `dsc::commitment` (same numbering as `eid_hash`).
 pub global HASH_SHA1: u8 = 1;
 pub global HASH_SHA224: u8 = 2;
 pub global HASH_SHA256: u8 = 3;

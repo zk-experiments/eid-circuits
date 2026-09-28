@@ -8,8 +8,8 @@
 //!    `eid_der::spki_rsa` or `eid_der::spki_ec`, which also check the key's
 //!    algorithm (and curve);
 //! 3. hashes `attrs[..a.len]` with its hash and verifies the DSC signature;
-//! 4. returns `[dsc::commitment(...), sod::commitment(...), hash_id]`: the
-//!    first must equal step A's output, the second is passed to step C.
+//! 4. returns `[dsc::commitment(...), sod::commitment(...)]`: the first must
+//!    equal step A's output, the second is passed to step C.
 
 use csca_registry::{hash, pack_be};
 use eid_der::{assert_zero_padded, parse_signed_attrs, parse_tbs, SignedAttrs, TbsFields};
