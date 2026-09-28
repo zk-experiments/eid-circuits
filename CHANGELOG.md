@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.5.0 - 2026-09-28
+#### Features
+- <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**envelope**) add a scoped nullifier for Sybil resistance - (67fc858) - Anton Velichko
+
+- - -
+
 ## v0.4.2 - 2026-09-28
 #### Bug Fixes
 - (**ci**) provision the SRS noir-zk pins before freezing - (7f8f99a) - Anton Velichko
