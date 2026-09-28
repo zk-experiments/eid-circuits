@@ -853,7 +853,7 @@ dependencies = [
 
 [[package]]
 name = "eid-circuits"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "ark-ff",
  "eid-envelope",
@@ -868,7 +868,7 @@ dependencies = [
 
 [[package]]
 name = "eid-envelope"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "ark-bn254",
  "ark-ec",
@@ -879,7 +879,7 @@ dependencies = [
 
 [[package]]
 name = "eid-prover"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "csca-registry",
@@ -891,7 +891,7 @@ dependencies = [
 
 [[package]]
 name = "eid-vectors"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "ark-bn254",
