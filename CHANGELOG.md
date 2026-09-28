@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.4.2 - 2026-09-28
+#### Bug Fixes
+- (**ci**) provision the SRS noir-zk pins before freezing - (7f8f99a) - Anton Velichko
+
+- - -
+
 ## v0.4.1 - 2026-09-27
 #### Bug Fixes
 - (**ci**) read R2_ACCOUNT_ID from a variable or a secret - (a72edc8) - Anton Velichko
