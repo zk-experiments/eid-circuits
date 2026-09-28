@@ -461,8 +461,17 @@ jobs:
       - uses: jdx/mise-action@v4
       - name: Install nargo, bb and the noir-zk CLI
         run: mise run install:zk-toolchain install:noir-zk
+      # noir-zk derives keys against a pinned SRS (2^20+1 BN254, 2^15 Grumpkin
+      # points in ~/.bb-crs) and never downloads it itself: provision it once
+      # (mise run srs) and keep it, keyed by the pins.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bb-crs
+          key: noir-zk-srs-0f238856e557-72b8cdad9da8
       - name: Compile every circuit
         run: mise run compile
+      - name: Provision the SRS noir-zk pins
+        run: mise run srs
       - name: Check the compiled circuits against their pins
         run: mise run freeze -- --check
       - name: Write the release assets and packs
