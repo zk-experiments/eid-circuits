@@ -92,6 +92,31 @@ run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/c
 # and vk-tree@<version>.json. The version is the release's (rust/Cargo.toml),
 # so run these on a release tag; CI does on every release. The circuits bucket
 # serves them at https://circuits.zk-eid.dev/.
+[tasks."srs"]
+description = "Provision bb's SRS as noir-zk pins it in ~/.bb-crs: 2^20+1 BN254 and 2^15 Grumpkin points (needs compiled circuits)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+crs="$HOME/.bb-crs"
+mkdir -p "$crs"
+# Grumpkin: bb generates grumpkin_g1_v2.flat.dat when it first proves, so prove
+# one small synthetic chain with the bb CLI (a few seconds; nothing measured).
+if [ ! -s "$crs/grumpkin_g1_v2.flat.dat" ]; then
+  venv="$(mktemp -d)/venv"
+  python3 -m venv "$venv" && "$venv/bin/pip" install --quiet msgpack
+  "$venv/bin/python" scripts/fold.py --prove --chain rsa4096_csca_p256_dsc --nargo "$NARGO" --bb "$BB" --threads 4
+fi
+# BN254: bb fetches only the points a circuit needs; noir-zk loads a fixed
+# 2^20+1. Take that prefix of bb's own compressed file and expand it.
+points=$(( (1 << 20) + 1 ))
+if [ "$(wc -c < "$crs/bn254_g1.dat" 2>/dev/null || echo 0)" -lt $(( points * 64 )) ]; then
+  curl -fsS -r 0-$(( points * 32 - 1 )) -o "$crs/bn254_g1_compressed.full" http://crs.aztec-cdn.foundation/g1_compressed.dat
+  python3 scripts/bn254_srs.py "$crs/bn254_g1_compressed.full" "$crs/bn254_g1.dat" "$points"
+  rm -f "$crs/bn254_g1_compressed.full"
+fi
+ls -l "$crs"
+'''
+
 [tasks."packs"]
 description = "Build target/packs: every circuit pack and the key tree, for this release's version"
 depends = ["install:noir-zk"]

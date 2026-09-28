@@ -81,7 +81,8 @@ Every release publishes them, from CI: it compiles every circuit from the tagged
 A client reads `catalog.json`, downloads the packs `Selection::packs` names, checks each archive's SHA-256 against the catalog, unpacks it, and checks the files against the pins compiled into this crate: `noir_zk_backend::frozen::verify_dir(eid_circuits::circuits::REGISTRY, dir)` (every circuit's `BYTECODE_SHA256` and `VK_SHA256`, also listed per version in `circuits/manifest.toml`). The catalog and the hosts are only for finding files; the crate is what a client trusts. Each release's notes list its packs with their links and SHA-256. By hand, on a release tag:
 
 ```sh
-mise run compile && mise run freeze -- --check && mise run freeze   # bytecode from source, checked against the pins
+mise run compile && mise run srs    # bytecode from source; the SRS noir-zk pins, in ~/.bb-crs
+mise run freeze -- --check && mise run freeze   # checked against the pins
 mise run packs                  # target/packs: every pack, the catalog and vk-tree@<version>.json
 mise run packs:publish          # upload them to the GitHub release v<version>
 mise run packs:publish-r2       # and to the circuits R2 bucket (R2_CIRCUITS_BUCKET, R2_CIRCUITS_TOKEN, R2_ACCOUNT_ID)
