@@ -1,6 +1,6 @@
 # Verifying a document proof
 
-A document proof is one Chonk proof: the three steps folded with the kernels described in [FOLDING.md](FOLDING.md). It is verified natively (`bb verify --scheme chonk`, about 20 ms) against the hiding kernel's verification key. That's the same key for every document, whatever signature schemes and sizes it used. There is no Solidity verifier for Chonk; verification is meant for a chain precompile.
+A document proof is one Chonk proof: the three steps folded with the kernels described in [FOLDING.md](FOLDING.md). It is verified natively (`bb verify --scheme chonk`, 20–30 ms) against the hiding kernel's verification key. That's the same key for every document, whatever signature schemes and sizes it used. There is no Solidity verifier for Chonk; verification is meant for a chain precompile.
 
 ## Bundle
 
@@ -24,7 +24,7 @@ bb 7.0.0-nightly.20260927 (Noir 1.0.0-rc.3), measured on the four synthetic docu
 | proof | 39,616 bytes (1,238 field elements), the same for every document |
 | public inputs | 17 field elements, the first 544 bytes of the proof (below) |
 | hiding kernel verification key | 3,808 bytes, the same for every document |
-| verification | about 30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
+| verification | 20–30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
 
 The public outputs are the proof's first 17 fields, 32 bytes each, big-endian, in this order:
 

@@ -16,7 +16,7 @@ DSC step ─► kernel_dsc ─► SOD step ─► kernel_sod ─► envelope ste
   | SOD | `[c_A, c_B]` |
   | envelope | `eid_steps::envelope::flatten`: date, context, the viewer key, `c_B`, the envelope, the scope and the nullifier |
 
-- **Kernels** are fixed circuits in `noir/kernels`, built on `noir/lib/kernel` (`eid_kernel`). Each one folds the previous kernel and its step (`std::verify_proof_with_type` with the OINK, HN, HN_TAIL and HN_FINAL types; Chonk carries the proofs, so the calls take none). It reads their outputs from the databus (`call_data`) and returns the state to the next kernel.
+- **Kernels** are fixed circuits in `noir/kernels`, built on `noir/lib/kernel` (`eid_kernel`). Each one folds the previous kernel and its step (`std::verify_proof_with_type` with the OINK, HN and HN_FINAL types; Chonk carries the proofs, so the calls take none). It reads their outputs from the databus (`call_data`) and returns the state to the next kernel.
 
 ## What each kernel checks
 
@@ -52,7 +52,7 @@ The hiding kernel returns `eid_kernel::PublicOutputs`: registry root, key tree r
 - **Versions.** Noir 1.0.0-rc.3 with bb 7.0.0-nightly.20260927, the nightly built on exactly rc.3's commit (pinned in `mise.toml`, installed per version under `~/.toolchains`). The proof types (OINK 1, HN 2, HN_FINAL 7) and the 151-field key size are bb's; they changed between bb 5 and bb 7, so a bb upgrade means re-checking `eid_kernel`'s constants and regenerating the key tree.
 - **No compatibility across bb versions.** A proof verifies only with the bb version that produced it: bb 7 rejects bb 5 proofs and the reverse, because the proof format and key encoding change. Every bb bump is a new release of the circuits' keys, key tree and hiding kernel key, and the verifier must switch in step (see [VERIFY.md](VERIFY.md)).
 - **Input stack.** bb reads a msgpack list of steps, each with gzipped bytecode, a gzipped witness, a precomputed verification key, a name and a kind (0 app, 1 kernel, 2 hiding kernel). Keys are derived with `bb write_vk --scheme chonk --circuit_kind app|kernel|hiding`.
-- **No Solidity verifier.** bb has none for Chonk. Verification is native (`bb verify --scheme chonk`, about 20 ms), meant for a chain precompile.
+- **No Solidity verifier.** bb has none for Chonk. Verification is native (`bb verify --scheme chonk`, 20–30 ms), meant for a chain precompile.
 
 ## Running it
 

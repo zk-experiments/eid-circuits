@@ -69,6 +69,7 @@ These are reported in this file and don't affect our soundness.
 - **Nullifiers are per document, not per person.** A renewed passport or a second nationality gives a new nullifier in the same scope.
 - **Anyone who read the chip can compute a nullifier.** An NFC read gives the SOD, so its reader can compute the document's nullifier for any scope: test whether it's registered there, or claim it first. Optical MRZ scans don't give the SOD.
 - **Viewer key freshness isn't enforced.** There's one viewer slot, and the viewer is the transfer's receiver: it gives the sender a fresh Grumpkin key off-chain for every transfer. A reused key links the transfers it appears in, and neither the circuit (which only rejects `(0, 0)`) nor the verifier enforces freshness. The receiver checks the proof's viewer key is the one it issued, and keeps the secret of every key it issued.
+- **`c_B` and the nullifier share a hash shape.** Both are Poseidon2 hashes of six fields over the same `digest_len` and packed `messageDigest`, separated only by slots 0 and 1 (`salt`, `country` against the `NULLIFIER` constant, `scope`), so a prover choosing `salt = NULLIFIER` makes `c_B` the nullifier of `scope = country`. It has no effect: `c_B` never leaves the fold, and the nullifier's scope is the verifier's. Proper domain tags on the commitments belong to the next ABI change.
 - **SOD configurations mirror the CSCA configurations.** Real DSC statistics may add or remove variants.
 
 ## How test vectors are produced

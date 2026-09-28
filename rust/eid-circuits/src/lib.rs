@@ -22,8 +22,9 @@
 //! # }
 //! ```
 //!
-//! Bytecode isn't embedded (about 730 MB): [`artifacts`] fetches it from a
-//! store and rejects it unless it hashes to the pinned value.
+//! Bytecode isn't embedded (about 760 MB of base64 release assets, 535 MB
+//! as gzipped packs): [`artifacts`] fetches it from a store and rejects it
+//! unless it hashes to the pinned value.
 
 use noir_zk_backend::{ArtifactStore, Frozen};
 use noir_zk_core::codec::field_from_be_bytes_canonical;

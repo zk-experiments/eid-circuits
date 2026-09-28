@@ -168,7 +168,7 @@ pub fn outputs<let E: u32>(
 /// Values of the envelope step's databus output: date, context, the viewer
 /// key, `Outputs` (step B's commitment, the envelope), the scope and the
 /// nullifier.
-pub global OUTPUT_FIELDS: u32 = 16;
+pub global OUTPUT_FIELDS: u32 = 13 + 3 * VIEWERS;
 
 /// The envelope step's databus output, flattened in this order: `[date,
 /// context, viewer (x, y), sod_commitment, E.x, E.y, wrapped, ciphertext × 6,
@@ -187,16 +187,18 @@ pub fn flatten(
         out[2 + 2 * i] = viewers[i].x;
         out[3 + 2 * i] = viewers[i].y;
     }
-    out[4] = o.sod_commitment;
-    out[5] = o.envelope.ephemeral.x;
-    out[6] = o.envelope.ephemeral.y;
+    let v = 2 + 2 * VIEWERS;
+    out[v] = o.sod_commitment;
+    out[v + 1] = o.envelope.ephemeral.x;
+    out[v + 2] = o.envelope.ephemeral.y;
     for i in 0..VIEWERS {
-        out[7 + i] = o.envelope.wrapped[i];
+        out[v + 3 + i] = o.envelope.wrapped[i];
     }
+    let c = v + 3 + VIEWERS;
     for i in 0..6 {
-        out[8 + i] = o.envelope.ciphertext[i];
+        out[c + i] = o.envelope.ciphertext[i];
     }
-    out[14] = scope;
-    out[15] = o.nullifier;
+    out[c + 6] = scope;
+    out[c + 7] = o.nullifier;
     out
 }

@@ -1,6 +1,6 @@
 # eid-circuits
 
-Noir circuits that prove, for an encrypted identity document (passport, ID card, residence permit), that it was issued under a registered country signing CA (CSCA) and was valid on a given date. The document data (DG1, the MRZ) is encrypted to a set of viewer keys, and the encryption is proven correct. The CSCA registry, its Poseidon2 commitment and the Noir library that checks it come from [zk-experiments/csca-registry](https://github.com/zk-experiments/csca-registry).
+Noir circuits that prove, for an encrypted identity document (passport, ID card, residence permit), that it was issued under a registered country signing CA (CSCA) and was valid on a given date. The document data (DG1, the MRZ) is encrypted to the receiver's key, and the encryption is proven correct. The CSCA registry, its Poseidon2 commitment and the Noir library that checks it come from [zk-experiments/csca-registry](https://github.com/zk-experiments/csca-registry).
 
 All circuit code here is written for this repository and grouped by signature type. Every circuit and library has a specification README written for review; start with [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/FOLDING.md](docs/FOLDING.md), [docs/VERIFY.md](docs/VERIFY.md) and [docs/AUDIT.md](docs/AUDIT.md).
 
@@ -49,7 +49,7 @@ scripts/fold.py --prove --threads 4,18 --record docs/data/fold-times.json --mach
 
 ## Proving from Rust
 
-`rust/eid-circuits` holds the frozen circuits as bindings for noir-zk's backend (ACVM witness solving and Chonk folding over the bb FFI, no `nargo` or `bb` binaries). Its circuits are frozen with the noir-zk CLI. Keys, ABIs and the key tree are committed under `rust/eid-circuits`. The bytecode (about 570 MB) is not: it's published as circuit packs, and every asset is checked against its pinned SHA-256 before use.
+`rust/eid-circuits` holds the frozen circuits as bindings for noir-zk's backend (ACVM witness solving and Chonk folding over the bb FFI, no `nargo` or `bb` binaries). Its circuits are frozen with the noir-zk CLI. Keys, ABIs and the key tree are committed under `rust/eid-circuits`. The bytecode (about 760 MB of base64 release assets, 535 MB as gzipped packs) is not: it's published as circuit packs, and every asset is checked against its pinned SHA-256 before use.
 
 ```sh
 mise run freeze                 # after vk-tree: mint versions for changed circuits (-- --abi-change for ABI changes)

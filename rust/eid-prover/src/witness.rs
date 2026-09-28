@@ -96,7 +96,7 @@ fn quoted(v: &[String]) -> String {
     )
 }
 
-/// The id the circuits output for a hash (`eid_steps::HASH_*`).
+/// The id `dsc::commitment` commits to for a hash (`eid_steps::HASH_*`).
 pub fn hash_id(h: Hash) -> u8 {
     match h {
         Hash::Sha1 => 1,

@@ -34,9 +34,11 @@ on:
         required: false
         type: string
 
+# Superseded pull request runs are cancelled. Runs on main (releases) and the
+# nightly are not: a merge landing mid-publish must not cancel the release.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: write
@@ -489,6 +491,26 @@ jobs:
           R2_CIRCUITS_BUCKET: ${{ vars.R2_CIRCUITS_BUCKET }}
           R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
         run: mise run packs:publish-r2
+      # The release exists before this job runs, so a pack that failed to
+      # upload would leave a release whose downloads 404: check every file is
+      # a release asset and, when the bucket is set, served by the CDN.
+      - name: Check the published downloads
+        env:
+          TAG: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
+          BASE: ${{ vars.R2_CIRCUITS_BUCKET != '' && 'https://circuits.zk-eid.dev' || '' }}
+        run: |
+          set -euo pipefail
+          have="$(gh release view "$TAG" --json assets -q '.assets[].name')"
+          for f in target/packs/*; do
+            name="$(basename "$f")"
+            grep -qxF "$name" <<<"$have" || { echo "::error::$name is not an asset of $TAG"; exit 1; }
+            if [ -n "$BASE" ]; then
+              curl -fsSI -o /dev/null "$BASE/$name" || { echo "::error::$BASE/$name is not served"; exit 1; }
+            fi
+          done
+          if [ -n "$BASE" ]; then
+            curl -fsSI -o /dev/null "$BASE/catalog.json" || { echo "::error::$BASE/catalog.json is not served"; exit 1; }
+          fi
       - name: Add the downloads to the release notes
         env:
           TAG: ${{ needs.tag.outputs.tag || needs.resolve.outputs.release_tag }}
