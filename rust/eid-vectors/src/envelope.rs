@@ -16,8 +16,8 @@ pub(crate) fn field(f: Fr) -> String {
     f.into_bigint().to_string()
 }
 
-/// Viewer secrets for the samples: slots 0 and 2 are used, 1 and 3 empty.
-pub(crate) const VIEWER_SECRETS: [Option<u64>; VIEWERS] = [Some(1111), None, Some(2222), None];
+/// Viewer secret for the samples.
+pub(crate) const VIEWER_SECRETS: [Option<u64>; VIEWERS] = [Some(1111)];
 pub(crate) const EPHEMERAL: u64 = 424_242;
 pub(crate) const DATA_KEY: u64 = 777_777;
 /// Sample binding context (stands in for a transfer identifier).

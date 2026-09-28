@@ -43,10 +43,10 @@ These are reported in this file and don't affect our soundness.
    - `date` is the current date;
    - `context` identifies the transfer;
    - `scope` is the verifier's own (or 0 when it runs no Sybil check), and `nullifier` hasn't been recorded in that scope before;
-   - the viewer keys are registered Grumpkin keys (the circuit accepts any point).
 7. **Prover randomness.** Soundness doesn't depend on it, but privacy does:
    - the salts must be fresh, or `c_A`/`c_B` link bundles;
-   - `e` and `K` must be fresh and uniform, or envelopes share a keystream.
+   - `e` and `K` must be fresh and uniform, or envelopes share a keystream;
+   - the receiver's viewer key must be fresh per transfer, or the transfers it's reused in are linkable.
 
    The circuit only rejects `e = 0`.
 
@@ -68,6 +68,7 @@ These are reported in this file and don't affect our soundness.
 - **Circuit variants stay private** because every document is folded under the same hiding kernel key; only a single SHA-1 flag is public. Every proof is the same size (39,936 bytes for all four synthetic documents, whose variants all differ). Proving time differs by variant, so it must not leak outside the proof (for example through submission timing).
 - **Nullifiers are per document, not per person.** A renewed passport or a second nationality gives a new nullifier in the same scope.
 - **Anyone who read the chip can compute a nullifier.** An NFC read gives the SOD, so its reader can compute the document's nullifier for any scope: test whether it's registered there, or claim it first. Optical MRZ scans don't give the SOD.
+- **Viewer key freshness isn't enforced.** There's one viewer slot, and the viewer is the transfer's receiver: it gives the sender a fresh Grumpkin key off-chain for every transfer. A reused key links the transfers it appears in, and neither the circuit (which only rejects `(0, 0)`) nor the verifier enforces freshness. The receiver checks the proof's viewer key is the one it issued, and keeps the secret of every key it issued.
 - **SOD configurations mirror the CSCA configurations.** Real DSC statistics may add or remove variants.
 
 ## How test vectors are produced

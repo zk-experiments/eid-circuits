@@ -11,7 +11,7 @@ All circuit code here is written for this repository and grouped by signature ty
 | `noir/lib/hash` | SHA-1/224/256/384/512 over variable-length input, `Digest` trait | done |
 | `noir/lib/rsa` | RSASSA-PKCS1-v1_5 and RSASSA-PSS over noir-bignum | done |
 | `noir/lib/ecdsa` | ECDSA on P-256/384/521, brainpoolP256/384/512r1 | done |
-| `noir/lib/envelope` | Grumpkin ECDH per viewer, key wrap, Poseidon2 duplex encryption | done |
+| `noir/lib/envelope` | Grumpkin ECDH to one per-transfer viewer key, key wrap, Poseidon2 duplex encryption | done |
 | `noir/lib/der` | constrained DER reading: `TBSCertificate`s, public keys, CMS signed attributes, LDS security objects | done |
 | `noir/lib/steps` | shared step checks (DSC, SOD, envelope) and the commitments linking them | done |
 | `noir/lib/kernel`, `noir/kernels/…` | Chonk folding: kernels checking the key tree and step links; the hiding kernel's public outputs | done |

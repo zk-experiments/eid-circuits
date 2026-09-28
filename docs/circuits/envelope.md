@@ -1,11 +1,11 @@
 # Envelope step (step C)
 
-Proves that the envelope published with the proof encrypts the document's real DG1 (the MRZ) to the given viewer keys:
+Proves that the envelope published with the proof encrypts the document's real DG1 (the MRZ) to the given viewer key:
 - the eContent (LDS security object) hashes to step B's `messageDigest`;
 - it lists the hash of exactly this DG1;
 - the document hasn't expired at the proof date;
 - its issuing state is the country of the CSCA leaf from step A;
-- the ciphertext is DG1 under a key wrapped to each viewer, bound to `context`;
+- the ciphertext is DG1 under a key wrapped to the viewer, bound to `context`;
 - the nullifier is the document's in `scope` (0 when `scope` is 0).
 
 DG11 isn't carried. It would add 43k–144k gates to every proof (see *DG11* below and ARCHITECTURE.md, *Future improvements*).
@@ -21,9 +21,9 @@ fn main(
     date: u64,                                      // proof date D, unix seconds
     context: Field,                                 // the transfer the envelope is bound to
     scope: Field,                                   // the nullifier's scope; 0 for none
-    viewers: [EmbeddedCurvePoint; 4],               // Grumpkin viewer keys; (0, 0) leaves a slot empty
+    viewers: [EmbeddedCurvePoint; 1],               // the Grumpkin viewer key, fresh per transfer; (0, 0) is rejected
     w: eid_steps::envelope::Witness<E>,
-) -> return_data [Field; 27]                        // eid_steps::envelope::flatten, to kernel_envelope
+) -> return_data [Field; 18]                        // eid_steps::envelope::flatten, to kernel_envelope
 ```
 
 `Witness` holds:
@@ -35,7 +35,7 @@ fn main(
 `Outputs` is:
 - `sod_commitment`: must equal step B's output;
 - the eContent and data group hash ids;
-- the `Envelope`: `E = e·G`, four wrapped keys, and 6 ciphertext fields;
+- the `Envelope`: `E = e·G`, the wrapped key, and 6 ciphertext fields;
 - the `nullifier` in `scope`.
 
 ## Statement
@@ -58,7 +58,7 @@ With `p = eid_steps::envelope::check(date, w, hash_oid)`, the circuit asserts:
 
 7. **The nullifier** is `eid_envelope::nullifier(scope, digest, digest_len)`: `H(NULLIFIER, scope, digest_len, pack_be(digest))` over step B's `messageDigest`, or 0 when `scope` is 0 (see *Nullifier*).
 
-The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, viewers, the envelope, the scope and the nullifier public, with a SHA-1 flag in place of the hash ids ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
+The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, the viewer key, the envelope, the scope and the nullifier public, with a SHA-1 flag in place of the hash ids ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
 
 ## Nullifier
 
@@ -86,7 +86,7 @@ The issuer hashes each data group separately, so DG1 alone is fully bound to the
 - **Dates.** The MRZ date is taken as UTC and 20YY; no document valid today expires in the 1900s. MRZ check digits aren't verified: the data group is signed, so they add nothing.
 - **The eContent type isn't read from the SOD.** Parsing it as an LDS security object is enough, since that structure is what the issuer signed. DG1's hash is compared as raw bytes at an offset the walk has validated.
 - **Duplicate DG1 entries** make the document unprovable rather than ambiguous.
-- **Viewer keys** are public inputs; the verifier (the chain) must only accept registered keys. The encryption's own review notes are in [noir/lib/envelope](../../noir/lib/envelope/README.md).
+- **One viewer key: the receiver's, fresh per transfer.** The receiver gives the sender a new Grumpkin key off-chain before each transfer; the key is public, so reusing it would link the transfers it appears in. The circuit only rejects `(0, 0)`: freshness isn't enforced in-circuit or by the verifier. The receiver checks the proof's viewer key is the one it issued, then opens the envelope with that key's secret (VERIFY.md, *Receiver*); it keeps the secret of every key it issued. The encryption's own review notes are in [noir/lib/envelope](../../noir/lib/envelope/README.md).
 - **Sizes.** An eContent longer than 1536 bytes is unprovable.
 
 ## Tests

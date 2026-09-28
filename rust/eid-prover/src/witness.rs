@@ -195,7 +195,8 @@ pub fn sod_toml(
     Ok(out)
 }
 
-/// A Grumpkin viewer key as decimal field strings; `("0", "0")` leaves a slot empty.
+/// A Grumpkin viewer key as decimal field strings: the receiver's, fresh per
+/// transfer. The circuit rejects `("0", "0")`.
 pub type Viewer = (String, String);
 
 /// Envelope step inputs (everything but the eContent bucket comes from the document).
@@ -210,7 +211,7 @@ pub struct Envelope<'a> {
     pub date: i64,
     pub context: &'a str,
     pub scope: &'a str,
-    pub viewers: &'a [Viewer; 4],
+    pub viewers: &'a [Viewer; 1],
     pub ephemeral: &'a str,
     pub key: &'a str,
 }
@@ -249,7 +250,7 @@ pub struct Params {
     pub context: String,
     /// Nullifier scope: "0" for none (no Sybil check, nothing linkable).
     pub scope: String,
-    pub viewers: [Viewer; 4],
+    pub viewers: [Viewer; 1],
     pub ephemeral: String,
     pub key: String,
 }

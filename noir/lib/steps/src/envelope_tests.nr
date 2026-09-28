@@ -91,7 +91,7 @@ fn rejects_other_mrz_length() {
 fn outputs_bind_step_b_and_the_data_groups() {
     let w = sha256_v0();
     let p = check::<512, 11, 32>(DATE, w, OID_SHA256);
-    let viewers = [EmbeddedCurvePoint::point_at_infinity(); 4];
+    let viewers = [EmbeddedCurvePoint::generator(); 1];
     let a = outputs(viewers, 9, 5, w, p, 3, 3);
     let mut v = w;
     v.sod_salt = 1;
@@ -109,7 +109,7 @@ fn outputs_bind_step_b_and_the_data_groups() {
 fn nullifier_follows_the_scope() {
     let w = sha256_v0();
     let p = check::<512, 11, 32>(DATE, w, OID_SHA256);
-    let viewers = [EmbeddedCurvePoint::point_at_infinity(); 4];
+    let viewers = [EmbeddedCurvePoint::generator(); 1];
     let a = outputs(viewers, 9, 5, w, p, 3, 3).nullifier;
     assert(a != 0);
     assert_eq(outputs(viewers, 10, 5, w, p, 3, 3).nullifier, a);

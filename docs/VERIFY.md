@@ -12,8 +12,8 @@ A transfer carrying a document submits the Chonk proof and its public outputs (`
 | `vk_tree_root` | root of the key tree every step and kernel was checked against |
 | `uses_sha1` | 1 when any signature or hash on the path used SHA-1 |
 | `date`, `context` | proof date and the context the envelope is bound to |
-| `viewers` | four Grumpkin viewer keys; `(0, 0)` marks an empty slot |
-| `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, four wrapped data keys, six ciphertext fields |
+| `viewer` | the Grumpkin key the envelope is sealed to: the receiver's, fresh per transfer |
+| `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, the wrapped data key, six ciphertext fields |
 | `scope`, `nullifier` | the scope the proof was made for (0 for none), and the document's nullifier in it (0 for scope 0) |
 
 ## Parameters
@@ -23,11 +23,11 @@ bb 7.0.0-nightly.20260927 (Noir 1.0.0-rc.3), measured on the four synthetic docu
 | | size |
 |---|---|
 | proof | 39,936 bytes (1,248 field elements), the same for every document |
-| public inputs | 27 field elements, the first 864 bytes of the proof (below) |
+| public inputs | 18 field elements, the first 576 bytes of the proof (below) |
 | hiding kernel verification key | 3,808 bytes, the same for every document |
 | verification | about 30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
 
-The public outputs are the proof's first 27 fields, 32 bytes each, big-endian, in this order:
+The public outputs are the proof's first 18 fields, 32 bytes each, big-endian, in this order:
 
 | field | offset | content |
 |---:|---:|---|
@@ -36,14 +36,14 @@ The public outputs are the proof's first 27 fields, 32 bytes each, big-endian, i
 | 2 | 64 | `uses_sha1` (0 or 1) |
 | 3 | 96 | `date` (unix seconds) |
 | 4 | 128 | `context` |
-| 5–12 | 160 | `viewers`: 4 × (x, y) Grumpkin points, `(0, 0)` for an empty slot |
-| 13–14 | 416 | envelope `E` = (x, y) |
-| 15–18 | 480 | envelope `wrapped` × 4 (0 for an empty slot) |
-| 19–24 | 608 | envelope `ciphertext` × 6 |
-| 25 | 800 | `scope` (0 for none) |
-| 26 | 832 | `nullifier` (0 when `scope` is 0) |
+| 5–6 | 160 | `viewer`: (x, y), a Grumpkin point, never `(0, 0)` |
+| 7–8 | 224 | envelope `E` = (x, y) |
+| 9 | 288 | envelope `wrapped` |
+| 10–15 | 320 | envelope `ciphertext` × 6 |
+| 16 | 512 | `scope` (0 for none) |
+| 17 | 544 | `nullifier` (0 when `scope` is 0) |
 
-The envelope itself is fields 13–24, 384 bytes, fixed for every document; with the viewer keys, 640 bytes. Changing any of these bytes makes the proof fail to verify.
+The envelope itself is fields 7–15, 288 bytes, fixed for every document; with the viewer key, 352 bytes. Changing any of these bytes makes the proof fail to verify.
 
 A proof verifies only with the bb version that made it (bb 7 rejects bb 5 proofs and the reverse), so a verifier pins one bb version, and a bb upgrade switches the verifier at a cutover. A node replaying history needs the verifier of each past version.
 
@@ -55,18 +55,28 @@ The verifier accepts the bundle only if all of these hold:
 2. **`vk_tree_root` is the published key tree root** (`noir/circuits/vk-tree.json` for the release in use). The tree fixes which circuits may be used, so it must be pinned like the hiding kernel key.
 3. **`registry_root` is a published registry root** the verifier still accepts: the current one, or one within a short window, so revocations take effect.
 4. **`date` is now**, within the verifier's tolerance. The envelope step proves the document hasn't expired at `date`.
-5. **`context` identifies this transfer.** It's chosen before proving (for example `H(chain id, contract, sender, nonce)` or the transfer's note commitment; it can't be the transaction hash, which depends on the proof). The envelope is encrypted under it, so a bundle copied to another transfer fails this check, and viewers need `context` to decrypt.
-6. **`viewers` are registered viewer keys**, or `(0, 0)` for an unused slot. The circuit accepts any point.
-7. **Hash policy.** For example, reject `uses_sha1 = 1`.
-8. **Sybil check, if the verifier runs one.** `scope` must be the verifier's own (for example `H(chain id, contract, purpose)`), and `nullifier` must not be recorded in that scope yet; then the verifier records it. A verifier without a Sybil check requires `scope = 0` (so `nullifier = 0`, and proofs stay unlinkable). The nullifier is per document, not per person, and anyone who has read the chip can compute it (docs/circuits/envelope.md, *Nullifier*).
+5. **`context` identifies this transfer.** It's chosen before proving (for example `H(chain id, contract, sender, nonce)` or the transfer's note commitment; it can't be the transaction hash, which depends on the proof). The envelope is encrypted under it, so a bundle copied to another transfer fails this check, and the receiver needs `context` to decrypt.
+6. **Hash policy.** For example, reject `uses_sha1 = 1`.
+7. **Sybil check, if the verifier runs one.** `scope` must be the verifier's own (for example `H(chain id, contract, purpose)`), and `nullifier` must not be recorded in that scope yet; then the verifier records it. A verifier without a Sybil check requires `scope = 0` (so `nullifier = 0`, and proofs stay unlinkable). The nullifier is per document, not per person, and anyone who has read the chip can compute it (docs/circuits/envelope.md, *Nullifier*).
 
 The step links (`c_A`, `c_B`) are checked inside the kernels, not by the verifier.
 
-Then the envelope (`E`, `wrapped`, `ciphertext`) is stored with the transfer. A viewer in slot `i` opens it with `eid_envelope::open(envelope, context, i, secret)` (`rust/eid-envelope`).
+The verifier doesn't check `viewer`: it's the receiver's key, which only the sender and the receiver agreed on, and the circuit already rejects `(0, 0)`. A verifier may reject a viewer key it has already seen, as hygiene against reuse, but it isn't required.
+
+Then the envelope (`E`, `wrapped`, `ciphertext`) is stored with the transfer.
+
+## Receiver
+
+The viewer is the transfer's receiver. Before the transfer, the receiver gives the sender (the document holder) a fresh Grumpkin key, off-chain; a new one every time, because the key is public and a reused key links the transfers it appears in. Once the transfer is accepted, the receiver:
+
+1. checks that the proof's `viewer` is the key it issued for this transfer;
+2. opens the envelope with `eid_envelope::open(envelope, context, 0, secret)` (`rust/eid-envelope`) and that key's secret.
+
+The circuit proves the envelope is sealed to the public `viewer`, so a receiver whose key matches always gets the DG1 the issuer signed. The receiver keeps the secret of every key it has issued.
 
 ## What the verifier learns
 
-Only the public outputs: the registry root, the date, the context, the viewer keys, the envelope, whether SHA-1 was used, and the scope and nullifier. With a scope, proofs of the same document in that scope are linkable by design; across scopes, or with scope 0, they aren't. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
+Only the public outputs: the registry root, the date, the context, the viewer key, the envelope, whether SHA-1 was used, and the scope and nullifier. With a scope, proofs of the same document in that scope are linkable by design; across scopes, or with scope 0, they aren't. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
 
 ## Keys to publish per release
 

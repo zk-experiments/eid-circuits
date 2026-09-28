@@ -56,17 +56,16 @@ pub fn check_vk(root: Field, role: Field, vk: Vk) -> Field {
 
 /// State passed between kernels:
 /// `[registry_root, vk_tree_root, link, uses_sha1, date, context,
-///   viewers (x, y) × 4, E.x, E.y, wrapped × 4, ciphertext × 6, scope,
-///   nullifier]`.
+///   viewer (x, y), E.x, E.y, wrapped, ciphertext × 6, scope, nullifier]`.
 /// `link` is the commitment the next step must continue from.
-pub global STATE_FIELDS: u32 = 28;
+pub global STATE_FIELDS: u32 = 19;
 pub global S_REGISTRY_ROOT: u32 = 0;
 pub global S_VK_TREE_ROOT: u32 = 1;
 pub global S_LINK: u32 = 2;
 pub global S_USES_SHA1: u32 = 3;
 pub global S_ENVELOPE: u32 = 4;
-pub global S_SCOPE: u32 = 26;
-pub global S_NULLIFIER: u32 = 27;
+pub global S_SCOPE: u32 = 17;
+pub global S_NULLIFIER: u32 = 18;
 
 /// Hash id of SHA-1 (`eid_steps::HASH_SHA1`).
 pub global HASH_SHA1: Field = 1;
@@ -89,13 +88,13 @@ pub struct PublicOutputs {
     pub vk_tree_root: Field,
     /// 1 when any step hashed with SHA-1.
     pub uses_sha1: Field,
-    /// Proof date, context and viewer keys the envelope step used.
+    /// Proof date, context and the viewer key the envelope step used.
     pub date: Field,
     pub context: Field,
-    pub viewers: [Field; 8],
-    /// The envelope: `E`, the wrapped keys, the ciphertext.
+    pub viewer: [Field; 2],
+    /// The envelope: `E`, the wrapped key, the ciphertext.
     pub ephemeral: [Field; 2],
-    pub wrapped: [Field; 4],
+    pub wrapped: Field,
     pub ciphertext: [Field; 6],
     /// The scope the nullifier is for, and the document's nullifier in it
     /// (both 0 when the proof has no scope).
@@ -105,17 +104,9 @@ pub struct PublicOutputs {
 
 /// The public outputs from the final state.
 pub fn public_outputs(s: [Field; STATE_FIELDS]) -> PublicOutputs {
-    let mut viewers: [Field; 8] = [0; 8];
-    let mut wrapped: [Field; 4] = [0; 4];
     let mut ciphertext: [Field; 6] = [0; 6];
-    for i in 0..8 {
-        viewers[i] = s[6 + i];
-    }
-    for i in 0..4 {
-        wrapped[i] = s[16 + i];
-    }
     for i in 0..6 {
-        ciphertext[i] = s[20 + i];
+        ciphertext[i] = s[11 + i];
     }
     PublicOutputs {
         registry_root: s[S_REGISTRY_ROOT],
@@ -123,9 +114,9 @@ pub fn public_outputs(s: [Field; STATE_FIELDS]) -> PublicOutputs {
         uses_sha1: s[S_USES_SHA1],
         date: s[4],
         context: s[5],
-        viewers,
-        ephemeral: [s[14], s[15]],
-        wrapped,
+        viewer: [s[6], s[7]],
+        ephemeral: [s[8], s[9]],
+        wrapped: s[10],
         ciphertext,
         scope: s[S_SCOPE],
         nullifier: s[S_NULLIFIER],
