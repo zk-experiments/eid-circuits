@@ -16,7 +16,7 @@ Each hashes `msg[..len]` and asserts `len ≤ N`. Bytes at index `len` and beyon
 
 ## SHA-1 choice
 
-SHA-1 uses `zac-williamson/sha1` v0.11 (Apache-2.0), the implementation zkpassport also uses. We benchmarked it against an in-house SHA-1 written with 32-bit integer operations, both over up to 2 KiB with `bb gates -t noir-recursive`: the library needs **379,165 gates and 200,018 opcodes**, against 457,422 and 296,750. It decomposes words into base-4 lookup tables instead of using bitwise opcodes, the same approach as the SHA-512 library.
+SHA-1 uses `zac-williamson/sha1` v0.11 (Apache-2.0), the implementation zkpassport also uses. We benchmarked it against an in-house SHA-1 written with 32-bit integer operations, both over up to 2 KiB under bb 5.0.0-nightly.20260522 (`bb gates -t noir-recursive`): the library needed **379,165 gates and 200,018 opcodes**, against 457,422 and 296,750. Under the current toolchain the library measures 290,413 gates (see `noir/bench`); the in-house version is gone, so that comparison isn't repeated. It decomposes words into base-4 lookup tables instead of using bitwise opcodes, the same approach as the SHA-512 library.
 
 ## BoundedVec wrapper (SHA-1, SHA-384/512)
 
