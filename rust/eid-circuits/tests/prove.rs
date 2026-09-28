@@ -17,9 +17,66 @@ use eid_circuits::circuits::kernel_hiding::KernelHiding;
 use eid_circuits::circuits::kernel_sod::KernelSod;
 use eid_circuits::circuits::kernel_tail::KernelTail;
 use eid_circuits::{artifacts, vk_tree_root, DirStore};
+
 use noir_zk_backend::chonk::{self, FoldedProof};
 use noir_zk_backend::fold::{verify, Folding};
-use noir_zk_core::{Artifacts, CircuitId};
+use noir_zk_core::{Artifacts, CircuitId, Error, Field};
+
+/// A document proof's size, the same for every document.
+const PROOF_BYTES: usize = 39_936;
+
+/// `toml` with the line `key = ...` replaced by `key = "value"`.
+fn set(toml: &str, key: &str, value: &str) -> String {
+    let prefix = format!("{key} = ");
+    toml.lines()
+        .map(|l| {
+            if l.starts_with(&prefix) {
+                format!("{prefix}\"{value}\"")
+            } else {
+                l.to_string()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+/// The nullifier `eid_envelope` computes for an envelope step's inputs.
+fn expected_nullifier(envelope: &str) -> (Field, Field) {
+    let t: toml::Table = toml::from_str(envelope).unwrap();
+    let field = |v: &toml::Value| v.as_str().unwrap().parse::<Field>().unwrap();
+    let scope = field(&t["scope"]);
+    let w = t["w"].as_table().unwrap();
+    let len = usize::try_from(w["digest_len"].as_integer().unwrap()).unwrap();
+    let digest: Vec<u8> = w["digest"].as_array().unwrap()[..len]
+        .iter()
+        .map(|b| u8::try_from(b.as_integer().unwrap()).unwrap())
+        .collect();
+    (scope, eid_envelope::nullifier(scope, &digest).unwrap())
+}
+
+fn prove(
+    frozen: &impl Artifacts,
+    chain: &serde_json::Value,
+    d: &str,
+    s: &str,
+    e: &str,
+) -> Result<
+    (
+        FoldedProof,
+        eid_circuits::circuits::kernel_hiding::PublicOutputs,
+    ),
+    Error,
+> {
+    let name = |k: &str| chain[k].as_str().unwrap();
+    // Circuits picked at runtime (by label) are wrapped with the kernel
+    // that folds them; the chain type-checks at compile time.
+    Folding::new(frozen)
+        .app(KernelDsc::select(name("dsc"), d)?)?
+        .app(KernelSod::select(name("sod"), s)?)?
+        .app(KernelEnvelope::select(name("envelope"), e)?)?
+        .kernel::<KernelTail>()?
+        .hiding::<KernelHiding>()
+}
 
 fn chain_toml(root: &Path, name: &str) -> String {
     let ws = std::fs::read_to_string(root.join("Nargo.toml")).unwrap();
@@ -51,28 +108,20 @@ fn proves_and_verifies_every_chain() {
     )
     .unwrap();
     let mut last = None;
-    for chain in chains["chains"].as_array().unwrap() {
+    let chains = chains["chains"].as_array().unwrap();
+    for chain in chains {
         let name = |k: &str| chain[k].as_str().unwrap();
         let (d, s, e) = (
             chain_toml(&root, name("dsc")),
             chain_toml(&root, name("sod")),
             chain_toml(&root, name("envelope")),
         );
-        // Circuits picked at runtime (by label) are wrapped with the kernel
-        // that folds them; the chain type-checks at compile time.
-        let (proof, public) = Folding::new(&frozen)
-            .app(KernelDsc::select(name("dsc"), &d).unwrap())
-            .unwrap()
-            .app(KernelSod::select(name("sod"), &s).unwrap())
-            .unwrap()
-            .app(KernelEnvelope::select(name("envelope"), &e).unwrap())
-            .unwrap()
-            .kernel::<KernelTail>()
-            .unwrap()
-            .hiding::<KernelHiding>()
-            .unwrap();
+        let (proof, public) = prove(&frozen, chain, &d, &s, &e).unwrap();
+        let (scope, nullifier) = expected_nullifier(&e);
+        assert_eq!((public.scope, public.nullifier), (scope, nullifier));
+        assert_ne!(nullifier, Field::from(0u64));
         let bytes = proof.to_bytes();
-        assert_eq!(bytes.len(), 39_872);
+        assert_eq!(bytes.len(), PROOF_BYTES);
         let verified =
             verify::<KernelHiding>(&FoldedProof::from_bytes(&bytes).unwrap(), vk_tree_root())
                 .unwrap();
@@ -80,6 +129,26 @@ fn proves_and_verifies_every_chain() {
         assert_eq!(public.vk_tree_root, vk_tree_root());
         last = Some(bytes);
     }
+
+    // The nullifier is the document's in the scope: the same with fresh
+    // envelope randomness, another in another scope, 0 without a scope.
+    let chain = &chains[0];
+    let name = |k: &str| chain[k].as_str().unwrap();
+    let (d, s, e) = (
+        chain_toml(&root, name("dsc")),
+        chain_toml(&root, name("sod")),
+        chain_toml(&root, name("envelope")),
+    );
+    let (scope, nullifier) = expected_nullifier(&e);
+    let fresh = set(&set(&e, "ephemeral", "1234567"), "key", "7654321");
+    let other = set(&e, "scope", &(scope + Field::from(1u64)).to_string());
+    let none = set(&e, "scope", "0");
+    let nf = |e: &str| prove(&frozen, chain, &d, &s, e).unwrap().1.nullifier;
+    assert_eq!(nf(&fresh), nullifier);
+    let n = nf(&other);
+    assert_ne!(n, nullifier);
+    assert_eq!(n, expected_nullifier(&other).1);
+    assert_eq!(nf(&none), Field::from(0u64));
 
     // A flipped public byte breaks verification.
     let mut tampered = last.unwrap();

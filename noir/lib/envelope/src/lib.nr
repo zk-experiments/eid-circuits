@@ -21,6 +21,8 @@ pub global PLAINTEXT_FIELDS: u32 = 6;
 pub global WRAP_DOMAIN: Field = 0x6569642d656e76656c6f70652f777261702f7631;
 /// "eid-envelope/cipher/v1" as a big-endian integer.
 pub global CIPHER_DOMAIN: Field = 0x6569642d656e76656c6f70652f6369706865722f7631;
+/// "eid-nullifier/v1" as a big-endian integer.
+pub global NULLIFIER_DOMAIN: Field = 0x6569642d6e756c6c69666965722f7631;
 
 /// What a proof publishes.
 pub struct Envelope {
@@ -41,6 +43,21 @@ pub fn plaintext(dg1: [u8; DG1_MAX], dg1_len: u32) -> [Field; PLAINTEXT_FIELDS] 
         out[1 + i] = a[i];
     }
     out
+}
+
+/// The document's nullifier in `scope`: `H(NULLIFIER, scope, digest_len,
+/// pack_be(digest))` over the SOD's messageDigest, zero-padded to 64 bytes.
+/// The same document gives the same value in one scope and unrelated values
+/// across scopes. Scope 0 gives 0: no Sybil check, nothing to link.
+pub fn nullifier(scope: Field, digest: [u8; 64], digest_len: u32) -> Field {
+    if scope == 0 {
+        0
+    } else {
+        let d: [Field; 3] = pack_be(digest);
+        hash(
+            [NULLIFIER_DOMAIN, scope, digest_len as Field, d[0], d[1], d[2]],
+        )
+    }
 }
 
 /// Seals `plaintext` under data key `key` with ephemeral scalar `e`, wrapping

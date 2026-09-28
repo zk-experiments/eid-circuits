@@ -98,6 +98,7 @@ fn builds_inputs_for_the_selected_circuits() {
             sod_salt: "2".into(),
             date: date(&d),
             context: "3".into(),
+            scope: "6".into(),
             viewers: [zero.clone(), zero.clone(), zero.clone(), zero],
             ephemeral: "4".into(),
             key: "5".into(),
@@ -109,5 +110,6 @@ fn builds_inputs_for_the_selected_circuits() {
             .contains(&format!("root = \"{}\"", reg.commitment.root)));
         assert!(w.sod.contains("dsc_salt = \"1\"") && w.sod.contains("salt = \"2\""));
         assert!(w.envelope.contains("sod_salt = \"2\"") && w.envelope.contains("context = \"3\""));
+        assert!(w.envelope.contains("scope = \"6\""));
     }
 }

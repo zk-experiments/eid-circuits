@@ -5,7 +5,8 @@ Proves that the envelope published with the proof encrypts the document's real D
 - it lists the hash of exactly this DG1;
 - the document hasn't expired at the proof date;
 - its issuing state is the country of the CSCA leaf from step A;
-- the ciphertext is DG1 under a key wrapped to each viewer, bound to `context`.
+- the ciphertext is DG1 under a key wrapped to each viewer, bound to `context`;
+- the nullifier is the document's in `scope` (0 when `scope` is 0).
 
 DG11 isn't carried. It would add 43k–144k gates to every proof (see *DG11* below and ARCHITECTURE.md, *Future improvements*).
 
@@ -19,9 +20,10 @@ There is one circuit per (eContent hash, data group hash) pair and eContent size
 fn main(
     date: u64,                                      // proof date D, unix seconds
     context: Field,                                 // the transfer the envelope is bound to
+    scope: Field,                                   // the nullifier's scope; 0 for none
     viewers: [EmbeddedCurvePoint; 4],               // Grumpkin viewer keys; (0, 0) leaves a slot empty
     w: eid_steps::envelope::Witness<E>,
-) -> return_data [Field; 25]                        // eid_steps::envelope::flatten, to kernel_envelope
+) -> return_data [Field; 27]                        // eid_steps::envelope::flatten, to kernel_envelope
 ```
 
 `Witness` holds:
@@ -33,7 +35,8 @@ fn main(
 `Outputs` is:
 - `sod_commitment`: must equal step B's output;
 - the eContent and data group hash ids;
-- the `Envelope`: `E = e·G`, four wrapped keys, and 6 ciphertext fields.
+- the `Envelope`: `E = e·G`, four wrapped keys, and 6 ciphertext fields;
+- the `nullifier` in `scope`.
 
 ## Statement
 
@@ -53,7 +56,26 @@ With `p = eid_steps::envelope::check(date, w, hash_oid)`, the circuit asserts:
 5. **Not expired.** The MRZ date of expiry, YYMMDD read as 20YY, ends on or after `date`: `date ≤ days(20YY-MM-DD)·86400 + 86399`.
 6. **The envelope** is `eid_envelope::seal(viewers, e, K, context, plaintext(DG1))`: see [noir/lib/envelope](../../noir/lib/envelope/README.md). The plaintext holds DG1's length and the whole zero-padded buffer, so viewers get exactly the bytes whose hash was checked.
 
-The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, viewers and the envelope public, with a SHA-1 flag in place of the hash ids ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
+7. **The nullifier** is `eid_envelope::nullifier(scope, digest, digest_len)`: `H(NULLIFIER, scope, digest_len, pack_be(digest))` over step B's `messageDigest`, or 0 when `scope` is 0 (see *Nullifier*).
+
+The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, viewers, the envelope, the scope and the nullifier public, with a SHA-1 flag in place of the hash ids ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
+
+## Nullifier
+
+A verifier that needs Sybil resistance (one document, one account) picks a scope, for example `H(chain id, contract, purpose)`, and records each nullifier it accepts in that scope. Two proofs of the same document in the same scope carry the same nullifier, whatever their salts and envelope randomness; in different scopes they're unrelated, so proofs stay unlinkable across applications. With `scope = 0` the nullifier is 0 and nothing is linkable, as before.
+
+It's derived from the SOD's `messageDigest` (the hash of the eContent) rather than from anything else on the chip:
+- **fixed at issuance:** the SOD is written once, so every proof of the document gets the same value;
+- **high entropy:** the eContent lists the hash of DG2 (the face image), so the digest can't be guessed;
+- **not derivable by viewers:** they see DG1 only, so they can't compute a document's nullifier from what they decrypt;
+- **not malleable:** the SOD signature would be (an ECDSA signature `(r, s)` also verifies as `(r, n − s)`), and so would give one document two nullifiers;
+- **not guessable:** MRZ fields (document number, birth date) have little entropy, so a nullifier over them could be recomputed by anyone holding a copy of the passport data.
+
+`digest` is the same `messageDigest` bound to step B's signature through `c_B` and to the eContent by check 2, so the prover can't choose it.
+
+Limits:
+- **Per document, not per person.** A renewed passport or a second nationality gives another nullifier.
+- **Anyone who read the chip** (an NFC read, not an optical MRZ scan) has the SOD and can compute the nullifier for any scope: they can test whether the document is registered there, or claim the nullifier first.
 
 ## DG11
 

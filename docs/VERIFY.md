@@ -14,6 +14,7 @@ A transfer carrying a document submits the Chonk proof and its public outputs (`
 | `date`, `context` | proof date and the context the envelope is bound to |
 | `viewers` | four Grumpkin viewer keys; `(0, 0)` marks an empty slot |
 | `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, four wrapped data keys, six ciphertext fields |
+| `scope`, `nullifier` | the scope the proof was made for (0 for none), and the document's nullifier in it (0 for scope 0) |
 
 ## Parameters
 
@@ -21,12 +22,12 @@ bb 7.0.0-nightly.20260927 (Noir 1.0.0-rc.3), measured on the four synthetic docu
 
 | | size |
 |---|---|
-| proof | 39,872 bytes (1,246 field elements), the same for every document |
-| public inputs | 25 field elements, the first 800 bytes of the proof (below) |
+| proof | 39,936 bytes (1,248 field elements), the same for every document |
+| public inputs | 27 field elements, the first 864 bytes of the proof (below) |
 | hiding kernel verification key | 3,808 bytes, the same for every document |
 | verification | about 30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
 
-The public outputs are the proof's first 25 fields, 32 bytes each, big-endian, in this order:
+The public outputs are the proof's first 27 fields, 32 bytes each, big-endian, in this order:
 
 | field | offset | content |
 |---:|---:|---|
@@ -39,6 +40,8 @@ The public outputs are the proof's first 25 fields, 32 bytes each, big-endian, i
 | 13–14 | 416 | envelope `E` = (x, y) |
 | 15–18 | 480 | envelope `wrapped` × 4 (0 for an empty slot) |
 | 19–24 | 608 | envelope `ciphertext` × 6 |
+| 25 | 800 | `scope` (0 for none) |
+| 26 | 832 | `nullifier` (0 when `scope` is 0) |
 
 The envelope itself is fields 13–24, 384 bytes, fixed for every document; with the viewer keys, 640 bytes. Changing any of these bytes makes the proof fail to verify.
 
@@ -55,6 +58,7 @@ The verifier accepts the bundle only if all of these hold:
 5. **`context` identifies this transfer.** It's chosen before proving (for example `H(chain id, contract, sender, nonce)` or the transfer's note commitment; it can't be the transaction hash, which depends on the proof). The envelope is encrypted under it, so a bundle copied to another transfer fails this check, and viewers need `context` to decrypt.
 6. **`viewers` are registered viewer keys**, or `(0, 0)` for an unused slot. The circuit accepts any point.
 7. **Hash policy.** For example, reject `uses_sha1 = 1`.
+8. **Sybil check, if the verifier runs one.** `scope` must be the verifier's own (for example `H(chain id, contract, purpose)`), and `nullifier` must not be recorded in that scope yet; then the verifier records it. A verifier without a Sybil check requires `scope = 0` (so `nullifier = 0`, and proofs stay unlinkable). The nullifier is per document, not per person, and anyone who has read the chip can compute it (docs/circuits/envelope.md, *Nullifier*).
 
 The step links (`c_A`, `c_B`) are checked inside the kernels, not by the verifier.
 
@@ -62,7 +66,7 @@ Then the envelope (`E`, `wrapped`, `ciphertext`) is stored with the transfer. A 
 
 ## What the verifier learns
 
-Only the public outputs: the registry root, the date, the context, the viewer keys, the envelope and whether SHA-1 was used. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
+Only the public outputs: the registry root, the date, the context, the viewer keys, the envelope, whether SHA-1 was used, and the scope and nullifier. With a scope, proofs of the same document in that scope are linkable by design; across scopes, or with scope 0, they aren't. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
 
 ## Keys to publish per release
 

@@ -10,6 +10,7 @@ For a public registry root `R`, date `D`, context `X` (the transfer the envelope
 4. The eContent lists the hash of DG1, and it matches the DG1 the prover holds.
 5. The document's expiry date (from DG1) is on or after `D`.
 6. `C` is DG1 encrypted under a fresh data key and bound to `X`, and that key is wrapped to each `Vᵢ` in the proof's outputs.
+7. For a public scope `S ≠ 0`, the nullifier `N = H(NULLIFIER, S, |md|, md)` over the SOD's `messageDigest` `md`; `N = 0` when `S = 0` ([circuits/envelope.md](circuits/envelope.md), *Nullifier*).
 
 ## Proof pipeline
 
@@ -19,7 +20,7 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 |---|---|---|---|---|
 | A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `c_A`, hash id | country, DSC `TBSCertificate` |
 | B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | `c_A`, `c_B`, hash id | country, `messageDigest` |
-| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6 | `D`, `X`, `Vᵢ`, `c_B`, hash ids, `E`, wrapped keys, `C` | — |
+| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6, 7 | `D`, `X`, `Vᵢ`, `c_B`, hash ids, `E`, wrapped keys, `C`, `S`, `N` | — |
 
 The steps are folded into one Chonk proof by kernel circuits. The kernels check each step's verification key against a published key tree and the commitment links (A's `c_A` reappears in B, B's `c_B` in C), and the hiding kernel makes the statement public ([FOLDING.md](FOLDING.md)). Every document is verified under the same key, so its variants stay private; see [VERIFY.md](VERIFY.md). Recursive aggregation was ruled out: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
 
@@ -63,7 +64,7 @@ Before any proving, it checks natively everything the proofs will state:
 
 A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*).
 
-`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, viewers). The same step functions write the `Prover.toml` samples in `eid-vectors`.
+`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, scope, viewers). The same step functions write the `Prover.toml` samples in `eid-vectors`.
 
 Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and checks that the commitments link from step to step.
 

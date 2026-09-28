@@ -209,6 +209,7 @@ pub struct Envelope<'a> {
     pub country: &'a str,
     pub date: i64,
     pub context: &'a str,
+    pub scope: &'a str,
     pub viewers: &'a [Viewer; 4],
     pub ephemeral: &'a str,
     pub key: &'a str,
@@ -222,9 +223,10 @@ pub fn envelope_toml(e: &Envelope<'_>) -> Result<String> {
         .map(|(x, y)| format!("{{ x = \"{x}\", y = \"{y}\" }}"))
         .collect();
     Ok(format!(
-        "date = {}\ncontext = \"{}\"\nviewers = [{}]\n\n[w]\nsod_salt = \"{}\"\ncountry = {}\ndigest = {}\ndigest_len = {}\necontent = {}\ndg1_offset = {}\ndg1 = {}\nephemeral = \"{}\"\nkey = \"{}\"\n",
+        "date = {}\ncontext = \"{}\"\nscope = \"{}\"\nviewers = [{}]\n\n[w]\nsod_salt = \"{}\"\ncountry = {}\ndigest = {}\ndigest_len = {}\necontent = {}\ndg1_offset = {}\ndg1 = {}\nephemeral = \"{}\"\nkey = \"{}\"\n",
         e.date,
         e.context,
+        e.scope,
         viewers.join(", "),
         e.sod_salt,
         bytes(e.country.as_bytes()),
@@ -245,6 +247,8 @@ pub struct Params {
     pub sod_salt: String,
     pub date: i64,
     pub context: String,
+    /// Nullifier scope: "0" for none (no Sybil check, nothing linkable).
+    pub scope: String,
     pub viewers: [Viewer; 4],
     pub ephemeral: String,
     pub key: String,
@@ -297,6 +301,7 @@ pub fn witnesses(reg: &Registry, ef_sod: &[u8], dg1: &[u8], p: &Params) -> Resul
             country: &selection.country,
             date: p.date,
             context: &p.context,
+            scope: &p.scope,
             viewers: &p.viewers,
             ephemeral: &p.ephemeral,
             key: &p.key,

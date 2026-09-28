@@ -42,6 +42,9 @@ pub fn wrap_domain() -> Fr {
 pub fn cipher_domain() -> Fr {
     Fr::from_be_bytes_mod_order(b"eid-envelope/cipher/v1")
 }
+pub fn nullifier_domain() -> Fr {
+    Fr::from_be_bytes_mod_order(b"eid-nullifier/v1")
+}
 
 /// A Grumpkin point in affine coordinates (`None` is the point at infinity).
 pub type Point = Option<(Fr, Fr)>;
@@ -205,6 +208,18 @@ pub fn seal(
     })
 }
 
+/// The document's nullifier in `scope`, as step C outputs it:
+/// `H(NULLIFIER, scope, digest_len, pack_be(digest))` over the SOD's
+/// messageDigest zero-padded to 64 bytes, or 0 when `scope` is 0.
+pub fn nullifier(scope: Fr, digest: &[u8]) -> Result<Fr, Error> {
+    if scope.is_zero() {
+        return Ok(Fr::zero());
+    }
+    let mut inputs = vec![nullifier_domain(), scope, Fr::from(digest.len() as u64)];
+    inputs.extend(pack_be(&padded(digest, 64)?));
+    Ok(hash(&inputs))
+}
+
 /// Decrypts `env`, sealed under `context`, as the viewer in `slot` with
 /// secret `v`. Returns DG1.
 pub fn open(env: &Envelope, context: Fr, slot: usize, v: Fr) -> Result<Vec<u8>, Error> {
@@ -231,6 +246,17 @@ pub fn open(env: &Envelope, context: Fr, slot: usize, v: Fr) -> Result<Vec<u8>, 
 mod tests {
     use super::*;
     use ark_ff::MontFp;
+
+    #[test]
+    fn nullifier_is_scoped() {
+        let d = [7u8; 32];
+        assert_eq!(nullifier(Fr::zero(), &d), Ok(Fr::zero()));
+        let a = nullifier(Fr::from(5u64), &d).unwrap();
+        assert!(!a.is_zero());
+        assert_eq!(nullifier(Fr::from(5u64), &d), Ok(a));
+        assert_ne!(nullifier(Fr::from(6u64), &d), Ok(a));
+        assert_eq!(nullifier(Fr::from(5u64), &[0; 65]), Err(Error::TooLong));
+    }
 
     #[test]
     fn matches_noir_primitives() {
