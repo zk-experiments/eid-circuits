@@ -18,9 +18,9 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 
 | step | circuits | checks | returns (databus) | commits to |
 |---|---|---|---|---|
-| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `c_A`, hash id | country, DSC `TBSCertificate` |
-| B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | `c_A`, `c_B`, hash id | country, `messageDigest` |
-| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6, 7 | `D`, `X`, `Vᵢ`, `c_B`, hash ids, `E`, wrapped keys, `C`, `S`, `N` | — |
+| A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `c_A` | country, DSC `TBSCertificate`, its hash id |
+| B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | `c_A`, `c_B` | country, `messageDigest` |
+| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6, 7 | `D`, `X`, `V`, `c_B`, `E`, wrapped key, `C`, `S`, `N` | — |
 
 The steps are folded into one Chonk proof by kernel circuits. The kernels check each step's verification key against a published key tree and the commitment links (A's `c_A` reappears in B, B's `c_B` in C), and the hiding kernel makes the statement public ([FOLDING.md](FOLDING.md)). Every document is verified under the same key, so its variants stay private; see [VERIFY.md](VERIFY.md). Recursive aggregation was ruled out: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
 
@@ -29,7 +29,7 @@ The steps are folded into one Chonk proof by kernel circuits. The kernels check 
 ### Decisions
 
 - **Size buckets.** Certificate and SOD buffers come in fixed buckets (700, 1000, 1200, 1600 bytes for the DSC `TBSCertificate`), and the prover uses the smallest that fits. Hashing cost follows the bucket.
-- **SHA-1 is visible, other hashes aren't.** Every step outputs the hash algorithm it used; the kernels reduce them to one public "uses SHA-1" flag. A verifier can then refuse SHA-1-derived proofs by policy, without separate circuits.
+- **Hashes aren't visible.** No step outputs the hash algorithm it used, so a proof doesn't say whether SHA-1 was involved. SHA-1 documents are accepted like any other, as ICAO 9303 allows.
 - **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
 
 Status: all three steps are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/envelope.md](circuits/envelope.md), costs are in [docs/COSTS.md](COSTS.md), and verification is in [docs/VERIFY.md](VERIFY.md).

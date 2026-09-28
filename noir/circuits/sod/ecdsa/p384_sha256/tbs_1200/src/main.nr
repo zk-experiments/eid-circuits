@@ -6,10 +6,9 @@ use eid_der::{curves::P384, spki_ec};
 use eid_ecdsa::verify_p384;
 use eid_hash::sha256_var;
 use eid_steps::{dsc, sod};
-use eid_steps::HASH_SHA256;
 
-/// Returns `[DSC commitment, SOD commitment, hash id]` through the databus, to
-/// the SOD kernel, which checks the first equals the DSC step's.
+/// Returns `[DSC commitment, SOD commitment]` through the databus, to the SOD
+/// kernel, which checks the first equals the DSC step's.
 fn main(
     dsc_salt: Field,
     dsc_hash_id: u8,
@@ -20,13 +19,9 @@ fn main(
     md_offset: u32,
     r: [u8; 48],
     s: [u8; 48],
-) -> return_data [Field; 3] {
+) -> return_data [Field; 2] {
     let (f, a) = sod::parse(tbs, attrs, md_offset);
     let (x, y) = spki_ec(tbs, f.spki_offset, f.len, P384);
     verify_p384::<32>(x, y, r, s, sha256_var(attrs, a.len));
-    [
-        dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len),
-        sod::commitment(salt, country, a),
-        HASH_SHA256 as Field,
-    ]
+    [dsc::commitment(dsc_salt, country, dsc_hash_id, tbs, f.len), sod::commitment(salt, country, a)]
 }

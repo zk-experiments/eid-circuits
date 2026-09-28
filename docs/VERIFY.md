@@ -10,7 +10,6 @@ A transfer carrying a document submits the Chonk proof and its public outputs (`
 |---|---|
 | `registry_root` | csca-registry root the CSCA and revocation checks used |
 | `vk_tree_root` | root of the key tree every step and kernel was checked against |
-| `uses_sha1` | 1 when any signature or hash on the path used SHA-1 |
 | `date`, `context` | proof date and the context the envelope is bound to |
 | `viewer` | the Grumpkin key the envelope is sealed to: the receiver's, fresh per transfer |
 | `ephemeral`, `wrapped`, `ciphertext` | the envelope: `E`, the wrapped data key, six ciphertext fields |
@@ -22,28 +21,27 @@ bb 7.0.0-nightly.20260927 (Noir 1.0.0-rc.3), measured on the four synthetic docu
 
 | | size |
 |---|---|
-| proof | 39,936 bytes (1,248 field elements), the same for every document |
-| public inputs | 18 field elements, the first 576 bytes of the proof (below) |
+| proof | 39,616 bytes (1,238 field elements), the same for every document |
+| public inputs | 17 field elements, the first 544 bytes of the proof (below) |
 | hiding kernel verification key | 3,808 bytes, the same for every document |
 | verification | about 30 ms native (`bb verify --scheme chonk -p proof -k vk`) |
 
-The public outputs are the proof's first 18 fields, 32 bytes each, big-endian, in this order:
+The public outputs are the proof's first 17 fields, 32 bytes each, big-endian, in this order:
 
 | field | offset | content |
 |---:|---:|---|
 | 0 | 0 | `registry_root` |
 | 1 | 32 | `vk_tree_root` |
-| 2 | 64 | `uses_sha1` (0 or 1) |
-| 3 | 96 | `date` (unix seconds) |
-| 4 | 128 | `context` |
-| 5–6 | 160 | `viewer`: (x, y), a Grumpkin point, never `(0, 0)` |
-| 7–8 | 224 | envelope `E` = (x, y) |
-| 9 | 288 | envelope `wrapped` |
-| 10–15 | 320 | envelope `ciphertext` × 6 |
-| 16 | 512 | `scope` (0 for none) |
-| 17 | 544 | `nullifier` (0 when `scope` is 0) |
+| 2 | 64 | `date` (unix seconds) |
+| 3 | 96 | `context` |
+| 4–5 | 128 | `viewer`: (x, y), a Grumpkin point, never `(0, 0)` |
+| 6–7 | 192 | envelope `E` = (x, y) |
+| 8 | 256 | envelope `wrapped` |
+| 9–14 | 288 | envelope `ciphertext` × 6 |
+| 15 | 480 | `scope` (0 for none) |
+| 16 | 512 | `nullifier` (0 when `scope` is 0) |
 
-The envelope itself is fields 7–15, 288 bytes, fixed for every document; with the viewer key, 352 bytes. Changing any of these bytes makes the proof fail to verify.
+The envelope itself is fields 6–14, 288 bytes, fixed for every document; with the viewer key, 352 bytes. Changing any of these bytes makes the proof fail to verify.
 
 A proof verifies only with the bb version that made it (bb 7 rejects bb 5 proofs and the reverse), so a verifier pins one bb version, and a bb upgrade switches the verifier at a cutover. A node replaying history needs the verifier of each past version.
 
@@ -56,10 +54,11 @@ The verifier accepts the bundle only if all of these hold:
 3. **`registry_root` is a published registry root** the verifier still accepts: the current one, or one within a short window, so revocations take effect.
 4. **`date` is now**, within the verifier's tolerance. The envelope step proves the document hasn't expired at `date`.
 5. **`context` identifies this transfer.** It's chosen before proving (for example `H(chain id, contract, sender, nonce)` or the transfer's note commitment; it can't be the transaction hash, which depends on the proof). The envelope is encrypted under it, so a bundle copied to another transfer fails this check, and the receiver needs `context` to decrypt.
-6. **Hash policy.** For example, reject `uses_sha1 = 1`.
-7. **Sybil check, if the verifier runs one.** `scope` must be the verifier's own (for example `H(chain id, contract, purpose)`), and `nullifier` must not be recorded in that scope yet; then the verifier records it. A verifier without a Sybil check requires `scope = 0` (so `nullifier = 0`, and proofs stay unlinkable). The nullifier is per document, not per person, and anyone who has read the chip can compute it (docs/circuits/envelope.md, *Nullifier*).
+6. **Sybil check, if the verifier runs one.** `scope` must be the verifier's own (for example `H(chain id, contract, purpose)`), and `nullifier` must not be recorded in that scope yet; then the verifier records it. A verifier without a Sybil check requires `scope = 0` (so `nullifier = 0`, and proofs stay unlinkable). The nullifier is per document, not per person, and anyone who has read the chip can compute it (docs/circuits/envelope.md, *Nullifier*).
 
 The step links (`c_A`, `c_B`) are checked inside the kernels, not by the verifier.
+
+There's no hash policy. Documents signed or hashed with SHA-1 are accepted like any other, as ICAO 9303 allows (keeping those issuers' keys sound is ICAO's and the issuers' responsibility), and the proof doesn't say which hashes a document used.
 
 The verifier doesn't check `viewer`: it's the receiver's key, which only the sender and the receiver agreed on, and the circuit already rejects `(0, 0)`. A verifier may reject a viewer key it has already seen, as hygiene against reuse, but it isn't required.
 
@@ -76,7 +75,7 @@ The circuit proves the envelope is sealed to the public `viewer`, so a receiver 
 
 ## What the verifier learns
 
-Only the public outputs: the registry root, the date, the context, the viewer key, the envelope, whether SHA-1 was used, and the scope and nullifier. With a scope, proofs of the same document in that scope are linkable by design; across scopes, or with scope 0, they aren't. It doesn't learn which step circuits were used, so not the signature schemes, key sizes or buckets. `uses_sha1` is the exception, and only as a single bit. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
+Only the public outputs: the registry root, the date, the context, the viewer key, the envelope, and the scope and nullifier. With a scope, proofs of the same document in that scope are linkable by design; across scopes, or with scope 0, they aren't. It doesn't learn which step circuits were used, so not the signature schemes, hashes, key sizes or buckets. Neither does it learn anything about the holder or the document: the salts (`c_A`, `c_B`) never leave the proof.
 
 ## Keys to publish per release
 

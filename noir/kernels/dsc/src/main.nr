@@ -1,13 +1,12 @@
 //! First kernel: folds the DSC step (the first proof of the IVC, OINK) and
-//! starts the state from its outputs `[registry root, c_A, hash id]`.
+//! starts the state from its outputs `[registry root, c_A]`.
 
 use eid_kernel::{
-    check_vk, is_sha1, PROOF_TYPE_OINK, ROLE_DSC, S_LINK, S_REGISTRY_ROOT, S_USES_SHA1,
-    S_VK_TREE_ROOT, STATE_FIELDS, Vk,
+    check_vk, PROOF_TYPE_OINK, ROLE_DSC, S_LINK, S_REGISTRY_ROOT, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
 };
 
 fn main(
-    step: call_data(1) [Field; 3],
+    step: call_data(1) [Field; 2],
     step_vk: Vk,
     vk_tree_root: Field,
 ) -> return_data [Field; STATE_FIELDS] {
@@ -17,6 +16,5 @@ fn main(
     s[S_REGISTRY_ROOT] = step[0];
     s[S_VK_TREE_ROOT] = vk_tree_root;
     s[S_LINK] = step[1];
-    s[S_USES_SHA1] = is_sha1(step[2]);
     s
 }

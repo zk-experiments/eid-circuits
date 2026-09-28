@@ -11,7 +11,7 @@
 //! 2. hashes the eContent with its eContent hash and calls
 //!    `assert_message_digest`, then hashes DG1 with its data group hash and
 //!    calls `assert_hash_at` on the listed hash;
-//! 3. returns `envelope::outputs(...)`.
+//! 3. returns `envelope::outputs(...)`, flattened by `envelope::flatten`.
 
 use csca_registry::country_from_mrz;
 use eid_der::{assert_zero_padded, days_from_civil, expect, Lds, parse_lds, SignedAttrs};
@@ -68,9 +68,6 @@ pub struct Parsed {
 pub struct Outputs {
     /// Must equal step B's SOD commitment.
     pub sod_commitment: Field,
-    /// Hash ids of the eContent digest and the data group hashes.
-    pub econtent_hash_id: Field,
-    pub dg_hash_id: Field,
     pub envelope: Envelope,
     /// The document's nullifier in the proof's scope (0 for scope 0).
     pub nullifier: Field,
@@ -149,8 +146,8 @@ pub fn assert_hash_at<let N: u32, let D: u32>(buf: [u8; N], at: u32, digest: [u8
     }
 }
 
-/// Step C outputs: step B's commitment recomputed from the witness, the hash
-/// ids, the envelope of DG1 to `viewers`, bound to `context`, and the
+/// Step C outputs: step B's commitment recomputed from the witness, the
+/// envelope of DG1 to `viewers`, bound to `context`, and the
 /// nullifier of the messageDigest in `scope`.
 pub fn outputs<let E: u32>(
     viewers: [EmbeddedCurvePoint; VIEWERS],
@@ -158,29 +155,24 @@ pub fn outputs<let E: u32>(
     scope: Field,
     w: Witness<E>,
     p: Parsed,
-    econtent_hash_id: u8,
-    dg_hash_id: u8,
 ) -> Outputs {
     let attrs = SignedAttrs { len: 0, digest: w.digest, digest_len: w.digest_len };
     let pt = plaintext(w.dg1, p.dg1.len);
     Outputs {
         sod_commitment: crate::sod::commitment(w.sod_salt, w.country, attrs),
-        econtent_hash_id: econtent_hash_id as Field,
-        dg_hash_id: dg_hash_id as Field,
         envelope: seal(viewers, w.ephemeral, w.key, context, pt),
         nullifier: nullifier(scope, w.digest, w.digest_len),
     }
 }
 
 /// Values of the envelope step's databus output: date, context, the viewer
-/// keys, `Outputs` (step B's commitment, the hash ids, the envelope), the
-/// scope and the nullifier.
-pub global OUTPUT_FIELDS: u32 = 18;
+/// key, `Outputs` (step B's commitment, the envelope), the scope and the
+/// nullifier.
+pub global OUTPUT_FIELDS: u32 = 16;
 
 /// The envelope step's databus output, flattened in this order: `[date,
-/// context, viewer (x, y), sod_commitment, econtent_hash_id, dg_hash_id, E.x,
-/// E.y, wrapped, ciphertext × 6, scope, nullifier]`. The envelope kernel
-/// reads it back.
+/// context, viewer (x, y), sod_commitment, E.x, E.y, wrapped, ciphertext × 6,
+/// scope, nullifier]`. The envelope kernel reads it back.
 pub fn flatten(
     date: u64,
     context: Field,
@@ -196,17 +188,15 @@ pub fn flatten(
         out[3 + 2 * i] = viewers[i].y;
     }
     out[4] = o.sod_commitment;
-    out[5] = o.econtent_hash_id;
-    out[6] = o.dg_hash_id;
-    out[7] = o.envelope.ephemeral.x;
-    out[8] = o.envelope.ephemeral.y;
+    out[5] = o.envelope.ephemeral.x;
+    out[6] = o.envelope.ephemeral.y;
     for i in 0..VIEWERS {
-        out[9 + i] = o.envelope.wrapped[i];
+        out[7 + i] = o.envelope.wrapped[i];
     }
     for i in 0..6 {
-        out[10 + i] = o.envelope.ciphertext[i];
+        out[8 + i] = o.envelope.ciphertext[i];
     }
-    out[16] = scope;
-    out[17] = o.nullifier;
+    out[14] = scope;
+    out[15] = o.nullifier;
     out
 }

@@ -2,13 +2,12 @@
 //! the DSC step's commitment `c_A`; its second, `c_B`, becomes the link.
 
 use eid_kernel::{
-    check_vk, is_sha1, or, PROOF_TYPE_HN, ROLE_KERNEL_DSC, ROLE_SOD, S_LINK, S_USES_SHA1,
-    S_VK_TREE_ROOT, STATE_FIELDS, Vk,
+    check_vk, PROOF_TYPE_HN, ROLE_KERNEL_DSC, ROLE_SOD, S_LINK, S_VK_TREE_ROOT, STATE_FIELDS, Vk,
 };
 
 fn main(
     prev: call_data(0) [Field; STATE_FIELDS],
-    step: call_data(1) [Field; 3],
+    step: call_data(1) [Field; 2],
     prev_vk: Vk,
     step_vk: Vk,
 ) -> return_data [Field; STATE_FIELDS] {
@@ -20,6 +19,5 @@ fn main(
     assert_eq(step[0], prev[S_LINK], "SOD step does not continue the DSC step");
     let mut s = prev;
     s[S_LINK] = step[1];
-    s[S_USES_SHA1] = or(prev[S_USES_SHA1], is_sha1(step[2]));
     s
 }

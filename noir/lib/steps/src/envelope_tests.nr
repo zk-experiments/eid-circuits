@@ -92,17 +92,17 @@ fn outputs_bind_step_b_and_the_data_groups() {
     let w = sha256_v0();
     let p = check::<512, 11, 32>(DATE, w, OID_SHA256);
     let viewers = [EmbeddedCurvePoint::generator(); 1];
-    let a = outputs(viewers, 9, 5, w, p, 3, 3);
+    let a = outputs(viewers, 9, 5, w, p);
     let mut v = w;
     v.sod_salt = 1;
-    let b = outputs(viewers, 9, 5, v, p, 3, 3);
+    let b = outputs(viewers, 9, 5, v, p);
     assert(a.sod_commitment != b.sod_commitment);
     // The nullifier depends on the document, not on the proof's salts.
     assert_eq(a.nullifier, b.nullifier);
-    assert(a.envelope.ciphertext != outputs(viewers, 10, 5, w, p, 3, 3).envelope.ciphertext);
+    assert(a.envelope.ciphertext != outputs(viewers, 10, 5, w, p).envelope.ciphertext);
     v = w;
     v.dg1[20] = 0x42;
-    assert(a.envelope.ciphertext != outputs(viewers, 9, 5, v, p, 3, 3).envelope.ciphertext);
+    assert(a.envelope.ciphertext != outputs(viewers, 9, 5, v, p).envelope.ciphertext);
 }
 
 #[test]
@@ -110,9 +110,9 @@ fn nullifier_follows_the_scope() {
     let w = sha256_v0();
     let p = check::<512, 11, 32>(DATE, w, OID_SHA256);
     let viewers = [EmbeddedCurvePoint::generator(); 1];
-    let a = outputs(viewers, 9, 5, w, p, 3, 3).nullifier;
+    let a = outputs(viewers, 9, 5, w, p).nullifier;
     assert(a != 0);
-    assert_eq(outputs(viewers, 10, 5, w, p, 3, 3).nullifier, a);
-    assert(outputs(viewers, 9, 6, w, p, 3, 3).nullifier != a);
-    assert_eq(outputs(viewers, 9, 0, w, p, 3, 3).nullifier, 0);
+    assert_eq(outputs(viewers, 10, 5, w, p).nullifier, a);
+    assert(outputs(viewers, 9, 6, w, p).nullifier != a);
+    assert_eq(outputs(viewers, 9, 0, w, p).nullifier, 0);
 }

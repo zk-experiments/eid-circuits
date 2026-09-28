@@ -34,7 +34,6 @@ fn main(
 
 `Outputs` is:
 - `sod_commitment`: must equal step B's output;
-- the eContent and data group hash ids;
 - the `Envelope`: `E = e·G`, the wrapped key, and 6 ciphertext fields;
 - the `nullifier` in `scope`.
 
@@ -58,7 +57,7 @@ With `p = eid_steps::envelope::check(date, w, hash_oid)`, the circuit asserts:
 
 7. **The nullifier** is `eid_envelope::nullifier(scope, digest, digest_len)`: `H(NULLIFIER, scope, digest_len, pack_be(digest))` over step B's `messageDigest`, or 0 when `scope` is 0 (see *Nullifier*).
 
-The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, the viewer key, the envelope, the scope and the nullifier public, with a SHA-1 flag in place of the hash ids ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
+The outputs go through the databus to `kernel_envelope`, which checks `sod_commitment` against step B and makes date, context, the viewer key, the envelope, the scope and the nullifier public ([FOLDING.md](../FOLDING.md), [VERIFY.md](../VERIFY.md)).
 
 ## Nullifier
 

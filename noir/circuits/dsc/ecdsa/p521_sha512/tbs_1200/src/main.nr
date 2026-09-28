@@ -7,15 +7,15 @@ use eid_hash::sha512_var;
 use eid_steps::dsc::{check, commitment, KeyKind, Witness};
 use eid_steps::HASH_SHA512;
 
-/// Returns `[registry root, commitment, hash id]` through the databus, to the
-/// DSC kernel that folds this proof.
+/// Returns `[registry root, commitment]` through the databus, to the DSC
+/// kernel that folds this proof.
 fn main(
     root: Field,
     salt: Field,
     w: Witness<1200, 132>,
     r: [u8; 66],
     s: [u8; 66],
-) -> return_data [Field; 3] {
+) -> return_data [Field; 2] {
     let f = check::<1200, 132, 5>(root, w, KeyKind { key_type: 2, curve: 5, bits: 521 });
     let mut x: [u8; 66] = [0; 66];
     let mut y: [u8; 66] = [0; 66];
@@ -24,5 +24,5 @@ fn main(
         y[i] = w.csca_key[66 + i];
     }
     verify_p521::<64>(x, y, r, s, sha512_var(w.tbs, f.len));
-    [root, commitment(salt, w.header.country, HASH_SHA512, w.tbs, f.len), HASH_SHA512 as Field]
+    [root, commitment(salt, w.header.country, HASH_SHA512, w.tbs, f.len)]
 }
