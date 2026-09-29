@@ -26,13 +26,11 @@ serde_json = "1.0"
 toml = "0.9"
 eid-prover = { path = "eid-prover" }
 # Proving: layered registries and generated bindings (core, codegen), witness
-# solving, the generic pipeline kernels and Chonk (backend). The rev is
-# noir-zk's `feat/pipelines` branch, which pins Noir and bb (its mise.toml).
-# TODO(release): switch to `=0.3.0` from crates.io before the v0.8.0 release
-# (mise.toml's install:noir-zk and the README say the same).
-noir-zk-core = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
-noir-zk-backend = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
-noir-zk-codegen = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
+# solving, the generic pipeline kernels and Chonk (backend). The version pins
+# Noir and bb together (noir-zk's mise.toml).
+noir-zk-core = "=0.3.0"
+noir-zk-backend = "=0.3.0"
+noir-zk-codegen = "=0.3.0"
 ark-ff = "0.6"
 
 [workspace.lints.rust]

@@ -32,7 +32,7 @@ All tooling is pinned and installed by [mise](https://mise.jdx.dev), so start th
 
 1. Install mise: `curl https://mise.run | sh` (or `brew install mise`), then activate it in your shell (`mise activate`, see its docs).
 2. In this repository, trust its config and install the tools: `mise trust && mise install` (aws-cli, for R2 uploads).
-3. Install the zero-knowledge toolchain: `mise run install:zk-toolchain install:noir-zk`. This installs nargo and bb at the pinned versions into `~/.toolchains/<tool>-<version>`, not `~/.nargo` or `~/.bb`, and the noir-zk CLI at the git revision `rust/Cargo.toml` pins (noir-zk's `feat/pipelines` branch; it becomes crates.io's `=0.3.0` before the v0.8.0 release, see *Release blockers*).
+3. Install the zero-knowledge toolchain: `mise run install:zk-toolchain install:noir-zk`. This installs nargo and bb at the pinned versions into `~/.toolchains/<tool>-<version>`, not `~/.nargo` or `~/.bb`, and the noir-zk CLI from crates.io at the version `rust/Cargo.toml` pins (`=0.3.0`).
 
 `mise env` sets `NARGO` and `BB` to the pinned binaries. Every task below documents its raw command in `mise.toml`.
 
@@ -130,5 +130,4 @@ Generated files (Noir vectors, curves, circuits, root `Nargo.toml`, `docs/COSTS.
 
 ## Release blockers (v0.8.0)
 
-- **noir-zk 0.3.0 on crates.io.** `rust/Cargo.toml` and `mise.toml` pin a git revision of noir-zk's `feat/pipelines` branch (`TODO(release)` there); the release switches to `=0.3.0` so the `eid-circuits` crate can be published and `install:noir-zk` installs from crates.io again.
 - **zk-encryption's channel library.** `noir/lib/steps` takes `channel` from zk-encryption at `tag = "v0.1.0"` (the payload commitment's domain and layout); a new tag there is a refreeze here.

@@ -12,7 +12,7 @@
 | `noir-lang/poseidon` | tag `v0.3.0` (via csca_registry) | Apache-2.0 | Poseidon2 |
 | `zk-experiments/csca-registry` | tag `v0.3.1` | MIT | registry leaf/Merkle checks (Noir), certificate parsing for vectors (Rust) |
 | `zk-experiments/zk-encryption` | tag `v0.1.0`, `noir/lib/channel` | MIT | the payload commitment the document step leaves (`payload::commit`) |
-| `zk-experiments/noir-zk` | git revision (`feat/pipelines`, until 0.3.0 is released) | MIT | the layered registry, codegen, the generic kernels, witness solving and Chonk over bb's FFI |
+| `zk-experiments/noir-zk` | `=0.3.0` (crates.io) | MIT | the layered registry, codegen, the generic kernels, witness solving and Chonk over bb's FFI |
 
 Rust crates outside the circuits:
 

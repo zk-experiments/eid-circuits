@@ -30,7 +30,7 @@ The hiding kernel publishes `[deployment_root, pipeline_root, length, slot × 32
 
 ## Toolchain notes
 
-- **Versions.** Noir 1.0.0-rc.3 with bb 7.0.0-nightly.20260927, the nightly built on exactly rc.3's commit (pinned in `mise.toml`, installed per version under `~/.toolchains`), and noir-zk at the revision `rust/Cargo.toml` pins (its `feat/pipelines` branch until 0.3.0 is on crates.io). Keys depend on the circuits and the bb version, so every family root changes with either.
+- **Versions.** Noir 1.0.0-rc.3 with bb 7.0.0-nightly.20260927, the nightly built on exactly rc.3's commit (pinned in `mise.toml`, installed per version under `~/.toolchains`), and noir-zk at the version `rust/Cargo.toml` pins (`=0.3.0`). Keys depend on the circuits and the bb version, so every family root changes with either.
 - **No compatibility across bb versions.** A proof verifies only with the bb version that produced it. Every bb bump is a new release of the circuits' keys and family roots, and noir-zk's kernels move with it; the verifier must switch in step.
 - **The SRS.** noir-zk derives keys and proves against a pinned SRS (2^20+1 BN254 points, 2^15 Grumpkin points in `~/.bb-crs`) and never downloads it: `mise run srs` provisions it (BN254 from Aztec's CRS host, Grumpkin from `resources/srs`).
 - **No Solidity verifier.** bb has none for Chonk. Verification is native (`noir_zk_backend::pipeline::verify`, 20–30 ms), meant for a chain precompile.

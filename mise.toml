@@ -64,18 +64,16 @@ run = '"$NARGO" compile --workspace --silence-warnings'
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
 
-# The noir-zk CLI at the revision rust/Cargo.toml pins (one source of truth),
-# in its own toolchain directory.
-# TODO(release): once noir-zk 0.3.0 is on crates.io, rust/Cargo.toml pins
-# `=0.3.0` and this installs `noir-zk-cli --version =0.3.0` again.
+# The noir-zk CLI at the version rust/Cargo.toml pins (one source of truth), in
+# its own toolchain directory.
 [tasks."install:noir-zk"]
-description = "Install the noir-zk CLI at the git revision rust/Cargo.toml pins"
+description = "Install the noir-zk CLI from crates.io at the version rust/Cargo.toml pins"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-rev="$(sed -nE 's/^noir-zk-core = .*rev = "([^"]+)".*/\1/p' rust/Cargo.toml | head -1)"
-root="$HOME/.toolchains/noir-zk-$rev"
-[ -x "$root/bin/noir-zk" ] || cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
+version="$(sed -nE 's/^noir-zk-core = "=([^"]+)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$version"
+[ -x "$root/bin/noir-zk" ] || cargo install --locked noir-zk-cli --version "=$version" --root "$root"
 ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''
 

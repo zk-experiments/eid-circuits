@@ -433,7 +433,7 @@ fn record_runs(path: &Path) {
         "machine": std::env::var("EID_MACHINE").unwrap_or_default(),
         "bb": pin("bb"),
         "nargo": pin("noir"),
-        "noir_zk": "dd2d33f",
+        "noir_zk": "0.3.0",
         "date": std::env::var("EID_DATE").unwrap_or_else(|_| "2026-09-29".into()),
         "kernels": KERNEL_GATES.iter().map(|(k, g)| ((*k).to_string(), serde_json::json!(g))).collect::<serde_json::Map<_, _>>(),
         "runs": runs,
