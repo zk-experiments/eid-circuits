@@ -2,6 +2,24 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.8.0 - 2026-09-29
+#### Features
+- <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**circuits**) eid-circuits as the identity layer on noir-zk's layered registries - (e5c8a44) - Anton Velichko
+#### Documentation
+- (**bench**) re-measure the benchmarks with Noir rc.3 and bb 7 - (30801ae) - Anton Velichko
+- the identity layer - (30b236f) - Anton Velichko
+- fix the v0.7.0 review findings - (8b73f39) - Anton Velichko
+#### Build system
+- depend on noir-zk 0.3.0 from crates.io - (367b651) - Anton Velichko
+#### Continuous Integration
+- (**fold**) compile the chains' circuits before folding them - (a0a9cce) - Anton Velichko
+- fold the sample chains through noir-zk's kernels in-process - (c447817) - Anton Velichko
+- keep release and nightly runs alive, and check the published packs - (71a43f2) - Anton Velichko
+#### Refactoring
+- (**steps**) derive the flatten offsets from VIEWERS - (90a3f36) - Anton Velichko
+
+- - -
+
 ## v0.7.0 - 2026-09-28
 #### Features
 - <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**kernel**) drop the public SHA-1 flag and the steps' hash ids - (669c70b) - Anton Velichko
