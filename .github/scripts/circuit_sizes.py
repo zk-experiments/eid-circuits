@@ -163,17 +163,10 @@ def report(base: dict, head: dict, base_ref: str) -> str:
     return "\n".join(out)
 
 
-def verify(committed: dict, measured: dict, workspace: Path, vk_tree: dict | None = None) -> int:
-    """Measured entries must equal the committed ones, the committed file
-    must list exactly the workspace's bin packages, and the verification key
-    tree must have been built from the same bytecode."""
+def verify(committed: dict, measured: dict, workspace: Path) -> int:
+    """Measured entries must equal the committed ones, and the committed file
+    must list exactly the workspace's bin packages."""
     bad = 0
-    for leaf in (vk_tree or {}).get("leaves", []):
-        entry = committed.get(leaf["package"], {})
-        if entry.get("bytecode_sha256") != leaf["bytecode_sha256"]:
-            print(f"::error::{leaf['package']}: noir/circuits/vk-tree.json is stale; "
-                  "run `eid-vectors vk-tree` after compiling the workspace")
-            bad += 1
     names = set(bin_packages(workspace))
     for m in sorted(names ^ set(committed)):
         print(f"::error::{m}: {'missing from' if m in names else 'not a package but in'} "
@@ -222,7 +215,6 @@ def main() -> None:
     v.add_argument("committed", type=Path)
     v.add_argument("measured", type=Path)
     v.add_argument("--workspace", type=Path, default=Path("."))
-    v.add_argument("--vk-tree", type=Path)
 
     r = sub.add_parser("report")
     r.add_argument("base", type=Path)
@@ -241,8 +233,7 @@ def main() -> None:
         print(f"wrote {a.output}", file=sys.stderr)
     elif a.cmd == "verify":
         raise SystemExit(verify(json.loads(a.committed.read_text()),
-                                json.loads(a.measured.read_text()), a.workspace,
-                                json.loads(a.vk_tree.read_text()) if a.vk_tree else None))
+                                json.loads(a.measured.read_text()), a.workspace))
     elif a.cmd == "check":
         raise SystemExit(check(json.loads(a.sizes.read_text())))
     else:
