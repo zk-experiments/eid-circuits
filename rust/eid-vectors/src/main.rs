@@ -6,10 +6,8 @@
 //! eid-vectors rsa --check                                                 # fail if it is stale (CI)
 //! eid-vectors ecdsa [--check]                                             # noir/lib/ecdsa/src/vectors.nr
 //! eid-vectors der [--check]                                               # noir/lib/der/src/{vectors,curves}.nr
-//! eid-vectors steps [--check]                                             # noir/lib/steps/src/{vectors,sod_vectors,envelope_vectors}.nr
-//! eid-vectors envelope [--check]                                          # noir/lib/envelope/src/vectors.nr
+//! eid-vectors steps [--check]                                             # noir/lib/steps/src/{vectors,sod_vectors,document_vectors}.nr
 //! eid-vectors documents [--check]                                         # documents.json, chains.json, Chain.toml
-//! eid-vectors vk-tree [--bb PATH]                                         # noir/circuits/vk-tree.json (after nargo compile --workspace)
 //! eid-vectors circuits [--check]                                          # noir/circuits/**, Prover.toml samples, root Nargo.toml
 //! eid-vectors samples                                                     # print packages that have a Prover.toml
 //! eid-vectors costs [--check]                                             # docs/COSTS.md from docs/data + fixtures
@@ -26,11 +24,9 @@ mod curve_params;
 mod curves;
 mod documents;
 mod ec;
-mod envelope;
 mod mock;
 mod packs;
 mod steps;
-mod vktree;
 
 use anyhow::{bail, ensure, Context, Result};
 use clap::{Parser, Subcommand};
@@ -126,23 +122,11 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
-    /// Generate noir/lib/envelope/src/vectors.nr with rust/eid-envelope
-    Envelope {
-        /// Fail instead of writing when the file is stale
-        #[arg(long)]
-        check: bool,
-    },
     /// Generate rust/eid-prover/tests/data/documents.json (complete synthetic documents)
     Documents {
         /// Fail instead of writing when the file is stale
         #[arg(long)]
         check: bool,
-    },
-    /// Generate noir/circuits/vk-tree.json from the compiled artifacts in target/
-    VkTree {
-        /// Path to bb
-        #[arg(long, default_value = "bb")]
-        bb: String,
     },
     /// Generate the step circuits, their Prover.toml samples and the root Nargo.toml
     Circuits {
@@ -215,16 +199,11 @@ fn main() -> Result<()> {
                 check,
             )?;
             write_or_check(
-                &root().join("noir/lib/steps/src/envelope_vectors.nr"),
-                &steps::envelope_vectors()?,
+                &root().join("noir/lib/steps/src/document_vectors.nr"),
+                &steps::document_vectors()?,
                 check,
             )
         }
-        Command::Envelope { check } => write_or_check(
-            &root().join("noir/lib/envelope/src/vectors.nr"),
-            &envelope::vectors()?,
-            check,
-        ),
         Command::Documents { check } => {
             for (rel, contents) in documents::documents()? {
                 let path = root().join(rel);
@@ -233,15 +212,6 @@ fn main() -> Result<()> {
                 }
                 write_or_check(&path, &contents, check)?;
             }
-            Ok(())
-        }
-        Command::VkTree { bb } => {
-            let path = root().join(vktree::PATH);
-            let previous: Option<serde_json::Value> = std::fs::read_to_string(&path)
-                .ok()
-                .and_then(|s| serde_json::from_str(&s).ok());
-            let packages = circuits::bin_packages()?;
-            std::fs::write(&path, vktree::build(&packages, previous.as_ref(), &bb)?)?;
             Ok(())
         }
         Command::Circuits { check } => {

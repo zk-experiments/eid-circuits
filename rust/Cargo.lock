@@ -853,10 +853,10 @@ dependencies = [
 
 [[package]]
 name = "eid-circuits"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "ark-ff",
- "eid-envelope",
+ "csca-registry",
  "hex",
  "noir-zk-backend",
  "noir-zk-codegen",
@@ -867,19 +867,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "eid-envelope"
-version = "0.7.0"
-dependencies = [
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-grumpkin",
- "pso-poseidon",
-]
-
-[[package]]
 name = "eid-prover"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "anyhow",
  "csca-registry",
@@ -891,14 +880,11 @@ dependencies = [
 
 [[package]]
 name = "eid-vectors"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "anyhow",
- "ark-bn254",
- "ark-ff",
  "clap",
  "csca-registry",
- "eid-envelope",
  "eid-prover",
  "hex",
  "num-bigint 0.4.8",
@@ -1288,9 +1274,8 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-backend"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4778205d565477ad9c285a9312caf541d888dc8ff34599b91d8568220bf5bee5"
+version = "0.3.0-dev"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=dd2d33f#dd2d33fbd98d3c781a72435de055575d42102a44"
 dependencies = [
  "acir",
  "acvm",
@@ -1302,6 +1287,7 @@ dependencies = [
  "flate2",
  "hex",
  "noir-zk-core",
+ "noir-zk-kernels",
  "serde_json",
  "sha2 0.10.9",
  "tar",
@@ -1311,11 +1297,12 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-codegen"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d2ba3c0c4bc527db086159255aa5aab9afc952ddd54a6c04835e1ce33da08fe"
+version = "0.3.0-dev"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=dd2d33f#dd2d33fbd98d3c781a72435de055575d42102a44"
 dependencies = [
  "hex",
+ "noir-zk-core",
+ "noir-zk-kernels",
  "serde_json",
  "sha2 0.10.9",
  "toml",
@@ -1323,12 +1310,22 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-core"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aa54fc4514b8a2b4cdecda6960b4ec26aedad2c3d10a33338d99ecc8faa2b04"
+version = "0.3.0-dev"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=dd2d33f#dd2d33fbd98d3c781a72435de055575d42102a44"
 dependencies = [
  "ark-bn254",
  "ark-ff",
+ "pso-poseidon",
+]
+
+[[package]]
+name = "noir-zk-kernels"
+version = "0.3.0-dev"
+source = "git+https://github.com/zk-experiments/noir-zk?rev=dd2d33f#dd2d33fbd98d3c781a72435de055575d42102a44"
+dependencies = [
+ "hex",
+ "noir-zk-core",
+ "toml",
 ]
 
 [[package]]

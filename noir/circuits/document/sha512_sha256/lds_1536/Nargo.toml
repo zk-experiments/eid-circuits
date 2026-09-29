@@ -1,0 +1,10 @@
+[package]
+name = "document_sha512_sha256_lds1536"
+type = "bin"
+authors = ["zk-experiments"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+eid_hash = { path = "../../../../lib/hash" }
+eid_steps = { path = "../../../../lib/steps" }
+csca_registry = { tag = "v0.3.1", git = "https://github.com/zk-experiments/csca-registry", directory = "noir/csca_registry" }

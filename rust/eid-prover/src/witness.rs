@@ -195,12 +195,8 @@ pub fn sod_toml(
     Ok(out)
 }
 
-/// A Grumpkin viewer key as decimal field strings: the receiver's, fresh per
-/// transfer. The circuit rejects `("0", "0")`.
-pub type Viewer = (String, String);
-
-/// Envelope step inputs (everything but the eContent bucket comes from the document).
-pub struct Envelope<'a> {
+/// Document step inputs (everything but the eContent bucket comes from the document).
+pub struct Document<'a> {
     pub econtent: &'a [u8],
     pub bucket: usize,
     pub digest: &'a [u8],
@@ -209,50 +205,40 @@ pub struct Envelope<'a> {
     pub sod_salt: &'a str,
     pub country: &'a str,
     pub date: i64,
-    pub context: &'a str,
     pub scope: &'a str,
-    pub viewers: &'a [Viewer; 1],
-    pub ephemeral: &'a str,
-    pub key: &'a str,
+    /// The salt of DG1's payload commitment (the link an envelope app opens).
+    pub dg1_salt: &'a str,
 }
 
-/// Envelope step inputs.
-pub fn envelope_toml(e: &Envelope<'_>) -> Result<String> {
-    let viewers: Vec<String> = e
-        .viewers
-        .iter()
-        .map(|(x, y)| format!("{{ x = \"{x}\", y = \"{y}\" }}"))
-        .collect();
+/// Document step inputs.
+pub fn document_toml(d: &Document<'_>) -> Result<String> {
     Ok(format!(
-        "date = {}\ncontext = \"{}\"\nscope = \"{}\"\nviewers = [{}]\n\n[w]\nsod_salt = \"{}\"\ncountry = {}\ndigest = {}\ndigest_len = {}\necontent = {}\ndg1_offset = {}\ndg1 = {}\nephemeral = \"{}\"\nkey = \"{}\"\n",
-        e.date,
-        e.context,
-        e.scope,
-        viewers.join(", "),
-        e.sod_salt,
-        bytes(e.country.as_bytes()),
-        bytes(&padded(e.digest, 64)?),
-        e.digest.len(),
-        bytes(&padded(e.econtent, e.bucket)?),
-        e.dg1_offset,
-        bytes(&padded(e.dg1, DG1_MAX)?),
-        e.ephemeral,
-        e.key,
+        "date = {}\nscope = \"{}\"\ndg1_salt = \"{}\"\n\n[w]\nsod_salt = \"{}\"\ncountry = {}\ndigest = {}\ndigest_len = {}\necontent = {}\ndg1_offset = {}\ndg1 = {}\n",
+        d.date,
+        d.scope,
+        d.dg1_salt,
+        d.sod_salt,
+        bytes(d.country.as_bytes()),
+        bytes(&padded(d.digest, 64)?),
+        d.digest.len(),
+        bytes(&padded(d.econtent, d.bucket)?),
+        d.dg1_offset,
+        bytes(&padded(d.dg1, DG1_MAX)?),
     ))
 }
 
-/// Salts, the proof's public values and the envelope randomness. Salts, `e`
-/// and `K` must be fresh and uniformly random per proof (decimal strings).
+/// The salts and the proof's public values. The three salts must be fresh
+/// and uniformly random per proof (decimal strings): `dsc_salt` and
+/// `sod_salt` hide the links between the steps, `dg1_salt` hides DG1's
+/// payload commitment (an envelope app of the pipeline opens it with the
+/// same salt).
 pub struct Params {
     pub dsc_salt: String,
     pub sod_salt: String,
+    pub dg1_salt: String,
     pub date: i64,
-    pub context: String,
     /// Nullifier scope: "0" for none (no Sybil check, nothing linkable).
     pub scope: String,
-    pub viewers: [Viewer; 1],
-    pub ephemeral: String,
-    pub key: String,
 }
 
 /// The circuits a document needs and their inputs.
@@ -260,7 +246,7 @@ pub struct Witnesses {
     pub selection: Selection,
     pub dsc: String,
     pub sod: String,
-    pub envelope: String,
+    pub document: String,
 }
 
 /// Selects the circuits for a document (checking it natively) and builds
@@ -292,7 +278,7 @@ pub fn witnesses(reg: &Registry, ef_sod: &[u8], dg1: &[u8], p: &Params) -> Resul
             &selection.country,
             &p.sod_salt,
         )?,
-        envelope: envelope_toml(&Envelope {
+        document: document_toml(&Document {
             econtent: &sod.econtent,
             bucket,
             digest: &sod.message_digest,
@@ -301,11 +287,8 @@ pub fn witnesses(reg: &Registry, ef_sod: &[u8], dg1: &[u8], p: &Params) -> Resul
             sod_salt: &p.sod_salt,
             country: &selection.country,
             date: p.date,
-            context: &p.context,
             scope: &p.scope,
-            viewers: &p.viewers,
-            ephemeral: &p.ephemeral,
-            key: &p.key,
+            dg1_salt: &p.dg1_salt,
         })?,
         selection,
     })

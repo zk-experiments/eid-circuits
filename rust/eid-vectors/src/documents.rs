@@ -4,15 +4,15 @@
 //!
 //! For each document the prover's own `witnesses` also writes a `Chain.toml`
 //! into the three circuits it selects, listed in `noir/circuits/chains.json`:
-//! CI executes them (`nargo execute --prover-name Chain`) and checks the
-//! steps' commitments link.
+//! CI executes them (`nargo execute --prover-name Chain`) and folds them
+//! with noir-zk's kernels (`rust/eid-circuits/tests/fold.rs`).
 
 use crate::circuits::SAMPLE_DATE;
 use crate::mock::{Csca, Doc, Lds};
 use anyhow::{ensure, Context, Result};
 use csca_registry::cert::Cert;
 use csca_registry::crypto::Hash;
-use eid_prover::config::{bucket, envelope_package, lds_bucket, Config};
+use eid_prover::config::{bucket, document_package, lds_bucket, Config};
 use std::path::PathBuf;
 
 /// (name, CSCA config, DSC config, eContent hash, data group hash, LDS v1, DG11 listed)
@@ -83,7 +83,7 @@ const CASES: &[(&str, Config, Config, Hash, Hash, bool, bool)] = &[
 
 /// Every file `eid-vectors documents` writes (path relative to the repository root).
 pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
-    use crate::envelope::{field, sample_viewers, CONTEXT, DATA_KEY, EPHEMERAL, SCOPE};
+    use crate::circuits::{DG1_SALT, SCOPE};
     let mut files = vec![];
     let mut chains = vec![];
     let mut cases = vec![];
@@ -122,10 +122,6 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
         let mut b = csca_registry::registry::Builder::default();
         b.add_certificates("mock-csca.der", &csca.cert);
         let reg = b.finish()?;
-        let viewers = sample_viewers().map(|v| {
-            let (x, y) = v.unwrap_or_default();
-            (field(x), field(y))
-        });
         let w = eid_prover::witnesses(
             &reg,
             &doc.ef_sod,
@@ -133,12 +129,9 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
             &eid_prover::Params {
                 dsc_salt: "12345".into(),
                 sod_salt: "67890".into(),
+                dg1_salt: DG1_SALT.to_string(),
                 date: i64::try_from(SAMPLE_DATE)?,
-                context: CONTEXT.to_string(),
                 scope: SCOPE.to_string(),
-                viewers,
-                ephemeral: EPHEMERAL.to_string(),
-                key: DATA_KEY.to_string(),
             },
         )?;
         let header = format!(
@@ -147,7 +140,7 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
         for (pkg, toml) in [
             (&w.selection.dsc, &w.dsc),
             (&w.selection.sod, &w.sod),
-            (&w.selection.envelope, &w.envelope),
+            (&w.selection.document, &w.document),
         ] {
             let dir =
                 crate::circuits::package_dir(pkg).with_context(|| format!("no circuit {pkg}"))?;
@@ -160,7 +153,7 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
             "name": name,
             "dsc": w.selection.dsc,
             "sod": w.selection.sod,
-            "envelope": w.selection.envelope,
+            "document": w.selection.document,
         }));
         cases.push(serde_json::json!({
             "name": name,
@@ -172,7 +165,7 @@ pub(crate) fn documents() -> Result<Vec<(PathBuf, String)>> {
                 "country": "DEU",
                 "dsc": csca_config.step_package("dsc", t),
                 "sod": dsc_config.step_package("sod", t),
-                "envelope": envelope_package(md, dg, e),
+                "document": document_package(md, dg, e),
             },
         }));
     }

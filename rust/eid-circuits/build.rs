@@ -1,6 +1,7 @@
 //! Generates the bindings of the frozen circuits (`circuits/manifest.toml`,
-//! `resources/`, written by `noir-zk freeze`), and with feature `bundled`
-//! compiles circuits from the shipped Noir source and embeds their bytecode.
+//! `resources/`, written by `noir-zk freeze`) and their families (declared
+//! in the manifest), and with feature `bundled` compiles circuits from the
+//! shipped Noir source and embeds their bytecode.
 //!
 //! `bundled` needs nargo at the manifest's Noir version (`$NARGO`, as `mise
 //! env` sets it, else `nargo` on `PATH`; `mise run install:zk-toolchain`

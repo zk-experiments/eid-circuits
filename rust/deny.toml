@@ -34,4 +34,6 @@ unknown-registry = "deny"
 unknown-git = "deny"
 allow-git = [
   "https://github.com/zk-experiments/csca-registry",
+  # TODO(release): drop once noir-zk 0.3.0 is on crates.io and rust/Cargo.toml pins it.
+  "https://github.com/zk-experiments/noir-zk",
 ]

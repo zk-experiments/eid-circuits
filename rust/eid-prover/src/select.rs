@@ -6,11 +6,11 @@
 //! - **DSC step:** the CSCA key (found by verifying the DSC certificate against
 //!   the registry's keys) and the DSC certificate's signature scheme;
 //! - **SOD step:** the DSC's key and the SignerInfo signature scheme;
-//! - **envelope step:** the SignerInfo digest algorithm and the LDS security
+//! - **document step:** the SignerInfo digest algorithm and the LDS security
 //!   object's data group hash;
 //! - buckets from the TBSCertificate and eContent lengths.
 
-use crate::config::{bucket, envelope_package, lds_bucket, Config, LDS_HASHES};
+use crate::config::{bucket, document_package, lds_bucket, Config, LDS_HASHES};
 use crate::mrz::{parse_dg1, registry_country};
 use crate::sod::Sod;
 use anyhow::{bail, ensure, Context, Result};
@@ -28,8 +28,8 @@ pub struct Selection {
     /// Step circuits (Noir package names).
     pub dsc: String,
     pub sod: String,
-    pub envelope: String,
-    /// Circuit packs holding these circuits: `common` (envelope, kernels),
+    pub document: String,
+    /// Circuit packs holding these circuits: `common` (the document steps),
     /// the CSCA key's family (DSC step) and the DSC key's (SOD step). Fetch
     /// these rather than single circuits, so the host learns only key
     /// families.
@@ -135,7 +135,7 @@ pub fn select(reg: &Registry, ef_sod: &[u8], dg1: &[u8], at: i64) -> Result<Sele
     for h in [sod.digest, dg_hash] {
         ensure!(
             LDS_HASHES.contains(&h),
-            "no envelope circuit for {}",
+            "no document circuit for {}",
             h.name()
         );
     }
@@ -164,7 +164,7 @@ pub fn select(reg: &Registry, ef_sod: &[u8], dg1: &[u8], at: i64) -> Result<Sele
         csca_key: csca.id.clone(),
         dsc: a.step_package("dsc", t),
         sod: b.step_package("sod", t),
-        envelope: envelope_package(sod.digest, dg_hash, e),
+        document: document_package(sod.digest, dg_hash, e),
         packs: {
             let mut p = vec!["common".to_string(), a.family(), b.family()];
             p.dedup();

@@ -1,9 +1,9 @@
 [workspace]
-members = ["eid-envelope", "eid-prover", "eid-vectors", "eid-circuits"]
+members = ["eid-prover", "eid-vectors", "eid-circuits"]
 resolver = "2"
 
 [workspace.package]
-version = "0.7.0"
+version = "0.8.0"
 edition = "2021"
 rust-version = "1.94"
 license = "MIT"
@@ -24,19 +24,16 @@ rsa = "0.9"
 rand_chacha = "0.3"
 serde_json = "1.0"
 toml = "0.9"
-# Envelope encryption (Grumpkin KEM + Poseidon2 duplex), shared with the circuits.
-eid-envelope = { path = "eid-envelope" }
 eid-prover = { path = "eid-prover" }
-pso-poseidon = "0.5"
-# Proving: generated bindings (codegen), witness solving and Chonk (backend).
-# The version pins Noir and bb together (noir-zk's mise.toml).
-noir-zk-core = "=0.2.1"
-noir-zk-backend = "=0.2.1"
-noir-zk-codegen = "=0.2.1"
-ark-bn254 = "0.6"
-ark-ec = "0.6"
+# Proving: layered registries and generated bindings (core, codegen), witness
+# solving, the generic pipeline kernels and Chonk (backend). The rev is
+# noir-zk's `feat/pipelines` branch, which pins Noir and bb (its mise.toml).
+# TODO(release): switch to `=0.3.0` from crates.io before the v0.8.0 release
+# (mise.toml's install:noir-zk and the README say the same).
+noir-zk-core = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
+noir-zk-backend = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
+noir-zk-codegen = { git = "https://github.com/zk-experiments/noir-zk", rev = "dd2d33f" }
 ark-ff = "0.6"
-ark-grumpkin = "0.6"
 
 [workspace.lints.rust]
 unsafe_code = "deny"

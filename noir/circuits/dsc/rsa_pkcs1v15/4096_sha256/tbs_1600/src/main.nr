@@ -7,8 +7,8 @@ use eid_rsa::{DIGEST_INFO_SHA256, verify_pkcs1v15};
 use eid_steps::dsc::{check, commitment, KeyKind, Witness};
 use eid_steps::HASH_SHA256;
 
-/// Returns `[registry root, commitment]` through the databus, to the DSC
-/// kernel that folds this proof.
+/// Returns `[registry root, commitment]` through the databus, to the pipeline
+/// kernel that folds this step (noir-zk).
 fn main(
     root: Field,
     salt: Field,

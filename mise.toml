@@ -60,52 +60,74 @@ depends = ["install:noir", "install:bb"]
 description = "Compile every Noir package of the workspace into target/ (over an hour)"
 run = '"$NARGO" compile --workspace --silence-warnings'
 
-[tasks."vk-tree"]
-description = "Refresh noir/circuits/vk-tree.json (run after circuit-sizes; bb write_vk only for changed bytecode)"
-run = "cd rust && cargo run -q --release -p eid-vectors -- vk-tree --bb $BB"
-
 [tasks."circuit-sizes"]
 description = "Refresh docs/data/circuit-sizes.json (compiles the workspace; bb gates only for changed bytecode)"
 run = "python3 .github/scripts/circuit_sizes.py collect . --nargo $NARGO --bb $BB --cache docs/data/circuit-sizes.json -o docs/data/circuit-sizes.json"
 
-# The noir-zk CLI at the version rust/Cargo.toml pins (one source of truth), in
-# its own toolchain directory.
+# The noir-zk CLI at the revision rust/Cargo.toml pins (one source of truth),
+# in its own toolchain directory.
+# TODO(release): once noir-zk 0.3.0 is on crates.io, rust/Cargo.toml pins
+# `=0.3.0` and this installs `noir-zk-cli --version =0.3.0` again.
 [tasks."install:noir-zk"]
-description = "Install the noir-zk CLI from crates.io at the version rust/Cargo.toml pins"
+description = "Install the noir-zk CLI at the git revision rust/Cargo.toml pins"
 shell = "bash -c"
 run = '''
 set -euo pipefail
-version="$(sed -nE 's/^noir-zk-core = "=([^"]+)".*/\1/p' rust/Cargo.toml | head -1)"
-root="$HOME/.toolchains/noir-zk-$version"
-[ -x "$root/bin/noir-zk" ] || cargo install --locked noir-zk-cli --version "=$version" --root "$root"
+rev="$(sed -nE 's/^noir-zk-core = .*rev = "([^"]+)".*/\1/p' rust/Cargo.toml | head -1)"
+root="$HOME/.toolchains/noir-zk-$rev"
+[ -x "$root/bin/noir-zk" ] || cargo install --locked --git https://github.com/zk-experiments/noir-zk --rev "$rev" noir-zk-cli --root "$root"
 ln -sf "$root/bin/noir-zk" "$HOME/.toolchains/noir-zk-current"
 '''
 
 [tasks."freeze"]
-description = "Freeze changed circuits into rust/eid-circuits (after vk-tree; add -- --abi-change for ABI changes, -- --check to only compare)"
+description = "Freeze changed circuits into rust/eid-circuits as eid-circuits@<version> (add -- --abi-change for ABI changes, -- --check to only compare)"
 depends = ["install:noir-zk"]
-run = "$HOME/.toolchains/noir-zk-current freeze --target target --vk-tree noir/circuits/vk-tree.json --out rust/eid-circuits --assets target/release-assets --exclude bench_"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
+"$HOME/.toolchains/noir-zk-current" freeze --target target --out rust/eid-circuits --assets target/release-assets \
+  --library "eid-circuits@$version" --exclude bench_ "$@"
+'''
+
+# The fold test: every chain of noir/circuits/chains.json folded through
+# noir-zk's kernels in the test-only pipeline [dsc, sod, document], proven
+# and verified in-process (rust/eid-circuits/tests/fold.rs). It reads the
+# compiled artifacts in target/ (EID_TARGET) or a release-asset directory
+# (EID_ASSETS) and needs the SRS noir-zk pins (mise run srs).
+[tasks."test:fold"]
+description = "Fold, prove and verify every sample chain with noir-zk's kernels (needs the samples compiled in target/ and ~/.bb-crs)"
+run = "cd rust && EID_TARGET=${EID_TARGET:-$PWD/../target} cargo test --release -p eid-circuits --test fold -- --nocapture"
+
+[tasks."fold:record"]
+description = "Measure the sample chains' folds at 4 and all threads into docs/data/fold-times.json (never in CI)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+threads="$(sysctl -n hw.ncpu 2>/dev/null || nproc)"
+cd rust
+EID_TARGET="$PWD/../target" EID_RECORD="$PWD/../docs/data/fold-times.json" EID_THREADS="4,$threads" \
+  EID_MACHINE="${EID_MACHINE:-$(uname -m), $(uname -s)}" \
+  cargo test --release -p eid-circuits --test fold -- --nocapture
+'''
 
 # Circuit packs: `common` and one per key family (rust/eid-circuits/circuits/
 # packs.toml), each a self-contained <pack>@<version>.tar.gz (bytecode, keys,
-# ABIs, key tree, manifest entries), plus catalog@<version>.json (the index)
-# and vk-tree@<version>.json. The version is the release's (rust/Cargo.toml),
+# ABIs, manifest entries), plus catalog@<version>.json (the index). The
+# version is the release's (rust/Cargo.toml),
 # so run these on a release tag; CI does on every release. The circuits bucket
 # serves them at https://circuits.zk-eid.dev/.
 [tasks."srs"]
-description = "Provision bb's SRS as noir-zk pins it in ~/.bb-crs: 2^20+1 BN254 and 2^15 Grumpkin points (needs compiled circuits)"
+description = "Provision the SRS noir-zk pins in ~/.bb-crs: 2^20+1 BN254 points from Aztec's CRS host, 2^15 Grumpkin points from resources/srs"
 shell = "bash -c"
 run = '''
 set -euo pipefail
 crs="$HOME/.bb-crs"
 mkdir -p "$crs"
-# Grumpkin: bb generates grumpkin_g1_v2.flat.dat when it first proves, so prove
-# one small synthetic chain with the bb CLI (a few seconds; nothing measured).
-if [ ! -s "$crs/grumpkin_g1_v2.flat.dat" ]; then
-  venv="$(mktemp -d)/venv"
-  python3 -m venv "$venv" && "$venv/bin/pip" install --quiet msgpack
-  "$venv/bin/python" scripts/fold.py --prove --chain rsa4096_csca_p256_dsc --nargo "$NARGO" --bb "$BB" --threads 4
-fi
+# Grumpkin: bb generates grumpkin_g1_v2.flat.dat from a fixed generator when it
+# first proves a Chonk stack; the 2 MB prefix noir-zk pins (SHA-256 72b8cdad...)
+# is committed so nothing has to be proven to get it.
+cp -n resources/srs/grumpkin_g1_v2.flat.dat "$crs/" 2>/dev/null || true
 # BN254: bb fetches only the points a circuit needs; noir-zk loads a fixed
 # 2^20+1. Take that prefix of bb's own compressed file and expand it.
 points=$(( (1 << 20) + 1 ))
@@ -127,7 +149,6 @@ version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
 rm -rf target/packs
 "$HOME/.toolchains/noir-zk-current" pack --out rust/eid-circuits --assets target/release-assets \
   --packs rust/eid-circuits/circuits/packs.toml --dest target/packs --version "$version"
-cp rust/eid-circuits/resources/vk-tree.json "target/packs/vk-tree@$version.json"
 '''
 
 [tasks."packs:publish"]
@@ -180,5 +201,5 @@ put "target/packs/catalog@$version.json" catalog.json application/json "public, 
 '''
 
 [tasks."test:prove"]
-description = "Prove and verify every chain with the frozen registry (needs target/release-assets or EID_ASSETS)"
-run = "cd rust && EID_ASSETS=${EID_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-circuits"
+description = "Fold, prove and verify every chain against a release-asset directory (target/release-assets or EID_ASSETS), the pins checked on the way"
+run = "cd rust && EID_ASSETS=${EID_ASSETS:-$PWD/../target/release-assets} cargo test --release -p eid-circuits --test fold -- --nocapture"

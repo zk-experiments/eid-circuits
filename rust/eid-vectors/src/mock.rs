@@ -1,4 +1,4 @@
-//! Synthetic eMRTD documents for the SOD and envelope steps.
+//! Synthetic eMRTD documents for the SOD and document steps.
 //!
 //! Real SODs are personal data, so the step B and C vectors are built here:
 //! a DSC `TBSCertificate` with a key of the configuration under test, an LDS
