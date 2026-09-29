@@ -96,8 +96,15 @@ version="$(sed -n 's/^version = "\(.*\)"/\1/p' rust/Cargo.toml | head -1)"
 # compiled artifacts in target/ (EID_TARGET) or a release-asset directory
 # (EID_ASSETS) and needs the SRS noir-zk pins (mise run srs).
 [tasks."test:fold"]
-description = "Fold, prove and verify every sample chain with noir-zk's kernels (needs the samples compiled in target/ and ~/.bb-crs)"
-run = "cd rust && EID_TARGET=${EID_TARGET:-$PWD/../target} cargo test --release -p eid-circuits --test fold -- --nocapture"
+description = "Compile the chains' circuits, then fold, prove and verify every chain with noir-zk's kernels (needs ~/.bb-crs)"
+shell = "bash -c"
+run = '''
+set -euo pipefail
+# The chains' twelve circuits (not all of them have a Prover.toml sample).
+jq -r '.chains[] | .dsc, .sod, .document' noir/circuits/chains.json | sort -u \
+  | xargs -n1 -P 3 "$NARGO" compile --silence-warnings --package
+cd rust && EID_TARGET="${EID_TARGET:-$PWD/../target}" cargo test --release -p eid-circuits --test fold -- --nocapture
+'''
 
 [tasks."fold:record"]
 description = "Measure the sample chains' folds at 4 and all threads into docs/data/fold-times.json (never in CI)"
