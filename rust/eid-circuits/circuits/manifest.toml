@@ -2,7 +2,6 @@
 
 noir = "1.0.0-rc.3"
 bb = "7.0.0-nightly.20260927"
-vk_tree_root = "0x178b73d6c421d9f59c6f617de2bd591ea8e02a5154c18ae2f130ae2f826e825a"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha1_tbs1000"
@@ -1121,474 +1120,6 @@ bytecode_sha256 = "480f9fcb128e1f1efebb8c97d2ae1619027adb0a4bce86a0e991da2d7b386
 vk_sha256 = "9eafa13c80ef576322ba01ef6f43236ac8f1d39a49f35bce357e4b572cdbbad7"
 
 [[circuit]]
-label = "envelope_sha1_sha1_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "79b584fe6261a5bf1b962b5c990a445def7720da6c839ad45688a1b37af25222"
-vk_sha256 = "9b1a78f470059beebd2dbeca4c4e014fbf050fa8773925ea75c501a6cb1cba7b"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "b8c2ab6246e56f479414f43af3078bb08caaedc3eadb1b51aca6a1dff251fccc"
-vk_sha256 = "8018902ed32e052cfecd173304b3644733f5cfe0cbb8e79e06cddb5dac506b41"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f7dcc267dcaac5f1b071d6b40a8adeecaae0879f530ae58913a84319e441f222"
-vk_sha256 = "e13ec167859c65c1728a2f78250fc1b167b98a837e2129324c6c05800d03242c"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4f1d5700d1dc4c7dd8dec1ddd9a0a77c7c9d569ffce313c232c50d1122c8ee85"
-vk_sha256 = "8f29fe8fe01ba90265c7dc2ae8471021b66ad5439d22d96b52cf9743f3448a46"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e1af9110d3dbef26643575301620b9147d3564f028ae2d021d24f93a1ff9aaf4"
-vk_sha256 = "6c88e0a5ff0e10e40a7b540342f5cd23c7b65a97baa08074a8a1591f7fd90c97"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "17c45502bc3d9653084b91f4e9240630ef99c8733c60f9580855eccc176b691e"
-vk_sha256 = "4402191f7f983126ae15e63eac734b273c0ad01eb717a86b8eb093e592a31c30"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "9f0239e439d74c455c933af449bbf57434bda1372dd3f48f04affc9b8a46dd53"
-vk_sha256 = "72f03fad7a28c461eaef38aa332a9b8ac4a12e1b16095c4997b427bb7a4372d9"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6a7686fc7744fcf9b3cdbf074335dd6d21ef1a00abf530fe3a73d28e5bd1e50a"
-vk_sha256 = "5a1e76b20f0cc488bddf23a0a5c4278d6d3e56268a29c83d19704a0c5102d1ba"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4ff760a3f3f9e9e1c0f58dfa30088de24b13f1f92d3b97003727148e19583fac"
-vk_sha256 = "24613b5503c9f04ad8d216cf355457fb69a17e71dba659005fa72d5cc4f1b30e"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0bdc45fe8fc962a42eadbaf1227ccbbde4e7cd6958fd8849bfda0b7268f94bbb"
-vk_sha256 = "ace68498260c0a85a5e0e4ffbdd4cd1dd9980133e2dd262a77ba5d5fa86d1b14"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "b8575147347c543b1434b9f8f7c7e6bb089d50fa15cdc5d0dd157b425730571a"
-vk_sha256 = "ab588a69cc73305befed8e29710116d8e91141c46f82999cce1ac42f0912f71f"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "49b7fefd27f491d537ae33847f9925772a741f61c0794e8a3e4e7861d4cf9792"
-vk_sha256 = "f5e538c19b44321a6687ee28744b4f7c5814d242477597234e2b5cf68f4e1497"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "cb7ab8f9693a5673a5fb885b9521cba51e6afe550f2b0342285ae15b48b7c52c"
-vk_sha256 = "633b466c3c14eaddd974fbab75f1749218a2dbdd12be6298ee56666180e85b09"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "8dbf48d425c6f410db86f42bbb2e5e698bed2f712e3f807045f68d053fe05fcc"
-vk_sha256 = "db01586f3bada516e8b3bfd1eefb4d6ffe295cfc39cf8bfa39fbcf0d6e865b4a"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "c154088ff3c12423d9b331974c8efbe8f9a2df7569f30f6fa91aa35235744892"
-vk_sha256 = "479ac666a3c25d951b5804b751921e94474de3668175bcfb18d20bf0147dbc4c"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "666a220c5b369e0ca58457cdf8638f690bc36c6ec11178b2e91d98c32750656d"
-vk_sha256 = "f2df558092d048a25dd7703c58d453c9ac8ca741d1c89d0741cf3dd9508022aa"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "59df64d872bc3655bc71152a3fcb28c66fbb941c527fcaa2706968be658ceb65"
-vk_sha256 = "31127cda0e39028250cf0dde6f8ccc7f51233b3643bdb0c6cb64a11f4a3f3e43"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a948690309bf7ce4b78d5fd48ddef3361b35815f1c6815bbddd75ccf0fa0f3f3"
-vk_sha256 = "bb6a2c6bd09d9623020947e700799e08b458daa13a9a7115c3d14650e838725e"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "780f076c9860ad5f54bf46a6593eef141243a4a824dd3fffcf8685e62f98b236"
-vk_sha256 = "a2547f9f988ae94408a46a43bfd98fcedd4bcd4c9e65c408ad0e2e74e5544b5a"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6d4a084fac267520035666a7918b72c5a41b7ecf9ace5d24e87733bc22c982fa"
-vk_sha256 = "b232204a7fea0e6eb3f08d23a278222ac7f9d8b91a7557093be5843f248e4fd7"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "edcf1efde480c9d12f94037c5d6e22b71284306271b18fa870c27cc32546751f"
-vk_sha256 = "4e308df61ee28fc3506310cd2addeb8fd2c5d7acd3fc951e19a84c545abec606"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "ce5e40ef1ffdfb6c6e3ad4b3cf1d6024dc74ab488a8c84f10ac4f62816376bab"
-vk_sha256 = "eb13830259b13f694daa5146103e0e61908ec279aad92bfca73fd72ba3152e11"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "53eecff7c2a524d25f02e024eb16f74f01ba636058d8b1b267d805aed16f4c0a"
-vk_sha256 = "87e0cb2c01c51c136a0e6d898ed2eec3b1d3033999f6617d82b744d7fd9ed3ba"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6dc96aa3021fee15788c008f3c31f8afcfb274110a753ed29b8f56bca68fd5d1"
-vk_sha256 = "6f1dda9749a4807a880c42c1b17f8ca3f7423283c863a60f06701003d1054c62"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "51e574cde6be3d6c56019789f777f70b5ed0be5216f3fc13457f08a26f4a782a"
-vk_sha256 = "b7e0e5eaf124776135319e28f98363b4fe0f776353d514ad986e39e4506917f5"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5828e31351d1b68badfe9d97346460be4c19273484a3f74700aa318cfa564eaa"
-vk_sha256 = "b0af3c2cdf29bf8f7a6a28f14dd0dc73ad699e85c087118a24d339c03b2398d6"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "eab285fe79c4b920548135e72fa4882a398f1a33737898bbd3031a7b06561b9d"
-vk_sha256 = "7458d01817f375d840345aae21cbc3e75f0a5c85174995f118f0d3d741275d03"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "83dcf4a6e6213bb524a1bf10239cb503d166f6c20e61c861f90dad845174ff9e"
-vk_sha256 = "537e640f5c5f9dd6cca1116bf1f6b199534ac63003f8c1cd70a3d3efc7828bad"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5fcd7ab71cf6ec36334dc47692390f603e521023144d7512bed0fcc851727359"
-vk_sha256 = "674e8752ebd2911bb2d64dc1dab6736b5c321d3a458d4de22e0194691f60f6e1"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "25cfab6136ca9b3d4a8086353ce078764ab1b975ba2b360610432cb353c8d011"
-vk_sha256 = "1b97c082b93c361e73c3f478c16aa1a2aa168966ef3ae6191235234f23b9492c"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "c6f4cfa9662a634692e4086003dd5d9aeaae1c4804b674b2c92040b66aa8ba07"
-vk_sha256 = "3a664763d10b4259710ab5ea6a454be38593bbe964752aeb7f3535a3a0502dae"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6debb02f48ebb36b8c1709fdb7f7b26851036e106468045f935353312c63f68a"
-vk_sha256 = "c7018b1d0409a6e5b3d22a997e5c39f5d14e850f9052f8f4130163cc223c8250"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "c1921e86c37d12ecbd5425f238efea5c07ca9050d93d80235d8006e6e6714364"
-vk_sha256 = "fef3c3376f2849700c9d77f45f849e7ab73727276d2717d09461e8fb9bc4d3e1"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4ade25731a99837cc419b6c88dfbd9f24fefdc3221bc97a467d819ff8bdaf4a7"
-vk_sha256 = "091e09cb307821b23fa6f1c64a414a1071d102bdb247258ee9be1e3386b84ed2"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6cfea877f0dbea909922ed69fb99aa33b7687015ac45740eab56bd23e42dbf2c"
-vk_sha256 = "06034b28f1499fec3261784dae7de58dec3fba8969d94d1c6be1fbe262817f53"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6ec14c032e7797a7e3012bd52a156fc84d028a75f47b6a62ea1aa08b8d4ef2e1"
-vk_sha256 = "cd8976b591193c00d79e583d1f5ad080da9720df2711d12f8e92fb3ad9128b6c"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "227322e5863eb9283a248afa136a17f8f85e0673a272f9741f88450e0a2dd83f"
-vk_sha256 = "a9e6d680e5c7608e2ec0f3a7a6d6b073cee0e28e49bd49f1a66b50df2dc6b058"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e0f5929444aeff0106f98b6d7ab7137d51dec71734097237125a1a3351eff6af"
-vk_sha256 = "1e8fd84982a9fc52a280a40869ea449a151aa14dd3e1ae4f511892e876eefd87"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "dabe0b3cc684df6c063ea84410d4ac7b1e6c5c7a6937752e837cde01dca2104e"
-vk_sha256 = "f924d32011939db1321b83b5248a6838d8d2383c43b6fcfaaa0a167b87819e96"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4b5e0e7f640ea7f9455cf4b18487c6cba897c68ea31bc248ad71de9deb72c6ef"
-vk_sha256 = "9ffd97a580d04be2953e3729312d1a39f71f292854a314b35f8df3dba07c0ef5"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "86751bed54037295266a1aaf2ebc15d665d1e2f97e950be78b610157b411d3ca"
-vk_sha256 = "c42dfbb82400107d83edb5ef70a9cf457e01f02fe19545f1ffa779b6755d386d"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "34aad6efecc3e12520450f01c1cdd73e1ab3542008297823a2ca8285ed81242a"
-vk_sha256 = "e24bcb17d190acc7a7bdde1694e9cb443179d5a2c1b259e495640264a50a495d"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "90cf939aafcdf1408926bdbbc3fa0a61648ff7a0405f545de78f232392c04681"
-vk_sha256 = "a73b544020a52d99c72749ccf842bed9a37b676033dafeab12bafe287f4468c6"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0c46b406376d22486f235fcfca225028ac84bee92c7524f9afb9715a40a3de32"
-vk_sha256 = "972836c4f8edf6502f331c1fca52a5ef2fd70c8fcc7531a85f56e8b0c792877f"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f77b16679e10df28e4a300b9bf5104695a651f16af4bc00c7af4d0166f261813"
-vk_sha256 = "7b7892e15ef176744c46d0f91f6156a3a3e15b5aeea157edf4e119ad9b778eea"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1024"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4ef94bd241259a813c60cb761f28642260d63bf6200c510ae48dfeeab52ceefb"
-vk_sha256 = "43e927dca3842e45a315623cf7ea49889504bbffed957c24a3c46c42244393c1"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1536"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0051b00a402b01a6313533de45cff563ab116f286325f46d3c9cc71c558618d3"
-vk_sha256 = "4a826a17ada8dc63d58339396a010b638a8efbff9c57031d39a2558517853576"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds512"
-version = "1.0.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "fbcd8e9edc74aca512a682f7bb386c77c6fbc2dbac6f5c98ad51ecb662796047"
-vk_sha256 = "0f662ca6fdce2f7d6876c4750ab2ef8012544b6dfb500f4af4604d5c8faec46c"
-
-[[circuit]]
-label = "kernel_dsc"
-version = "1.0.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "521a8e846c2a4e1895a4754f6f8551e443cddfaf3550fcc1dbbed7508b33bcb5"
-vk_sha256 = "305471c03f442ca1a6548aac3128da3d8b0d3792e251f355822ea036ad6f84a0"
-
-[[circuit]]
-label = "kernel_envelope"
-version = "1.0.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "e8a0bf80c000cefb19e23b6e17c2373b5fe7632b22b485c4835c8153821b5110"
-vk_sha256 = "589694a2d2034881a835688b160e8fd8475d4d0e1f8d625cb52d77cd1250cc47"
-
-[[circuit]]
-label = "kernel_sod"
-version = "1.0.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "d36dbd75b20a0da0b289426c6e429baa676591128b14dd7b5a695b0a2eacc2f8"
-vk_sha256 = "354e244304f27719b67997304537b5b4fbb5d0f497757881fcffbb9107f19bbe"
-
-[[circuit]]
-label = "kernel_tail"
-version = "1.0.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "8eb0cbd5491676a5203dcfea44e14fa64e4561a01d40ba41c9d20a7cb299646a"
-vk_sha256 = "067f048dc7983e997125830223a89ee8fe310edc0796b9b23c22b2e6495289ba"
-
-[[circuit]]
 label = "sod_ecdsa_bp256_sha1_tbs1000"
 version = "1.0.0"
 system = "chonk"
@@ -2705,969 +2236,6 @@ bytecode_sha256 = "7cee58fe0f2f0961b17b38bbc74a31ba7805d53e377bd409ba45d6af15f6e
 vk_sha256 = "336b2883bd23521d796edf420d0907fff2ad1229d0e0cdb41bd61dbaa3e10920"
 
 [[circuit]]
-label = "kernel_hiding"
-version = "1.0.0"
-system = "chonk"
-role = "hiding"
-status = "deprecated"
-bytecode_sha256 = "bbd5837ae8fd70476ab51583681d5c5bc9908bfde140c1464ec7e73d2bf29952"
-vk_sha256 = "f46fa0179b1e19e9fbc4807ee83c7a188b37ebf3922021d42a8b5ef50aa4644c"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "d34753a40e3388725e92fac7e29597e1f3ece0fd0cafe62263a3cd752eae1c79"
-vk_sha256 = "46fd6e84b508672f98c0693ffb05c3bc2ae20d672028ed863c69f3ab8063e085"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6ea998cbfa51bd8ed7227ae2814b3869e22a48a8e760d2ad78d52ad029b2d480"
-vk_sha256 = "760a443c3844bc74de4a7c575562b81ef9651c77ea7703dc4d404bfb54654496"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "3a5f4e907e091482b8a2b1f60ab43f39d945f271d17c32c76b6b34fd3beb4e79"
-vk_sha256 = "5db9a5bda8cbb6a0fff21ef687af67e7e6c1561f2e50fdbdfa3c29c9611b42aa"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "ec145661d1fe52deda117561ebd604203a578e7e5e827ef67b1447b4b358c4b3"
-vk_sha256 = "ed261a0a9ffdfad59c468985ee95070fbae5e94454a2e40824adb74ef8480ca3"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "957ebce58756c0d33ed2ba363c16a05103b508eb1404787fca15be6890c2f226"
-vk_sha256 = "aa125df1c3df910657f143fbc28e4ce73bc3f74e3ef08ecfa4a59761db86b206"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "717365c01cd51d877efa0d1be1ad72f390fd7ab1f5ac632fa451e443b571f35f"
-vk_sha256 = "09186a9878ce63ec5ccab24e32f74f233f8145ceeca2da39aede3fd5d40a9e1b"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4ebe3909bd7a58f880a77a0fb951a0a9657505436bed6e2ec5b1b33f2a539668"
-vk_sha256 = "8cdc5fffbdc0245ecd76db7b8fe26bed1ed9ecdebc8ec33c89dad37be5c42502"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e46905f3f51d7f1b617bd5f975eb3ceefa5da1f1337da672da6e854821d507df"
-vk_sha256 = "098f336cee1951ddb571a02e6d89328e32e26d81f4ec2aeaac1cb45f6720501f"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "3f2c9170795da3e06b65c5aa5c459e8fdac2008cf1105b4765ac2cf8807752c5"
-vk_sha256 = "a7614366417d7488c6d48c6bd507a657684dc0a2ecd1b825d5e8fe966e0330d4"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6c2086e45e546c48612b917a5ca2eb83e775a10593fba0b97e6dd5772db52d9d"
-vk_sha256 = "a7114e9a38e5618177a6ebe0ba59c85371ab9a9e58ab5ef603fcc2777e73ad77"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5e9b57a8186713073d3f8915f6620aa980509332742ee0cc1b628352bfe6bb85"
-vk_sha256 = "8889ecdd1721edaf73964dde13755bc267d38ec00edc389f26813d587c457059"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "2d66a049b8c56eff1cdbcc5063caf45dd4274f5b77742cb082f20121a91f7321"
-vk_sha256 = "69424fb71efa6486433f984d0d562629d3901504554f1db13926f6224c1ea8b1"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "aa5cd9978e49ecf1d132dc74de0e01c8aa67f5593f04d00a53e0b31e681e73e6"
-vk_sha256 = "d90f8dd42c6321172954a851da23579755c858808d3092272c25e2301f047772"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e5c627023be31d3b497ba5b5194b2016699f519aebcba4920b0f2a553e9344a8"
-vk_sha256 = "e1f2f2e29d3493a3965c93c234abc0e8e662df4d9f337d75075430f1ac48e692"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "1f3a9cdef667d6591ce78716393394eabbe2d056d31f44f1555c512d29ec495e"
-vk_sha256 = "391846b3d27165fc44c21ce5eae0efe3eb7181727116d2333ddf0d0c411bbfc9"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6b215e277cb8eb643e425669554e6a3056aad8deea4971e667c03f75cd127ec0"
-vk_sha256 = "215a0fbc729081f89d545f8b4a5caf9683bb217e0c31a66806d21baac70cca77"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0902971c545fc62fc02ac4190645d904e3efaf2ba48b527290ef97cbe7981a5d"
-vk_sha256 = "7563d0df6534c3f791aa00dab096f59d7fc789d275a43b45af01525308084a2d"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5231d73e2c5243d14aeb82c8a578086cabaf2cf9c3be0f779967662e3f27145f"
-vk_sha256 = "283ee5bf06bf0a9622538dfd81cf343651e09c15b8ddaa0e3ecb00f95440057b"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "55be05166c0decefa2cdb288edbf7f1fbe78a8a896be16403eb3a69eecfe939e"
-vk_sha256 = "13b137ff2bd563cd24902fe5a7f79b30c8760aa44721b7075120e7951b14b79a"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "18e254a6fde6ea5d1765bcc95f47268f4c95fb03f7d8438fbb524f1bbc7eb3b7"
-vk_sha256 = "ac25d255de82cd391df7dc165c28417360935dc6f26d49e9f91efa2d92861679"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0d76715ff4db8d6d642a9f3e58e0b0f1b100ee80d040880efe2c4fd955b66af2"
-vk_sha256 = "03f8cbcc0ab16007fb378688947f548ed533556ed6a27d101d2d934aa67d4264"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "52e3672b5c74a83008805bd2e177a0a4dfac91f609e0f0caac1ad892c5c953e6"
-vk_sha256 = "57fc4b8de4760aabcdbb0cc19876e38735b44607dee8e33db74ef8db64ded5f0"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "8817f8276002b0ab6acc6c1dd015807931d0a36d6a63acec2ffbc30a81ac9b68"
-vk_sha256 = "5a37f3d792e322fd50277a6e751223c80a2acc957c879fdd449cd6380925c465"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "26868cad5711e730b6979ee62b956b77e4bd4e748158bfd3913449b24b4ec082"
-vk_sha256 = "9b95ee76dbf5424ace2352da758bad2a71c4789a701ff8bd32707cd15d10082b"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e5d4bd35b58f44a96bc3f785a4563629403041a8cf3a072aa915f5a853771504"
-vk_sha256 = "9fa65d0a59aaf88747d3ace88c234cb013414147b66c0ed0c397fa2390e64426"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0ede45ee755913a0ebecdec3be7a1112ab4fd9af44c96d81fd4f6ac09038b9f5"
-vk_sha256 = "af6595c1105707773628488e3b0708bec8d1bac9b0451f6cae038bea3cb2090d"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e32bc3402aa3f8c9bca4ff1f93ac497a4be64f38b6b67944a257aff361ef5ab2"
-vk_sha256 = "70d7b82b953b04b62b9c00e0ba1fdf030e60c4d286c57bbae0a1b60a8698ff64"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "edbf87147acd9d0a08ada0a8708f9961e01b5685e3bb2328f14b9d32046a357a"
-vk_sha256 = "b7149a16e02844d8f383991a3325e89ca604cdefcbf2aa56e4b05f2e47afe28a"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "d279ebd4cc95cbef7e3a142b4184cb0022c636e246121d1a00163a5a5a46bcae"
-vk_sha256 = "c39fc30eb8df66c0750e34e6365e95283c371c250c0d2bec8775d1387618cf28"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "b3588ed7aba84f8b91a3b1fade35b3ba2c0e3cfecc66224e20aa79565542b236"
-vk_sha256 = "5fe5c1844721c0c68c3dc94a96ccffca143b52a32c2358631464a2c86e1e15d0"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a54737e8082341eb7022e18a9da9a810623c3b45299691c10050c63266f17959"
-vk_sha256 = "48488e578c8c19f3385b0b139d69c58c576c45f379e75465b92ce3071525c52f"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f90bf0f1013bea40dfdd35d093847dde4724cfc0d887d1c4f71055c38026856f"
-vk_sha256 = "dc2db28173ed0224ab0b19e7e9514a15ddf1d78f646b6d3899d817672fd6516a"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "08e35e293b778c46068004c69a0160792552d4812e6ced2ebfcc9579259f8aa3"
-vk_sha256 = "61170a986f9f92464a574fb37c77b1d1c03ae8b526d006d50c0d016ff48f0f33"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "1f84a034c5e681b90fb966fa75690b3f7073aee523ce4e570394e46350f7ba9e"
-vk_sha256 = "1a88e6bc03ed03834b33528ffb16e7c873edca86ebef2c62557ae5bdeaac20f2"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "dc40d4a3750d9200f51deaecf828e17715d3875f3be64ed29a2d94c915e3136c"
-vk_sha256 = "8191e681f37081c5d511c7632838da593a0ae05ed5584a27d8789e2e836ba1d7"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "2b732aa6fedaf80b6f1bb2bcd01d8e63ac06778ec4c6f5afa8531daaeed23ded"
-vk_sha256 = "6b985598d42e1a54418b81fa4517a7b1d5afcd9a55f4bfa79fa45a813c1aec00"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "fb232e5da7ce4ceffa5043188350b1310079cd6449bf04dd369268d60f7ddbee"
-vk_sha256 = "7c6ada3d747c3ae57e2914db55f80ddce2fb054657daed795248df1038d5ad7d"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "171b275dad0ab9c7929f64cc402e36745ef5aa459c2cfc95b9a9c7d7fa32eef7"
-vk_sha256 = "93e9a65843d6af8455002cba4ccbdf71f926f21d1508b71e8b9bcedda29296a0"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "19b4d902202c448560006b88645d6111fa85aee5ccb04600821f91236b0639a0"
-vk_sha256 = "e7988bfc953da307206f87925023a31199f495a6a42855c0787016b9392d1bfd"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "b9c517ded548d195d589ce001390f1b77db2f3b0a5cad8d804aaa0c5d9e0c9c7"
-vk_sha256 = "7d2c1e2c8bc9257b0d2393d797b13edc0fc2cf202b6aab8263ed22398f1834fb"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "09a521381da03769db79c3c5882dab5a7330f17a4ef82f757ed6a9ffcbf9c166"
-vk_sha256 = "b3de1ae814f67ce47f4d48bce986ffa9d3d9c183826579d9bff1ebedcc9fc97e"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "52f22f8ccb677f21ba8e450da499f3d3cb96435b6eee828f00c022570e42fab9"
-vk_sha256 = "6f8fcb56769235f98aef67a013c4c8a0d0158fe43b99080cc26931b778dd5869"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "eecf6001be6c3e45b333f8212a5ca5e9c0b4629cd2727cc5c90b0b5a54552576"
-vk_sha256 = "83bb63ee3b27f1f52789ec802b2a60e509d68bd032a5d4c78df8f4c9072a924e"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "01502178751fd8b91872da6312f2a7754e62a40185e7f748dffa9bc4bc4997a0"
-vk_sha256 = "d45c15a990cc5dacc57aa957fb37e0549703fd6902f48a02c9bbb6a7a7a477c1"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "61a967714483886b5d6b1a10323a34d86bc22d87b41a044f4375564544929ba5"
-vk_sha256 = "0bf4bf3f974b3263ffd3d3f84236f838fbdf1b87ea3914c70e4c0b93c4b438a4"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1024"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f83497aa5dca9896fe653ce48672bc8188109f5dba6310cb8c169e46dc064d46"
-vk_sha256 = "313d80012dabdd192f84e476024ac04256009318b419a284cdf83cdd312db2cc"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1536"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "ed372e4490bddc6110284011fb48f3c59ca8ed494bd4a03ce20b812be0159481"
-vk_sha256 = "4cb4990b03dcfd464c78c16ffb095e789d19062961b0a868bdb3a064040deb54"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds512"
-version = "1.1.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "602c9f7c25dfd24473754c11f0e05ff5c9746516484ee1e1f5f12ccc51091614"
-vk_sha256 = "9a3f1a269a8a70556fddac8e46bdab469c5ef9fece96f3c9211273b07de5d538"
-
-[[circuit]]
-label = "kernel_dsc"
-version = "1.1.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "b77c4c0f693a341c37123eb819ea9c98e200d18005836da4fdec748dd1db5405"
-vk_sha256 = "b7f1dca730d3a4cef385dd75fd9f11c0e1e1f85fad010017e5ccefc8c45b1c10"
-
-[[circuit]]
-label = "kernel_envelope"
-version = "1.1.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "0b52e6245df7df82cee8774abdb3d56eaf0ef71079a04ffcd42b9becd877cc9a"
-vk_sha256 = "8b421cb45ad4e3cb8b37fe5474232ba17a9937ffe44a3705ddb8b7efa9d9ce6c"
-
-[[circuit]]
-label = "kernel_hiding"
-version = "1.1.0"
-system = "chonk"
-role = "hiding"
-status = "deprecated"
-bytecode_sha256 = "2f48ebef043811447ad18fb6600859432574430f9011b7a948295a3663ba3d3c"
-vk_sha256 = "a95dbac7ca7716f924846f685e5fbf81a2fe9e3f3d18d176e05422991fbda7ba"
-
-[[circuit]]
-label = "kernel_sod"
-version = "1.1.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "019d479879802bb5ef4b7f2ec4a3f73ebfbed5ecd39545d13d74e6e792e5002d"
-vk_sha256 = "7b482156289d72d365599c3e8c72b47d804ca6909f1599fe78b30761964e9a07"
-
-[[circuit]]
-label = "kernel_tail"
-version = "1.1.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "49e7f65109d17c4e4aec2c75ca31320ee8e851f2289dcb6884b9c59b2d55c549"
-vk_sha256 = "c5fd40c55cef73de8b7a6abba67cae0567526c71341d3bafed49cf18ee2324a0"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "7e1ac0bcd0e692db85cb2f5090d62fdf9494d2a0ba806c02db7001cb010ad921"
-vk_sha256 = "252c8a481390fa1af78d84b9868339892c06265ad20a7607d35c90302cc6624e"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "8e4388fab8103141aa52a8b5472dca0f39b0acd1d60a318a8918fbdedede9066"
-vk_sha256 = "1b112c4b5e2540ce72e2ff86f04fd2dcc01ab0f4ab507383dfb560433c1d4af3"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "19b48717a7c59f41823a5651ebf82ce7d258b2319f89beac11a5565462871474"
-vk_sha256 = "cb78066c0eb3c72c11fc0a82f87254c23d07b4af5cd9f91b49f9dac55833e5b4"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "db4747032cbef3e12d86533b8c8d4cea4fb9bc8eac31e75902509008eb5827c9"
-vk_sha256 = "f68f7cde3b88a143218a9f97c6ce3c9207b875e7dd94f09af5a8b7d46d565be8"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a72babaa25d962649808146dd452b08d0870774423fb872028e2e75b2bf9c6a2"
-vk_sha256 = "5cc6716b6ee5f2a1f5f58a5154e99cb3102b7a8fda7af33cc631e00018a07cc9"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f78e3ce6bebd73d5db56f98dcd614ffa0c721a6809275d02319d76c06c7ef4a2"
-vk_sha256 = "d1187c6c03dde9ff01e56c02b095d599c78131bbc1348e27de6487afdda61f18"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "d1352a76925e1ddff637c4812794c8f368fdbbe1f2ac827412e22d3d9d6f5922"
-vk_sha256 = "64a4041a7e8b87ea982141bad6b5792ed39576d70890856a2ad32eafcc0f508e"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6dc7e50bb8f7980341d7c0d87eb0068246b6f20a410227231bb02e518e50f94c"
-vk_sha256 = "b7f429b0a77c068a72c8d8665b0649c2e4ca4a9df47369dd139bd4ecef769c55"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f61b20bb1ff5df213b14690dc72c5135ab9c09a8af9d899b5c026c9e0a6fea9f"
-vk_sha256 = "7d094272e60c490f8a0afcb049ce4822ba520177bd52acfd86de9a9acf0c08ff"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "ba3d4dfa0a24e289c82ceab1436e02dd309ac3a2a2fe4e5cb87f0940f1ddd55e"
-vk_sha256 = "9952bbbb251f0d8389379ad1ff513bb75057340f0db83e5636685efafdd85c17"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a6ce626ecd65a2dc5bd277e7237c2ce3268b12f25f5e12888f65a30448b573e2"
-vk_sha256 = "00d27892a1b3ae9610e18c791de55f21e16f94988c063b8b3b9290bc47f15ce6"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a05dcd5c1845acc1518202f9882eb396f475958e3ce71120a47415a611ac499e"
-vk_sha256 = "6d5e87a85082884539ce1a82d06cbb10c053cdea473c055612c84bdabe165976"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "1c16df0a8ec41dbd2856515d83cb4f336bc67894f62674a3f4a4a36643bd01f6"
-vk_sha256 = "662302f87cb619780b4e3db9424411b43e1ed9986df8ef28a65c3f9cc3ee1615"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "76bb54af09eb5a0c1f500a94571d28728f37ea6efc2f30e5b0e5abcceca27ee4"
-vk_sha256 = "3f7024d83a0a07f3244de0a78eb4c55015ae42631e5dc86c01f31484b030e890"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e86f5a58595bea701a4bc7f74169c67571ebda6b561c0771576105fc27b6ce34"
-vk_sha256 = "5672b5d7b5b1fc90872cbe9c4cb7ea1d5316a5ebb177ad046534ffd495a030b3"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "fb9bbcfd59208efcbf136588bea091fe75f83bd0fa152de3755a0c672031846d"
-vk_sha256 = "6cf514ee054cb3736e87d9d58e79ede5149524014334617b8a2a64736fcddb48"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "c1ea972ac83d99c482f2de13f18a88d462aa231df28b821dc136a2651e8b1065"
-vk_sha256 = "88cf9fcab2108437093b8d5b3e7c243a373a5f0805ba66b54e66cea5b3ecef34"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "b221c092d2dd30384a5c561ba62ae2fb7d054a229310973159210d7aa5c7ca28"
-vk_sha256 = "2f23c0db448a8d57770a0d6f385de44365538c24c309d18e49e97d90e202ffbf"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "27e2f41d1e4be68c11e0c8811291cf5607d82403817115e2fd0da94457998349"
-vk_sha256 = "bb2be6df53ce0c833e5c4ae07a3dfef5f9ae507748dcf5f5c4f537233dc200ab"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "2972f257d2db30a63fc61bdf0051684c2b0e7f2e65b3835935dbbf468a6ede5e"
-vk_sha256 = "d67ecace0b85c5b27e69915f7c0dddd66fb548c71b580b773bdd05d184e4fe00"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "0d62997398ce66137e37c0aa4accce5873896f260ae9400941aa7f258f572066"
-vk_sha256 = "cb248d7ee52a07c8cf06ad41f9a899dc49d8dfef162b748c7bc3051b6c72fbe4"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "1cba89b9aa6ba9614af928f678fa4790cdf8e328e719b37f6d4684c6eaa33d64"
-vk_sha256 = "1f249033fcbd0a8fe0f5b34ea03fc09a7be33a2429888f9db870db52d5a507df"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "acab257403d9b4b2f8f13a609e1f54e7ce1b8e573be87d91ec7b4a1ed68e74eb"
-vk_sha256 = "52df669f2279e4de5d731916b3336379458750df70ea42dcc78521a6c787cfb0"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "3764e3b08d6f6477d91705e8c0e7993a6818fa5e9146b8a898b9b82cc91ff0a4"
-vk_sha256 = "98fa4d2716d3ab5a7ea1d53c666a0703c60d0fd71994a296f8c96753c47cbb84"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5a968aa270c3661bddd5cf2528c80cf31bbc9d3f5d60487576d28d3e7d390598"
-vk_sha256 = "9cf81396c4b55281a14d2eb11273f8a36dc517db8dccb3908be8807f8afe699c"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "e968e45673360922330c448369e3cb738401642cb8172ffcd299376e70cf3672"
-vk_sha256 = "e62c3e0197b8d9cfa64b8048c7ab86da772e1bd2188ccd8aefff8e5dfd63034e"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "6b349368c760513371d6c78795d76b8a5a4d046a8f44552dbecaf83e0c2857f5"
-vk_sha256 = "3edca7099a6c085fbc0739e6c28becbc0ea7e20d9aa9d1b924037ff68cae7325"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "40cb10e5e7597d55dec5f7ddda5a1bb15643caf3f2281238d55b5a2d0f7d1f48"
-vk_sha256 = "c6176514cd7cf5f4fd525f4c39dab3c2321b7cd78d9b42e99404112a87badb71"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "23285fddc2a7090b61874b7a3de72dcbfd7663a65bcc1e145dc51e7680efdefd"
-vk_sha256 = "97bb57bc062b118819b9adc641c348629e04ea681a6917a72a85fa70f13c5853"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "cfad3c11c983d3d9ec5e31e54f6347de729709c817d3fdbc71aab39d15ba7847"
-vk_sha256 = "c2bd0e8160f48724e96c4e1ef9830db0bec0df475eb9a993a07384a0c65e562b"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "aa6b826c97197717f470b286d266eb5543d856f9e48cba71d67b01ae16fa87b1"
-vk_sha256 = "4c04c437def4620014475d76e1075c1e6f159e414ed1e9a024eecafbb1225f72"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "f2b2199829188d33d81d6773480af8560f794b8d63b0389ab8460541cdf63d54"
-vk_sha256 = "3cf19019d55c56edc860be4507a75740ee4647857681fdcc63c10adda94c9127"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "a6945387bae2f153fb385aaea1357200f6ad6e5af7268e3843d23639f0368fcb"
-vk_sha256 = "089c2d58cba895ff2556e7c8bc26592b68f3402beae0bdb1a31b678274351494"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "43560f661731e6f37e2cc1c6c7ee32e627020e91ee8e8112f666941075bc690e"
-vk_sha256 = "c811e49fbca544f4fa61910036efda25216db91b62398d30989802d65f580cf7"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "9d794449b6bceae57ba0d96eb2b9567712d211c8d7e3c258102995eb33438909"
-vk_sha256 = "4c45b4d178426b60df50befc8d52746ebb59da6b1222984d4aaa0dc1d8271e74"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "7ec80937cc784ed352b1328fe613dbd0ce836e3be462e32cfe9f5830e72b9685"
-vk_sha256 = "56eac872d79650df82f76b8a37931f296715eb3a363dc3dbe825fb249ade945f"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "88e02cc3224fa981ff14768ae8d3ad932e86d953a1d36c0ecbc8ca860150ba4c"
-vk_sha256 = "33796d29fd1c1d376c2c03c8ffb42801cdfa8d0b12ea3728123018a3e012cab1"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "ad0fb12c1bc35793074c2faf9b154e212663d24e642603d9d2d90476b7399d84"
-vk_sha256 = "fcb21a2050960836319a58962cc7cea2fdcf4f4f80ed51d8ce07e22b590e8e12"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "aaf0fa78c1befc3202ef9314095eaa582d8373d285118b0b0d78876136acd9c1"
-vk_sha256 = "088fc1545b3eb7eb0777188a00c662bf1bdb002ca06e90c3fa1b49c9d9d65313"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "392793115fe154891c0ed19beba308483aa67f713987826d397856faa8a9310e"
-vk_sha256 = "ced16aa2491902353011e4a562825b93f4fd6d0df72cd47da219a9ff2a3e9e8c"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "5184088c1fd27ad473f9faec36fe5b3a01ddd6b429cd148177e7731bb91e72ac"
-vk_sha256 = "2286d58cf47691eecbecd17dd2e210c581bdfa21c640b68cc6d310b5a01e13d4"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "099ddca4d1a83fbebbd0e0436251e5339bea1add7a1886e9441305def76972c4"
-vk_sha256 = "c7cd1e302f779b10ed146b5fd239b840ffc5642092e495ed3d053cce040b3e3d"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "c28a12fcaec0fc437eaf9bc5adbb413cf1e8f56a2fad8a27efbef1e0094a0c33"
-vk_sha256 = "76ad5b44a7ffbe754cd2142147a77805e1fc3866b19e15294aec7bb538c637bc"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "4f40d81731a91fdd3e64cf4ebdeec1ea353fc342544b2eeb8dedaf70290aca07"
-vk_sha256 = "656057d010884453b29aee2e236d0f80c972a5341eda884a9269b8be8d98fc37"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "60a0ce6474a0055c3cb552da9d24e11a4972f8361ded8b23f708f1fc284f2f35"
-vk_sha256 = "f456bc7ad6275c7dfe78143672c6a88ddfe985ef926507de301e22d7b8e5f797"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1024"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "cc7afa6fc2b3de25be7e4b5b5fd597a3050556ea727dd0929e4427dfd21a33d8"
-vk_sha256 = "4e72cd6c5d6909fd7c473b18cf253b3b0d8a38e22499ae7ff38385ac97a1d236"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1536"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "996db8a16251df01e8c26c687ee9b634732e7b8947009ec3e31fda0c6a1dc1f1"
-vk_sha256 = "1b9e00bd29a791fcf44f50358369f6bcfdc0f2d12010bfe5d3964bc198086817"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds512"
-version = "1.2.0"
-system = "chonk"
-role = "app"
-status = "deprecated"
-bytecode_sha256 = "69989e8aa97ca4b7d91538c58c3af8e8d9933a55ce2928b64915003d047a5ac1"
-vk_sha256 = "3557cc90941263a3abc618c6c35ad314088f891adcb715f296b2cf2a96315bba"
-
-[[circuit]]
-label = "kernel_dsc"
-version = "1.2.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "21387b1ca4cc77006ad0dd22277c58e723250afeeeade6a6ca3599c639e6456f"
-vk_sha256 = "df9550540255bf21ea2faebae88229589aaf52d660ac79d91be6f8492af81d0e"
-
-[[circuit]]
-label = "kernel_envelope"
-version = "1.2.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "dcd5936313cab9984244d6b114787dd21764e97b592b334ef372435195c06a6d"
-vk_sha256 = "79d209196693bbdca3f3b6a8cc2f9f1d1231a0658ead1414f30580356351cb51"
-
-[[circuit]]
-label = "kernel_hiding"
-version = "1.2.0"
-system = "chonk"
-role = "hiding"
-status = "deprecated"
-bytecode_sha256 = "b2804355595bb5e9ff2f0eeb3c87da97dbdfc7fe30fb7ebf71b43857be703611"
-vk_sha256 = "f7171af6ac2f67bbe5a8ac95089d305130b7b68916afc60624af6cc23dc27cf0"
-
-[[circuit]]
-label = "kernel_sod"
-version = "1.2.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "a296644f0ee75adfafaacc0960ef25f3d822c26c44f8ae41cdbc489954d28bd0"
-vk_sha256 = "d7f61fb1e1f0317d5e1a1c0aced1e321f0463a087d1c41f9632a274bfe516a5e"
-
-[[circuit]]
-label = "kernel_tail"
-version = "1.2.0"
-system = "chonk"
-role = "kernel"
-status = "deprecated"
-bytecode_sha256 = "da0537ff5fe0e22142fabeb74936c048616ab5dd0975839433ddfd27fa814ac3"
-vk_sha256 = "bb42156c8358d4709425b85282a538efaa8635f803f9088ae903a594a7be23da"
-
-[[circuit]]
 label = "dsc_ecdsa_bp256_sha1_tbs1000"
 version = "1.1.0"
 system = "chonk"
@@ -3675,6 +2243,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "0c1899667d816ad54694389dce67395f49851c0f8ef23b40cec3b103df388a1d"
 vk_sha256 = "9f2bac014712cd76779c97de1509856cf0c420049967c96d2b6cc36043d4ee2a"
+vk_hash = "0x1c34315dd96243f25233c44938cab89909c6cb2190e59f5e3b5b31c116c9f1b5"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha1_tbs1200"
@@ -3684,6 +2253,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d52c4bcca637e80145429e33e729f1bf0bcaeb91205f68b55ed91e0c963301c1"
 vk_sha256 = "fd3ec457a5cd19a0436259e92df4e0007fe228ed4c3fd05aa3ea253f54e11b64"
+vk_hash = "0x17d57de9e8a3e11d56f5736262742a583a2f6f20bbd1f52afed3ab602cf52fd2"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha1_tbs1600"
@@ -3693,6 +2263,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "bb8c404059c2de797a79201d892edd9b36f57a92cfbd58d8b13b7bea19f6918b"
 vk_sha256 = "3efd6743032e9414272ff2fb918e44ccbe7d59abb5f4c17646ea097d7ecbdefc"
+vk_hash = "0x0bd33b87fa8cb851a0f6dd7798a7b9eff87b4835c6ddcc10715721ca34f6f5f8"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha1_tbs700"
@@ -3702,6 +2273,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "715d254e1dd503c06d22aaa5ab414576f6db78374d84f9e0631631beed2dcfa2"
 vk_sha256 = "8027598209701d93918b91245de711a114ade5046cb3028b9a6a2aa0cab99a46"
+vk_hash = "0x265ef2340c855129d254692f6990361f4dd3b4e33b72a390009f0f4b877e30bc"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha256_tbs1000"
@@ -3711,6 +2283,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "3bc43e7bdb23b33fbe8830c9344d304e09fa0cb43dff5362f2cefba395b414ee"
 vk_sha256 = "afdc6db4e89fff163112208ca2b9f2e114efd425f9ba6129c1c8925e111d9674"
+vk_hash = "0x0d5207c41350161d125adbb695bfe987f0fe218dae0ddba9e17aa33efcbdc238"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha256_tbs1200"
@@ -3720,6 +2293,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7e9f8e9bb698bfeec2fb36c95064adc29c1beb8ea6bd9da5e81060daafb70379"
 vk_sha256 = "7490968cbac6b728c2a3b9f8392e013df48e24b5181d43734b42e26e0fab6f5e"
+vk_hash = "0x028b7bcb87043437f23f68c1495ef7158d738de0e886c609fbfbb7af705f3555"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha256_tbs1600"
@@ -3729,6 +2303,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5fce75587bdb44c46268a90bcfd3a2237f195f4cf80444332e47050743cd5f45"
 vk_sha256 = "a1170327c0aaa51f99986a912121d10e15c407a4b4869fe8a5d97fb4b7d1622f"
+vk_hash = "0x2a94671c11c53197254d59a8ebf704da8849d70fbee1af02d7f1796ff70567a5"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha256_tbs700"
@@ -3738,6 +2313,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "1fdb9c42bfbbfd98f427c65d8a2a9bdf565675f83ef62bbded8bc1bbb8d8889b"
 vk_sha256 = "d5d559102ec6f1c0a744987eb7162f3e742075fbca25668e58447b5e2c4ab571"
+vk_hash = "0x2f23835c30845d4441762a6bfaddac5ac4e1ad4dc4aa3f8ed559b535b4f82f8a"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha512_tbs1000"
@@ -3747,6 +2323,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "114d7554b72c1eaf73b1ba57b2e28bc6c01133bd6e54341496e46ee5dc35e471"
 vk_sha256 = "bc0b80b2be7e026232b0ce266333df5e4b67933bbc1e42056f36e32ed1a864a4"
+vk_hash = "0x17455b894c94b570f7da54feabde852a2a565a38f6d86af8df5e15a29a5f4a65"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha512_tbs1200"
@@ -3756,6 +2333,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "773a7fa0e5b860c843972730057c248f80262844a72bfa7a70bc28ee07d964e3"
 vk_sha256 = "8e5b155eef0a9dbece3637ba23d918123d513de99472e4e1611f47bae8f9aa66"
+vk_hash = "0x2b36ade9f3eb50ae79ec419dd9ae1683d95adf4c0018844bc64ca613cf78e6f9"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha512_tbs1600"
@@ -3765,6 +2343,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "025c093f819a1f307b479a838f9c5086f24e0747d2eaef613a6bbc199fb99e10"
 vk_sha256 = "5262a824d788709ee0648e18916f478350fe9ea1fe089d3e8f1ff7e2f6a8950c"
+vk_hash = "0x17012e1b8882e27a17550a2170c24793f083d79c992c7867abd6681b7e878013"
 
 [[circuit]]
 label = "dsc_ecdsa_bp256_sha512_tbs700"
@@ -3774,6 +2353,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8216c2e88d2c770425f9415ede13cd60beace2c95c52be3b044443379e9decad"
 vk_sha256 = "9b0fe7256c665b25e627e649808b39386aac75e9b31025543f6b2ca3fb28d505"
+vk_hash = "0x0b5e3384d18f9b208996477c598ad3a5ea669ad153ba69d4dedb2bd501e2c483"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha256_tbs1000"
@@ -3783,6 +2363,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "057bfcec36fbb2a824eb42a2cdab973cd2e856fb7ce4ff7c739ffeece48fb577"
 vk_sha256 = "4e8a497b7f3d5e90988ad0cd8f5f15d37d7db1927b80631813526b9883daf036"
+vk_hash = "0x15ddef5c49fb0dc1386aaad7dea9c9eb837577c9477339b41dc193329dfbc15d"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha256_tbs1200"
@@ -3792,6 +2373,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "06f4e6c225d8cb1f68de4bfc08e3438f869efe9cb47a8e52fbc3634162bce19a"
 vk_sha256 = "c633eb172ab16126bbedc66b1e65ddda2008f4304c43e335e43ae4f90d78135c"
+vk_hash = "0x0bb68c7472465c2b40864cb614316c513bf43526a3b2bf234d9de08c6e8e2b91"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha256_tbs1600"
@@ -3801,6 +2383,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e63d4de64163ebe6e5d6aa189af776c7afad40710bb856a4bb1d7c1bb995f102"
 vk_sha256 = "a89babfd6057a335e1a5f52a6f37ff82d58251e118b449c4ad688bf70f342770"
+vk_hash = "0x03ed8b442ce20881978a80c314aee489edd3726cb85469fcd16523b27d87b275"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha256_tbs700"
@@ -3810,6 +2393,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "bcb1dde47b7fe01189b2d4ae88ca167d5c88275b3887280e3d3b0bc69fb2a2e4"
 vk_sha256 = "3fba2640ed23f258d168d18d4ca230c6032b82e425dd593b216eb1612776d3bd"
+vk_hash = "0x295cbc1794815750469277f1ef1c93d5f72e369a0a7484fa5ea31eb1223840d5"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha384_tbs1000"
@@ -3819,6 +2403,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "389317c8b45d9217ece2eb2152e69e7743854b0de08b02e0115b7f74c73162f1"
 vk_sha256 = "cba0e6de8d91e7e7dc1560fb40e5f0aed5e58142c6817245355fa4cfd4c5a53b"
+vk_hash = "0x12f1604392c86736910f93ed0184f76f13f01e9f11e7591d8325f7be7a08191e"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha384_tbs1200"
@@ -3828,6 +2413,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9accabb51573498460eb3f8f9445ab4d080b01ade63134672b2a9827b1b0b12e"
 vk_sha256 = "e33705ad6dbb5ee1db6a9689e7904ff21615836f851d47b8db09c85f0fed4543"
+vk_hash = "0x28b296a1f3266d3867c33a8db5a4a55c9a6b339b76eb19bad4f25f5e2df6b64c"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha384_tbs1600"
@@ -3837,6 +2423,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "00731d82ecb7bdc730aa475a79ca8d8d409710086f62dfa505ed7624cbd97dd4"
 vk_sha256 = "54be3e875e142635c4dfa61797eddfaa49fe803d94d8bd3cc4dafc98fa0ee4c7"
+vk_hash = "0x2e8549eec51ef973fc06ecb96f7a6abc1b3947d963511fe43ba281c6da8c30c4"
 
 [[circuit]]
 label = "dsc_ecdsa_bp384_sha384_tbs700"
@@ -3846,6 +2433,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a26299488813ca83e541fc3b93a648cdd058ff0013d2e222a1ceab1f591127c6"
 vk_sha256 = "372438d802c8f59c4f7894f2bfa997286c3e74fdf5398de2900774e1e96705c0"
+vk_hash = "0x1e1bbdf77052589bff70ff94ad76bd062506b23a75207dfd390c33a4b66c1a1f"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha256_tbs1000"
@@ -3855,6 +2443,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "79ce615469e64d26b906aed8d8e66dd643e686b104f3666a90a7bd75de65ec54"
 vk_sha256 = "750c72ff2e0fda5ea3c321942a7620e2fe16a9dffe15a8024180b0283004475d"
+vk_hash = "0x11aeaaf0d4fbc417652bb7739810f1cc4d5f942733515c30c42fb8d565775d9a"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha256_tbs1200"
@@ -3864,6 +2453,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2a29bc37308be915a91c1067beaa87f9cbef7b10a273682c48142843be43e8f2"
 vk_sha256 = "7c0df00a4a03ce1a9d243625fb4bfe1eb1db955c3369165bf12572b061963d27"
+vk_hash = "0x1cec0434afefa6b662ceac197c31b506c7e397a4139fbdddfdbba785ef7d550f"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha256_tbs1600"
@@ -3873,6 +2463,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "402319b61e1a38a612049b30e1cfc9733511b8bdd186e50d695f462c72306bdd"
 vk_sha256 = "3c859174538b5e4e68fef96881e24d28dc58c465352ac27056d5bca89b8a80ae"
+vk_hash = "0x0e3665762fa3c39c8eb3bdbe0dfe55268000b2b7465c6f6b9208263b6936893f"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha256_tbs700"
@@ -3882,6 +2473,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "138e539359429b6120b104e85627271fb90bb6b6cfa7e9f6fcb9fa8da307f299"
 vk_sha256 = "55f751deb4ff5ba863fd89dcb52f0464546455a002ac5385f1a0fdca074b1e8b"
+vk_hash = "0x04d47d5e2c6f271fc38d26f3a3d0393d5af54cb5e7b6e33c66d5de1666d02d2d"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha512_tbs1000"
@@ -3891,6 +2483,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ea40ca026733cfe42fac0a0a6155e3c7544794d0780da015c0e3b686512d2e2e"
 vk_sha256 = "3a290e714afbc565a9addbf97691d9f7ac35f44c950808c36b3dff4a524e4f6b"
+vk_hash = "0x181e20a8b8227eafbab430dcfb86e2e324ce77dfadd95d640a9575f36eda9505"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha512_tbs1200"
@@ -3900,6 +2493,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "fea5cfcbdfb08bc46bd639921a829ad16429e85e8f9580d32295e4938a1ceeb0"
 vk_sha256 = "399fff69d43c6440b218e7129d425259917c4e35c0a19b31bb8daecf7cdac609"
+vk_hash = "0x1e9685ad82e5150ac9927e0699ae7905bd98d8957b49662533de33d59fb915cf"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha512_tbs1600"
@@ -3909,6 +2503,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9f5a58c3ac2ac7c4d368a1afae0710cc4a5cf100476473b9aac15c90e2ffac36"
 vk_sha256 = "10b2ea52777a1d1c08f1a8db6e9a2202d6504c5f3e3b67d9a74e0bc50922275f"
+vk_hash = "0x0bccf4daa03672f8f051bb5c1470ef3b44fc2c68e6db9bb300f10b0890da900b"
 
 [[circuit]]
 label = "dsc_ecdsa_bp512_sha512_tbs700"
@@ -3918,6 +2513,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ed81d119b78abf1e03e181e12ca8264ee46a6321dcc9463457f710b9f74e7715"
 vk_sha256 = "9b03d6f9e34630c20abdb14ede79e553d21cb29fc9931168281fe0702c0577ff"
+vk_hash = "0x261e9519e2ded3013ca62a20ef264d9f782795ebd3113536528c7c2670da37c2"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha1_tbs1000"
@@ -3927,6 +2523,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "1d3fe21607f4ff2f0769baa60165c021c0f949f9a3fe4a9e4d09e707dbcb94cd"
 vk_sha256 = "0e764c0d7fde104942690d083c693a41d4ff804f8ea8f98c531c6c308b0709ad"
+vk_hash = "0x092e32c07156a428d4e48e6b9d4e3a744f1ef9fa1aa9ac9bb46aa73f600aab2c"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha1_tbs1200"
@@ -3936,6 +2533,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "6fae0be26c2b6ef8abe2e37fdb1c26e4774364b657eba94bac92e29b2d950f35"
 vk_sha256 = "5a9b182881c96bd78cd827da25b80f5c2d4294c8145680d8537b8fdd04f468da"
+vk_hash = "0x16caf6f87b075f08aadbdbbe4a632ae440e838eac6143ff61dd2204030299450"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha1_tbs1600"
@@ -3945,6 +2543,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "480f7a16af09745c0e25b181d5eb154ecaabfb6d9f139d05f945fb5dcff51693"
 vk_sha256 = "6705c8fad9e28a358a5f65cf4e773aa366f4c216edf3fbe8af8005779bfdef35"
+vk_hash = "0x1b9d17b0a3590702244059a20b5ae6e602e3eab006092a0cfc726d693525c119"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha1_tbs700"
@@ -3954,6 +2553,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e248e9e30da421a5c8b8926e6ba99dde7a0f6df82d6795282c073d5ead9054bc"
 vk_sha256 = "63d056dbabfc36f142b9b0079cf5b1cb57c411158549fdcd7a5fd21f3ffcbc73"
+vk_hash = "0x24a95f2ac4c163cca508d077fea50051ab38b0e7272b97a6be2c259156887f98"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha256_tbs1000"
@@ -3963,6 +2563,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "657fad20c6924a02ebdcd1147c14920f94b5095973e77a0fc3719dfdf2a4f22f"
 vk_sha256 = "af33a3f55e3c0e2a68ec2000b3eaec0bcb4c44e8bf901b3cd25dc357a8189c0c"
+vk_hash = "0x06b23469ed33a8611e60318771723215d9d79120c07a8a88543ad44e1ba08f8a"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha256_tbs1200"
@@ -3972,6 +2573,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "edb1ce3e3af9bbe647db6d2bcff75d60b0f637411aee7974c38cda2c20a2e6c7"
 vk_sha256 = "9a2e7d616a092abb524e7f5eb3abe04ce9f0e6a8716d3ca0b20e69f6d55dbd2b"
+vk_hash = "0x13b3d78e599cd10e68e20588f87c414d9728856febce4a468714665cef3d64c1"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha256_tbs1600"
@@ -3981,6 +2583,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "cc5cba9acdff7b041816c128081065848ba65f56ff5536ec4bf7eefc8f93d76f"
 vk_sha256 = "384627493666a5c442a3b5658f0400f09ec9586abbbf7d7aec7d354a0015d5c6"
+vk_hash = "0x0ad020d90f9676e051f2a537bd066a23caaba5c225c6bf417300efbd72c89827"
 
 [[circuit]]
 label = "dsc_ecdsa_p256_sha256_tbs700"
@@ -3990,6 +2593,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "26f105098cf5f6628297319129a4a8fed9e706cfee7bad7ae67255cd51366c30"
 vk_sha256 = "32209786ce0dabd5c9f8bd83d5ddb7182d315cc10d5da51e2abce8aefced010d"
+vk_hash = "0x10625df4b605574b40f1fdb011364699db5490ee6810557f88e6cdca21726475"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha256_tbs1000"
@@ -3999,6 +2603,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "61ca10bf5202b515ac810882e1a2ea88d2a0ea0a575e9dcde44f0d20b8ae07ab"
 vk_sha256 = "a8c523f039d463c5f24e4e7155e322b5c54b2c45b5f96589c8316c7472ce785c"
+vk_hash = "0x119773962ed4a290624a89f9262cb90cf50c4b2e0d78f759be5ed6f31c47c15e"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha256_tbs1200"
@@ -4008,6 +2613,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d457e6dc86fbe8f1ccd82bbfb5033f2963af17f69c37a388f7ead1572e4e94b3"
 vk_sha256 = "e296f0f6c59ce244165d0adfd68b6fb828c00177d3773c413ef529631c9e913a"
+vk_hash = "0x14acc2ac6c157d9b0e7bda46d0ec601fc585e5321b8c0b635a841e620df65e2b"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha256_tbs1600"
@@ -4017,6 +2623,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ac0a990e763dd15f2b81ba8fe57cf2e8ac375bb773b7ed932974da2ea8eabd5d"
 vk_sha256 = "6f7df3d658e746aa4ba44e764ec39322765def8c256366a33fb3d945bac77d03"
+vk_hash = "0x0e70cf57831a3ffca6553ce2a59a31f5aa7e8dbd62fdd9140df0db9bc17a3b5c"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha256_tbs700"
@@ -4026,6 +2633,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "610916ebfe66ffe651535b60ceecf08a1afca1edbd237caaf19f4d71aa19e079"
 vk_sha256 = "5d1d6c03d06dcca88dbc23546c30afac20546a0b307ae9a8000ffaaef4860b43"
+vk_hash = "0x033ccdd1ed5ee2f8255bfa48b223f8d12b7016987cb2bc0400a32f4f746bb2fa"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha384_tbs1000"
@@ -4035,6 +2643,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "167c6fe1dad227ae4e1c7177be0c3aabefbdf20713a84c1d735b125cd90b7897"
 vk_sha256 = "bee4c3e01e4d6636533e0a56340108cafdc0dc5cc138e86b4f3694b525924740"
+vk_hash = "0x0bdd1c7891d7f42f8559f941f14f4bdfc89386f1c1ce478c3268ca2c69c134ec"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha384_tbs1200"
@@ -4044,6 +2653,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8eff8aa6caa50dc9ebed95a3f7bd2cfa2e232cc97fb4fd8d262c8b0822b87985"
 vk_sha256 = "d023921fa99a83228442e496ed73e0c00dda384d84758678d8d8f112d9e4cb62"
+vk_hash = "0x0c40c5986a8db0c91af39f692c83b8a7c72b83a4c5a3fed03b3087b51acc4d33"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha384_tbs1600"
@@ -4053,6 +2663,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "605ac518a7a4ada634bb6987b705aea4b5b8677a5587e77423b7d877c6ffe4d9"
 vk_sha256 = "b6378089c3d8810a055578932a8b746e83b65dab37473fd0d68b43e9892ebe4f"
+vk_hash = "0x1c5eb11b343960bc1cf7f82121f6cd94f97ee5ed957e5aacc3382b5edd7dc768"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha384_tbs700"
@@ -4062,6 +2673,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "96a2daa430f864a8c1e0a35b48ebcfcd3ffd63a8a2c95b18b6d4d75110aa723f"
 vk_sha256 = "5cd488dc62c3bf541856cf204cf5987326c4d7c31147dbed5a08ae68954765cb"
+vk_hash = "0x142ce2d241e5ebc57fe5f202879d5fc05105d031f966437524d567c6e01fdde2"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha512_tbs1000"
@@ -4071,6 +2683,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8bda7b751234ef712197f7162124875d10c00951cd895e4acb93cfb9f5d86c1b"
 vk_sha256 = "4d0bc98c4540031854a3b0706b45b7e7da5902ec89c8a50f866720505cf45fdd"
+vk_hash = "0x1e6e259c9152923b75c8b97536fb3cb13453fe957f2540b84953d42c2af66ba4"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha512_tbs1200"
@@ -4080,6 +2693,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "af122eb1bf9d9aed3db1538993df3fc1a5b4ac6fa49777e462f1df0bc696690d"
 vk_sha256 = "8c44fc9a1e740551ebe1f6e36c7446b83881ed52473110a469446e404906ad8f"
+vk_hash = "0x1fef717e7f8a126d9edd617f0cde3310560293cd7f3cb971898ff5277670f64e"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha512_tbs1600"
@@ -4089,6 +2703,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2ad96e824b70cfda768087b295ebc98cf4741e78a3f1f9878a884ea0c2fadb52"
 vk_sha256 = "0c49d3f8dd5474d28de4fcf31f78c1c7446a61adc1c0093c591d1cf8db577f03"
+vk_hash = "0x1d6408f4f656327e10b136c92853cd7efc987206b4e73f99ba3990597b4d381e"
 
 [[circuit]]
 label = "dsc_ecdsa_p384_sha512_tbs700"
@@ -4098,6 +2713,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f925f4f61a9d276ef198787b580051d63e68b328f2573bd58da0447c49ee14a4"
 vk_sha256 = "acb850f1289bbed18bbecce70bbc205c5a8b417de8c8b85d305b2f9a5d121b28"
+vk_hash = "0x165a00377c4b4a335571cb0377b436fbc510eb9e4d1cf767d9f852c7935e66b1"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha256_tbs1000"
@@ -4107,6 +2723,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "efd70e5df5b85b5e51d7b0d972eb0748e465ff32c5345b2f00f685ab367d2576"
 vk_sha256 = "16963585df3b9753578b50a4bbe83628b46a2b0752aab4962463d90785290f66"
+vk_hash = "0x1800072c15355c1a536cb3ed39d505821b0e77a7b2db1661e6747b29749ff269"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha256_tbs1200"
@@ -4116,6 +2733,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "60df243b99d6f27fba020d3e7ee495030baea8d56844b38ad831ca106c21c4db"
 vk_sha256 = "1c01e2512cbbb4ab1d177e08391e86765ad175232bf2efed425eb85173986a41"
+vk_hash = "0x086d0f850ff15d3bbdb6e796ad3d555fa6c8b6d3cc18a21d44dfe83cd5c15a58"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha256_tbs1600"
@@ -4125,6 +2743,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a2c2663253733cad40d47cbbfc99a8c4a2df48f3e625ce5ed8e113628a40b0a2"
 vk_sha256 = "59d8617ab1f2111254b3fe7b8b49006e87eaed7eaaa95d8bd2f79f838da8009e"
+vk_hash = "0x0a2713cac1ffb593c6c5c0bd87b85145ab6558c2fd6be0be0e2cab76fb2c8a1f"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha256_tbs700"
@@ -4134,6 +2753,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2eb51e4105cf78332bbc4071e2bcdcd7b02faf8bc05897ce9b3dc05d2af4d2cd"
 vk_sha256 = "9511d33e46c044500f4ce3aa3249fcbf7323c3d392184c895e30568b97189fca"
+vk_hash = "0x1d74bc8da70e1ef2828cfe37858e9349e3f090c20fb992a74fc5b327b8b72b96"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha512_tbs1000"
@@ -4143,6 +2763,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "90c40270e6487e68c5ceb056ba908d688d83279d8da0fff82dbb2cd8a7cd5674"
 vk_sha256 = "f36fdddc719f6776d707cfc9cd4b523b8993adebed127535ea34d27dcceb0026"
+vk_hash = "0x1d36b69140548a52e5e97d46d2e900060822531a4b5419c9536dc294b9c46991"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha512_tbs1200"
@@ -4152,6 +2773,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "11171896cf1fe13a968031fd8a9a63730cd8b0a7b600e6d21ebddc2fd10175e0"
 vk_sha256 = "1b910ed0a021eb94cebb567a7252276f8d1f46537e141720cd02af4b6daf6b66"
+vk_hash = "0x1bf77b755477b233ab2a010418d132e1bc1ebf360f8fa737cf540fa752df9154"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha512_tbs1600"
@@ -4161,6 +2783,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7879399af448d45e154e95f487703a33f36ea71e1fc2948a5be14f3320ca33aa"
 vk_sha256 = "3ae628aba6d812e86d02b76368240fbd1c1c27b772359229ca1f9e24ab04456c"
+vk_hash = "0x1fff451d0d490d231ac22c370794755d4ba93c6441111288cf4d57a016e163cc"
 
 [[circuit]]
 label = "dsc_ecdsa_p521_sha512_tbs700"
@@ -4170,6 +2793,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8d99b53f253ed9797b6b2143988ff5d5fa18e073186f304c45462fa2f6bae26d"
 vk_sha256 = "512e761ec12471681c8876ff9ec7afb2c28772102434a84078268f3cb301659b"
+vk_hash = "0x2612d187b0367e656f8fb23f5e5859145e1dfde84cff787886a7f2490353b440"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha1_tbs1000"
@@ -4179,6 +2803,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "20e1663c061fe7e5d4370d05e90c61651c2c85d60e671da43f4bed8c3c939ebc"
 vk_sha256 = "0b707110c5aea3103b3f0c14dcc9ce1bf88724420f262f6256b2d08f86db5795"
+vk_hash = "0x2aaed1451da0a4b9d41b933740b49fccc80a3705de2169bd1dcfdf64d88907b9"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha1_tbs1200"
@@ -4188,6 +2813,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "1b2cf8aa93bdfb1453212c5e25faa6e748df3db1d86d2a8ccfebf795c7348007"
 vk_sha256 = "734ee0a7e71b1d10d05de6875667cdcdf19bcf03c2bc38a8469d370b2bf8eb00"
+vk_hash = "0x23d7ee8435e8bc728bc3790740bbef5ae1a01af3b7e3ed9bef7cdaf09fb0df5c"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha1_tbs1600"
@@ -4197,6 +2823,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "cccaedb47f6dcabd5fd89773238592396803bc261c3fbe1bc875edd017ab3e45"
 vk_sha256 = "0de4367c774fd5675d00f7061abfbcbe8e19ad8afd1e0d289397a6a80da47ba0"
+vk_hash = "0x144c4c8060b5d876220a00f4c3c8d825e4bebb0193d35a904f4f8ad4e53d5ef8"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha1_tbs700"
@@ -4206,6 +2833,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d1310586248db1b1d411a35037367d53ad71b9e66e34559bea7b196e86add960"
 vk_sha256 = "cc6c70eee97fb2806b0243212eb03faa3fd14df6a5b8d4653ba7b4f0442c8ade"
+vk_hash = "0x1ae29fe4577113eaa15e812b6d94162a9a90bbca543afa646125cd7fe83a5071"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha256_tbs1000"
@@ -4215,6 +2843,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f6b8056f328edd9da7b8c98125332b121ba1327bee704875319274c2f396bf03"
 vk_sha256 = "4da94ae5d593c000bf18bf1c5a4e5ac5f0208130faefe584bbc4dd66ac10a7d5"
+vk_hash = "0x1d46cbfee115c5b235e9212315bd4e971d6766adea20155fb4b4c22239bd8dc5"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha256_tbs1200"
@@ -4224,6 +2853,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "69d1771097930acc8486b99bfb3db28c6b62f3b7687d927fce88d0d5347a7e70"
 vk_sha256 = "71cdba442ccd5d9b65285fdd4bebc94795c2fb692d5bd0ec8356361d78a72c53"
+vk_hash = "0x14f5bbf6b3668d6884afc24de1e5d5fa33113d738c2a295167b0981a64dc6266"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha256_tbs1600"
@@ -4233,6 +2863,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a640e3ce37ca5e0fd35ee290c0d0b24079eaa634f7ab8c76670933179c19a19e"
 vk_sha256 = "a9c415b452823d4674f1683a4007b27361552c819f7b018100736558817da407"
+vk_hash = "0x11193d4e46c82e66cd76d40897da3e8b2d9d0fb24e1655a10b194f2b63931ea0"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha256_tbs700"
@@ -4242,6 +2873,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7ce9e80102c90b4c459b67d7631fae8487d4b02dad027929a98d9bd771681bce"
 vk_sha256 = "21d9e2ad6c121b6a1f6eb8ae056c800fc6ba9891202193677e7f2ee96c4eea2a"
+vk_hash = "0x1f72c1d185e749e16c81abda5f2d894299b28a62bc346837787f6b3234a77f16"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha512_tbs1000"
@@ -4251,6 +2883,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a86604f2cf17a92c90c43422d67cfeec740e67150868e099fa739365f9c22907"
 vk_sha256 = "ede98f7cc41dfd1259c7f2cc5ca241efeb387bf33f3194763d14fefa36021379"
+vk_hash = "0x1a973ae80f647f2d68d3d17fa769ca9125c882cb068d9dc142290252f71fd294"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha512_tbs1200"
@@ -4260,6 +2893,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5b515f6b1e0797799f262c7482d5d77fabb70f18fb8fc34096ca863aa7a71603"
 vk_sha256 = "b5ccecebbc7e3c77307adf48a3485e58a76600a973aab38e67afd9da4e14e92f"
+vk_hash = "0x227d5829e9cb6f8c1a03a120f17722cdfb4bcdd53fe168696a02c96e8617092c"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha512_tbs1600"
@@ -4269,6 +2903,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b1c913a89b482810e322f7da36863aef3a3baba55c3018e73d1d3fdfd3e3a4a6"
 vk_sha256 = "e02957a8273dba657e2a8d4d1f9ad0a4a04a702a0d9efdb62b31be223ac0686a"
+vk_hash = "0x270a1b333989b0ad6d6afb4ccedb548afe53b367041c56a23e8bf8137d5920ae"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_2048_sha512_tbs700"
@@ -4278,6 +2913,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "bde4b2cc4d5857e559ac03504ba911b9dd4d9cdf4526f3fc7449dc7aec1780b9"
 vk_sha256 = "6b4e0aabf920abc7c1533f20d0aad8ed0c848a3bc9d856e3cd200423187348df"
+vk_hash = "0x1c94cce605e3537fcc15f824f1c83d6d9cbb0bd1e40341ab43dee40963be0a63"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha256_tbs1000"
@@ -4287,6 +2923,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "495f69d96bbbd0119cd8ce432da4190d95771c8ddac7ad8002f1d0b6ee15f914"
 vk_sha256 = "42d471c0331b7ddc0b80ebe70f5dc21bdc2556442b81fabc245ab4fea365320b"
+vk_hash = "0x0cf40ebf42a20673e4fe730bfe98e9456fa1de6df251538d36450c3c805ed9a0"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha256_tbs1200"
@@ -4296,6 +2933,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ad16d5a6d4168bdfdcfdfe3dbc84c1d0081f87be8926d9cc85c2c74c7512ecb9"
 vk_sha256 = "b08a81113ac19b5fd5bd71345579e96ee8eb9788e03424da6f2bd43841d245f5"
+vk_hash = "0x194985a91b73590612fe7e46599f403178474f90ed7c4dd89a96ee4f64f8aead"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha256_tbs1600"
@@ -4305,6 +2943,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f112323e328d03e192e7e3b92c4255e87504bf6648a4ab641a8472608cbd9b03"
 vk_sha256 = "f61acb3f96453fcb39e1fa65e11e42f6533b9be84b7c232299bf36b26cbb5b77"
+vk_hash = "0x130a2ea07e2450804b03b12bd8ea616e3fa46113495c3407e959a69553edd9e5"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha256_tbs700"
@@ -4314,6 +2953,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "95714c52924bf58e9454023e97d02914eb7a75ddd4cbc7b1bce92939be71e7fc"
 vk_sha256 = "8873506ef2dc706d72d4051ade648b1ce0b611afa8ed20d45f6038c32de0b031"
+vk_hash = "0x116afd516497a2d38621e075430eb41a46a6963a1308e21b6f14f20c9be91869"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha384_tbs1000"
@@ -4323,6 +2963,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ec8fe708f620d2c21eaa8ac1e4510b4fab3baa0e58888002e00ff4ca643d19b4"
 vk_sha256 = "01782302e2e2c2a91c1110e945fad65925fd40ced7c81863977b529c5e46ad1e"
+vk_hash = "0x02d86e1f5e781c1eb69c731931ede0d23738c4c67f10f6f3e5ca2868877003de"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha384_tbs1200"
@@ -4332,6 +2973,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c4452dc0f4f02cd3893a1e0d26edb455e8110d13ee5c6c4311e39aa85cb328f0"
 vk_sha256 = "0765efffb82b6d4a3533afce5c6cc3ab67002a7858ffec38b16866d7e62efc19"
+vk_hash = "0x0a4e87cdcd5d83b5a11c9f475ef197039e3a9d0536dc7e096b37de9e7a0a4d74"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha384_tbs1600"
@@ -4341,6 +2983,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f8d3f05cd67ef01f9943d3fc165c24060cf9a29290fa59c3c99cf26e562ab188"
 vk_sha256 = "dc39b8216fcbeeac19989c53ff81f816d1bba4cca2aa3f881d02259250620302"
+vk_hash = "0x037e8b759e2c384d4b01de5e700d1477935ca854e73aad7199e3ebb3ec6b0d3b"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_3072_sha384_tbs700"
@@ -4350,6 +2993,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "68aee07e500ceca5592462eef0d67f7e0555ccb79c48c17314ed05926aca1c83"
 vk_sha256 = "586b5e8703e44e5cce27c6331f0e79b423c0fe96eee51a4972e9a236fa475b26"
+vk_hash = "0x26dd3ffa119aa566dd7325b850f507cbf34885f1f269c1af8dcb72c69cc0fa49"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha1_tbs1000"
@@ -4359,6 +3003,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e8e30ea57aae1ab625fbfc611ea1a0846764cf3532c451177c82905165413bc7"
 vk_sha256 = "f2796ac5730a48d004fad2ee19c6199aaceb97912b6dfb6edb2ac86d71a91916"
+vk_hash = "0x2159bf86d29f79fc9912adfbeb3fedf0f218f5d2215e21fb462069320e1c75db"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha1_tbs1200"
@@ -4368,6 +3013,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "67c8d3410c8869c633d2ce82eee136f26a876e0a63b92e7669d11fb8b3e8afb0"
 vk_sha256 = "8729710fc646fa0712ffaaf79700b3b78c2c78db3c5eb73cf56840c36ea59d0f"
+vk_hash = "0x083aa0b54cec65abdd3dca9226e44b75be618967ff840957de9fd9fbe6840b91"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha1_tbs1600"
@@ -4377,6 +3023,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5258e80c0d5f5c82a11ad25c6ce3cbc8de275041c1c28b2473207230217ac1c5"
 vk_sha256 = "839eed6cfdbfc53a658d1e6f9cd4eced25b229f4a044ec188880c0155464ee69"
+vk_hash = "0x028d7344d919b46e228a6e8b62f8bd14bb46bababf8d926fbc32c736720b15f1"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha1_tbs700"
@@ -4386,6 +3033,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4f9ec7a1d5f76316868aeed9e55499f6c6627d7d157ec8f78dc4467ed2efc3b0"
 vk_sha256 = "d02268bd61feed8ee6829e414bd41e6256f2b918ea84975d3d6a5eba67d01e91"
+vk_hash = "0x1f46b84dbd184305035b9b94982290b7f751b077243db3df4411411e0b330404"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha256_tbs1000"
@@ -4395,6 +3043,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "56738011b57f94e888e8699ed0d48e897ea6c594131bf90d59265fd702ea826d"
 vk_sha256 = "3c1a9669f5c18a15fcc1ed26e229e8da0f572212c4fc4aa1194beb2611011c48"
+vk_hash = "0x0bb1fa90cb6e00399e04553b0c3a9eab4c04fca3c187ae65683a28cc611d773d"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha256_tbs1200"
@@ -4404,6 +3053,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8fc38e5568035cf62ec56f86a7e27b8c0bad539cdd99246050e6d2e0e1c62069"
 vk_sha256 = "dacc4a4f43650ce66aaefca4f5a4f4782fb4868a22315631106eb0667fb18b4e"
+vk_hash = "0x2762eecb3ec1e896ffa98903d635474a26479a6da5d0ea8d53510b1f3f3dd353"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha256_tbs1600"
@@ -4413,6 +3063,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "24ca95faffff49ce37ea88ecb7d5357235645200650a263720ff6ebea2a0b22b"
 vk_sha256 = "45acfe7254be8fd11392366529bbb6a21a9ad146f5dfdf664dc2a599620bfba2"
+vk_hash = "0x038f877847272474ff545d8f1966231c8a893042d877ba0ba81073403ddf99c5"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha256_tbs700"
@@ -4422,6 +3073,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b27bfe12c50ff8e8c979cbc6484231be200e92d8869ac1b31653063fad144a2a"
 vk_sha256 = "8c982706c8614a4f4204140ec2718a804590013fced862d7cc5612b06667d555"
+vk_hash = "0x2bff8505f3a7a2be0a70696dbd0bc10d4b8787cf9169dede742e38edd55b8adc"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha384_tbs1000"
@@ -4431,6 +3083,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "aae8d07212d4cb8c520139907c304ce7446da0e0094a43fe8b420ce76295c896"
 vk_sha256 = "aa0c0a663c10ee74040b8d5c3a88d5749dd0a8783bc0e1af779cb8a2a2cdc8bf"
+vk_hash = "0x189dc111dd2672273a2f071bc8d93f44d64f4034a95a73a212eea2a2ed9eb9e6"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha384_tbs1200"
@@ -4440,6 +3093,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "06227b11c062f8722593254daddbea693249201ebf1235fd623a0f06ae43f029"
 vk_sha256 = "e37fd73626c58d296072292d0983cd080a34bdeca5ca5eb27ad9f0edeb113561"
+vk_hash = "0x1ac0af12069109ef4b692fa46e6fe3f7b4f5d5a04193c68f5d5db94c781f07d1"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha384_tbs1600"
@@ -4449,6 +3103,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d7a3e5dd387a688a0c68f31a957661e03c93c5df7be7639506d2dd450d0645a4"
 vk_sha256 = "b4cd2aaa4871eab5a679efaf80e1989ae0455b0a9f6ea4258ede11945cc4e7ee"
+vk_hash = "0x1314243202a693d96095184848994cf3ef8725617573c348e50a11b728e6bf11"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha384_tbs700"
@@ -4458,6 +3113,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "42d6585590f165223a24a3316765fe4970cc870fbc0f6abbb383cce64876a752"
 vk_sha256 = "c545d172b43baf6aee7bad718c23e800f7778b4f54218cfa545b218f0ea2e409"
+vk_hash = "0x262008b3bccf91fc1a8450307770bae13ac1ad71d3977c9064dbda58123e2bbf"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha512_tbs1000"
@@ -4467,6 +3123,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "bed1230990ad229f292dd797f83459854582d6b4265d46c75784627e3515a18b"
 vk_sha256 = "a239adef5f2e218ffa8a027d8c05ce70038862926f736725be8b340b37f1346f"
+vk_hash = "0x047f9988821ae4d577f122dc01830805d68b4ade2bd0f98d291ca3515b91d33d"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha512_tbs1200"
@@ -4476,6 +3133,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "04bd3a76a773dca288a1f6a251463c586895b6d9aa84083b4f391ef186bf2610"
 vk_sha256 = "7fd978db342858ac1afa024cf5bdc3e83ccfe34b72c78022a959f900917ce166"
+vk_hash = "0x2072328b2aaa5c1cea33f84517b165f11caebfa4657d486b42bf9e0a994bfce4"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha512_tbs1600"
@@ -4485,6 +3143,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9cb86c0285afac0df29e82874711547c993f55a88d3d49741aaae655e08b33a3"
 vk_sha256 = "07e42de254d5a36a86bcdfadcb4069a4e58b0e027f497c6cb66b3682fdcbf043"
+vk_hash = "0x21be174a2ac7b75efdfc8d2d7e8d69840effd29629aab8b20ec6d955dff45b9a"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_4096_sha512_tbs700"
@@ -4494,6 +3153,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "66763e6161502ff06683697f2fda4215991051ae2e356073a99172843cb4fc3b"
 vk_sha256 = "280c90ed45be79decb738b9cade633bdfe98f1bc9a1cd68f4a93654b550333a3"
+vk_hash = "0x1cd92b3deb7a3116dc161543046774cade4577203f2e443a9e72be3ce1b6b21d"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_6144_sha256_tbs1000"
@@ -4503,6 +3163,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "541be8355d73ac393b08b92b20c1872cebe6059d58cf2744554e573b5f370234"
 vk_sha256 = "73c4ce2819e135ce4633446bddfb146f5cab2fe8c746c93491540d0788394ee6"
+vk_hash = "0x195342221e1c6504c834ca3c44f5245c374ca5bf45133e7fcbffb78383a15d0f"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_6144_sha256_tbs1200"
@@ -4512,6 +3173,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "18677d7c645daa1764a4740e9f8f0e3fdd79086528de7ca3e25f8a1762c2b1ed"
 vk_sha256 = "90a1842dd3a27ecc4c0c5b7160fa159005528fb3be05a1558bb8115eecad9626"
+vk_hash = "0x24e1514611a4dec95839a8160c29b54532e21bba72b4428edcc6659b97244ee2"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_6144_sha256_tbs1600"
@@ -4521,6 +3183,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b80e2d0e571d3106641fe64a1332c77b0a65ed67e7b3054e926e4d3d35636629"
 vk_sha256 = "d539ad559e94c4abd78fd4d0e432a6f3cad25ba396d65f19efff32503162a099"
+vk_hash = "0x007b8aecb455fccda571808ed0d356658d4f54df9f46b7ec24f418032a793fb1"
 
 [[circuit]]
 label = "dsc_rsa_pkcs1v15_6144_sha256_tbs700"
@@ -4530,6 +3193,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "fee4bc9933ef8d0b000c93353d8f8b4a45eb5e2292157aa9d58351b7bd3bdc61"
 vk_sha256 = "f2d53dae0cd351cd1043b277749d63c2d04fe4b5d962a5e33c9b11c5da934c94"
+vk_hash = "0x007c83c580e58e73171007f3157746303ee9bc7a024e5b55d0974053d072475a"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha256_s32_tbs1000"
@@ -4539,6 +3203,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5cea10952e2b71a2030c70b097af9a031895be21e2ec4f6fa0a7ab88a55d59b7"
 vk_sha256 = "9ec67fd1b71da100e1e488b5f3d043b5c1c7f60d18a3e5dfc4b4a188aff3d06a"
+vk_hash = "0x05bffdf73b0d4d3459710bdd3ff576ecf2b2b60daad6bf44bb890d729d61e435"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha256_s32_tbs1200"
@@ -4548,6 +3213,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "52a6fc8e4f8e19aa374a683e3080eed2d2eac36b68db983011482f7d20fab32c"
 vk_sha256 = "b5a1b22fa17a19e2fb2f82b20ef07bee5d66f93216286ba937a8a73d425ee6e0"
+vk_hash = "0x1b1e7a9c69fa0f2ce9c97f0cd0b92cbeaf2c4a1672e9ee686b3b73204ddb2d55"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha256_s32_tbs1600"
@@ -4557,6 +3223,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "dae6cf311666b8e5b43950f0e71d166ee6e70453da64a05267e12c359232e89f"
 vk_sha256 = "44eee7aad973dad787b90c615927177726faaea6b2da3d2dfe29174685061256"
+vk_hash = "0x0c68cb0c8d9d76424d5bc846634e9341921df48e4a43b1a8f289e95eaf1989c8"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha256_s32_tbs700"
@@ -4566,6 +3233,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "503fa3679885633f85d9f5d7c0617a5a39f541dec0b119d43e657e330b5687ee"
 vk_sha256 = "bb61ea52d4af49877219696ff05e53f5920f8b3be16abf7e8382dac09a3e2c4b"
+vk_hash = "0x12cfa9e4c314f0ca1e16ce6461caf463bf51e583cc0aca1aa5f9bb0428fed44c"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha384_s48_tbs1000"
@@ -4575,6 +3243,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "3a883112c6cd3f0f09e76ae858ad481b7061c90449dea3c53e631d216f172892"
 vk_sha256 = "c7242c2d60800461f62349e291e7dfd15c7e282bfda88bc85f8e554f0f1571c8"
+vk_hash = "0x010e55e4c2aefcdd4fce749474ddedfc397336e481bda709c82feac80ace98d2"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha384_s48_tbs1200"
@@ -4584,6 +3253,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8ecae616c397a7591415167bed5a0d928c1796f550dbd0e53ebbed7d0eed203e"
 vk_sha256 = "5ffa99d35c3d93b1e92f656bd714b5a7e049d80fc368810b6a53a73c4013623b"
+vk_hash = "0x18d51f634cda93abb1fc3dd51134b9ea0c04490960722882efcffe506172d259"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha384_s48_tbs1600"
@@ -4593,6 +3263,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "534aa16779a3e4f882d48981472ed4684ff97fd19225d6c784fc1c25ab6936e6"
 vk_sha256 = "0e2785dcf3907c48d0b7fb41bfd2ef090c0cf178fee120efda86bbfd3c6c1a42"
+vk_hash = "0x1a7573a71f4b61816e1df539b62914482b1686733bc5984d5b41ca8d503f07f5"
 
 [[circuit]]
 label = "dsc_rsa_pss_3072_sha384_s48_tbs700"
@@ -4602,6 +3273,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2a8c3b5b51f3ac3f0413773a5eb04bd56855ae24c335a5a7fbc52843f3db5fcd"
 vk_sha256 = "b46b9c75a20925a6c6714278b487bb1151d0bf2e75ad9e80b28962c018b651a7"
+vk_hash = "0x0c6522860279474a1234e1d3d243c93b656fca8ff50befd8d7808ae6f20bde8b"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s20_tbs1000"
@@ -4611,6 +3283,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4b61d192a8aab4a30b38a563802adbbcfc7290ce8356832565f49c1d24474730"
 vk_sha256 = "720579a1874e58a73b92b1199af622c27cdec66876fd56147d6a2833130318a7"
+vk_hash = "0x124022294ca41f9ec7d1d6c17ec7c819e274599e1b4a14de8520acf1d2977522"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s20_tbs1200"
@@ -4620,6 +3293,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5e2938bbedf3c4d46f8484860c990dbb28645d3ba10d403b60e234a09abefa03"
 vk_sha256 = "f76fb1bba6585dbcf0e5d2f4f5914c17837e94226d103cc293ad2ad9e2789774"
+vk_hash = "0x2dd48de371c0beb5a2896a3550073919e5addbe86227d010a903b249f2df43c4"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s20_tbs1600"
@@ -4629,6 +3303,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b066dadbe5523ed80348d68282d2e59118111614816fcb2ee680125bb5e59734"
 vk_sha256 = "ac27c5c1ec9fccd4823a6a9c895d8342bf46ac6778c23553ace27509d813b202"
+vk_hash = "0x1288c5e043721173f496cd415b068196c477c3430415eae92f0fabe23ceef0b0"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s20_tbs700"
@@ -4638,6 +3313,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "19e4e89025a6b711ff6ff433c6e78a49e7bee21ee8ac06aa4c34845b4c1a616d"
 vk_sha256 = "3fc28eb9c053e2f6147f4e3594f054af0aa093f04396e4722d05d43489096d41"
+vk_hash = "0x1d76bfc351ed2fc878be86da98edf5be66349b690cc8ea369e25232676e66439"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s32_tbs1000"
@@ -4647,6 +3323,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b80fa887c179f11019719759e849eda8c6ecfd9dd444404990173657c0c90f50"
 vk_sha256 = "eace4086cc1454d2b4b5929d273b326b3adc653981d25cc331077c6633b6d90d"
+vk_hash = "0x24441aed4354dbb052ca0f16ee5cfb828a5f8f95833ebfc50c9e7918f00f9b8d"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s32_tbs1200"
@@ -4656,6 +3333,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2b26ae1429c4217693e0bf79a29b67989a1ad04a478d6ec78509def8458881d4"
 vk_sha256 = "2186899fb676bf1305303bcb5c3fe2d137eb13853cf9995413f7eb246c67817f"
+vk_hash = "0x2926b61db15065b20bb6d5a21117a2aeb239c7ac410bd3ac3275769a811edba8"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s32_tbs1600"
@@ -4665,6 +3343,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "343a347311841fde456e60ba34ecf31769e18703fd1e4b80d0613943a0916fbc"
 vk_sha256 = "b015ae36a45098e9b52a77742d1f2eb27f6004ba274a5e50f1d04ef0dc53a2d7"
+vk_hash = "0x12b7ef84e772c12d51debb4397cd2d7f601ae1d0c13f4fc2ee92381a513521ff"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha256_s32_tbs700"
@@ -4674,6 +3353,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2eac071008f1aab5035aafb78a597fa44005be8f25f50b0b159e7f4180acae59"
 vk_sha256 = "5731e14da6a168cd07890b879baa0d8f349c5e0b9500ab6e1eafa3fb37af8b24"
+vk_hash = "0x0ae37657de6a9eb457ed06f8fb1c930749c59d0c0f05b01c1eb313d4e33fc56a"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha384_s48_tbs1000"
@@ -4683,6 +3363,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e864e2c504fb0fd9fb0ddc62ab4a2814609776f28b7d551d95d1a8d0508af58b"
 vk_sha256 = "4bb376afabdc77afecd4ec5063d2a98eff211dbfa511e5fde42bc320ef638a55"
+vk_hash = "0x1f6c03f5737e8afcc2997cf8d782d187dffaecd9806c355cead5dd438582a961"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha384_s48_tbs1200"
@@ -4692,6 +3373,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e7a134740019dc3ede1063e25a950a5692675ff7d7aee46f23e465f2e62be127"
 vk_sha256 = "f3f75e167c1002d95f533f0f953f0a7e03c85d6025ee90bb5a8b678ab8893187"
+vk_hash = "0x27a5adbaf6a0274f8e2eee99081f519108d61d4e16885846bcbc569a1529e122"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha384_s48_tbs1600"
@@ -4701,6 +3383,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "12d5d9d2547d1188e8b017a43259a8a3aac417c084e50901835b48badf7242f4"
 vk_sha256 = "98a022f89562f1e9c2b4c5fbb299ada23ab285903d34c0668c982622b74d6993"
+vk_hash = "0x1094a2b0b15c977fd8c6aab16939497035c46acfb241ab42414029abdc673114"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha384_s48_tbs700"
@@ -4710,6 +3393,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ee1db8f07efd289b9d587f833940ebf25f2f91d3f1612629945830d8c1b7bb5d"
 vk_sha256 = "64ffb643fa395a3fbd00e9183b24ed5b9135bdc3d036c7ff5b4b0356a21ecb3a"
+vk_hash = "0x0546f9984d88c0bb2747a040acf93167c0e638f2da8ee7cbc41fdedfda8606e7"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s20_tbs1000"
@@ -4719,6 +3403,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "24b7f99f0b066b20bc68463e6a4d1716874ba9ee860d502adc0f6f40b9680316"
 vk_sha256 = "76adef822751a3fdea6d653cd58628830625c08993b5436525c6624a2c9c97cb"
+vk_hash = "0x150c9b5d66a3db0e364d283eb06dec8e59a46df1ce5eca949293e1b69e1edd17"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s20_tbs1200"
@@ -4728,6 +3413,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5890ed3c5bc1d4282b71eeb326e9580c378093ad066628aa6d8e24971154e7a7"
 vk_sha256 = "a7f642dc8b2a1a009d54045442f224f1b99c3d678dddb744586d97b56ae241b4"
+vk_hash = "0x1b20c66db51fbe4ffcc8cca6e58958c742db0786de04e053109e92e0b28758fa"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s20_tbs1600"
@@ -4737,6 +3423,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "27f758e1f5d1d84f2b15c9d7c5edb55f022880b816442c3d36dfec50897ba9b4"
 vk_sha256 = "b6a3a2373c7e39c73d55fd912cf269f1bc5c62e600c5b4f110991520989f0234"
+vk_hash = "0x29a03f9c83eb468089445bd7e74d2e0f86d02031c2a9e804a0d3ee8d63e92fc9"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s20_tbs700"
@@ -4746,6 +3433,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a4f9f33ec28682a2824a4ffd7460cce80da5ef4a500d1d54c6d163597f6c65db"
 vk_sha256 = "bfc5acc41da7f00a6f3a509196581021515d0417d3fbf836dac376d8d545fc69"
+vk_hash = "0x24f8632366518cedc240a2210929c1bde05cd810d0201678b2e564deaba06795"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s64_tbs1000"
@@ -4755,6 +3443,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "118de92e5e0019daf815c79ad938afb2ee0eec8f4254734148e371787ee1113b"
 vk_sha256 = "2af02a7911089457f1777e95c179f5fd0c9f7320582d47f33fa7191dbc863fe2"
+vk_hash = "0x26d0f0bcfeac5d66356bcf575df1235d09e10f6922c027d49eafd77b778f5354"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s64_tbs1200"
@@ -4764,6 +3453,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ea8d0496c7a0f5e8ab8810dab0566876910940b288e0a39ea30fc839e2fdc8e7"
 vk_sha256 = "652761d77b6c77e13fbcf081b27248095779137f64e380b87cff1d61503b3118"
+vk_hash = "0x0b1f1a76253f40ec94e41918ff422ea48113ae9b34e760a17a710cfb10043da6"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s64_tbs1600"
@@ -4773,6 +3463,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "81d8dd41198cfde0d37d541941923f36fe3d715c69780490bb81186e5c34dd01"
 vk_sha256 = "f9b0e45d5b732cd524bc12b382ac33f17f689209b6f7e5dd634d411958dd2d9e"
+vk_hash = "0x2fef357a2107bad9291b7d1d4ac35724ac7c2fc8f226e7f56e6eadcd300e9b7a"
 
 [[circuit]]
 label = "dsc_rsa_pss_4096_sha512_s64_tbs700"
@@ -4782,483 +3473,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "1f5b0046a6e4b971f92666ca6b791c7632810f46614b6303e4629fde57aeb165"
 vk_sha256 = "ec70385900ae2fe904be7a4669163df20ff8d2a6ba900ca394fa36dba34dda56"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "b569d203881b052563ad252cd20008ec47a822250ed21ca0b95d489b4aeb50e9"
-vk_sha256 = "d4310f358d2ef2eab1f5c9387c3ccbc639b32eca5ddf9d206b3493001763445d"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "dd05bfd72b79689b26735bc32eb1094f65d06913e7fe03826c4dc436ee132bf8"
-vk_sha256 = "0b6f3fd2e114977a8518a5ac2d22215f431c35763b5bd140bbe3214fc223259e"
-
-[[circuit]]
-label = "envelope_sha1_sha1_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "9036eb03f26c27302449e1bac77b3306da9e2c05ef616902ecaa003259854e95"
-vk_sha256 = "387ea09ea6489a589e4ba97daca9fdc0452b4d2a114e711dc7f49b1a2371283d"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "db53969e8c75301fd75ea2ab435aa9f670c85ac4e96780f9accc5370bf152cd7"
-vk_sha256 = "d3ae062adf3c0d6752becd215639e8887e4e17a1d864b4daa5cc8576c77f725a"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "b2b19b8b16526ca3fba3cf25e5b059d9b92f4d4558e5f72fc3454025704f169c"
-vk_sha256 = "4a10c217c78f540948f31094b96ee7d932ac4d5f0ca47a5050803dac6bffbccb"
-
-[[circuit]]
-label = "envelope_sha1_sha256_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "efc40a206da72a33a4c11a96e60938765dfb362f062b44800e07b40b3c23588b"
-vk_sha256 = "26f48360495f146a2b84a9a812690b4b8c0464e9b52bfffb2370ef7dc39bc75a"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "61c64a4f37341810c290dc7a926284af45e5c6cb5d60beac8b64d147b99c239a"
-vk_sha256 = "305b5ab3823681a2509984dfd4177af8d0d8f27ca1b0fc2c2f0082b4528fcfad"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "517c0bf4e7bab6469a77f40fa894812ce211947af951222f8d68c8ded73d1a18"
-vk_sha256 = "73b545a86075f1086ce331c052d2eeb2b9af013a0aeaa9a7c8ae452ca6a3dc34"
-
-[[circuit]]
-label = "envelope_sha1_sha384_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "6e883a33a7271a3c0241e1fd9f3e516a65f57bb86b799c073f6e3a45af178671"
-vk_sha256 = "81bbb1c20eaeaa32279f7a2b1c49af6d4dde656ff2998ed93307bad01729c09d"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "dbcfc5c1b846b320c9f5167999fe656960629ad83965119b27cf4f64df92dd72"
-vk_sha256 = "0aa3ecea515d195b7e585bf194f180c5fc7e4b2941bc732eef4942ea3d90fa75"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "bd635c48daccbdae497b6d36fac84a1133b68347380281a0df413e81f7a480fd"
-vk_sha256 = "8bd37e2bddb53216d375edecf54a315f5f5b625f65f4a3bece8c77c8c213ca5e"
-
-[[circuit]]
-label = "envelope_sha1_sha512_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "90468ca37b1d146e339a8d3dfcfe57756ad8bfe79c26f57b5586e0b4d1b7fca0"
-vk_sha256 = "a9fec8e4c32d9a5b6c22ed7807a5d2db662480a553f7d7f88a9b152cd0da9590"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "15b31985574710e18f79ae05ee0c5b0811b37dba9b84aded363fe53229821ecb"
-vk_sha256 = "9f9bb9ff084c2816f18fd7199941bbbfe77ea05f3f8f0269dbc514202e962d27"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "3270c2b39df794ec8603bc8ef0a7c6408563294f36eb00821bb677148d906733"
-vk_sha256 = "1354be4ab408f4839399fc6009ada50a951b1796682bfeb82d3ddac38b8cc289"
-
-[[circuit]]
-label = "envelope_sha256_sha1_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "629c012e1e56b7bf240471ba0086f811e0998064db46d4cee57c2eabc6eaca9b"
-vk_sha256 = "ea628d41bd8884be9797c0ac589a78b24b632382e9bfc0eb67580dcf345a38f9"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "c3ef47b577ede2fa15ba3c909d3747a5d0b254015558d146f51b44ee665dbda0"
-vk_sha256 = "b12d8043efce1c5f2321f525833a44711d5ca3bb82ad0998f760738de769e89f"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "055dfa9285c69fab7a58d13f39a15f824ccef1832ca9c11aa75dda65237ed5d0"
-vk_sha256 = "385d132a530355b9427592fda2969efaa8f12b73aeafa0e6de949eea90167d1b"
-
-[[circuit]]
-label = "envelope_sha256_sha256_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "09268cae430146740b64d5cc4ec2714f141baf982dda472d0915e0918935a862"
-vk_sha256 = "253d79d6a257073d8f8cc044f55b1c0e002fb17c07a1fc8a130d9b880efdddb7"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "4dfe563b93175ec89ef94c4864a829b09b45acde00500a2f6254e78ee2053370"
-vk_sha256 = "79f4a1463828210d92f51843e6409a578bf4c5a12c7bd8be3762db28314d0189"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "a333c39866bb34cb56512c96131f4a77daa53bb07a3336dc2a0cee2208e65c06"
-vk_sha256 = "7f797eedcfb95d922ae78e6ac6facd4a2215c1128c25494a7d3080f5b4b9900f"
-
-[[circuit]]
-label = "envelope_sha256_sha384_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "9ac2028616d623b84e195c6c70f74d0ef38edc64ddbb63a6565123312bbb57f9"
-vk_sha256 = "a2d75571fe767c9e13a84185caae28e8153a18615c644b5d104278fbdd26b7be"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "317d9776dc70b834122c758ca70e0e8113bcc79360a8390fba26cd6cf2e7c73a"
-vk_sha256 = "4af706d67774868da42a29235e20e4eb86dc6a67cb475cbea0025c2bb4875a4c"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "74f274a0ea0790ba7573082697cd20ad0ac6108b01e9a5a19b6ed2caadceae7e"
-vk_sha256 = "0012eda752b1f07042c140cb652e9fdb3f776fdd7fed76b7cb0f4653360ccd9c"
-
-[[circuit]]
-label = "envelope_sha256_sha512_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "ebcaa15384374d7a1fcd5aff0b340771e03d41c1a69929f5f573e4b4cec720d0"
-vk_sha256 = "43c43de2d49009d4e824b00807e2126a00a591d05e10983d6991cfcfece605b0"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "d3d70f5feacadd8e9d159822a6e4c60eea87fdc0cb86e33253d5cfd172a18313"
-vk_sha256 = "cf263006f40fe4c3dc0e486f60990590f967cc2be9306586163ffff0799da344"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "7d1821bb1293d65c0a5d84d4b262719bead54b42d189c3b87ec90b286c5b8842"
-vk_sha256 = "3891d92995377e8041c18877295dc2b77cc2d679ce8e358e101ef57f37d243ff"
-
-[[circuit]]
-label = "envelope_sha384_sha1_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "b7e0243cb629867d3d79eb6862b2e48956716246c9ca0a06b4b2795b279da1f2"
-vk_sha256 = "93c0071662cb8faabc5fc37f63f518b1c7e6e1bf7a8de80809a527c41e6c42d0"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "1a7d81072533438d23e7a0e27e5ebf384e9f9d012e326be0a76d5813ef394898"
-vk_sha256 = "cd7247bad1f01e3000ce522984de6ac5b3ef4e98739eea42e08f723c04eb9847"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "87097376ad838245dedfeeee812b45bf889711af59a3bc489c075077173e9dba"
-vk_sha256 = "2c08e1e605289099baa6a06b47216a9943c07368817b7f9b6dc8cd0ca9a1afae"
-
-[[circuit]]
-label = "envelope_sha384_sha256_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "2d70a591aa323e749e90545b384907c945b5a56c877eb1f2ff1808d1a8c2d9a6"
-vk_sha256 = "4e9fce4f664ec02fba2100bf61d1cc406140a79f9fb69c3cac743a3818ccbb04"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "2c38884d25f43e924e76a7c29c21ab0eb70c22761fdbf86fdbc5565a4d1f16f0"
-vk_sha256 = "7a6b4648561453ac104a4ac6f3515c97c182ff229bd8f6d713bc957e43f971dd"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "9abe700deef8ee6e0880e2be05edb2e10be817daba6cac7ca08b08aecfd8cde4"
-vk_sha256 = "8b8fbe8b3c4b6fb6a05ca05e63a99b3c9f0730ef047a423e1bd446249af95797"
-
-[[circuit]]
-label = "envelope_sha384_sha384_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "f6d577019b2794d73b1e1f1ababecb888c02d761e938b6585dc2b6f348cb743f"
-vk_sha256 = "631c9908910c0685fe7d47cf7e80e5446d25b4c324e5535966727a28f1a27b02"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "9829a70b1c9bf7326a7379537e13795229259fb99ea73c09b433e23078f87647"
-vk_sha256 = "dc9557430f4fd5b1ad7e936233791678a812beed660648c7541f6a06f2f75e6f"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "4b565d367558aeecc1da397c6e4b44b0829f4b4c2a2bd5a383dfeaad93ef27ea"
-vk_sha256 = "9d2f2ccaf0223ba0ebfb8dde184ad11b26b7e42cc6d7cf2fec330a737532abe9"
-
-[[circuit]]
-label = "envelope_sha384_sha512_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "e0d1fa8f3aa43c208361d03220db39ae65475fbfbb59fdf3e1e1ab0fef1c2117"
-vk_sha256 = "5131d7f83dbc826e2022af7cf22cb9216a12ae879d04aac6b645be1b7007bf24"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "817906d29939a45873051a34956af9495aba0315154be5e2b7c0e0e5d4ee0018"
-vk_sha256 = "42cdf2c6bdafee7b8945b0b5398d132bff6b1d2e1b9c75c0479cd6cd0a099474"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "6c7bfbef356797282ea35937fb5a90d7fc83f6cca540394202a0eef1d616436e"
-vk_sha256 = "465b086d9f89010b35340dc1b4d9a6cde70ef1e8c3389d7da3fca6ccd32a4549"
-
-[[circuit]]
-label = "envelope_sha512_sha1_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "b577d8b3b1cfd211bfbfe2c0d04278ab29d70f1821022cb6bd96c09f95a6ef24"
-vk_sha256 = "60444b4914da732df546631715595970ff0ba4174a0541c52fc240f575851abf"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "adf9deb2b5b7b60fb2604310fbdcc14b422030861fe5d9ffbd1ee948fa8172af"
-vk_sha256 = "bbb8842b813573ba9b3ad2297df3eb28390a0b373edc0fe9ccc0a8ea1aa3bae5"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "a3338c189bee6eac5115993e6fb750ab81e3d1fa70053b0dc5bec07388ead750"
-vk_sha256 = "e1340dbb453a7e20c0ba21313b0821c92fd9909a68c88b02d0035ab484dafdd5"
-
-[[circuit]]
-label = "envelope_sha512_sha256_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "192ebc1fef054d8196e2ebfcb6d0f5e4970e751a3a3d86b1350768bec9b50077"
-vk_sha256 = "ce0fd263cd5b0a519835b8255e2d1060fb80dfa97f3161adb31fd4f1d2b7dac0"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "04b26f5bda122d8e348be5746062c1b2680675858cdf9f754563b8af35484a74"
-vk_sha256 = "6b0845320ba2508cdc878ef8747e54bdfc508800c495f4aa05f9e2369754d1c4"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "841b31b39ff1d3add364dd2a3e9a71172aaef278c4431a24d6ee69e93fc7f63e"
-vk_sha256 = "9f18132f4d9ea66e4312e804425b9e3c0d36ea6de5fb645105c3da5f72552d70"
-
-[[circuit]]
-label = "envelope_sha512_sha384_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "73747168cf3f37e0356cd00266e1da5897b79cd61b1f1ea2aa82c866d48e4f30"
-vk_sha256 = "42ac8c4362140ef921de10b5983b5ba80ebc1a3977d1952438c9b7d47f02e5ac"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1024"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "4cb4589127544c73f7c143f8c2ddab85ac09e525ecb37650eb96ce33e048a09a"
-vk_sha256 = "d15e5995df110c0a2c6113509ea9363bc21ac34cb17e3c94a612081b02b3d893"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds1536"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "8d3bafd251d8af5a63088adee9adcd8b65723f8188859a73b8d31ff1ef3502fc"
-vk_sha256 = "59f1ff1bd1b23b994f1f09ccd492ab0aea8369d884ed26df2c745b0c59323f81"
-
-[[circuit]]
-label = "envelope_sha512_sha512_lds512"
-version = "1.3.0"
-system = "chonk"
-role = "app"
-status = "active"
-bytecode_sha256 = "5718a686a6570815fd9915f04c9e2105f1499fbb2c4d19eb737932e60a8c62d2"
-vk_sha256 = "76255fdca9d41736b307906b6dd5345372b8b8eab66b85eb497d6204138f0379"
-
-[[circuit]]
-label = "kernel_dsc"
-version = "1.3.0"
-system = "chonk"
-role = "kernel"
-status = "active"
-bytecode_sha256 = "2e4317f9487061d0829d9f1108e11933bc54c3ac6d414f17e670fe2d83d5217f"
-vk_sha256 = "4183954fc137c433cc16bc56b6172a470733efe50158c692eabd34ae3f3ec278"
-
-[[circuit]]
-label = "kernel_envelope"
-version = "1.3.0"
-system = "chonk"
-role = "kernel"
-status = "active"
-bytecode_sha256 = "0ab4cb83a8698532532f44fbf21ce4b79c3afe1cd848e0899687eb43e53fce26"
-vk_sha256 = "913da396d76dba4afd2d745ccae878f3d2426ad8d801e6e6d57a48bb67734032"
-
-[[circuit]]
-label = "kernel_hiding"
-version = "1.3.0"
-system = "chonk"
-role = "hiding"
-status = "active"
-bytecode_sha256 = "2f1cba2243b5f07f54f0de178d552bf3f6cc38677783bdef037dc3db858d5c35"
-vk_sha256 = "26e15286c1c913f090b8530db6cdb88f87864b7d42a8a9630b17202fdb3ffef2"
-
-[[circuit]]
-label = "kernel_sod"
-version = "1.3.0"
-system = "chonk"
-role = "kernel"
-status = "active"
-bytecode_sha256 = "c19c1210b79b15d9ee1213380bc92d87cd3cb2adb76807fd05afe4e9e563ccaa"
-vk_sha256 = "67535ccb4a8248eff6214ac0bdcd2a95a7eaa5654e3331df3f8a2268b751661f"
-
-[[circuit]]
-label = "kernel_tail"
-version = "1.3.0"
-system = "chonk"
-role = "kernel"
-status = "active"
-bytecode_sha256 = "f12a9132fbb372b0a1d4f914a0fd148c93cf32afb8a501fb9f0f43e74585ab17"
-vk_sha256 = "f2b572845b9c7d27f001fa63359efcd3b3753e118d1e1b40ce4195e341dd2165"
+vk_hash = "0x156e2bb332730c683cb0f331472448b59ec106856fab844094ab005b77465871"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha1_tbs1000"
@@ -5268,6 +3483,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "cc36640cc3471b9d823312364c6a386ad7177c273c7b068e4192a010a7412567"
 vk_sha256 = "a36e357b48cc850c9ab2a86711255db8fdee4b85f2ffc7262ad1afe7262a6163"
+vk_hash = "0x28adac4565d092639ccb45460c6219adc7cd93edf863fe4817129fbc57704792"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha1_tbs1200"
@@ -5277,6 +3493,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5ec7936925cb239e330c203ed981e90925841e3eb0903043ec0c3b4e0ac6e0af"
 vk_sha256 = "f07caf6e7b635a5c83f3325aa4c7e38b076a51d7b158bd21b99b2466724db717"
+vk_hash = "0x0bf1d83a6a164ad978f8e90d1423e2fc848d7bda73c4d5076575ef36aca4ebb7"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha1_tbs1600"
@@ -5286,6 +3503,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "83d78167394b32f923f26cd73aa0650033894f85bbb66a018ac33fe0b886a618"
 vk_sha256 = "e0eb3fbf4c5901635af0f89cfd2b9d26db0c367b96898fc21b59c8a752c61f27"
+vk_hash = "0x1d20068433ad6f188dd9aaa9ce62c48be8d1be47c62d55ab3cca87a8ec395c1e"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha1_tbs700"
@@ -5295,6 +3513,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "32a3fd5dc541f913a13e0abedcfe22af5f937bc1cca0bfb65a978c7adbbede7d"
 vk_sha256 = "7534671d6c9b29c7bd18e197fecd5a14f657ac66b43c27795a248ed5ff39e194"
+vk_hash = "0x081e926fb6ea322e17df7827261b5aba27ba4ceb61c4eba20c0495187f5ec76d"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha256_tbs1000"
@@ -5304,6 +3523,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "353c98f883b04367905b423aa4b882db71f42722fe5464cfe57ffb271db2b8e1"
 vk_sha256 = "828acc0642232ca8a240e1951c76e7313980327ebbdc6090c7bbf2796e94b247"
+vk_hash = "0x0b9a33ff5b1f9ec31d2a45aabd76e70436af9f46b1acbd6736625176a8a61b91"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha256_tbs1200"
@@ -5313,6 +3533,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "6d9248d4213cc727c754ae6bc049e4f60d57cb68e086fb9f1a24a57af2243da3"
 vk_sha256 = "216b5c41e917ff9a36d1f9f39333348d64627808a138bd27fe77abb33b8cad13"
+vk_hash = "0x020cd27cc37f013675c8aa7026a7916fa0a6331839add31b30e42a0ea76635e5"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha256_tbs1600"
@@ -5322,6 +3543,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "afd43d42d5d97c0cf456975ab276e23223ead17513967bb7f21817f7f2b6d428"
 vk_sha256 = "78aa2a791cf3647dfa8dbeb7f8a8198bc7f297d3ce6ede2f134a050bd66d2ccc"
+vk_hash = "0x04b719fbc2a0822a5da2e990fd4cc9aa070c2aabb0e3cad9975c14fe2a0b3453"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha256_tbs700"
@@ -5331,6 +3553,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b9c250b5841d1ce60abe8b43c1fc61884e9fe39cf9855bfb0db84ebedf1cf096"
 vk_sha256 = "d11e316ac7a5da4009245513b41a9509cd574623f3ff0dc48e37c61925ed8d9f"
+vk_hash = "0x0c510e25642c6e7d6958031a42da13b4ae57e81e85e5ba864e2a0e0d8771fe11"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha512_tbs1000"
@@ -5340,6 +3563,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f254dfc53da6d4fdf37738f6aa955eb672468591482753fcd0fe7aba57b7fbbb"
 vk_sha256 = "b64d1c0ea91e4521a039b7d688cbf78a34e7fdce4b39a39ac121d7124b3e05f3"
+vk_hash = "0x2bf4c2c047f066a4ac2c947c9772ea92a0a76a12267090ff5dbd27a3628381b4"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha512_tbs1200"
@@ -5349,6 +3573,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "41787168a98cb3653fe1c8764ed13fc36d13ba2e2aad97890227462ecefa669f"
 vk_sha256 = "57aa35f25fd5c011d4f31b090288bc3b59227262f86da45879f106512057cec5"
+vk_hash = "0x0fb2290e32e6bb031121886c897e8da75c57f18ea63813cb534d5ab2f4e69964"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha512_tbs1600"
@@ -5358,6 +3583,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "79257f2707e8a6b2da5e73dd36aa2b7a6273880075073c5131ee2b66e466e6fe"
 vk_sha256 = "ba6c74f9e259df1b5429e4c7646ebe34fa521aea51cfcbd4a6662b9718fa7323"
+vk_hash = "0x1381daa66614b182dbeca652bd905601af2be870fc497c597dd0aab3559d8793"
 
 [[circuit]]
 label = "sod_ecdsa_bp256_sha512_tbs700"
@@ -5367,6 +3593,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "01c35570bf0ebc0bb611caea409a4b85ecd32f4cba8f8ac1f4553ccf0e98d187"
 vk_sha256 = "e36af5579214a8bc31f81461afb518ed1c7e7c2e5986046873329556f829fa54"
+vk_hash = "0x1cd426c16218a575d5540e77c45b655fcc88398081d79e6f9a1183c469f2715e"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha256_tbs1000"
@@ -5376,6 +3603,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7e01c1ce81f2204b773e8c787245a9fe6f1befce669f430d4f61c1f2b475152c"
 vk_sha256 = "e0b93b20a3c4134d6c06358fcc8b7ab52675cc31a82b6933fd47bc5a6fd51426"
+vk_hash = "0x19523a92549ba3486a2899df5f067fa96a80c45ac8aba83211de6ab8df77ebaf"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha256_tbs1200"
@@ -5385,6 +3613,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d7285e7803a0f4cd578edfb5dd2891e2f1708e44650f3ab3ec11739c2cc1adc2"
 vk_sha256 = "6cda0cdddddc7e7f93507d9c41c92ee0a831f6a160b16d5a76b993a93b8b3a36"
+vk_hash = "0x2420adb9d9eb93f48b9523b8ad4c39644cff4a867e2f8f80ffe300b5f4dceea2"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha256_tbs1600"
@@ -5394,6 +3623,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "fe9f251c69a81455e1fc7e66871a58adb5ddc7a8157c7278d563992279bbb6dc"
 vk_sha256 = "beb520dc062c0de8c2e058eff4f30d2a85d84d1bc297ef7d9beeedec7417b6ad"
+vk_hash = "0x2c0a840216c65bf5318288cf0a197822ef6081881d79bd874b7303ddf8e54962"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha256_tbs700"
@@ -5403,6 +3633,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "1d706120f7bf295bf36b08e54d7547d618677356bea018996156d9fcae9c431e"
 vk_sha256 = "22153919f157e35191c1a9d483e605f918d0f4d59cd42a710fefb18c164f4e8f"
+vk_hash = "0x28142e898e064686233413eb18fcca579e4a679529d15551c0b66821c902d7b8"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha384_tbs1000"
@@ -5412,6 +3643,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "965206c8586ed60bc40efe787fb5899b696f69934dcbb0ea304de92f7a88049b"
 vk_sha256 = "bbcf50b3d0845a42c0d1e02528855303952ee77c7eb56b28b6d305a97986c27d"
+vk_hash = "0x24afa0e4a9ef42c1c2322667bea9f4ac6d88c5db7c2e7b7a6fa01cdcd82cb1d2"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha384_tbs1200"
@@ -5421,6 +3653,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b8467fc006fe789c5edbc2df6e350da0b92ed46bb1f27d0f9be33b24c46bb609"
 vk_sha256 = "c62d63541e0e15fea8e54f57a4f9613873531a0f76701d58ffd9449108d537bd"
+vk_hash = "0x1a7796f0c86534d7224a42d60dbbaa49931973a046f17fe82a7b9acb91cf6ebe"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha384_tbs1600"
@@ -5430,6 +3663,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5afd71ac70ba78248580e7e18415b153b998b18f3ce4b28872a7f262d4df9c14"
 vk_sha256 = "8b09338fa65b05ce499cfa5fade7d4c261a578f593db33bba273f836ca298387"
+vk_hash = "0x067cdf5e54f4d9664c774c922d4468e775bfe235800edc37faa173774d940c6a"
 
 [[circuit]]
 label = "sod_ecdsa_bp384_sha384_tbs700"
@@ -5439,6 +3673,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c0ccdc5fb74f426ba288ea273e7e27059648fd58a7cc6ee6f3654a7ba72338c7"
 vk_sha256 = "0cb6c4d7a37d6464d589fcdbb77341d5420f7bca8d01fdcfc3973f4ee7e21c05"
+vk_hash = "0x118ed2ac9b8d1acd41223a1940ed0226f870df7818f0cefcddabfd92bdb8eee8"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha256_tbs1000"
@@ -5448,6 +3683,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "6553876f2c3ac9cdbedb16822ce70aa42d6cf4023743ba111da122ac3ff3cab3"
 vk_sha256 = "f2bcf848c70a45add9fd9d973ec55ead6912466356c176c8b8c4d989819285cc"
+vk_hash = "0x17693f0d7e1ee1910a7b4cec7d50b144a99ff08d6d551e0d96af155e05aef93c"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha256_tbs1200"
@@ -5457,6 +3693,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ab43eee19912b1bf2bb9ee7190e59a7be911c3710fb8e980d3e8ce5e1a318bbc"
 vk_sha256 = "118ebbb62f1c9e3ad23d486acbca6cc65bb0a854087b32a78a45f92479639315"
+vk_hash = "0x2b2c184b58d323a82af53937b4624a98cf53e1ccca5a1eb61be3b623da0119bd"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha256_tbs1600"
@@ -5466,6 +3703,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d59f20819c13af2cdd99669f572c355e4fd76192455edc0ae71c415d89484818"
 vk_sha256 = "d63500df22f8ba6292bafe1f86d5d1e771a5abb81632815082b2dc0b2481f138"
+vk_hash = "0x1f1b6bcd12cf6864d609425eeaf02e7be66ecfd608c031ca79cedfb3fff66d06"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha256_tbs700"
@@ -5475,6 +3713,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "30674052113f5e94c3e791f6363f87469b0ed4ee156434200949fd5136722bed"
 vk_sha256 = "6df994a157774ff3c7fbb81cf20ddc8139fd59bb458fb75d6d30246a191a21c1"
+vk_hash = "0x185616e31ad9f73bc923399bb9785742fc949875cc390778cdacaeaf82324d95"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha512_tbs1000"
@@ -5484,6 +3723,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5d2041ee03f5647ababb74025bf7eae9083c51bb45648893a97f1d7f6631db06"
 vk_sha256 = "e71b0a6c150a7b63faee41f6dec3d926739ebb7450d9b89729726772de84ac1c"
+vk_hash = "0x1d02db14cb938360370b96d4ace684b50736f6d2d448d29dfd27e5e2af0e2b07"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha512_tbs1200"
@@ -5493,6 +3733,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c8ebe8691cb1f734ef5630884a45ae5b6d0bef7054efae9bd380f3d25f04625e"
 vk_sha256 = "f29e87b019c214ea1466b04abd96eceaacc645b595d671e94d43d3d1e38c68ff"
+vk_hash = "0x13c16f2ddd09406754a19a1e2305524baf30b419868611ffcb521727a3b0aa2d"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha512_tbs1600"
@@ -5502,6 +3743,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "449645eca17f9e87f0b9263d6cae6e95e02d64ad4a9bbb46cf3956893e1baaaf"
 vk_sha256 = "228d6422c9831f00c1d3302f280c92f02490a3638ed765691385b81b03a95e78"
+vk_hash = "0x1d3cdb99e1daf485b88563074bdbee48f6552e6bd1d88904bc573c0f73658e65"
 
 [[circuit]]
 label = "sod_ecdsa_bp512_sha512_tbs700"
@@ -5511,6 +3753,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d0b4945fbcbff857c73cb4c49024fee754ca65289ab1c53a2e51e6c5caf63d3a"
 vk_sha256 = "47cce28a0866909d11a44db66141d4825a6158aecaadb61ec333f15d59da0b85"
+vk_hash = "0x0aed65cda556baf3cb31df28eefa8e5d87ced4bdb238562e6bfbe91db5c45c25"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha1_tbs1000"
@@ -5520,6 +3763,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "73fbfa1266450ed7e142a4762571b77034969178497d7d0b51c7b27c5ed537e2"
 vk_sha256 = "fc8b315f8e36379f7345401342998e8e8a35ba9584d3db02ae754599ce62b647"
+vk_hash = "0x13fe1a6b89fc97eeecac90c12c58867778b9eb68cba81ae571cb8dcd0bf371e5"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha1_tbs1200"
@@ -5529,6 +3773,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4614ae294477c4b13063edf95851355400cfe19306f3b4e71a89c56ca884288f"
 vk_sha256 = "4cbda9f72ebf1cdefe5dff2a84bdb7c93bc5b284e43891ad01062c8b9d2f2525"
+vk_hash = "0x04becd4c94f1d428799c7958fa6c8e5a84fb966dd811edc5f80237325cf83690"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha1_tbs1600"
@@ -5538,6 +3783,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4a19b8d9328ceaf7c9e665cc3d42a8d5f7da012a0d5efd2dd8284a87ec2440cc"
 vk_sha256 = "326d993b038197a4633f7eb31f1bb13728d8dd429c27607f4f74626017921f6d"
+vk_hash = "0x24a01983f2bd9d16e73de93690dbf0b1181990ddcfe600e9dfd413f7880a8288"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha1_tbs700"
@@ -5547,6 +3793,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c575db2f00247ae1a954a1bf30526cb4e7c886ee4d16d3013aa917e4d30eed93"
 vk_sha256 = "08019c7c70d16d031ae95fb479aa777409c2e65e11f5a4763865c144bb1b41dd"
+vk_hash = "0x29270642d291848548f8eddc629e15ea6cc86e02905348aea29e6437c3e8a1e9"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha256_tbs1000"
@@ -5556,6 +3803,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "eb8f0fac82ed858b590eb9d24698b043c0aaff4df4fa60cca93b202a18998d64"
 vk_sha256 = "7ebb3a7e2a3acd7c8d917e33c5098cff4573db363a05c97e6e60c5f6665a4e41"
+vk_hash = "0x2a8a8a923c2fb6cf5f5a9aefe3a6b9368f48bd663871dfe9f867b073c96bc648"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha256_tbs1200"
@@ -5565,6 +3813,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f3a8b45092bfdee91764da7d592632ce4605a84df690cbeece1c5a432216f4f4"
 vk_sha256 = "c8caf089917afd709d41cfc5861b0381861d7cec7dfb6c66d23ca18b83fb2868"
+vk_hash = "0x1da4caa4d8bdef9aa4b1e1f4262cee8f93f0c85a30ea74d6403ea38c3f735c73"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha256_tbs1600"
@@ -5574,6 +3823,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f27597007ccd0021f90cf96b8b26d5dcdd18d8eccbcb3737cd52b9064e4167d5"
 vk_sha256 = "0489d646bb9828f7107d7314513ed8d7ee06fab093337c51b3f15ccc101748de"
+vk_hash = "0x2be24a1f9eb87c1ac59e35d4f06f94ef76a5fa075796333a4eca7617fab8d26c"
 
 [[circuit]]
 label = "sod_ecdsa_p256_sha256_tbs700"
@@ -5583,6 +3833,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "34fd6903d2e1fd61252572f0cc7ef7f26b24dc32d0c540377b1204d116852af4"
 vk_sha256 = "44f7621841b293deede9b6194c90cfcd1b9f995f87ee6cf8f6ba5431d76a32b8"
+vk_hash = "0x0354fa34aab4a6586da84cea1a762155f7c40ffc098b14fd04a03a5cd5bb09f8"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha256_tbs1000"
@@ -5592,6 +3843,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4f4e675738bb96b7d30f115520b502073297de15acdd7b8d7c502ba08a507c70"
 vk_sha256 = "bf6aeac270ee90e9bada55617e5b0449dfa10aefc94326040e6219ea663b23e5"
+vk_hash = "0x259a53c59ecddf112d0b8de15894a450bff230c126bc00b7cd1d6e4495085f71"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha256_tbs1200"
@@ -5601,6 +3853,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9dcc0460a704dc2f46b4ef29a7a301a9bb1ac2cfad42f04128ace849023eef8c"
 vk_sha256 = "c0d4c6de409cbb9b1272bdd1cd0089ca70531898bb9f0166bf5a9b31e7ebad49"
+vk_hash = "0x038b0b6d81b75cb49c5434120710df4793541c4aefd92cbcc9a69f330e65054c"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha256_tbs1600"
@@ -5610,6 +3863,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7264f50d47bb422221035c18bbf7b158a7afbe8d955cfe8e23971a5ed8025c87"
 vk_sha256 = "8e2e5db4eb1395752dda28748b895a105f19122aa7a751eabb5f2c54aae3a93d"
+vk_hash = "0x1ea1fdd25cab5aec1be5992d789b593d2ffcc620b0e7aa1bdfb0208e619ebe6a"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha256_tbs700"
@@ -5619,6 +3873,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "643a841dcaab0dd39fcabf9dfbbcad864641eafbf511a29d22b50576a22f7088"
 vk_sha256 = "1455d67828753d85211d758616de61fc478219b4af47141e7ee69ce7fce01259"
+vk_hash = "0x2927c364505c6122a6a825d34857ebf165f03839f2c4396745aae3fc27263abe"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha384_tbs1000"
@@ -5628,6 +3883,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9a64235e80c955c04d243cf8c4902ddd177d146da3fb3e436ac7705e3f3d4f4f"
 vk_sha256 = "9f92427a5299d6865d8d0c0d3f05a3626006d7896611265a811c69e1a937aa71"
+vk_hash = "0x01ea630553a08799a8c78a9d558d88fdec9d8e5e5909d760e5d7ae91160e2a4e"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha384_tbs1200"
@@ -5637,6 +3893,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "169a002a312f7f3855945b1b231255222444baa9dbca02df469c2c123631f238"
 vk_sha256 = "60b95572f7a6414d0dacc69a7fa19f945a3e761e662d72aa0a394f49e8db07d5"
+vk_hash = "0x06f4a56faffb1e09b5e862c21aa822908bc8b5e6fb658fe0b3dce0d13f821dad"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha384_tbs1600"
@@ -5646,6 +3903,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d770b808b3c532e199763f6e9e87caff5b4ece5602e75e19bb8964b2701b1f89"
 vk_sha256 = "233ebbd96315cc4bfa44b737520c072875ac9b1befa03ace7818b44ce950a127"
+vk_hash = "0x2d4e6721da8fbcb1ec1697db0dc754e4f8136106964a5071257a4bb16524cf7b"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha384_tbs700"
@@ -5655,6 +3913,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e44d5068db4d74a03f019d6ea0e15d70c6b75b379a68b9343ba798c2bcb1a050"
 vk_sha256 = "8d1c51c6c3d1a565342ba4342f6c63c1bed9a66c0582fa777d153405bc849ff2"
+vk_hash = "0x04155ab65f7ef65bccf0eca7d96c786363d27d793118f167ed67f41ff1adb6eb"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha512_tbs1000"
@@ -5664,6 +3923,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f38fd02fd3c65f5152f94b829b9cb6d5c0f0fea30e05fda6aa4e0aa5d013971e"
 vk_sha256 = "3b7a34da5eeef9a8a8c4576b6e20a38e7b233e7ab780852db1f31b6888487256"
+vk_hash = "0x1bd44e4ee1977aec585730a7e75eea8add238b799db9455b8fe548efa2fe96ab"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha512_tbs1200"
@@ -5673,6 +3933,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "923aa8d431f30cad470d421e4d854fd13608d4b5b67d112ad72eccdd8f930e37"
 vk_sha256 = "3bfcfbdfaf88f66d24ec7200211e4b93dff363b6933aa5e4401b38f622e9d10a"
+vk_hash = "0x13776e9579792d4a6996cfbf1c475fa4a6ea48ee93983d5f65ee52729fda8ef4"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha512_tbs1600"
@@ -5682,6 +3943,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "62d07d3bfcdb0ee9c0d047b2f1a5d3d1a28c26c463e741a2c6a6eec9e18f3a91"
 vk_sha256 = "6b654f2d0fe3783b931a7010a786a747f6bcda71dfc92bb3ad77575040ccef59"
+vk_hash = "0x10f492bc7fc1e89aa32f78583383019a0d5109d606893e55c585b6942ef42248"
 
 [[circuit]]
 label = "sod_ecdsa_p384_sha512_tbs700"
@@ -5691,6 +3953,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "896f1e907f8c76c5404b412137bdf594457dc329003d89e71cdedfc518dd0027"
 vk_sha256 = "b2925f9b1da739cd78e33b415ff0f82bf9d1e4adf28f01d45f90272c5580fb40"
+vk_hash = "0x00608cbfef5181d1f0cad432b94e850287b83b9c0c3d84fe7a2aff060de8b571"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha256_tbs1000"
@@ -5700,6 +3963,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "0976f5729fc5776d83534331f6b5cdac437aa9198db0e9d2858ba903ffd530ad"
 vk_sha256 = "b25a87660bcc901031903b15a82bb4f397da50c71ceebada808f061ae0c5c029"
+vk_hash = "0x0e59a164c0a5b2dd76d599ff28b8b9229e843a7c5bb74cf41544b95abe4fdc7a"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha256_tbs1200"
@@ -5709,6 +3973,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "776743676855ab23c72258c7ad17d8d0514f6b266fe7c84ba3a76c5b6175ce68"
 vk_sha256 = "cddf2195b9d708b30677fa5d511bf4df603b004ec49f04aa569522bafc724720"
+vk_hash = "0x02c53f84a63b79cd938c8c0d5266862e99c927eacd108868c3fc811052ce296f"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha256_tbs1600"
@@ -5718,6 +3983,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c40377081044170107135c8edca22cef3e2039a80bf5778e6df19f6006f2f444"
 vk_sha256 = "7f996bb748adefa370a845a9fa691a53177e7f880057d7172a0cbb222c5bab3c"
+vk_hash = "0x21b099195c16c80aeb56497c71cbcb3005cb51eaa845dafe6cb53dbb4e08c848"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha256_tbs700"
@@ -5727,6 +3993,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "112fbe382f4b316ca06dcab5a4af2c9ebe813213c3c2c5dbf05aeb8f1d63968f"
 vk_sha256 = "da4f02c742523b41da595aa4709c31cf150d1a0d010a6b9ae38acec364dced39"
+vk_hash = "0x0df8520db8b69039dbc47cb43755d0d377be783ad8c3c17c14944bdc9afabef7"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha512_tbs1000"
@@ -5736,6 +4003,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "2dd7d30f30eb8c46b80cbf6b7fb7ebee14ca18935ac20f938456bf7f1a1c6d08"
 vk_sha256 = "cd92a144587829e88c5599fae899483deef7966824d37e81de2c993a47fecc16"
+vk_hash = "0x2583c4e53782b19f0dcee63427a88f96b92a1fcc075b82653c2dbcabf7dbd438"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha512_tbs1200"
@@ -5745,6 +4013,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7d446cb4dbe58333b7e35e56b016c9851b9ac8ad2702d919ed8daa67450fc9c0"
 vk_sha256 = "1b6485dac18d45020ea0cb7aa8c9742b1c7ab22aedea0f606702f00821409cbf"
+vk_hash = "0x0c120c008e9483221df1a76e295dab88f6a05ba55145a1c7ac8a5caa3a9d1ddb"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha512_tbs1600"
@@ -5754,6 +4023,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d634222a780cb18ffd3ee4a27c3c424b1d8dffe632157d35a14e9918caa9661e"
 vk_sha256 = "2b515f095724608befebe1e04a17dee6cc9875c64b87da204e201d9efeae3227"
+vk_hash = "0x043e202e1caa9f6f72d5d076ee0b3bec1b2bbd112a9119214747d7d76e1785b2"
 
 [[circuit]]
 label = "sod_ecdsa_p521_sha512_tbs700"
@@ -5763,6 +4033,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a3c4a2ab331a96c264e72e276b83bb295e5d273da59cccbfbe2745e5082b40dd"
 vk_sha256 = "b9e3d0f2180143f5087d60a03c72ac703f3090f451edbd49a8822871bf9c48a9"
+vk_hash = "0x1364def26ff1e5f11cd217f8eac9ca46514021df45d893aaad2ec78606fa27ac"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha1_tbs1000"
@@ -5772,6 +4043,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "467958c3462b343843da97eee9fb82ff902166b620971d310eee6e552188c173"
 vk_sha256 = "b2be0c0e4db41b7580f9927ca69bda52fa8e098f93dd89a74e5b487458235f5b"
+vk_hash = "0x16f92fabd5dbe07e428ec8c58a7c6c1c033f633bcf0ed18c5f2a832882610eab"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha1_tbs1200"
@@ -5781,6 +4053,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9932fd25979dce6dadcf85a2661a4a3038e90c2b274d7482125b3b43b4b6a5d1"
 vk_sha256 = "eeb7ab6fa0ba389bfe868a3d8ac6b46c050d14bdadfa9b2b3711f95f989039e4"
+vk_hash = "0x19764b5efb9434f46f1dc001f58432811db70f8c221dabaed2039f71770895e3"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha1_tbs1600"
@@ -5790,6 +4063,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "73c16101ab80c2b1bf89c7a57528cb759c49887917c1d4377cff354366ea694d"
 vk_sha256 = "9b5bcafdd1c049cbff3730ecbd2d43f828c05d8e99adbb9048918aa2275b073f"
+vk_hash = "0x170f95afc66b33eca7337f15aae45982f7087794e2e53fc4555f2082487fe871"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha1_tbs700"
@@ -5799,6 +4073,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ab360d6575c350a005a64091853d7138218041bb6d108a6d00ff87bd61dde57d"
 vk_sha256 = "e38354c4037d6366c912f2c58d2f0e53a6955f703b0b46f1a357157697fef988"
+vk_hash = "0x0b11c04fd03ea1d279e57de7de50c5bdce40362b1680368305c716bd27f2cf33"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha256_tbs1000"
@@ -5808,6 +4083,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "914bec899b1213492906d0b516ec81ec24deeab72e942f8a9be3bf81f3513922"
 vk_sha256 = "6b1acf34d9d98c828a34c5877c9cadf0d23634a0ed2c54cbf0a58fb59ed82c65"
+vk_hash = "0x244148422cf9c1ddd68f2c2dcbb7a0a6ff50502556ac7d66f0535c2303944b07"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha256_tbs1200"
@@ -5817,6 +4093,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "95f2851d8a054279d1942c4171e65fbc7f7753397ec894ffddd32d4a5529f3a1"
 vk_sha256 = "154620f5357a79faedab59881cdffdfc1b6383f745dfb03a3c4c7ccd1893e566"
+vk_hash = "0x0a12b1d1f2f940b24575f9dd65e608b91187d83be5d08a3c98599df7625dcf86"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha256_tbs1600"
@@ -5826,6 +4103,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "619b2dc6b86db691b5439ac98e8bbfe2800f7bef8b22676de3a38ae88d81be1f"
 vk_sha256 = "eb8ef0c6040c0051843315657f25b8b4d32ca06fc96aa56cbaae2dabf66b7da5"
+vk_hash = "0x040ff008a0d1c7aac6460a1c4cb3b0a53b1cf194f6be8a3ea92a5c5e330e483b"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha256_tbs700"
@@ -5835,6 +4113,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "18bf09307029e3dfea51b8fb102467942f7c2795e89315a782cedc289d984561"
 vk_sha256 = "a04f069b31a0e3d107ee641972fcb144526e5a4749a24581622571c037717440"
+vk_hash = "0x19e7d18305fbfbd92c9248d33a2412fbbe7975387c2567ab123ee8a2c9fe8373"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha512_tbs1000"
@@ -5844,6 +4123,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "daa5eb8cd0207665dce0f5cc15a01952b1a66cd6bf0e079edd2732605a380e94"
 vk_sha256 = "85e5e3b02d7148a6bb50ebf47bccc777a4d278409fe8cbbfcbc72a3362657b2c"
+vk_hash = "0x05679db1bfe6649622a54fa79502a716a2fdf051a59d740052b8c5674bd948ee"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha512_tbs1200"
@@ -5853,6 +4133,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "cd9aa50f303f36fba5e2db4fa9448a258f91792fe643f54d0d5a3c7468ded029"
 vk_sha256 = "3259684411bd9d153d87cab4059723dde9a7b0db10dd052b0073f8e82ac8ade5"
+vk_hash = "0x15f8c83ebb1570b0a1de55ce8fe9338891d693346a33b6f18d52d37cb49db28e"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha512_tbs1600"
@@ -5862,6 +4143,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4fb9bab77993fcb814fa52e8157701b2a0188148a919465303785bdc19a05fc0"
 vk_sha256 = "430e06dc916e1670f0d395fd5293f136c2ae9b2422ee4a401ef0888dd1ba7228"
+vk_hash = "0x0778597999bf0920d0179b3f3357adbaec6b82bbd1570dbb584dbf5448be5577"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_2048_sha512_tbs700"
@@ -5871,6 +4153,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "db4d9d9f1c9097f1ed437088629334504580dc63d72e616b3d7a9b892b59fe8f"
 vk_sha256 = "fe8b164be737130eda94757641497508f3a568a6303d9629d0ff87f286b8d0a1"
+vk_hash = "0x2a09b83d03d4cd6de22cf9e63ea3b97a40c43747ea6ac089d045b18b7e922419"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha256_tbs1000"
@@ -5880,6 +4163,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "06810af32884a6717ae492da13eb308448ca00d678ce8d6298e1849384df0199"
 vk_sha256 = "04bbdc088d36f645708075d94a009f8f404cd68347a574a9fbb13d3c7fe6f6c4"
+vk_hash = "0x0d8dfb255b5cf7f98538f7ea98bef56aafdb74093270820874b83bcd362c85ed"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha256_tbs1200"
@@ -5889,6 +4173,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c3ce0b83364c1f580c375ed8e0429251192912e6d6ba63e28e71b8e3f60e79ac"
 vk_sha256 = "3213dddad42070bc37b811ecc5dcc4e866fc79b830acd9302bf4b52efc437f5e"
+vk_hash = "0x21aa2d412b44025539a0340c2c112f0bf6c2da254e357bba2c66123a2a5a2ed3"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha256_tbs1600"
@@ -5898,6 +4183,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "9f5b65414d9db56e27db93a53191b697e92a47b5e950fa25ee6ba3be76254712"
 vk_sha256 = "10627e9e6d7883b08e6a82334205726bb281b9c7e204a8ff757e134d61b286bd"
+vk_hash = "0x1a86d9a0e8bc0ff1513ba5fff2de97a7a9dc3a40d04dab54f519d7b952992d37"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha256_tbs700"
@@ -5907,6 +4193,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4fd162517becdc908a6e8edb06510a5962bb20db31acd26782a9a7f0f8eee7b2"
 vk_sha256 = "e51ab26db5ab9ea2afed07d7e8add3401edda7b764c65b026fbe8948eccc885f"
+vk_hash = "0x2463ea5e08a48edb1be2a77e48c561f089ad9772e0e21dbef7ca889b94d9c899"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha384_tbs1000"
@@ -5916,6 +4203,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "95f525d2ed86353765503aff82f8c1d668372751cd024054d8e5ab03a0a4a1c1"
 vk_sha256 = "ee3d6d3aa773d184e4bdf4ea88c8748b34c252c52fc595cfe3b35d5c53154bb6"
+vk_hash = "0x084e6874c5e720555dcc9a4314a0010611e8a31f41f139d6ca72fb5a2b61eda8"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha384_tbs1200"
@@ -5925,6 +4213,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "01faa10a187d14b3c164b28e0f831ca7d73e737e58c4001356e7f3175110dd61"
 vk_sha256 = "63f8990c85a4f2440a98117d5cbb19604d094906fadc6dd73e89bfea525b8bd5"
+vk_hash = "0x06c9fe88269b3d91108ec50daf9fbe4b5e1b612d91401aca7098c622fec23779"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha384_tbs1600"
@@ -5934,6 +4223,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a90a9df021c2e15a1468939fd9872d5a217dc364eac684e61d28c27536682f5e"
 vk_sha256 = "926d1d20cfa5f8a69871cc678a860ca6b70ad9fc2646157e73572aeb75c1460d"
+vk_hash = "0x244fc9aef49a96de0880c332fb519102b4e277326044d686af5803fba5b4a9ae"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_3072_sha384_tbs700"
@@ -5943,6 +4233,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "820340f14d0a8796bb2fde2919865abff7a9725e3afdf0584923cafbdaa03eb6"
 vk_sha256 = "7143227e6fe79760016f81dfc29644dd2b9ca45ad3c13a40c4510c7017e352b6"
+vk_hash = "0x1a91ee908d39182ee7ff9e8ff810083a5c238d730f2cfe8b1b78f24ec679c544"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha1_tbs1000"
@@ -5952,6 +4243,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "32794b1c714424a46a0b90e913536f7b45fdbb8f5222f8bbe735147ad5b00a00"
 vk_sha256 = "6f194168a58489f9b20d1275bb42b4e12c862f00145df4ab8c46399f6d53978a"
+vk_hash = "0x09da4dcae3c45e4274dfd1f41d4fca7bc25e03a5ec1a25929671273e836158f0"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha1_tbs1200"
@@ -5961,6 +4253,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "927a3f2e87e856fbda6d85ddf8feab343a0e71f9f4a4170cf54b645c0f79b448"
 vk_sha256 = "69d9ff986edee03785fe030a58b6286f6c0484409c9502a27430c1807975b0c4"
+vk_hash = "0x082d9218bd53c6399fbfe24b927373b8e8f57ec49cd95d50394344ac9dd1c906"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha1_tbs1600"
@@ -5970,6 +4263,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "8cfb1a2f2ca36f8209b4915d88c04cf2aeca05b152f58235092f44753810e6a5"
 vk_sha256 = "4cf06c5af2a07a85148623c7993e11c27dfc6fe65e88ef14f6e4c2b2e2c12c76"
+vk_hash = "0x26c32d2b71cb05bd475ae7ac687193be99dcf3face6587e19dac4f289b2a80db"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha1_tbs700"
@@ -5979,6 +4273,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f35d7340f52804d732464783a823abd6d3dff2850a80e7f06bb077fa3f3c1a25"
 vk_sha256 = "271b49348f34af263662ab21f35328a0118e890ce0ef1ea67993ce275a514eea"
+vk_hash = "0x24d614d4dde7bcb21aa104dd66bff1b092affa7eed1f6eca2da5833dd4650139"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha256_tbs1000"
@@ -5988,6 +4283,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e31a07083cb36b7434d47e8199b5a57e577f5240351c51b9d6b3e2a2b5b56ef8"
 vk_sha256 = "8550b021a36a36e806d85188b1f253a344f6a50f9355f9c426844706569a030a"
+vk_hash = "0x232d0aba1a0824069cc8d6babb37255f90368ed7fd9bebb76ec5f81527d390af"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha256_tbs1200"
@@ -5997,6 +4293,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "57f13da7e8106414f833cb42f3825e6d235c409630007d4d8a97b02e3ac4a312"
 vk_sha256 = "b2cd79c99f8a6210c1985f2c244118ee5dabe697f45b72d6e1ec752b83c6cc29"
+vk_hash = "0x1372eeea46a4b6ba67ddd92142b8e4f0779bc97d9686eb766b886645c790efdf"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha256_tbs1600"
@@ -6006,6 +4303,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b933358db8875ca2e99d01fbbe2a5868dabdf635236ab8655854fe23adeab279"
 vk_sha256 = "bfcbb7ca4b07d3756b99880e04b3682576a5ca0ae2fc6cc853ed7d35f7657832"
+vk_hash = "0x2e241df4555e22ea0d1efef543b37111a09d9242196fe1505f0b0fe3bd66c444"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha256_tbs700"
@@ -6015,6 +4313,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7f89639cf2023a73e68d650260d9c260b7d4bdeca9eb46b2d5bd941ce36df9d2"
 vk_sha256 = "9f5d71e1244f840d8018d9d5017064870a838666d0713378a0a1a74c06db1314"
+vk_hash = "0x1208b0c4efc46942a28897a51b3ed28ac0b7acd523b225d2e3a466858809e816"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha384_tbs1000"
@@ -6024,6 +4323,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7063a7e0b5c625aa88690d986ada8524a94b6216ad491e42c31c9cf579457008"
 vk_sha256 = "a53720377649eaf03327b96d8566acad959a8bf856d783cc28e0348b249284f6"
+vk_hash = "0x19db9786432df2607f89967af485cdc92c1748c7e018ff0683225ad2f744382f"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha384_tbs1200"
@@ -6033,6 +4333,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "53fdfb9267e3b55d782b99d7525ecd7a3a31522b00adb541d3008e59c13cf9f5"
 vk_sha256 = "e858c8b9091a8288148577270b2ec0c18e1df91d1e882ae48c5841f45fe9219e"
+vk_hash = "0x030b20d496a1d32e2f207a10f6eb494ce903244b6394404ef855ae3316497098"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha384_tbs1600"
@@ -6042,6 +4343,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "204462dd990758ce50f2aebf72baa25767fdb16552cf4aa3441fc75744ff3b9e"
 vk_sha256 = "ad66e095d154d4a773d4c4920bc09f5a47a391d391d74d516b93cfab351c2059"
+vk_hash = "0x0e8d875c34150a9bd353182de548ffb881c32d2b6fc61a15d87473fcea816e54"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha384_tbs700"
@@ -6051,6 +4353,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "6782d3b98537189b7c456f043b68a8525c3d833c1e97837b61868b8a4d2c2f37"
 vk_sha256 = "eb58a26eb6f13bb3ff79d935c414d38a4e53e3cba763ee7bb133d3b227e0f0c6"
+vk_hash = "0x1e7e1ad7c976d127c83809391a5a89c2c293ed76b618c7cf5fa260a3fd6eb452"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha512_tbs1000"
@@ -6060,6 +4363,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "66be303a9d7b996ce18ffd41483245285eea9b21e47d8633a54bfa497015e787"
 vk_sha256 = "312419c64dec2f796b55a50e80a24065c19c97ea93b0e11a0cdea8b7189e91d7"
+vk_hash = "0x10a0f2813a956469adbca1d6730f37b58f151a110ed34739983e96fef43c5770"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha512_tbs1200"
@@ -6069,6 +4373,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "83e5c8300a19f0c48af27d22dd594f9dc4c41d9af86fb6f98f3a61cd446ea647"
 vk_sha256 = "b01055d41bbb3c89a4f9b78f629cc4ac2006505f55749ab7451365838561bdc0"
+vk_hash = "0x26433c1cc7a093e23cd0d4d2e95f7461c7392d3810e44ef665d5520fe76d0db2"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha512_tbs1600"
@@ -6078,6 +4383,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "fe754927ca060c01b6207444e1e55b0c1ba9573e38d7fc456de929166746bf3a"
 vk_sha256 = "8053399816308099ca8ceee379532d727d7dcec701695fbd6dac001e8f9a7c39"
+vk_hash = "0x22bf93fb71845608df6c1694c1fcd4549066c0c6a37d77895787d7968ce7223a"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_4096_sha512_tbs700"
@@ -6087,6 +4393,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "53e7add26b47b7bfacdc3eb133197d4f4dc277cfd9d959a83a4487268f9ef382"
 vk_sha256 = "c691e6723dee2d89c307783c0cfc17aeeea580840a4cdf23a724c7eed6d68296"
+vk_hash = "0x107e4a58c064d6d6e313c6a5f70de93239629d175b5e4102956b8a32c55f718e"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_6144_sha256_tbs1000"
@@ -6096,6 +4403,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "afa0c2506ccc97b00e882de697a4104174dfd176dcaffb90b88c74bdd20dd87a"
 vk_sha256 = "37f5af7e252cc2785395cc9d67af4c3488aedb021c5838ff15323010e7c64acc"
+vk_hash = "0x0a71f42eeee7fcd0658bb4d67faf08fc3b1834b9a377061340708ed18a959ad1"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_6144_sha256_tbs1200"
@@ -6105,6 +4413,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "41bc2dc3640e746d73a2e13a36f2833258fd2219f62a569c53c52375cb3f55f5"
 vk_sha256 = "bdfaabd4b69314df37dfda87b6f56d88cd0743ae4cb9b35cf9bdbd2c04dc5cfb"
+vk_hash = "0x12a707828a3fbb4bbd86c8fb9b285467d0f5ac18f311ec206cfa1133197490c9"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_6144_sha256_tbs1600"
@@ -6114,6 +4423,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "4284bb974a08a4a1e4e9a1db7a50a9f41a2461fd2ff6710a9627bc9686fa7dbc"
 vk_sha256 = "cc07c917fdc77939cb6fc8a05c3422561bcb1e988011cb1177bd08bb72a5e3bf"
+vk_hash = "0x015b8c265d0602b17f7f9ad2477e2c5f20fc1a422c1b7e4904666934df2f0541"
 
 [[circuit]]
 label = "sod_rsa_pkcs1v15_6144_sha256_tbs700"
@@ -6123,6 +4433,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7c1d8e764889bb54a7d14ec8985928cba98200db8e074ba09b0513122db11cd6"
 vk_sha256 = "8f27d3f6387afaed5b369a765b0d3a90be3a234a715ebc872d902dfb9f37c0af"
+vk_hash = "0x28b08c4f86c22edc742350ff31afdcd7959dc9ee33b8c988b788f10800e657fe"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha256_s32_tbs1000"
@@ -6132,6 +4443,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "7c6f062832665046d164f4a4faa31d85b2f481d9a2f3da372f7bff5cc4a0f8ed"
 vk_sha256 = "525a78dc74da4eb1c5ad272e21a49d0b1738064e163de40cc9133eb405fe0198"
+vk_hash = "0x24d70d3eb79c806e534f60f731a35da4975d1d849c603c8acb8b6f443bea760b"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha256_s32_tbs1200"
@@ -6141,6 +4453,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "718e90ef805e1e76a6455d697e6ea3ce44ac05adce87f586193d28515099c818"
 vk_sha256 = "2ff3f4f443a3cfc0480458492e02912202bb6157682d74b93edeef8947312774"
+vk_hash = "0x0a24cb3ea1b3a9d818fb1cc2a0efeb87c581e0377bcd3e62d3c8001d7469fe36"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha256_s32_tbs1600"
@@ -6150,6 +4463,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "44b734f58e750cdacd8a8a0e0b424195aacb7de9aa918543caeef5ad4731aff9"
 vk_sha256 = "e9426059a9d2e40c98f59d50c0b324153eb88d28035f51c909a0c1d509e12c39"
+vk_hash = "0x2cbb23cfb8a94295a62a06e0d2dcf28f33fba161d2eee5b2bf8e2b69fb15ddf5"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha256_s32_tbs700"
@@ -6159,6 +4473,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "ca4a4f8e49d491ccb2a2f97a4b370d30183e0afdbac6bf38fddf33b2162e3261"
 vk_sha256 = "a283d535fb41118b1728e55e2eb214986ad8b60b4c91b876cbd3a0b2276e2aa9"
+vk_hash = "0x22dd536116447edbbfea70f2b22f697dee7a024f880e3fc38d6170bcfd7fb03d"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha384_s48_tbs1000"
@@ -6168,6 +4483,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d759724599ed8ecb5b8523c377843df85cc12c698d4e4679f8f47ed150a1b0f8"
 vk_sha256 = "8a58d27ed653437d9b02c846c3b1703c178e733cfd5936b417be588c01d3968c"
+vk_hash = "0x2b6b62264ccbc34ad54a7bf70d3fc170a20eae081a40a9591df9146f9c23195f"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha384_s48_tbs1200"
@@ -6177,6 +4493,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c340b9b216c718186e9aea280500882c83a2eeb282c418fb8f201d88da199571"
 vk_sha256 = "3efdf895411cd964e174cc7993897e4ba2afda32878a382428e1e6f38c8c01f0"
+vk_hash = "0x0842ca13fcb68261489b345ca1347bf499b22b9415078191b85cc51d4f0eb82c"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha384_s48_tbs1600"
@@ -6186,6 +4503,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "616c908d4bb168365cb00af20f6d1ee6b59f7292e112de14c4cee69a4092614c"
 vk_sha256 = "218173d10f644a3c22a394b4a8d6a0ffa74c6af19764d7bb7ac46c6ff06b6fd7"
+vk_hash = "0x051e8fa720a9554c5fd7af288f716608ef6e4c084f3c4eef341ca7ea09768069"
 
 [[circuit]]
 label = "sod_rsa_pss_3072_sha384_s48_tbs700"
@@ -6195,6 +4513,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "6521224d52a3a93bf9cd9b471f5c09ff1fc6a952fb52bb05e376938801d96594"
 vk_sha256 = "c0233cf56a8777c58a3726842c6779a2c255ae7cadb22899cd6e29006a6b5915"
+vk_hash = "0x0116f2a947ac7a18de0e246c79552c3af2ff6f848013aa101d6eb490fc02a582"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s20_tbs1000"
@@ -6204,6 +4523,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "927bc0e79e107d28429766901b71f1824618bf30e2bb3abb21cad75876204113"
 vk_sha256 = "ef0bf315c78044588a56fec5c44496709c0fce7e121166c7b302d5e4f8af3f98"
+vk_hash = "0x17114b6b30d42a33417196709fa64825cdd92dd25911ef0fc93af6a45fedf842"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s20_tbs1200"
@@ -6213,6 +4533,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "a31a46d123b64ed70e5852c48e1e762c3d315a34363811aa8bffe88a2f5ae609"
 vk_sha256 = "34344e0d1758f8e8c083969c14585cf9824b0ed1089b145b1a5c50eb611d8584"
+vk_hash = "0x060237fe430c6c2f3029e3ee86b436f4983e2116e6769e95a9f4cd27e638fc76"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s20_tbs1600"
@@ -6222,6 +4543,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "0bd4b1e1f4f2b802ef75a983982ca0e0e37a5f9b1794c0b845fa1b191c738661"
 vk_sha256 = "de3f93c0335085f7f8490f411820bd254846d43ba47099b72a96d4457e92233a"
+vk_hash = "0x2fbf75a353ba2ccc9467cdd5ed986144ee9373bd09eb2f81e33403850548e4c6"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s20_tbs700"
@@ -6231,6 +4553,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "14e2b792194838216f2ac62ef32ca17aff92f9ce62fd163c01b02e9bebf6e4c7"
 vk_sha256 = "5cd71728c708c095a547355a2de7d556d0b750be10c4e962a17c9a746c9a2ab7"
+vk_hash = "0x2b2d7f23859aebf8ee9510930745f1c109ca103ef3dc201d43b793c3f5a411f5"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s32_tbs1000"
@@ -6240,6 +4563,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e915ac2d6680fd0d310cc2b4b21bc027338f75b33621d7300da59fa7179a2789"
 vk_sha256 = "0627a3f4ebfb1800e9cebad8b26aece7b41e88c73fc308334dc751a5295b5ae3"
+vk_hash = "0x0b29a41a78cee763b955e208e98d86370bed3cd32002049118b65c549bd9280e"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s32_tbs1200"
@@ -6249,6 +4573,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e9317cf6ac69b1912d41867cfeb6843efc563c19b38648c6b67e76dc33a7069b"
 vk_sha256 = "b3d816d6b59d13de5fcfb989fdccc478f3fd7d909f3b21636cb73c2a0cd38df3"
+vk_hash = "0x0afa6610fe4454e84e78b705e82bbbe040d60924ab3ad69361a501e11a2b39e0"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s32_tbs1600"
@@ -6258,6 +4583,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "b22eaed2355e53e3184b9ca92df4c23ca342da8e0d51968bc5a8c7d3fb9b9d89"
 vk_sha256 = "d20f4e185850b579e8a31c46bac7f30e96498a5c6ce5028e27369e12ac4010c8"
+vk_hash = "0x12f36f3124a2f52134920dc961d6a4f2b16c1604fd7a8cf55f48d1a13284881c"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha256_s32_tbs700"
@@ -6267,6 +4593,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "fc709a3988f68f458d7ea4de1b91ce2a054c3139aa3a84d0c430492e8f16da53"
 vk_sha256 = "f7514523dca79e3768816cf07c6fd53f0ac272336de61eb90e1feb0edfdff1c5"
+vk_hash = "0x0dabc54338e0584e2acd20645bd47abacbc0e1ee8882a9f2e68597e5ac3f3ea9"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha384_s48_tbs1000"
@@ -6276,6 +4603,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f973324a5dc3deefcfff7fb87c5b3918b2d50c42fb588487a2e67695f2327922"
 vk_sha256 = "e28fe592ef0a4e89bd49a5fa79ef583a382d225c553f9894d1511cdfba648ea1"
+vk_hash = "0x1512939753785e1d5a9dc86e08d03b4ce83140bf28323e183a2448a127bcc806"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha384_s48_tbs1200"
@@ -6285,6 +4613,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "478942dcd6ad236638b91b3efcd52b8490fbc00d855b512a7ac15e67b3819f7d"
 vk_sha256 = "2cb3ee4a85c577f2b574a5e96168a24ff2011d03d7bdbd03fcde607b33cd222b"
+vk_hash = "0x1c1e1bc720302aaa54a8d158206d6df0d8f02533f986ad028ecfc50fe6d45b05"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha384_s48_tbs1600"
@@ -6294,6 +4623,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "da28ca0a1ae8b447801feebee294cd9fa98d75c08d0d852eb1e52efe1f183d10"
 vk_sha256 = "488172f87233284d0741e035eefadde484fb9934d63ac66987c7e5c624f4a6a5"
+vk_hash = "0x1f2724a8b804e8f30a916981409083d2d6c2b102698481099a93ceddd84c4181"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha384_s48_tbs700"
@@ -6303,6 +4633,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "e2a49b01b32e945830da52d3c5ae8f8caa36f9d34ae3e42fa1447bb8112a5d9f"
 vk_sha256 = "769d0ea7f995a03a6658f028e269acb2950ea8924a33a2588c143bf1b68ad5a7"
+vk_hash = "0x04cb1beb365490b497702b60bb0fc1f71261a219da67212e7961fd38196288d4"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s20_tbs1000"
@@ -6312,6 +4643,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "c083f845fd0ed522674f1fbe1b6ce729b8f9c36a882759e15e91d1fb3fddad4e"
 vk_sha256 = "6739bef2aaebb8a355c9d5d0590acac4ee57cbae88e0a0127e5ee7cb247d731f"
+vk_hash = "0x09994d0d4a3c92430e7c5dcf17174503d6c3e5e17d96d2fbd37a7dcffcb6af58"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s20_tbs1200"
@@ -6321,6 +4653,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "07cc2a2df9c7a34dbac258eada3c7c26eff2b542fbcd752bb282246757029c35"
 vk_sha256 = "ebc5d7bc005a2f9fcf709530f39eebeefeafd46dc2dc60a8843372b30fbeffd9"
+vk_hash = "0x2c74ee4c6804400e96f73c9a75d9171d824da549fa2bb673a9512fa952c3ca2e"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s20_tbs1600"
@@ -6330,6 +4663,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "f6f7064a96a2d6609e4d73813b54186904393eee9f12e1bf7c2b07c65207e128"
 vk_sha256 = "bce229824bda7bb3d5776d884beb55b81fd3b7a98590ef2aa433ffac34988022"
+vk_hash = "0x123e64900b2c60faea602b3dbfe9e82b650e4678d7b467be1b213d499d0cd77c"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s20_tbs700"
@@ -6339,6 +4673,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "eb90ad6d0ac08025d801ac6c1f8986c6c4156dae7dbfb5356310755ad7de6a1b"
 vk_sha256 = "311b116c8c31e8599352e658e4a973f6214989aeb9f0d337bc92ce00d038e545"
+vk_hash = "0x14cffd1a0637ea9d463c722c883b73d7291635f99d2dde8efb3a0dba33d74ac1"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s64_tbs1000"
@@ -6348,6 +4683,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d50667c477aa864eb54282c20e349ab9667aa30e34cfd82902cefd1790f1683a"
 vk_sha256 = "936388d5a1b22dbf9630662de99b9b4f951e2adb00981f1d1d7b1e075881e227"
+vk_hash = "0x1466d9b47f7e938cf76ad5b2e9f7891367d444ba1aefd77fd0a14ce0aaab34f1"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s64_tbs1200"
@@ -6357,6 +4693,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "d53a793e3cd715d57ad72d7ec281a972cf13b135d0b63ba71a77bcffae07cd46"
 vk_sha256 = "67d58106c0d43de20b70b65fb7f916ac8f6587205131146b37f84e57748db78f"
+vk_hash = "0x2200b797f26b38f1992f5067f4b1b698780d5eb607dfc0685a74a985fde93b53"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s64_tbs1600"
@@ -6366,6 +4703,7 @@ role = "app"
 status = "active"
 bytecode_sha256 = "5e3f78eb43131509b27fa77d4bd17706d4ccb019029e36cba816bf538f19c511"
 vk_sha256 = "a0776d01de658d9687d4319024a98b5288d1d1c3327bbc903e5efbb1eee43600"
+vk_hash = "0x021851a16ebf14ba6b285003549efed1d9b12fa3cba09ac94ec1c6c5bf988b51"
 
 [[circuit]]
 label = "sod_rsa_pss_4096_sha512_s64_tbs700"
@@ -6375,3 +4713,523 @@ role = "app"
 status = "active"
 bytecode_sha256 = "550419076b89ad96d722f6f0cf8c47898d4bdcaf5d25188442b144cad0df8a97"
 vk_sha256 = "dd75d219b93a69ae183b75acd9babc0f9440ab6866e3246b17392058a56a31d8"
+vk_hash = "0x0ec4474107b6e108ac8a97edf39cdf33950fe8e390eae55c00e912294f9be178"
+
+[[circuit]]
+label = "document_sha1_sha1_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "ca89c33d9b79d3537987629e1a1218a07b9b77f50a23e76f6b03609c91ce789d"
+vk_sha256 = "1369db1035967bbd99a833c7b82fdb732dda028e84a7e90a5620b1f1247018fd"
+vk_hash = "0x2876604abdc7bf67e4bd4db96c503c15aa071286b1d609ea2acb5538a35830c6"
+
+[[circuit]]
+label = "document_sha1_sha1_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "cd112395acbe95a7d9bab239babfc96906c47089d6279f6fa1b6502c37103a1c"
+vk_sha256 = "f2c27147a177f537ac04b5b46bf583d00a74b72ffdcf86dee986f75a4cda2e37"
+vk_hash = "0x0e0f1c38a377502e4d4b6300280dd9778dd8131d1dd6d374935e8fac8eb160ae"
+
+[[circuit]]
+label = "document_sha1_sha1_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "977a150c5b0dcdb60115bff64a1fa5785bff6ef6145934f79589fa23c0ea0cf6"
+vk_sha256 = "a56b333559279eadcb76120c95d93d1a5e735b61e270a565b477db96743c46f6"
+vk_hash = "0x120a1ade4851aff11e0e0aaf7936f452dc207afdc42fd8d221ca3c450e259321"
+
+[[circuit]]
+label = "document_sha1_sha256_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "e03f34d4be0341c3e96697ea726479a483ba0def9c9482ccd274e4501567c1b5"
+vk_sha256 = "1348d2b05de2720c790a7cdf62195a38b10a580cc8094e39aacbe2d0f2462841"
+vk_hash = "0x1a80ad44b7c0fb8f96ec361d8a86a1e59ecb05f835418e8920322c39cb3449a1"
+
+[[circuit]]
+label = "document_sha1_sha256_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "014064a2df0641bad012ce18bbb9944a5dbb901617b1d63de057947d6358525a"
+vk_sha256 = "f8491bd07d053bb4c19139add971ddeed3ae47dbec56a0931d5a8a7d885b1234"
+vk_hash = "0x043fbba6aa828136ddb501fba09f74ce63d259f07c9f17b0963fd7ec2e320dd0"
+
+[[circuit]]
+label = "document_sha1_sha256_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "e795aa36ed639d33b05432543deaefb0f249c6bbb147e71ebef53c1f0e15c9e1"
+vk_sha256 = "8e10c0d64a11caf2692d043b06bcb0820bb92abaa6bf190d1d6d546ae14b04be"
+vk_hash = "0x1e668f408d6a21b639e18dce94f0b8c69dfd95f45d2f3d6566778fb308f153cc"
+
+[[circuit]]
+label = "document_sha1_sha384_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "1b38d22fb3d7b631cd102c5bb82564a4988282df27d9b58f6883d8c8951b0bd5"
+vk_sha256 = "f3caea9b6d7018dc4967166d1311762fd7a42d775b971439784ca71d05954279"
+vk_hash = "0x069d55b9ca59dacaca632634288f42df511c153e92ebcbe1f08b172f9e7b7f45"
+
+[[circuit]]
+label = "document_sha1_sha384_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "61c976ca4706fc7f876d7e734b7888e0a5b73517256c3a970a4ced63d37896dc"
+vk_sha256 = "7e60d3e240695a12903b693dfef902be20126c6e873218def59eae375b752940"
+vk_hash = "0x0357c87f6efa8b90e825ed09d8dbaae6165ac3f77b46b0d5982e315aa0bff9ef"
+
+[[circuit]]
+label = "document_sha1_sha384_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "b7a5d3a2891af8534f5478dbdcd4d83916af9ecfdc13e39ac8120cb216087dbb"
+vk_sha256 = "0c5e0a4b9a01990beaae63983263a965c3173a02c4574f4b6e20d85f922c47db"
+vk_hash = "0x07e322be8284588db959feb2b786a3b1dc0d055ba9caf97f709addc355442b4c"
+
+[[circuit]]
+label = "document_sha1_sha512_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "e9f3f8d94aebc4f81ea9d75715bda0a9489b5c42360e1c1399abb1015b8efd56"
+vk_sha256 = "98564f9ac944ee20a4907640f431565d6cb0a81c5ce2409cf116f84ef7011093"
+vk_hash = "0x17e6de58602693fb239d87a890973e5a46c7093c3378b9fa2e1642be22dc73ed"
+
+[[circuit]]
+label = "document_sha1_sha512_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "0550f618973d75ad77b56eb47e4c5056e9cce02a2851e4fbb2470702a40fdd5d"
+vk_sha256 = "6d796992043b41fc593f02c6ac0281dfbe17114639fc464f87b3d81b4b2e1531"
+vk_hash = "0x2d67a3d84d847a8a6e0505e41ef88da28278cdcd72a66a145735ca3aa29931b6"
+
+[[circuit]]
+label = "document_sha1_sha512_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "013ea93e61ef7c8d45e105145cba6448e891e61a759b38a05ccfb9772234b9dd"
+vk_sha256 = "e539dffc11c772095ed9c52f8f355bbc84e11518163ef9878d21bc6605f3380c"
+vk_hash = "0x022b6272b175169663d1e1df48394d881714b9ed55ba77556850cbae19b909e3"
+
+[[circuit]]
+label = "document_sha256_sha1_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "afced1aa19897a3fb52388bdcd4180fbf1d04c0fe7c17533badae715874660db"
+vk_sha256 = "b20c1fe638664066df7bbdb78da99ff9e93a7e98c2b93079335120b48ca89c04"
+vk_hash = "0x115f29af737bd8929a19f9a3900d175d3c2e3b9e0a1b7e2aded7d6558cdbcfd1"
+
+[[circuit]]
+label = "document_sha256_sha1_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "91f477905bcb665ac40e233cfbfe2d2927a3a99c261f4ef43300070a2de85da9"
+vk_sha256 = "6e6f9fcc40e0271550e9f0c8ca8d18ec09be60d23b29737364de5b7bda0b5283"
+vk_hash = "0x0736431eed7f3eb81b7d3b579672a2ccc57bb8a76e398f4a39b64996ab9d8fc7"
+
+[[circuit]]
+label = "document_sha256_sha1_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "350cd3dab51ec500a3c5973a5e9096dc73733efdb2efbabead1027140750061a"
+vk_sha256 = "a570552a09759b4e0546f74b6f71451aa46e571334f206c580ceb69ea32db577"
+vk_hash = "0x2690e32a0b53816c2aadc4c2afc1822ac9a70e818e68da65e94a1da0b7f4f37b"
+
+[[circuit]]
+label = "document_sha256_sha256_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "65269bf86f8cb9cafad00fb33de3e94c890e2f75509c07d9db4cd5a5c56760c6"
+vk_sha256 = "39a24cf211b0a84141bc487be88105b47d74bf23bc21c9a5c9731598d056d21a"
+vk_hash = "0x0c6af9cbcb0048b75a7f6b1c2beb687529f93eb8997a9361b4bd4351f2ad94a1"
+
+[[circuit]]
+label = "document_sha256_sha256_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "237e1f6bb4b975bdf465b661d3d50b2c6070d0aa7c04d5931013d3475187967a"
+vk_sha256 = "6ec5155977af3324e49f18224671e4d074adc2674212c0b550a0a1c8a1aff083"
+vk_hash = "0x24180190f67ebc036b3024668bcaec7e18e1f34bf6d06d6273d37b3a7f665b06"
+
+[[circuit]]
+label = "document_sha256_sha256_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "5cc5c3db9b03c4194e5da7dff1703946f5fb7c89be8073b7a8bdc78a9e662784"
+vk_sha256 = "af9708127c5e69ecee53b6bdee11646ca1927770d4419c5b87729c093fb9f115"
+vk_hash = "0x248f4e0a0bdc8e3dc88ca536af4e45a759e9903704196d07465d116b5f865e31"
+
+[[circuit]]
+label = "document_sha256_sha384_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "000fd1434b919d274ef32bbc65db27d7af31c4aae5242d887174061686d57e83"
+vk_sha256 = "9e27675acfb3d5b1110df786756d44e4c0d856b7b5febc2efe92216fc13b10a7"
+vk_hash = "0x12e9a2d028e834923884ca56f0dee824c5f26f533b63c7d74b8063695119930a"
+
+[[circuit]]
+label = "document_sha256_sha384_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "04a654246f63ed14b7c3a5ff619aca091fb87b6bc29db19e92941f6d8e27f15b"
+vk_sha256 = "430a4dd02d0d76ec40ea9cb830043813520d72b4ca8327bbbec2b5d7497264c8"
+vk_hash = "0x283a3c61f21bffb3621e5d3d21c6496df94989195674dc9a628e5f515add1456"
+
+[[circuit]]
+label = "document_sha256_sha384_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "c8df6cb7d188c3f6e16c95a2ee42f72d39dc4d6c3408aba83e3a33012c52d5bc"
+vk_sha256 = "65e7211fad221036f9fc685b69fe2e11120018bf1ca4c1b1be8fe53236d4c89d"
+vk_hash = "0x0665f15ec988644190bce64cb47b5cfb57e11cb60f80e83c35e227f377a2f665"
+
+[[circuit]]
+label = "document_sha256_sha512_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "51ee0148ce09e4880587d1dc5c2d2d40bcfb3fa8b9bbe2c5e22eb6f4d64608be"
+vk_sha256 = "c4d02639f7fd99b79e4e68156ff43490da5b475cf9168a1935dd1af4c8ea75a1"
+vk_hash = "0x1671fcfb1daa8c3263695bc4627a051b6ee5c8c4bff793301f0fb1f76dda498c"
+
+[[circuit]]
+label = "document_sha256_sha512_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "34de063774208be5e50209718b58de4dd3b07aeb3c0cab7e08bef21ddf125aa6"
+vk_sha256 = "bc37e8e3d4a6af63f15de2927a843bb8e2aafe8f43ab8bc43a697a2912350e4b"
+vk_hash = "0x00b422523d1f88bff21a331cdf867e6104003c6342244575f172b60fb3154a31"
+
+[[circuit]]
+label = "document_sha256_sha512_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "9e23ce1f23df0193c70311e7eec12c7fe7b4724f8474db9b2f1f2fdc750167b1"
+vk_sha256 = "c64692e809d9804e0ebdc90f270dae1745e9b3d40c97fb8959ee2682cee1464a"
+vk_hash = "0x1b2e715a85964ee03560bb7f68ebb3aa6bf18e8e77c1458a9ab335c4778f1f55"
+
+[[circuit]]
+label = "document_sha384_sha1_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "3e9793e9d60554ee1ff03b7798ac11106229efa753304664c31d55061196f8c8"
+vk_sha256 = "0b65c457041504c77bb4567d393aa7a63793b45d4dac9f904f255ae9f66a35ed"
+vk_hash = "0x0ddff8c5297c2f269eb0cfd45b21c537e5312fd5eba30739bc2a5db216994894"
+
+[[circuit]]
+label = "document_sha384_sha1_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "1013c19fb21dda3d4b772c0ba1ef4bcd5e13b82caca87731a95f904ae2d663cc"
+vk_sha256 = "46f038c40d07fd920e189a09eaa123e1f363b14b8ef6d390d573e6f617e9dea1"
+vk_hash = "0x281924bf6f126139318a92ae6b02f8f5c3922d7f38e89c7cdf0fe1e2336ab0f9"
+
+[[circuit]]
+label = "document_sha384_sha1_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "62d610872c7f78ef8b6c7c04117459ce220a784e6dbd6f30bbf11ebe0d3eab62"
+vk_sha256 = "61c08a1e0804831d051cdd6b906e07b20f326116cae36ea1a68517fd48db8f8d"
+vk_hash = "0x13ce3cfa27dac44bac0041b453cff37b7effc93194fb6cf9f5c027ba6b92d1ef"
+
+[[circuit]]
+label = "document_sha384_sha256_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "73a6620f3020bb24d9e27959e91908cb4e2c307ebf4bec6031e82f49f1df65ee"
+vk_sha256 = "1213bdb770bab2ebe8bd09a3bf9b2573822b405ef82cd6fbe158813632fbbc2c"
+vk_hash = "0x28b0fce6c6b7319b858bc61460eb9d388cfa1ab2702697378a417db8b3b29228"
+
+[[circuit]]
+label = "document_sha384_sha256_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "167a36413e381eac218c85e145c6e19bfb409cf3c98f3c25a7d587d879ad71ea"
+vk_sha256 = "4f3c3914fcb1826418c3d48eafdeb8da0da195699b6b788bc69abee4fd6ed0f8"
+vk_hash = "0x12aaf6e5cc052bc74d50fc22470240120877000d044ab2ec64ef5e249fc769af"
+
+[[circuit]]
+label = "document_sha384_sha256_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "a6f6707abf7f750405858008fbfac1019eba170b2ecea58bcdd95dffa3ccdaa6"
+vk_sha256 = "0e0dd98405c921b7a0eb07f681c2f276eca5acb0b474bb37a7062fde420725b7"
+vk_hash = "0x0c35e5c1339a3d25a68b751031c6a205c7ba6a228a87e6fed82cf3d6517708a3"
+
+[[circuit]]
+label = "document_sha384_sha384_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "52342ab501296575e91a7e4c17abe5882884ff9d70ef5979a4db6e305b5932f2"
+vk_sha256 = "b26a673765990c15998d0954e41932712bdc5be3679360d5151f74aeb7750e36"
+vk_hash = "0x2f6ee2f87632bd1d3e86cc0b63647150bc25952bf2a0552345b9336db6faba3c"
+
+[[circuit]]
+label = "document_sha384_sha384_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "828a1655f6b87c3c5d3a8fbcac76c67409dc8ba94ffc0ccc435c3a1725f5c2b4"
+vk_sha256 = "426d015f7b3e621de0b451f3e8231b5a8d8ad26f0502b06ac1ef70ecb252904e"
+vk_hash = "0x265036d977fee242fe7cbab4e25ac27695c7aaad6c367e3b3abf6d200ee11734"
+
+[[circuit]]
+label = "document_sha384_sha384_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "162d5600891ce1c6dfa5f8a13bf66e35167534b7474c0784f49730045db0b50e"
+vk_sha256 = "2a2f7df2d2d4f811a0e6e5856cf77b1282cbbb39f4cbfa17319ebf0a0aea9bba"
+vk_hash = "0x017ab61d190c4ea83289d825c5f82516dd88ed2e965da22470cd4bb94aaca2ca"
+
+[[circuit]]
+label = "document_sha384_sha512_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "2869fb0022d6b56dec9b75765c1226a1c0f4d88c09dbe9b49348a0361f0f8587"
+vk_sha256 = "e22c6785a3317ae944869ea223f162b5073d96b987648ce7cb692b370d8c0275"
+vk_hash = "0x162b97e06b2f813b40eb5839fcc7cf22b619ea24be8eaecb24ebe18f97b1b69b"
+
+[[circuit]]
+label = "document_sha384_sha512_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "885c51f0631e4612f32dcbb562da049a0546ae2e75e4f0ad85ff3c1485c11e43"
+vk_sha256 = "eb95ad5826d5b5f7697d8f499a8c05cd30472d4c0b12595351a9a6640b92fad7"
+vk_hash = "0x1f6c1b463c6150ccf0d118acdb8c28fb1b10f4af39bb50e24eb325cabf1fe6cd"
+
+[[circuit]]
+label = "document_sha384_sha512_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "ee23d2311f1c9763d9e17cb3397028aa0f5f72dc417a4d8f165bbe0be8569d34"
+vk_sha256 = "a6fd6f8d070026eb7ae11a009eff596b09ca334f564551750f7c957bd077505d"
+vk_hash = "0x08fc80cd5f6d396de7815a8129ddbdff3e57b669c57af835269d87c1ccb8aadd"
+
+[[circuit]]
+label = "document_sha512_sha1_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "31498c1adc1388ae9c4a25dd974a0077e0595c1924d1cf65421b5fe4d19ce771"
+vk_sha256 = "70c55f70a338b4cad728248673d220a47b6629efaba69c165ce806c513b756fc"
+vk_hash = "0x2506b9fb02011de6be62da1542f3ab8e2d2df7601a8fccc9df6ca3baae523558"
+
+[[circuit]]
+label = "document_sha512_sha1_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "1fda2d72e8b4497ccba0d47b597be0d0656e02e66b4a6d1c6d6135f15f5b3227"
+vk_sha256 = "b2d305f29bded9d27eb6318c153c9bfd86f19f4dc02f3a68feed0d32c3cf6cb0"
+vk_hash = "0x1c09166d2d9a5c392e360ffe72d6672d2fa6ed21b7c11b7399f7d2825447896b"
+
+[[circuit]]
+label = "document_sha512_sha1_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "8fc695caff86fba0e6776e463cba19559d3923ec38016f21c5443590fcc2fa8c"
+vk_sha256 = "5b64b11fbd311f7fcafb167e4acf168d27c55679af40b0c7bc1b99fe78a0a667"
+vk_hash = "0x075d5d4a2b55d45d0e4e47786f9fde4b4b2836bbfaa6579eefcf03033dfcc97d"
+
+[[circuit]]
+label = "document_sha512_sha256_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "b895a498dc2660e1e876404383d6c5c0b2fa4512c269b094d2efa71744278c6d"
+vk_sha256 = "35cf123ecdb95978d29d38c8baeb62b45df4df6f2ade4335353b16e3d03ec70f"
+vk_hash = "0x02e005cac814be40625368dc44769ad5444f4d6d99a79a07beaa1281c129aba3"
+
+[[circuit]]
+label = "document_sha512_sha256_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "3eb28fb9f9cd96092387afb037ce32c7d6a6ad39a77726cae91344f9fac40e4f"
+vk_sha256 = "d008b4c1fa0e7b86ec098a061a6202c72941f89575294d61719326d8d3b406e9"
+vk_hash = "0x0652f7118f312c744838643af5cf28fceace00e8aadddc5247e3b6bd1eba9284"
+
+[[circuit]]
+label = "document_sha512_sha256_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "5279624bf38c90c885449fc3b6c09f069e36612d53939b62d7c96f7cf3837db8"
+vk_sha256 = "369f829d958e7dac3e302dde26d087acb3eb0d8e6371fcdc766ffaf16fbff870"
+vk_hash = "0x11582362dac7aab8fbdbb66046b0ff7289edc6d2dbec19c7fc17ef677e4e5212"
+
+[[circuit]]
+label = "document_sha512_sha384_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "3884d1e1a4c8eb958fba43d86fe54a42cf603b57359c12c5683533c61786be95"
+vk_sha256 = "f0f81b150369950c3360cfb421503625e90fa2c72de2a1766fc616b8442ba1d3"
+vk_hash = "0x1f54051794998242e7c6db4ca8143cff517d08f961a7b0a9e7396c8593973047"
+
+[[circuit]]
+label = "document_sha512_sha384_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "08fe8a36378c71f37737d6ad8bdcee08fc3c4c17c52379d0d9ec058ab21327eb"
+vk_sha256 = "4c30f527f9bbac6ca7282d500232b5d3b1b3889174acd7379652a2c737c4b1fe"
+vk_hash = "0x15d1bdbe918ffc28fdf1e15850b22b2a781f1d19ebc62c3ebdfb98f09b65ce4a"
+
+[[circuit]]
+label = "document_sha512_sha384_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "7c6fdad889bee10597639ca966ac4b6a61269253a60a45bceddc93e644ca8a64"
+vk_sha256 = "a95257a16716875ae45bbf16e77f40942b231c7232c3dc967a8b9581328c380f"
+vk_hash = "0x13f7d342a99283cac02659ae93840f3fa7f810562b126fbd1aaa747ef77a2d3f"
+
+[[circuit]]
+label = "document_sha512_sha512_lds1024"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "e56460b27737e203e9cc90afa63b87fc7c8cdececf47a66a8f28d76b73be4c12"
+vk_sha256 = "2d075fdecfc26e427f29d36445a0c0cdfcdb0b28896bd29330318d86db22966c"
+vk_hash = "0x081a0e9d4b26eaf23decce3608e3dc19f5bec439fa49139cf88d36dc5c3272ef"
+
+[[circuit]]
+label = "document_sha512_sha512_lds1536"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "64fc16368a0f3d84dd0bc77d45e0a708b083d7b709b51b26f14aaed683221e3b"
+vk_sha256 = "6a9635f7a810b730d338339b5dd2cbe86d27c371542df00438cdc16461bf9470"
+vk_hash = "0x169c9f732d59791c5e3f43b6f455030be5ddb797fda7e3c86d12a25a6d99c0b6"
+
+[[circuit]]
+label = "document_sha512_sha512_lds512"
+version = "1.0.0"
+system = "chonk"
+role = "app"
+status = "active"
+bytecode_sha256 = "269fbb35cf10bca5fab0e046e2f2fb5fefb6b871d36ae5ff829f0ee36122dd40"
+vk_sha256 = "8443a0fe5c6be8973dd647777e8b7c7790dd76a61478c1e8ffa736e3e431cea3"
+vk_hash = "0x2353ee1e2a0bfa83ee3ba58fc2b0c54e67c911ce5b3a4161e6399f6682ef5af9"
+
+[library]
+name = "eid-circuits"
+version = "0.8.0"
+
+# ------------------------------------------------------------ families (hand-written; freeze keeps them)
+# The identity layer's families, for a combining registry's pipelines
+# (noir-zk's layered registries): the links chain c_A (DSC -> SOD) and c_B
+# (SOD -> document), and the document step leaves DG1's payload commitment
+# (`PayloadCommitment`, noir-zk's shared link vocabulary) for an envelope app.
+
+# Step A: [registry_root, c_A]; the registry root is public.
+[[family]]
+layer = "eid"
+name = "dsc"
+members = ["dsc_*"]
+link_out = { index = 1, link = "CA" }
+public_from = 0
+slots = ["registry_root"]
+
+# Step B: [c_A, c_B]; nothing public.
+[[family]]
+layer = "eid"
+name = "sod"
+members = ["sod_*"]
+link_in = { index = 0, link = "CA" }
+link_out = { index = 1, link = "CB" }
+public_from = 0
+slots = []
+
+# Step C: [c_B, payload_commitment, date, scope, nullifier]; date, scope and the nullifier are public.
+[[family]]
+layer = "eid"
+name = "document"
+members = ["document_*"]
+link_in = { index = 0, link = "CB" }
+link_out = { index = 1, link = "PayloadCommitment" }
+public_from = 2
+slots = ["date", "scope", "nullifier"]

@@ -291,12 +291,12 @@ pub const LDS_HASHES: [Hash; 4] = [Hash::Sha1, Hash::Sha256, Hash::Sha384, Hash:
 /// eContent size buckets: 16 data groups with SHA-512 hashes take about 1.2 kB.
 pub const LDS_BUCKETS: [usize; 3] = [512, 1024, 1536];
 
-pub fn envelope_package(md: Hash, dg: Hash, e: usize) -> String {
-    format!("envelope_{}_{}_lds{e}", md.name(), dg.name())
+pub fn document_package(md: Hash, dg: Hash, e: usize) -> String {
+    format!("document_{}_{}_lds{e}", md.name(), dg.name())
 }
 
-pub fn envelope_dir(md: Hash, dg: Hash, e: usize) -> String {
-    format!("noir/circuits/envelope/{}_{}/lds_{e}", md.name(), dg.name())
+pub fn document_dir(md: Hash, dg: Hash, e: usize) -> String {
+    format!("noir/circuits/document/{}_{}/lds_{e}", md.name(), dg.name())
 }
 
 /// The smallest eContent bucket that fits `len` bytes.

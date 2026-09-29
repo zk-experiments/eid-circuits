@@ -853,10 +853,10 @@ dependencies = [
 
 [[package]]
 name = "eid-circuits"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "ark-ff",
- "eid-envelope",
+ "csca-registry",
  "hex",
  "noir-zk-backend",
  "noir-zk-codegen",
@@ -867,19 +867,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "eid-envelope"
-version = "0.7.0"
-dependencies = [
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-grumpkin",
- "pso-poseidon",
-]
-
-[[package]]
 name = "eid-prover"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "anyhow",
  "csca-registry",
@@ -891,14 +880,11 @@ dependencies = [
 
 [[package]]
 name = "eid-vectors"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "anyhow",
- "ark-bn254",
- "ark-ff",
  "clap",
  "csca-registry",
- "eid-envelope",
  "eid-prover",
  "hex",
  "num-bigint 0.4.8",
@@ -970,7 +956,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -1288,9 +1274,9 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-backend"
-version = "0.2.1"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4778205d565477ad9c285a9312caf541d888dc8ff34599b91d8568220bf5bee5"
+checksum = "4eb67f284245690f87732dc983dc86b302339bb2e55c3e1cfe6520c5d2eb536d"
 dependencies = [
  "acir",
  "acvm",
@@ -1302,6 +1288,7 @@ dependencies = [
  "flate2",
  "hex",
  "noir-zk-core",
+ "noir-zk-kernels",
  "serde_json",
  "sha2 0.10.9",
  "tar",
@@ -1311,11 +1298,13 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-codegen"
-version = "0.2.1"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d2ba3c0c4bc527db086159255aa5aab9afc952ddd54a6c04835e1ce33da08fe"
+checksum = "b6b989d788696e32fe71dc56c628d44355149d5f6ff14f8c5a524e59d377c72b"
 dependencies = [
  "hex",
+ "noir-zk-core",
+ "noir-zk-kernels",
  "serde_json",
  "sha2 0.10.9",
  "toml",
@@ -1323,12 +1312,24 @@ dependencies = [
 
 [[package]]
 name = "noir-zk-core"
-version = "0.2.1"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aa54fc4514b8a2b4cdecda6960b4ec26aedad2c3d10a33338d99ecc8faa2b04"
+checksum = "c9362e048fb6615f247bd3990c06f3d3489ba7319dcb657efa25250918195540"
 dependencies = [
  "ark-bn254",
  "ark-ff",
+ "pso-poseidon",
+]
+
+[[package]]
+name = "noir-zk-kernels"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "49f65e1f4c4add7de04e57af2eb7f1ee573cb6a5d9a4496f3a032998855aba4f"
+dependencies = [
+ "hex",
+ "noir-zk-core",
+ "toml",
 ]
 
 [[package]]
@@ -1801,7 +1802,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

@@ -3,7 +3,7 @@
 #
 #   noir ────────────┐
 #   rust ────────────┼─> ci ──> tag (cog, push:main) ──> github-release ──> packs
-#   circuit-samples ─┤   (samples execute, committed sizes current, 2 GiB cap)
+#   circuit-samples ─┤   (samples execute and fold through noir-zk's kernels, committed sizes current, 2 GiB cap)
 #   typos ───────────┤
 #   supply-chain
 #
@@ -162,21 +162,24 @@ jobs:
       - name: Generated Noir files are current
         run: |
           set -euo pipefail
-          for what in rsa ecdsa curves der steps envelope documents circuits costs packs; do
+          for what in rsa ecdsa curves der steps documents circuits costs packs; do
             cargo run -q -p eid-vectors -- "$what" --check
           done
 
   # Every step circuit with a Prover.toml is executed: the whole statement
   # holds for one real certificate per DSC signing configuration, and for one
-  # synthetic document per SOD configuration and envelope hash pair. The same
-  # compiled samples then check docs/data/circuit-sizes.json is current (only
-  # circuits whose bytecode changed are run through `bb gates`), and the 2 GiB
-  # proving-memory cap is enforced on that file. Compiling all ~300 circuits
-  # takes over an hour on a runner, so CI never does it; the full file is
-  # refreshed locally (see .github/scripts/circuit_sizes.py). Nothing here
-  # proves: no time or memory is measured in CI.
+  # synthetic document per SOD configuration and document hash pair. The
+  # synthetic chains are then folded through noir-zk's generic kernels in the
+  # test-only pipeline [dsc, sod, document], proven and verified in-process
+  # (rust/eid-circuits/tests/fold.rs): the families link and prove as a
+  # combining registry will fold them. The same compiled samples then check
+  # docs/data/circuit-sizes.json is current (only circuits whose bytecode
+  # changed are run through `bb gates`), and the 2 GiB proving-memory cap is
+  # enforced on that file. Compiling all ~300 circuits takes over an hour on
+  # a runner, so CI never does it; the full file is refreshed locally (see
+  # .github/scripts/circuit_sizes.py). No time or memory is measured in CI.
   circuit-samples:
-    name: Circuit samples (nargo execute, sizes)
+    name: Circuit samples (nargo execute, fold, sizes)
     runs-on: ubuntu-latest
     needs: [resolve]
     if: needs.resolve.outputs.release_tag == '' && github.event_name != 'schedule'
@@ -200,6 +203,12 @@ jobs:
         run: |
           mise env --json | jq -r 'with_entries(select(.key | test("^(NARGO_HOME|BB_PATH|NARGO|BB|NOIR_VERSION|BB_VERSION)$"))) | to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
           echo "$(mise env --json | jq -r .NARGO_HOME)/bin" >> "$GITHUB_PATH"
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rust-src-dir: rust
+      # noir-zk-backend links bb's static library against libc++.
+      - name: Install libc++
+        run: sudo apt-get update -q && sudo apt-get install -yq libc++-dev libc++abi-dev
       - name: Execute every sample
         run: |
           set -euo pipefail
@@ -209,22 +218,25 @@ jobs:
             | sort > samples.txt
           echo "$(wc -l < samples.txt) samples"
           xargs -P "$(nproc)" -I{} sh -c 'nargo execute --package {} > /dev/null && echo "ok {}"' < samples.txt
+      # noir-zk derives keys and proves against a pinned SRS (2^20+1 BN254,
+      # 2^15 Grumpkin points in ~/.bb-crs) and never downloads it itself.
       - name: Cache the bb CRS
         uses: actions/cache@v4
         with:
           path: ~/.bb-crs
-          key: bb-crs-${{ hashFiles('mise.toml') }}
-      # The prover's inputs for synthetic documents, through the kernels that
-      # fold them: key tree membership and step links are checked in-circuit.
-      # Execution and verification keys only; nothing is proven.
-      - name: Fold the end-to-end chains through the kernels
-        run: python3 scripts/fold.py --nargo "$NARGO" --bb "$BB"
+          key: noir-zk-srs-0f238856e557-72b8cdad9da8
+      - name: Provision the SRS noir-zk pins
+        run: mise run srs
+      # The synthetic chains folded, proven and verified through noir-zk's
+      # kernels (rust/eid-circuits/tests/fold.rs), from the samples just
+      # compiled: links, family roots and the proof, checked for real.
+      - name: Fold the end-to-end chains through noir-zk's kernels
+        run: mise run test:fold
       - name: Committed sizes are current for the samples
         run: |
           python3 .github/scripts/circuit_sizes.py collect . --packages samples.txt --no-compile \
             --cache docs/data/circuit-sizes.json --bb "$BB" -o samples-sizes.json
-          python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json \
-            --vk-tree noir/circuits/vk-tree.json
+          python3 .github/scripts/circuit_sizes.py verify docs/data/circuit-sizes.json samples-sizes.json
       - name: Enforce the 2 GiB proving-memory cap
         run: python3 .github/scripts/circuit_sizes.py check docs/data/circuit-sizes.json
 
@@ -470,10 +482,10 @@ jobs:
         with:
           path: ~/.bb-crs
           key: noir-zk-srs-0f238856e557-72b8cdad9da8
-      - name: Compile every circuit
-        run: mise run compile
       - name: Provision the SRS noir-zk pins
         run: mise run srs
+      - name: Compile every circuit
+        run: mise run compile
       - name: Check the compiled circuits against their pins
         run: mise run freeze -- --check
       - name: Write the release assets and packs
@@ -532,7 +544,6 @@ jobs:
             jq -r --arg base "$base" '.packs | to_entries[] |
               "| [\(.key)](\($base)/\(.value.file)) | \(.value.circuits | length) | \(.value.bytes / 1e6 | floor) MB | `\(.value.sha256)` |"' "$catalog"
             echo
-            echo "Also: [\`vk-tree@$version.json\`]($base/vk-tree@$version.json) (key tree root \`$(jq -r .vk_tree_root "$catalog")\`)."
             echo
             echo "Every bytecode and verification key is pinned in the \`eid-circuits\` crate (\`BYTECODE_SHA256\`, \`VK_SHA256\`): check an unpacked pack with \`noir_zk_backend::frozen::verify_dir(eid_circuits::circuits::REGISTRY, dir)\`. The hosts are mirrors, not trust anchors."
           } > notes.md

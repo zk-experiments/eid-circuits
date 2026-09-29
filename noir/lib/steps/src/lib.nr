@@ -3,11 +3,11 @@
 //! its signature group, and calls into this library for everything else.
 //! Specification and review notes: README.md.
 
+pub mod document;
 pub mod dsc;
-pub mod envelope;
 pub mod sod;
-mod envelope_tests;
-mod envelope_vectors;
+mod document_tests;
+mod document_vectors;
 mod sod_tests;
 mod sod_vectors;
 mod tests;

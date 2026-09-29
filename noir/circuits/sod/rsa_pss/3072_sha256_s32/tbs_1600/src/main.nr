@@ -7,8 +7,8 @@ use eid_hash::{Sha256, sha256_var};
 use eid_rsa::verify_pss;
 use eid_steps::{dsc, sod};
 
-/// Returns `[DSC commitment, SOD commitment]` through the databus, to the SOD
-/// kernel, which checks the first equals the DSC step's.
+/// Returns `[DSC commitment, SOD commitment]` through the databus, to the
+/// pipeline kernel (noir-zk), which checks the first equals the DSC step's.
 fn main(
     dsc_salt: Field,
     dsc_hash_id: u8,

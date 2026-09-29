@@ -2,15 +2,15 @@
 
 ## Statement
 
-For a public registry root `R`, date `D`, context `X` (the transfer the envelope travels with), viewer key `V` (the receiver's, fresh per transfer) and ciphertext `C`, the three step proofs together assert that there is an eMRTD for which all of the following hold:
+For a public registry root `R`, date `D`, scope `S` and nullifier `N`, and a private payload commitment `P`, the three step proofs together assert that there is an eMRTD for which all of the following hold:
 
 1. The CSCA key `K_csca` is a leaf under `R`, and that leaf's validity period covers the DSC's `notBefore` (see *Date policy*). The leaf's country equals the document's issuing state.
 2. `K_csca` signed the DSC certificate, and the DSC's serial is not revoked under `K_csca` in `R`'s revocation tree.
 3. The DSC key signed the SOD's signed attributes. Their `messageDigest` is the hash of the SOD's eContent (the LDS security object).
 4. The eContent lists the hash of DG1, and it matches the DG1 the prover holds.
 5. The document's expiry date (from DG1) is on or after `D`.
-6. `C` is DG1 encrypted under a fresh data key and bound to `X`, and that key is wrapped to `V` in the proof's outputs.
-7. For a public scope `S ≠ 0`, the nullifier `N = H(NULLIFIER, S, |md|, md)` over the SOD's `messageDigest` `md`; `N = 0` when `S = 0` ([circuits/envelope.md](circuits/envelope.md), *Nullifier*).
+6. `P = H("pq-channel/payload/v1/6", salt, [|DG1|, pack_be(DG1) × 4, 0])`: a hiding commitment to exactly that DG1 as a six-field channel payload ([zk-encryption](https://github.com/zk-experiments/zk-encryption)'s `channel::payload::commit`). It is the link the document step leaves for an envelope app of the pipeline, which opens it with the same salt and seals the payload to the receiver; it is never public.
+7. For a public scope `S ≠ 0`, the nullifier `N = H(NULLIFIER, S, |md|, md)` over the SOD's `messageDigest` `md`; `N = 0` when `S = 0` ([circuits/document.md](circuits/document.md), *Nullifier*).
 
 ## Proof pipeline
 
@@ -20,9 +20,9 @@ A single circuit covering RSA-4096 or brainpool signature checks, ASN.1 parsing 
 |---|---|---|---|---|
 | A · DSC | `circuits/dsc/<scheme>` | 1, 2 | `R`, `c_A` | country, DSC `TBSCertificate`, its hash id |
 | B · SOD | `circuits/sod/<scheme>` | 3, except the eContent hash (DSC key from A's `TBSCertificate`) | `c_A`, `c_B` | country, `messageDigest` |
-| C · envelope | `circuits/envelope/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6, 7 | `D`, `X`, `V`, `c_B`, `E`, wrapped key, `C`, `S`, `N` | — |
+| C · document | `circuits/document/<econtent hash>_<dg hash>` | eContent hash = `messageDigest`, 4, 5, 6, 7 | `c_B`, `P`, `D`, `S`, `N` | DG1's payload (`P`) |
 
-The steps are folded into one Chonk proof by kernel circuits. The kernels check each step's verification key against a published key tree and the commitment links (A's `c_A` reappears in B, B's `c_B` in C), and the hiding kernel makes the statement public ([FOLDING.md](FOLDING.md)). Every document is verified under the same key, so its variants stay private; see [VERIFY.md](VERIFY.md). Recursive aggregation was ruled out: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
+The steps are three *families* of a [noir-zk](https://github.com/zk-experiments/noir-zk) layered registry (`eid/dsc`, `eid/sod`, `eid/document`), folded into one Chonk proof by noir-zk's generic kernels as positions of a *pipeline* a combining registry declares. The kernels check each step's key in its family's tree and the family at its position, the commitment links (A's `c_A` reappears in B, B's `c_B` in C, and C's `P` in the envelope app that follows) and the bindings, and the hiding kernel makes the published slots public ([FOLDING.md](FOLDING.md)). Every document is verified under the same key, so its variants stay private; see [VERIFY.md](VERIFY.md). Recursive aggregation was ruled out: one recursive verification costs about 705k gates, so aggregating three proofs (≈2.2M gates, ≈5 GiB) doesn't fit a phone under the 2 GiB cap.
 
 `<scheme>` is the signature group: `rsa_pkcs1v15/<bits>_<hash>`, `rsa_pss/<bits>_<hash>_s<salt>`, `ecdsa/<curve>_<hash>`. Each circuit is a thin generated binary over the shared library for its signature type (`noir/lib/rsa`, `noir/lib/ecdsa`) and `noir/lib/steps`. Only the parameters differ between members of a group.
 
@@ -32,7 +32,7 @@ The steps are folded into one Chonk proof by kernel circuits. The kernels check 
 - **Hashes aren't visible.** No step outputs the hash algorithm it used, so a proof doesn't say whether SHA-1 was involved. SHA-1 documents are accepted like any other, as ICAO 9303 allows.
 - **SHA-1 is supported where issuers use it.** Circuits are generated only for configurations in the registry data; four of the 31 DSC configurations use SHA-1 (see docs/COSTS.md).
 
-Status: all three steps are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/envelope.md](circuits/envelope.md), costs are in [docs/COSTS.md](COSTS.md), and verification is in [docs/VERIFY.md](VERIFY.md).
+Status: all three steps are built. Their specifications are [docs/circuits/dsc.md](circuits/dsc.md), [docs/circuits/sod.md](circuits/sod.md) and [docs/circuits/document.md](circuits/document.md), costs are in [docs/COSTS.md](COSTS.md), and verification is in [docs/VERIFY.md](VERIFY.md).
 
 ## Libraries
 
@@ -44,7 +44,7 @@ Status: all three steps are built. Their specifications are [docs/circuits/dsc.m
 | `eid_hash` | A, B, C | [noir/lib/hash](../noir/lib/hash/README.md) |
 | `eid_rsa` | A, B | [noir/lib/rsa](../noir/lib/rsa/README.md) |
 | `eid_ecdsa` | A, B | [noir/lib/ecdsa](../noir/lib/ecdsa/README.md) |
-| `eid_envelope` | C | [noir/lib/envelope](../noir/lib/envelope/README.md); Rust: [rust/eid-envelope](../rust/eid-envelope) |
+| `channel` (from zk-encryption, git tag) | C | [zk-encryption/noir/lib/channel](https://github.com/zk-experiments/zk-encryption/tree/main/noir/lib/channel): `payload::commit` |
 
 ## Prover
 
@@ -54,7 +54,7 @@ Status: all three steps are built. Their specifications are [docs/circuits/dsc.m
 |---|---|---|
 | DSC | the CSCA's key (the registry key that verifies the DSC certificate) and the DSC certificate's signature scheme; `TBSCertificate` bucket | the DSC certificate embedded in EF.SOD, the registry |
 | SOD | the DSC's key and the SignerInfo signature scheme; same bucket | EF.SOD |
-| envelope | the SignerInfo digest algorithm (eContent hash) and the LDS security object's hash algorithm; eContent bucket | EF.SOD |
+| document | the SignerInfo digest algorithm (eContent hash) and the LDS security object's hash algorithm; eContent bucket | EF.SOD |
 
 Before any proving, it checks natively everything the proofs will state:
 - the CSCA's registry period covers the DSC's `notBefore`, and the DSC isn't revoked;
@@ -64,9 +64,9 @@ Before any proving, it checks natively everything the proofs will state:
 
 A document that needs a circuit we don't generate is refused with the scheme it needs. The selection is exact per document; the verifier won't see it once the steps are folded (see *Future improvements*).
 
-`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (salts, `e`, `K`) and public values (date, context, scope, viewer key). The same step functions write the `Prover.toml` samples in `eid-vectors`.
+`eid_prover::witnesses` then builds the three circuits' inputs from the document, the registry and the prover's randomness (the DSC, SOD and DG1 salts) and public values (date, scope). The same step functions write the `Prover.toml` samples in `eid-vectors`.
 
-Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and checks that the commitments link from step to step.
+Tests run on complete synthetic documents: a mock CSCA, a DSC certificate it signed, and a CMS EF.SOD (`eid-vectors documents`). For each one, the prover's inputs are written as `Chain.toml` into the three circuits it selects (`noir/circuits/chains.json`). CI executes them and folds them through noir-zk's kernels (`rust/eid-circuits/tests/fold.rs`), so the links are checked by the kernels for real.
 
 ## Date policy
 
@@ -74,14 +74,7 @@ Decided: the **ICAO chain model**. `csca_registry::verify_key` checks the CSCA l
 
 ## Encryption
 
-KEM/DEM:
-1. The prover picks an ephemeral Grumpkin key `e` and publishes `E = e·G`.
-2. For the viewer key `V` (one slot, `i = 0`), it computes `k = Poseidon2(WRAP, e·V, 0)` and wraps a random data key `K` as `K + k`.
-3. It encrypts DG1 under `K` with a Poseidon2 duplex, as fixed-length field elements.
-
-The full construction is in [noir/lib/envelope](../noir/lib/envelope/README.md).
-
-No AEAD tag is proven: the proof itself binds `C` to a verified plaintext, and a viewer checks integrity against the on-chain proof. A Rust implementation of the same construction does encryption for provers and decryption for viewers.
+Encryption is not this repository's any more. The document step commits to DG1 as a six-field channel payload and leaves the commitment as its link; sealing it to a receiver is an *envelope app* of the pipeline, in the reference pipeline zk-encryption's (a pairwise post-quantum handshake, a Poseidon2 ratchet, the payload sealed under the chain key with the domain the family pins). Any envelope app that opens `PayloadCommitment` can take its place. The Grumpkin viewer-key envelope of v0.7.0 and its viewer inputs (`E`, `w`, `ctx`, the viewer key) are gone.
 
 ## Cost
 
@@ -96,13 +89,13 @@ Step A proves the same statement for every document a DSC signed: the CSCA is re
 - **Registry.** csca-registry verifies DSC certificates against their CSCA with RustCrypto, as it already does for CSCA certificates, drops revoked ones, and publishes a Poseidon2 tree of DSC keys with their validity periods next to the CSCA tree.
 - **Circuits.** The SOD step gets a variant that proves the DSC key is a leaf of that tree (a Merkle path, a few thousand gates) instead of opening step A's commitment. The phone then produces two proofs instead of three. The leaf stays hidden, so the proof still doesn't reveal which DSC signed the document.
 - **Coverage.** A document can only use this path if its DSC is in the tree. Sources: the ICAO PKD DSC list (incomplete, manual download), national publications, and DSCs seen in submitted SODs. Step A stays as the fallback, so every document remains provable.
-- **When.** Each covered user saves 138k–674k gates, but maintaining coverage has a cost, so this pays off at scale. A and B are linked only by `c_A`, so it can be added later without changing the SOD or envelope steps.
+- **When.** Each covered user saves 138k–674k gates, but maintaining coverage has a cost, so this pays off at scale. A and B are linked only by `c_A`, so it can be added later without changing the SOD or document steps.
 
 ### DG11
 
-Only DG1 (the MRZ) is encrypted. DG11 (additional personal details: full name in national characters, place of birth, address, and so on) is optional in ICAO 9303 and often missing or sparse. Because circuits are fixed size, carrying it costs a hash over a full 512-byte buffer on every proof, even when it's absent: 43k–144k gates, 36–59% of the envelope step.
+Only DG1 (the MRZ) is committed. DG11 (additional personal details: full name in national characters, place of birth, address, and so on) is optional in ICAO 9303 and often missing or sparse. Because circuits are fixed size, carrying it costs a hash over a full 512-byte buffer on every proof, even when it's absent: 43k–144k gates, 36–59% of the document step.
 
-If a use case needs it, it can come back as a second envelope variant, or as envelope circuits with DG11. The issuer hashes each data group separately, so proving DG11 needs only its listed hash; steps A and B don't change.
+If a use case needs it, it can come back as a second document family whose payload carries DG11 (another payload size, another `PayloadCommitment` link). The issuer hashes each data group separately, so proving DG11 needs only its listed hash; steps A and B don't change.
 
 ### Caching step A on the phone
 

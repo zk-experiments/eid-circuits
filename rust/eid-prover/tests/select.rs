@@ -44,7 +44,7 @@ fn selects_the_circuits_each_document_was_built_for() {
         assert_eq!(s.country, e["country"].as_str().unwrap(), "{}", d["name"]);
         assert_eq!(s.dsc, e["dsc"].as_str().unwrap(), "{}", d["name"]);
         assert_eq!(s.sod, e["sod"].as_str().unwrap(), "{}", d["name"]);
-        assert_eq!(s.envelope, e["envelope"].as_str().unwrap(), "{}", d["name"]);
+        assert_eq!(s.document, e["document"].as_str().unwrap(), "{}", d["name"]);
     }
 }
 
@@ -95,12 +95,9 @@ fn builds_inputs_for_the_selected_circuits() {
         let p = eid_prover::Params {
             dsc_salt: "1".into(),
             sod_salt: "2".into(),
+            dg1_salt: "3".into(),
             date: date(&d),
-            context: "3".into(),
             scope: "6".into(),
-            viewers: [("7".to_string(), "8".to_string())],
-            ephemeral: "4".into(),
-            key: "5".into(),
         };
         let w = eid_prover::witnesses(&reg, &bytes(&d, "ef_sod"), &bytes(&d, "dg1"), &p)
             .unwrap_or_else(|e| panic!("{}: {e:#}", d["name"]));
@@ -108,7 +105,7 @@ fn builds_inputs_for_the_selected_circuits() {
             .dsc
             .contains(&format!("root = \"{}\"", reg.commitment.root)));
         assert!(w.sod.contains("dsc_salt = \"1\"") && w.sod.contains("salt = \"2\""));
-        assert!(w.envelope.contains("sod_salt = \"2\"") && w.envelope.contains("context = \"3\""));
-        assert!(w.envelope.contains("scope = \"6\""));
+        assert!(w.document.contains("sod_salt = \"2\"") && w.document.contains("dg1_salt = \"3\""));
+        assert!(w.document.contains("scope = \"6\""));
     }
 }
