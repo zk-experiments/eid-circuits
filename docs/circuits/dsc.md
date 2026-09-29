@@ -19,7 +19,7 @@ fn main(
     w: eid_steps::dsc::Witness<T, K>,
     // RSA:   redc: [u128; N], signature: [u8; K]
     // ECDSA: r: [u8; S], s: [u8; S]
-) -> return_data [Field; 2]         // [root, commitment], to kernel_dsc
+) -> return_data [Field; 2]         // [root, commitment]: the record noir-zk's kernel reads (registry_root public, c_A the link)
 ```
 
 `Witness` holds:

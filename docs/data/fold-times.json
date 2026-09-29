@@ -1,72 +1,87 @@
 {
-  "machine": "Apple M5 Max (18 cores), macOS",
   "bb": "7.0.0-nightly.20260927",
+  "date": "2026-09-29",
+  "kernels": {
+    "kernel_hiding": 39007,
+    "kernel_init": 14056,
+    "kernel_step": 29965,
+    "kernel_tail": 17533
+  },
+  "machine": "Apple M5 Max (18 cores), macOS",
   "nargo": "1.0.0-rc.3",
-  "date": "2026-09-28",
+  "noir_zk": "dd2d33f",
   "runs": [
     {
       "chain": "rsa4096_csca_p256_dsc",
+      "max_gates": 179181,
+      "peak_bytes": 1443774464,
+      "proof_bytes": 40192,
+      "seconds": 3.3,
       "threads": 4,
-      "seconds": 2.7,
-      "peak_bytes": 500351840,
-      "total_gates": 504430,
-      "max_gates": 179181
+      "total_gates": 491085
     },
     {
       "chain": "rsa4096_csca_p256_dsc",
+      "max_gates": 179181,
+      "peak_bytes": 1311834112,
+      "proof_bytes": 40192,
+      "seconds": 2.17,
       "threads": 18,
-      "seconds": 1.53,
-      "peak_bytes": 506774368,
-      "total_gates": 504430,
-      "max_gates": 179181
+      "total_gates": 491085
     },
     {
       "chain": "bp512_csca_bp256_dsc",
+      "max_gates": 495408,
+      "peak_bytes": 1858125824,
+      "proof_bytes": 40192,
+      "seconds": 6.4,
       "threads": 4,
-      "seconds": 4.05,
-      "peak_bytes": 1330661008,
-      "total_gates": 832284,
-      "max_gates": 495408
+      "total_gates": 818938
     },
     {
       "chain": "bp512_csca_bp256_dsc",
+      "max_gates": 495408,
+      "peak_bytes": 1851719680,
+      "proof_bytes": 40192,
+      "seconds": 4.73,
       "threads": 18,
-      "seconds": 2.33,
-      "peak_bytes": 1323714216,
-      "total_gates": 832284,
-      "max_gates": 495408
+      "total_gates": 818938
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
+      "max_gates": 255278,
+      "peak_bytes": 1087635456,
+      "proof_bytes": 40192,
+      "seconds": 3.67,
       "threads": 4,
-      "seconds": 2.9,
-      "peak_bytes": 731382792,
-      "total_gates": 591014,
-      "max_gates": 255278
+      "total_gates": 577662
     },
     {
       "chain": "pss_csca_rsa2048_dsc",
+      "max_gates": 255278,
+      "peak_bytes": 1088094208,
+      "proof_bytes": 40192,
+      "seconds": 2.41,
       "threads": 18,
-      "seconds": 1.63,
-      "peak_bytes": 733545480,
-      "total_gates": 591014,
-      "max_gates": 255278
+      "total_gates": 577662
     },
     {
       "chain": "p521_csca_pss_dsc",
+      "max_gates": 504896,
+      "peak_bytes": 1889386496,
+      "proof_bytes": 40192,
+      "seconds": 7.76,
       "threads": 4,
-      "seconds": 4.63,
-      "peak_bytes": 1387136704,
-      "total_gates": 1064477,
-      "max_gates": 504896
+      "total_gates": 1051126
     },
     {
       "chain": "p521_csca_pss_dsc",
+      "max_gates": 504896,
+      "peak_bytes": 1891090432,
+      "proof_bytes": 40192,
+      "seconds": 5.82,
       "threads": 18,
-      "seconds": 2.64,
-      "peak_bytes": 1383565040,
-      "total_gates": 1064477,
-      "max_gates": 504896
+      "total_gates": 1051126
     }
   ]
 }
