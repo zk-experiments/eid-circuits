@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.8.1 - 2026-09-30
+#### Performance
+- (**rsa**) 2-bit windowed exponentiation, 9-20% fewer gates in every RSA step - (67d9bf7) - Anton Velichko
+#### Continuous Integration
+- (**packs**) retry the published-downloads check while the cdn catches up - (2b472ba) - Anton Velichko
+- (**release**) release a patch for perf commits - (cad7d44) - Anton Velichko
+#### Miscellaneous Chores
+- add noir-lang's noir-idioms and noir-optimize-acir skills - (3ee9db3) - Anton Velichko
+
+- - -
+
 ## v0.8.0 - 2026-09-29
 #### Features
 - <span style="background-color: #d73a49; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 0.85em;">BREAKING</span>(**circuits**) eid-circuits as the identity layer on noir-zk's layered registries - (e5c8a44) - Anton Velichko
