@@ -15,7 +15,7 @@ RSA signature verification (RFC 8017) as used by CSCAs and DSCs: RSASSA-PKCS1-v1
 
 ## API
 
-- **`rsa::<N, MOD_BITS, E_BITS>(modulus, redc, exponent, signature)`** returns `s^e mod n`. It asserts the signature representative is at most `n` (see below for why `s = n` is harmless), then runs left-to-right square-and-multiply over `E_BITS` bits.
+- **`rsa::<N, MOD_BITS, E_BITS>(modulus, redc, exponent, signature)`** returns `s^e mod n`. It asserts the signature representative is at most `n` (see below for why `s = n` is harmless), then runs a left-to-right 2-bit fixed-window exponentiation over `E_BITS` bits (rounded up to even; the top bit is 0 when `E_BITS` is odd, since `exponent < 2^E_BITS` is asserted).
 - **`verify_pkcs1v15::<N, MOD_BITS, E_BITS, D, P>(modulus, redc, exponent, signature, digest, digest_info)`** builds `EM = 00 01 FF…FF 00 ‖ DigestInfo ‖ digest` (at least 8 `FF` bytes, asserted through `k ≥ P + D + 11`) and asserts `s^e ≡ EM (mod n)`. `DIGEST_INFO_SHA1` … `DIGEST_INFO_SHA512` are the RFC 8017 prefixes with a NULL parameter.
 - **`verify_pss::<H, N, MOD_BITS, E_BITS, D, S>(modulus, redc, exponent, signature, digest)`** implements EMSA-PSS-VERIFY (RFC 8017 §9.1.2) with MGF1 over the same hash `H: Digest<D>` and an `S`-byte salt:
   1. `m = s^e mod n` is forced canonical (`validate_in_field`) before its bytes are read.
@@ -33,7 +33,7 @@ RSA signature verification (RFC 8017) as used by CSCAs and DSCs: RSASSA-PKCS1-v1
 - **The key isn't validated beyond its size.** The circuit using this library must bind `modulus` and `exponent` to the CSCA/DSC key it trusts (registry leaf or DSC `SubjectPublicKeyInfo`).
 - **PKCS#1 v1.5 is strict.** DigestInfo must carry the NULL parameter. A signature that omits NULL is rejected, the same as the RustCrypto verifier the registry uses (it accepted every fixture).
 - **PSS assumes the same hash for MGF1 and the message.** The registry reports any other combination as unsupported.
-- **Cost:** `E_BITS` squarings and `E_BITS` multiplications. Specialising 65537 to 16 squarings and 1 multiplication is a possible optimisation.
+- **Cost:** with w = ⌈`E_BITS`/2⌉ windows, 2(w − 1) + 1 squarings and w multiplications (s² and s³ precomputed, the top window taken as is, each other window two squarings and a multiplication by 1, s, s² or s³): for `E_BITS` = 17, 17 squarings and 9 multiplications, against 17 and 17 for square-and-multiply (−9.4% to −13.6% on the RSA DSC and SOD steps). Specialising 65537 to 16 squarings and 1 multiplication would go further but makes the exponent a constant.
 
 ## Tests
 

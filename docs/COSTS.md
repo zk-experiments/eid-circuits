@@ -26,158 +26,158 @@ One row per CSCA signing configuration in use on 2026-09-27 (a CSCA certificate 
 
 | country | CSCA key · scheme | cert size median / max (bytes) | DSC circuit | document gates | laptop 4 threads | peak memory | phone flagship / mid-range |
 |---|---|---:|---|---:|---:|---:|---:|
-| AD | RSA-4096 · PKCS#1 v1.5 SHA-256 | 811 / 811 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
+| AD | RSA-4096 · PKCS#1 v1.5 SHA-256 | 811 / 811 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
 | AE | P-384 · ECDSA SHA-256 | 992 / 992 | `dsc_ecdsa_p384_sha256_tbs1000` | ≈ 717k | ≈ 5.1 s | ≈ 1348 MiB | ≈ 10.3 s / 30.8 s |
-| AG | RSA-4096 · PSS SHA-256 salt 32 | 1063 / 1063 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
-| AL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 891 / 1165 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
+| AG | RSA-4096 · PSS SHA-256 salt 32 | 1063 / 1063 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
+| AL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 891 / 1165 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
 | AO | brainpoolP384r1 · ECDSA SHA-384 | 1094 / 1094 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| AR | RSA-4096 · PSS SHA-256 salt 32 | 1228 / 1228 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
+| AR | RSA-4096 · PSS SHA-256 salt 32 | 1228 / 1228 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
 | AT | brainpoolP384r1 · ECDSA SHA-384 | 972 / 972 | `dsc_ecdsa_bp384_sha384_tbs1000` | ≈ 905k | ≈ 6.7 s | ≈ 1518 MiB | ≈ 13.4 s / 40.3 s |
-| AU | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1382 / 1382 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| AZ | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1092 / 1092 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| AU | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1382 / 1382 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| AZ | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1092 / 1092 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | BA | brainpoolP256r1 · ECDSA SHA-512 | 880 / 880 | `dsc_ecdsa_bp256_sha512_tbs1000` | ≈ 683k | ≈ 4.8 s | ≈ 1302 MiB | ≈ 9.7 s / 29.1 s |
-| BB | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1231 / 1231 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
+| BB | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1231 / 1231 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
 | BD | brainpoolP384r1 · ECDSA SHA-384 | 1052 / 1052 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
 | BE | P-256 · ECDSA SHA-256 | 952 / 952 | `dsc_ecdsa_p256_sha256_tbs1000` | ≈ 495k | ≈ 3.3 s | ≈ 1132 MiB | ≈ 6.5 s / 19.6 s |
-| BE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1099 / 1099 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| BE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1099 / 1099 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | BG | P-384 · ECDSA SHA-256 | 1095 / 1095 | `dsc_ecdsa_p384_sha256_tbs1200` | ≈ 733k | ≈ 5.3 s | ≈ 1377 MiB | ≈ 10.5 s / 31.6 s |
-| BG | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1100 / 1217 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| BH | RSA-4096 · PSS SHA-256 salt 32 | 1251 / 1251 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
+| BG | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1100 / 1217 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| BH | RSA-4096 · PSS SHA-256 salt 32 | 1251 / 1251 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
 | BJ | P-256 · ECDSA SHA-256 | 1000 / 1000 | `dsc_ecdsa_p256_sha256_tbs1000` | ≈ 495k | ≈ 3.3 s | ≈ 1132 MiB | ≈ 6.5 s / 19.6 s |
 | BM | P-384 · ECDSA SHA-256 | 1045 / 1045 | `dsc_ecdsa_p384_sha256_tbs1200` | ≈ 733k | ≈ 5.3 s | ≈ 1377 MiB | ≈ 10.5 s / 31.6 s |
 | BM | P-384 · ECDSA SHA-384 | 1085 / 1085 | `dsc_ecdsa_p384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
 | BR | brainpoolP512r1 · ECDSA SHA-512 | 1150 / 1150 | `dsc_ecdsa_bp512_sha512_tbs1200` | ≈ 1267k | ≈ 9.8 s | ≈ 1909 MiB | ≈ 19.6 s / 58.7 s |
-| BW | RSA-4096 · PKCS#1 v1.5 SHA-256 | 868 / 868 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
+| BW | RSA-4096 · PKCS#1 v1.5 SHA-256 | 868 / 868 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
 | BY | P-384 · ECDSA SHA-384 | 927 / 927 | `dsc_ecdsa_p384_sha384_tbs1000` | ≈ 905k | ≈ 6.7 s | ≈ 1518 MiB | ≈ 13.4 s / 40.3 s |
-| BZ | RSA-4096 · PSS SHA-256 salt 32 | 1178 / 1178 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
-| CA | RSA-4096 · PSS SHA-256 salt 32 | 1182 / 1182 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
+| BZ | RSA-4096 · PSS SHA-256 salt 32 | 1178 / 1178 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
+| CA | RSA-4096 · PSS SHA-256 salt 32 | 1182 / 1182 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
 | CH | brainpoolP512r1 · ECDSA SHA-512 | 1225 / 1225 | `dsc_ecdsa_bp512_sha512_tbs1600` | ≈ 1332k | ≈ 10.3 s | ≈ 2030 MiB | ≈ 20.7 s / 62.0 s |
-| CI | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1176 / 1222 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| CL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 907 / 970 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 458k | ≈ 3.0 s | ≈ 1094 MiB | ≈ 5.9 s / 17.7 s |
-| CL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1291 / 1293 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
+| CI | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1176 / 1222 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| CL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 907 / 970 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 424k | ≈ 2.7 s | ≈ 1061 MiB | ≈ 5.3 s / 16.0 s |
+| CL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1291 / 1293 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
 | CM | P-384 · ECDSA SHA-384 | 1036 / 1036 | `dsc_ecdsa_p384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| CM | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1169 / 1169 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 776k | ≈ 5.6 s | ≈ 1427 MiB | ≈ 11.3 s / 33.8 s |
-| CN | RSA-4096 · PKCS#1 v1.5 SHA-1 | 1048 / 1048 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1200` | ≈ 693k | ≈ 4.9 s | ≈ 1348 MiB | ≈ 9.9 s / 29.6 s |
-| CN | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1350 / 1350 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| CN | RSA-4096 · PSS SHA-256 salt 32 | 1004 / 1491 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
+| CM | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1169 / 1169 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 722k | ≈ 5.2 s | ≈ 1374 MiB | ≈ 10.4 s / 31.1 s |
+| CN | RSA-4096 · PKCS#1 v1.5 SHA-1 | 1048 / 1048 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1200` | ≈ 641k | ≈ 4.5 s | ≈ 1298 MiB | ≈ 9.0 s / 27.0 s |
+| CN | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1350 / 1350 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| CN | RSA-4096 · PSS SHA-256 salt 32 | 1004 / 1491 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
 | CN | brainpoolP384r1 · ECDSA SHA-384 | 1140 / 1140 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| CO | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1212 / 1212 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1600` | ≈ 512k | ≈ 3.4 s | ≈ 1188 MiB | ≈ 6.8 s / 20.4 s |
-| CO | RSA-4096 · PSS SHA-256 salt 32 | 1391 / 1391 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
+| CO | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1212 / 1212 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1600` | ≈ 478k | ≈ 3.1 s | ≈ 1155 MiB | ≈ 6.2 s / 18.7 s |
+| CO | RSA-4096 · PSS SHA-256 salt 32 | 1391 / 1391 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
 | CR | brainpoolP384r1 · ECDSA SHA-384 | 1186 / 1186 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
 | CY | brainpoolP384r1 · ECDSA SHA-384 | 1107 / 1116 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| CZ | RSA-3072 · PSS SHA-256 salt 32 | 1132 / 1132 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 593k | ≈ 4.1 s | ≈ 1238 MiB | ≈ 8.2 s / 24.5 s |
+| CZ | RSA-3072 · PSS SHA-256 salt 32 | 1132 / 1132 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 559k | ≈ 3.8 s | ≈ 1205 MiB | ≈ 7.6 s / 22.8 s |
 | DE | brainpoolP512r1 · ECDSA SHA-512 | 1156 / 1156 | `dsc_ecdsa_bp512_sha512_tbs1200` | ≈ 1267k | ≈ 9.8 s | ≈ 1909 MiB | ≈ 19.6 s / 58.7 s |
-| DK | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1182 / 1182 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1200` | ≈ 475k | ≈ 3.1 s | ≈ 1123 MiB | ≈ 6.2 s / 18.5 s |
+| DK | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1182 / 1182 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1200` | ≈ 441k | ≈ 2.8 s | ≈ 1089 MiB | ≈ 5.6 s / 16.8 s |
 | DO | P-384 · ECDSA SHA-384 | 1221 / 1221 | `dsc_ecdsa_p384_sha384_tbs1600` | ≈ 1013k | ≈ 7.6 s | ≈ 1719 MiB | ≈ 15.3 s / 45.8 s |
-| EE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1028 / 1072 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| EE | RSA-4096 · PSS SHA-512 salt 20 | 1249 / 1249 | `dsc_rsa_pss_4096_sha512_s20_tbs1600` | ≈ 1135k | ≈ 8.7 s | ≈ 1836 MiB | ≈ 17.3 s / 52.0 s |
-| EE | RSA-4096 · PSS SHA-512 salt 64 | 1221 / 1221 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1171k | ≈ 9.0 s | ≈ 1870 MiB | ≈ 17.9 s / 53.8 s |
+| EE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1028 / 1072 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| EE | RSA-4096 · PSS SHA-512 salt 20 | 1249 / 1249 | `dsc_rsa_pss_4096_sha512_s20_tbs1600` | ≈ 1082k | ≈ 8.2 s | ≈ 1783 MiB | ≈ 16.4 s / 49.3 s |
+| EE | RSA-4096 · PSS SHA-512 salt 64 | 1221 / 1221 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1117k | ≈ 8.5 s | ≈ 1817 MiB | ≈ 17.0 s / 51.0 s |
 | EG | P-521 · ECDSA SHA-512 | 633 / 633 | `dsc_ecdsa_p521_sha512_tbs700` | ≈ 1200k | ≈ 9.2 s | ≈ 1767 MiB | ≈ 18.4 s / 55.2 s |
-| ES | RSA-4096 · PKCS#1 v1.5 SHA-1 | 875 / 875 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 665k | ≈ 4.7 s | ≈ 1297 MiB | ≈ 9.4 s / 28.2 s |
-| ES | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1119 / 1166 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| ES | RSA-4096 · PKCS#1 v1.5 SHA-1 | 875 / 875 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 613k | ≈ 4.3 s | ≈ 1247 MiB | ≈ 8.5 s / 25.5 s |
+| ES | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1119 / 1166 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | ET | brainpoolP512r1 · ECDSA SHA-512 | 1085 / 1085 | `dsc_ecdsa_bp512_sha512_tbs1200` | ≈ 1267k | ≈ 9.8 s | ≈ 1909 MiB | ≈ 19.6 s / 58.7 s |
-| EU | RSA-4096 · PSS SHA-384 salt 48 | 1407 / 1407 | `dsc_rsa_pss_4096_sha384_s48_tbs1600` | ≈ 1237k | ≈ 9.5 s | ≈ 1935 MiB | ≈ 19.1 s / 57.2 s |
+| EU | RSA-4096 · PSS SHA-384 salt 48 | 1407 / 1407 | `dsc_rsa_pss_4096_sha384_s48_tbs1600` | ≈ 1184k | ≈ 9.1 s | ≈ 1883 MiB | ≈ 18.1 s / 54.4 s |
 | FI | brainpoolP512r1 · ECDSA SHA-512 | 1173 / 1173 | `dsc_ecdsa_bp512_sha512_tbs1200` | ≈ 1267k | ≈ 9.8 s | ≈ 1909 MiB | ≈ 19.6 s / 58.7 s |
-| FR | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1108 / 1108 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| FR | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1108 / 1108 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | GB | P-384 · ECDSA SHA-256 | 1057 / 1057 | `dsc_ecdsa_p384_sha256_tbs1200` | ≈ 733k | ≈ 5.3 s | ≈ 1377 MiB | ≈ 10.5 s / 31.6 s |
 | GB | P-384 · ECDSA SHA-384 | 1107 / 1107 | `dsc_ecdsa_p384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| GE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1249 / 1249 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| GR | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1673 / 1673 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| HR | RSA-4096 · PSS SHA-256 salt 32 | 1130 / 1130 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
+| GE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1249 / 1249 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| GR | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1673 / 1673 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| HR | RSA-4096 · PSS SHA-256 salt 32 | 1130 / 1130 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
 | HU | P-521 · ECDSA SHA-512 | 1164 / 1181 | `dsc_ecdsa_p521_sha512_tbs1200` | ≈ 1286k | ≈ 9.9 s | ≈ 1928 MiB | ≈ 19.9 s / 59.6 s |
-| HU | RSA-4096 · PKCS#1 v1.5 SHA-1 | 860 / 860 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 665k | ≈ 4.7 s | ≈ 1297 MiB | ≈ 9.4 s / 28.2 s |
-| HU | RSA-4096 · PKCS#1 v1.5 SHA-256 | 910 / 1015 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
-| ID | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1128 / 1128 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| IE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1258 / 1258 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
+| HU | RSA-4096 · PKCS#1 v1.5 SHA-1 | 860 / 860 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 613k | ≈ 4.3 s | ≈ 1247 MiB | ≈ 8.5 s / 25.5 s |
+| HU | RSA-4096 · PKCS#1 v1.5 SHA-256 | 910 / 1015 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
+| ID | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1128 / 1128 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| IE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1258 / 1258 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
 | IL | P-384 · ECDSA SHA-384 | 1166 / 1166 | `dsc_ecdsa_p384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| IL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 954 / 954 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
-| IL | RSA-4096 · PSS SHA-256 salt 20 | 898 / 898 | `dsc_rsa_pss_4096_sha256_s20_tbs1000` | ≈ 697k | ≈ 5.0 s | ≈ 1326 MiB | ≈ 9.9 s / 29.8 s |
-| IL | RSA-4096 · PSS SHA-256 salt 32 | 1009 / 1009 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
+| IL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 954 / 954 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
+| IL | RSA-4096 · PSS SHA-256 salt 20 | 898 / 898 | `dsc_rsa_pss_4096_sha256_s20_tbs1000` | ≈ 642k | ≈ 4.5 s | ≈ 1273 MiB | ≈ 9.0 s / 27.0 s |
+| IL | RSA-4096 · PSS SHA-256 salt 32 | 1009 / 1009 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
 | IN | P-256 · ECDSA SHA-256 | 1338 / 1338 | `dsc_ecdsa_p256_sha256_tbs1600` | ≈ 548k | ≈ 3.7 s | ≈ 1226 MiB | ≈ 7.4 s / 22.2 s |
-| IN | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1162 / 1162 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| IN | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1162 / 1162 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | IQ | P-521 · ECDSA SHA-512 | 1355 / 1355 | `dsc_ecdsa_p521_sha512_tbs1600` | ≈ 1352k | ≈ 10.5 s | ≈ 2049 MiB | ≈ 21.0 s / 62.9 s |
 | IS | P-521 · ECDSA SHA-512 | 1268 / 1268 | `dsc_ecdsa_p521_sha512_tbs1600` | ≈ 1352k | ≈ 10.5 s | ≈ 2049 MiB | ≈ 21.0 s / 62.9 s |
-| IS | RSA-2048 · PKCS#1 v1.5 SHA-256 | 898 / 898 | `dsc_rsa_pkcs1v15_2048_sha256_tbs1000` | ≈ 397k | ≈ 2.4 s | ≈ 1035 MiB | ≈ 4.9 s / 14.6 s |
-| IS | RSA-2048 · PKCS#1 v1.5 SHA-512 | 1282 / 1282 | `dsc_rsa_pkcs1v15_2048_sha512_tbs1600` | ≈ 694k | ≈ 4.9 s | ≈ 1407 MiB | ≈ 9.9 s / 29.6 s |
-| IT | RSA-4096 · PKCS#1 v1.5 SHA-1 | 992 / 1136 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 665k | ≈ 4.7 s | ≈ 1297 MiB | ≈ 9.4 s / 28.2 s |
-| IT | RSA-4096 · PSS SHA-512 salt 64 | 1366 / 1366 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1171k | ≈ 9.0 s | ≈ 1870 MiB | ≈ 17.9 s / 53.8 s |
-| JM | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1266 / 1266 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
+| IS | RSA-2048 · PKCS#1 v1.5 SHA-256 | 898 / 898 | `dsc_rsa_pkcs1v15_2048_sha256_tbs1000` | ≈ 377k | ≈ 2.3 s | ≈ 1016 MiB | ≈ 4.5 s / 13.6 s |
+| IS | RSA-2048 · PKCS#1 v1.5 SHA-512 | 1282 / 1282 | `dsc_rsa_pkcs1v15_2048_sha512_tbs1600` | ≈ 674k | ≈ 4.8 s | ≈ 1388 MiB | ≈ 9.5 s / 28.6 s |
+| IT | RSA-4096 · PKCS#1 v1.5 SHA-1 | 992 / 1136 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 613k | ≈ 4.3 s | ≈ 1247 MiB | ≈ 8.5 s / 25.5 s |
+| IT | RSA-4096 · PSS SHA-512 salt 64 | 1366 / 1366 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1117k | ≈ 8.5 s | ≈ 1817 MiB | ≈ 17.0 s / 51.0 s |
+| JM | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1266 / 1266 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
 | JO | brainpoolP384r1 · ECDSA SHA-256 | 969 / 969 | `dsc_ecdsa_bp384_sha256_tbs1000` | ≈ 717k | ≈ 5.1 s | ≈ 1348 MiB | ≈ 10.3 s / 30.8 s |
 | JP | P-384 · ECDSA SHA-384 | 1078 / 1187 | `dsc_ecdsa_p384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| JP | RSA-4096 · PSS SHA-256 salt 32 | 1233 / 1240 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| KE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 911 / 911 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
+| JP | RSA-4096 · PSS SHA-256 salt 32 | 1233 / 1240 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| KE | RSA-4096 · PKCS#1 v1.5 SHA-256 | 911 / 911 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
 | KG | P-256 · ECDSA SHA-256 | 758 / 781 | `dsc_ecdsa_p256_sha256_tbs1000` | ≈ 495k | ≈ 3.3 s | ≈ 1132 MiB | ≈ 6.5 s / 19.6 s |
-| KN | RSA-4096 · PSS SHA-256 salt 32 | 1318 / 1318 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| KP | RSA-4096 · PKCS#1 v1.5 SHA-512 | 818 / 818 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1000` | ≈ 734k | ≈ 5.3 s | ≈ 1347 MiB | ≈ 10.5 s / 31.6 s |
-| KR | RSA-3072 · PSS SHA-256 salt 32 | 1113 / 1113 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 593k | ≈ 4.1 s | ≈ 1238 MiB | ≈ 8.2 s / 24.5 s |
-| KZ | RSA-4096 · PKCS#1 v1.5 SHA-1 | 1190 / 1220 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1200` | ≈ 693k | ≈ 4.9 s | ≈ 1348 MiB | ≈ 9.9 s / 29.6 s |
-| LI | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1157 / 1157 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 776k | ≈ 5.6 s | ≈ 1427 MiB | ≈ 11.3 s / 33.8 s |
+| KN | RSA-4096 · PSS SHA-256 salt 32 | 1318 / 1318 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| KP | RSA-4096 · PKCS#1 v1.5 SHA-512 | 818 / 818 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1000` | ≈ 680k | ≈ 4.8 s | ≈ 1295 MiB | ≈ 9.6 s / 28.9 s |
+| KR | RSA-3072 · PSS SHA-256 salt 32 | 1113 / 1113 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 559k | ≈ 3.8 s | ≈ 1205 MiB | ≈ 7.6 s / 22.8 s |
+| KZ | RSA-4096 · PKCS#1 v1.5 SHA-1 | 1190 / 1220 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1200` | ≈ 641k | ≈ 4.5 s | ≈ 1298 MiB | ≈ 9.0 s / 27.0 s |
+| LI | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1157 / 1157 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 722k | ≈ 5.2 s | ≈ 1374 MiB | ≈ 10.4 s / 31.1 s |
 | LT | P-521 · ECDSA SHA-256 | 1084 / 1084 | `dsc_ecdsa_p521_sha256_tbs1200` | ≈ 1072k | ≈ 8.1 s | ≈ 1707 MiB | ≈ 16.3 s / 48.8 s |
 | LT | brainpoolP256r1 · ECDSA SHA-1 | 578 / 872 | `dsc_ecdsa_bp256_sha1_tbs700` | ≈ 581k | ≈ 4.0 s | ≈ 1186 MiB | ≈ 8.0 s / 23.9 s |
-| LU | RSA-4096 · PSS SHA-256 salt 32 | 1189 / 1189 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
+| LU | RSA-4096 · PSS SHA-256 salt 32 | 1189 / 1189 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
 | LV | brainpoolP256r1 · ECDSA SHA-1 | 618 / 618 | `dsc_ecdsa_bp256_sha1_tbs700` | ≈ 581k | ≈ 4.0 s | ≈ 1186 MiB | ≈ 8.0 s / 23.9 s |
 | LV | brainpoolP384r1 · ECDSA SHA-384 | 1002 / 1002 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| MA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1154 / 1154 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| MC | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1081 / 1149 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| MD | RSA-6144 · PKCS#1 v1.5 SHA-256 | 1485 / 1485 | `dsc_rsa_pkcs1v15_6144_sha256_tbs1600` | ≈ 814k | ≈ 6.0 s | ≈ 1479 MiB | ≈ 11.9 s / 35.7 s |
-| ME | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1085 / 1085 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| ME | RSA-4096 · PSS SHA-512 salt 64 | 1213 / 1213 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1171k | ≈ 9.0 s | ≈ 1870 MiB | ≈ 17.9 s / 53.8 s |
-| MK | RSA-3072 · PKCS#1 v1.5 SHA-256 | 691 / 691 | `dsc_rsa_pkcs1v15_3072_sha256_tbs700` | ≈ 432k | ≈ 2.7 s | ≈ 1047 MiB | ≈ 5.5 s / 16.4 s |
-| MK | RSA-3072 · PSS SHA-384 salt 48 | 1156 / 1156 | `dsc_rsa_pss_3072_sha384_s48_tbs1200` | ≈ 988k | ≈ 7.4 s | ≈ 1636 MiB | ≈ 14.8 s / 44.5 s |
-| MN | RSA-4096 · PSS SHA-256 salt 32 | 1346 / 1346 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| MT | RSA-4096 · PSS SHA-256 salt 32 | 1227 / 1227 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| MX | RSA-4096 · PSS SHA-512 salt 64 | 1273 / 1273 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1171k | ≈ 9.0 s | ≈ 1870 MiB | ≈ 17.9 s / 53.8 s |
-| MY | RSA-3072 · PSS SHA-256 salt 32 | 1176 / 1176 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 593k | ≈ 4.1 s | ≈ 1238 MiB | ≈ 8.2 s / 24.5 s |
+| MA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1154 / 1154 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| MC | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1081 / 1149 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| MD | RSA-6144 · PKCS#1 v1.5 SHA-256 | 1485 / 1485 | `dsc_rsa_pkcs1v15_6144_sha256_tbs1600` | ≈ 707k | ≈ 5.1 s | ≈ 1375 MiB | ≈ 10.1 s / 30.3 s |
+| ME | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1085 / 1085 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| ME | RSA-4096 · PSS SHA-512 salt 64 | 1213 / 1213 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1117k | ≈ 8.5 s | ≈ 1817 MiB | ≈ 17.0 s / 51.0 s |
+| MK | RSA-3072 · PKCS#1 v1.5 SHA-256 | 691 / 691 | `dsc_rsa_pkcs1v15_3072_sha256_tbs700` | ≈ 398k | ≈ 2.4 s | ≈ 1014 MiB | ≈ 4.9 s / 14.6 s |
+| MK | RSA-3072 · PSS SHA-384 salt 48 | 1156 / 1156 | `dsc_rsa_pss_3072_sha384_s48_tbs1200` | ≈ 955k | ≈ 7.1 s | ≈ 1603 MiB | ≈ 14.3 s / 42.8 s |
+| MN | RSA-4096 · PSS SHA-256 salt 32 | 1346 / 1346 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| MT | RSA-4096 · PSS SHA-256 salt 32 | 1227 / 1227 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| MX | RSA-4096 · PSS SHA-512 salt 64 | 1273 / 1273 | `dsc_rsa_pss_4096_sha512_s64_tbs1600` | ≈ 1117k | ≈ 8.5 s | ≈ 1817 MiB | ≈ 17.0 s / 51.0 s |
+| MY | RSA-3072 · PSS SHA-256 salt 32 | 1176 / 1176 | `dsc_rsa_pss_3072_sha256_s32_tbs1200` | ≈ 559k | ≈ 3.8 s | ≈ 1205 MiB | ≈ 7.6 s / 22.8 s |
 | MZ | P-384 · ECDSA SHA-256 | 833 / 833 | `dsc_ecdsa_p384_sha256_tbs1000` | ≈ 717k | ≈ 5.1 s | ≈ 1348 MiB | ≈ 10.3 s / 30.8 s |
-| NA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1014 / 1014 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| NA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1014 / 1014 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | NG | brainpoolP512r1 · ECDSA SHA-256 | 1270 / 1270 | `dsc_ecdsa_bp512_sha256_tbs1600` | ≈ 1089k | ≈ 8.3 s | ≈ 1754 MiB | ≈ 16.6 s / 49.7 s |
-| NL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 834 / 834 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 458k | ≈ 3.0 s | ≈ 1094 MiB | ≈ 5.9 s / 17.7 s |
-| NL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1035 / 1174 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| NO | RSA-4096 · PKCS#1 v1.5 SHA-256 | 906 / 906 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
-| NO | RSA-4096 · PSS SHA-256 salt 32 | 1299 / 1299 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| NP | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1088 / 1088 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| NL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 834 / 834 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 424k | ≈ 2.7 s | ≈ 1061 MiB | ≈ 5.3 s / 16.0 s |
+| NL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1035 / 1174 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| NO | RSA-4096 · PKCS#1 v1.5 SHA-256 | 906 / 906 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
+| NO | RSA-4096 · PSS SHA-256 salt 32 | 1299 / 1299 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| NP | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1088 / 1088 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | NZ | P-384 · ECDSA SHA-256 | 1216 / 1216 | `dsc_ecdsa_p384_sha256_tbs1600` | ≈ 770k | ≈ 5.6 s | ≈ 1442 MiB | ≈ 11.2 s / 33.5 s |
 | OM | brainpoolP256r1 · ECDSA SHA-256 | 851 / 851 | `dsc_ecdsa_bp256_sha256_tbs1000` | ≈ 495k | ≈ 3.3 s | ≈ 1132 MiB | ≈ 6.5 s / 19.6 s |
-| PA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1098 / 1098 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| PA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1098 / 1098 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | PE | brainpoolP384r1 · ECDSA SHA-384 | 1187 / 1187 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| PH | RSA-4096 · PSS SHA-256 salt 32 | 1226 / 1226 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
+| PH | RSA-4096 · PSS SHA-256 salt 32 | 1226 / 1226 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
 | PK | brainpoolP384r1 · ECDSA SHA-256 | 1010 / 1010 | `dsc_ecdsa_bp384_sha256_tbs1200` | ≈ 733k | ≈ 5.3 s | ≈ 1377 MiB | ≈ 10.5 s / 31.6 s |
-| PL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 796 / 811 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 458k | ≈ 3.0 s | ≈ 1094 MiB | ≈ 5.9 s / 17.7 s |
+| PL | RSA-3072 · PKCS#1 v1.5 SHA-256 | 796 / 811 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 424k | ≈ 2.7 s | ≈ 1061 MiB | ≈ 5.3 s / 16.0 s |
 | PS | brainpoolP384r1 · ECDSA SHA-384 | 1050 / 1050 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| PT | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1130 / 1130 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| PT | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1162 / 1162 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 776k | ≈ 5.6 s | ≈ 1427 MiB | ≈ 11.3 s / 33.8 s |
-| RO | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1101 / 1101 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| RS | RSA-3072 · PSS SHA-384 salt 48 | 801 / 1072 | `dsc_rsa_pss_3072_sha384_s48_tbs1000` | ≈ 946k | ≈ 7.1 s | ≈ 1556 MiB | ≈ 14.1 s / 42.4 s |
+| PT | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1130 / 1130 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| PT | RSA-4096 · PKCS#1 v1.5 SHA-512 | 1162 / 1162 | `dsc_rsa_pkcs1v15_4096_sha512_tbs1200` | ≈ 722k | ≈ 5.2 s | ≈ 1374 MiB | ≈ 10.4 s / 31.1 s |
+| RO | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1101 / 1101 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| RS | RSA-3072 · PSS SHA-384 salt 48 | 801 / 1072 | `dsc_rsa_pss_3072_sha384_s48_tbs1000` | ≈ 912k | ≈ 6.8 s | ≈ 1524 MiB | ≈ 13.6 s / 40.7 s |
 | RU | P-256 · ECDSA SHA-1 | 961 / 979 | `dsc_ecdsa_p256_sha1_tbs1000` | ≈ 618k | ≈ 4.3 s | ≈ 1255 MiB | ≈ 8.6 s / 25.8 s |
 | RW | P-256 · ECDSA SHA-256 | 1007 / 1007 | `dsc_ecdsa_p256_sha256_tbs1200` | ≈ 511k | ≈ 3.4 s | ≈ 1161 MiB | ≈ 6.8 s / 20.4 s |
 | SA | P-256 · ECDSA SHA-256 | 951 / 951 | `dsc_ecdsa_p256_sha256_tbs1000` | ≈ 495k | ≈ 3.3 s | ≈ 1132 MiB | ≈ 6.5 s / 19.6 s |
 | SD | brainpoolP384r1 · ECDSA SHA-256 | 1116 / 1116 | `dsc_ecdsa_bp384_sha256_tbs1200` | ≈ 733k | ≈ 5.3 s | ≈ 1377 MiB | ≈ 10.5 s / 31.6 s |
 | SE | brainpoolP512r1 · ECDSA SHA-512 | 1191 / 1191 | `dsc_ecdsa_bp512_sha512_tbs1200` | ≈ 1267k | ≈ 9.8 s | ≈ 1909 MiB | ≈ 19.6 s / 58.7 s |
-| SG | RSA-4096 · PSS SHA-256 salt 32 | 1312 / 1312 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| SI | RSA-4096 · PSS SHA-256 salt 32 | 1181 / 1181 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
-| SK | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1016 / 1175 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| SL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1246 / 1246 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| SM | RSA-2048 · PKCS#1 v1.5 SHA-1 | 611 / 611 | `dsc_rsa_pkcs1v15_2048_sha1_tbs700` | ≈ 479k | ≈ 3.1 s | ≈ 1087 MiB | ≈ 6.3 s / 18.8 s |
-| SM | RSA-4096 · PSS SHA-256 salt 32 | 1278 / 1278 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| TG | RSA-4096 · PSS SHA-256 salt 32 | 1197 / 1197 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 713k | ≈ 5.1 s | ≈ 1354 MiB | ≈ 10.2 s / 30.6 s |
-| TH | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1113 / 1113 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| SG | RSA-4096 · PSS SHA-256 salt 32 | 1312 / 1312 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| SI | RSA-4096 · PSS SHA-256 salt 32 | 1181 / 1181 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
+| SK | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1016 / 1175 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| SL | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1246 / 1246 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| SM | RSA-2048 · PKCS#1 v1.5 SHA-1 | 611 / 611 | `dsc_rsa_pkcs1v15_2048_sha1_tbs700` | ≈ 462k | ≈ 3.0 s | ≈ 1070 MiB | ≈ 6.0 s / 17.9 s |
+| SM | RSA-4096 · PSS SHA-256 salt 32 | 1278 / 1278 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| TG | RSA-4096 · PSS SHA-256 salt 32 | 1197 / 1197 | `dsc_rsa_pss_4096_sha256_s32_tbs1200` | ≈ 659k | ≈ 4.6 s | ≈ 1301 MiB | ≈ 9.3 s / 27.9 s |
+| TH | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1113 / 1113 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | TH | brainpoolP384r1 · ECDSA SHA-384 | 1124 / 1124 | `dsc_ecdsa_bp384_sha384_tbs1200` | ≈ 948k | ≈ 7.1 s | ≈ 1598 MiB | ≈ 14.2 s / 42.5 s |
-| TJ | RSA-3072 · PKCS#1 v1.5 SHA-384 | 907 / 907 | `dsc_rsa_pkcs1v15_3072_sha384_tbs1000` | ≈ 647k | ≈ 4.5 s | ≈ 1264 MiB | ≈ 9.1 s / 27.3 s |
-| TJ | RSA-3072 · PSS SHA-384 salt 48 | 831 / 831 | `dsc_rsa_pss_3072_sha384_s48_tbs1000` | ≈ 946k | ≈ 7.1 s | ≈ 1556 MiB | ≈ 14.1 s / 42.4 s |
-| TM | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1072 / 1072 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
+| TJ | RSA-3072 · PKCS#1 v1.5 SHA-384 | 907 / 907 | `dsc_rsa_pkcs1v15_3072_sha384_tbs1000` | ≈ 614k | ≈ 4.3 s | ≈ 1232 MiB | ≈ 8.5 s / 25.6 s |
+| TJ | RSA-3072 · PSS SHA-384 salt 48 | 831 / 831 | `dsc_rsa_pss_3072_sha384_s48_tbs1000` | ≈ 912k | ≈ 6.8 s | ≈ 1524 MiB | ≈ 13.6 s / 40.7 s |
+| TM | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1072 / 1072 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
 | TR | P-521 · ECDSA SHA-512 | 1499 / 1504 | `dsc_ecdsa_p521_sha512_tbs1600` | ≈ 1352k | ≈ 10.5 s | ≈ 2049 MiB | ≈ 21.0 s / 62.9 s |
-| TW | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1306 / 1306 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| TZ | RSA-4096 · PSS SHA-256 salt 32 | 1244 / 1244 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 750k | ≈ 5.4 s | ≈ 1420 MiB | ≈ 10.8 s / 32.5 s |
-| UA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1256 / 1256 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 598k | ≈ 4.1 s | ≈ 1271 MiB | ≈ 8.3 s / 24.8 s |
-| UG | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1050 / 1050 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| UN | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1247 / 1247 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1600` | ≈ 512k | ≈ 3.4 s | ≈ 1188 MiB | ≈ 6.8 s / 20.4 s |
-| US | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1091 / 1313 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 561k | ≈ 3.8 s | ≈ 1206 MiB | ≈ 7.6 s / 22.9 s |
-| UZ | RSA-4096 · PKCS#1 v1.5 SHA-256 | 858 / 858 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 545k | ≈ 3.7 s | ≈ 1177 MiB | ≈ 7.4 s / 22.1 s |
+| TW | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1306 / 1306 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| TZ | RSA-4096 · PSS SHA-256 salt 32 | 1244 / 1244 | `dsc_rsa_pss_4096_sha256_s32_tbs1600` | ≈ 696k | ≈ 5.0 s | ≈ 1366 MiB | ≈ 9.9 s / 29.7 s |
+| UA | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1256 / 1256 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1600` | ≈ 543k | ≈ 3.7 s | ≈ 1218 MiB | ≈ 7.3 s / 22.0 s |
+| UG | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1050 / 1050 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| UN | RSA-3072 · PKCS#1 v1.5 SHA-256 | 1247 / 1247 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1600` | ≈ 478k | ≈ 3.1 s | ≈ 1155 MiB | ≈ 6.2 s / 18.7 s |
+| US | RSA-4096 · PKCS#1 v1.5 SHA-256 | 1091 / 1313 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1200` | ≈ 507k | ≈ 3.4 s | ≈ 1152 MiB | ≈ 6.7 s / 20.1 s |
+| UZ | RSA-4096 · PKCS#1 v1.5 SHA-256 | 858 / 858 | `dsc_rsa_pkcs1v15_4096_sha256_tbs1000` | ≈ 490k | ≈ 3.2 s | ≈ 1124 MiB | ≈ 6.4 s / 19.3 s |
 | UZ | brainpoolP384r1 · ECDSA SHA-384 | 964 / 964 | `dsc_ecdsa_bp384_sha384_tbs1000` | ≈ 905k | ≈ 6.7 s | ≈ 1518 MiB | ≈ 13.4 s / 40.3 s |
-| VA | RSA-4096 · PKCS#1 v1.5 SHA-1 | 894 / 894 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 665k | ≈ 4.7 s | ≈ 1297 MiB | ≈ 9.4 s / 28.2 s |
-| VC | RSA-4096 · PSS SHA-256 salt 32 | 987 / 987 | `dsc_rsa_pss_4096_sha256_s32_tbs1000` | ≈ 697k | ≈ 5.0 s | ≈ 1326 MiB | ≈ 9.9 s / 29.8 s |
+| VA | RSA-4096 · PKCS#1 v1.5 SHA-1 | 894 / 894 | `dsc_rsa_pkcs1v15_4096_sha1_tbs1000` | ≈ 613k | ≈ 4.3 s | ≈ 1247 MiB | ≈ 8.5 s / 25.5 s |
+| VC | RSA-4096 · PSS SHA-256 salt 32 | 987 / 987 | `dsc_rsa_pss_4096_sha256_s32_tbs1000` | ≈ 642k | ≈ 4.5 s | ≈ 1273 MiB | ≈ 9.0 s / 27.0 s |
 | VN | brainpoolP512r1 · ECDSA SHA-512 | 1348 / 1348 | `dsc_ecdsa_bp512_sha512_tbs1600` | ≈ 1332k | ≈ 10.3 s | ≈ 2030 MiB | ≈ 20.7 s / 62.0 s |
-| YE | RSA-3072 · PKCS#1 v1.5 SHA-256 | 947 / 947 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 458k | ≈ 3.0 s | ≈ 1094 MiB | ≈ 5.9 s / 17.7 s |
+| YE | RSA-3072 · PKCS#1 v1.5 SHA-256 | 947 / 947 | `dsc_rsa_pkcs1v15_3072_sha256_tbs1000` | ≈ 424k | ≈ 2.7 s | ≈ 1061 MiB | ≈ 5.3 s / 16.0 s |
 | ZW | P-521 · ECDSA SHA-512 | 1133 / 1133 | `dsc_ecdsa_p521_sha512_tbs1200` | ≈ 1286k | ≈ 9.9 s | ≈ 1928 MiB | ≈ 19.9 s / 59.6 s |
 
 119 countries have a current configuration above. 17 countries in the registry have none: every CSCA key in the data has expired or left its usage period, or its only certificates have an issuer missing from the lists: BS, DM, DZ, EC, GH, GM, IR, KS, KW, LB, QA, SC, SN, SY, TL, UY, XO.
@@ -244,73 +244,73 @@ Every signing configuration and `TBSCertificate` bucket, with the DSC and SOD st
 | brainpoolP512r1 · ECDSA SHA-512 | 1000 | 537k | 443k | 1225k | ≈ 7.2 s | ≈ 9.4 s | ≈ 1830 MiB |
 | brainpoolP512r1 · ECDSA SHA-512 | 1200 | 578k | 445k | 1267k | ≈ 7.5 s | ≈ 9.8 s | ≈ 1909 MiB |
 | brainpoolP512r1 · ECDSA SHA-512 | 1600 | 640k | 449k | 1332k | ≈ 7.9 s | ≈ 10.3 s | ≈ 2030 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-1 | 700 | 157k | 104k | 479k | ≈ 2.0 s | ≈ 3.1 s | ≈ 1087 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1000 | 192k | 106k | 517k | ≈ 2.3 s | ≈ 3.4 s | ≈ 1155 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1200 | 218k | 108k | 545k | ≈ 2.5 s | ≈ 3.7 s | ≈ 1207 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1600 | 279k | 111k | 609k | ≈ 2.9 s | ≈ 4.2 s | ≈ 1325 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-256 | 700 | 107k | 84k | 370k | ≈ 1.2 s | ≈ 2.2 s | ≈ 988 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1000 | 131k | 87k | 397k | ≈ 1.4 s | ≈ 2.4 s | ≈ 1035 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1200 | 145k | 89k | 413k | ≈ 1.5 s | ≈ 2.6 s | ≈ 1064 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1600 | 179k | 92k | 450k | ≈ 1.8 s | ≈ 2.9 s | ≈ 1129 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-512 | 700 | 176k | 121k | 542k | ≈ 2.4 s | ≈ 3.7 s | ≈ 1124 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1000 | 218k | 124k | 586k | ≈ 2.7 s | ≈ 4.0 s | ≈ 1206 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1200 | 259k | 125k | 628k | ≈ 3.0 s | ≈ 4.4 s | ≈ 1285 MiB |
-| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1600 | 321k | 129k | 694k | ≈ 3.5 s | ≈ 4.9 s | ≈ 1407 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-256 | 700 | 137k | 116k | 432k | ≈ 1.7 s | ≈ 2.7 s | ≈ 1047 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1000 | 161k | 119k | 458k | ≈ 1.9 s | ≈ 3.0 s | ≈ 1094 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1200 | 176k | 120k | 475k | ≈ 2.0 s | ≈ 3.1 s | ≈ 1123 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1600 | 209k | 124k | 512k | ≈ 2.2 s | ≈ 3.4 s | ≈ 1188 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-384 | 700 | 206k | 153k | 603k | ≈ 2.9 s | ≈ 4.2 s | ≈ 1183 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1000 | 248k | 155k | 647k | ≈ 3.2 s | ≈ 4.5 s | ≈ 1264 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1200 | 289k | 157k | 690k | ≈ 3.5 s | ≈ 4.9 s | ≈ 1344 MiB |
-| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1600 | 351k | 160k | 755k | ≈ 3.9 s | ≈ 5.5 s | ≈ 1465 MiB |
-| RSA-3072 · PSS SHA-256 salt 32 | 700 | 196k | 175k | 550k | ≈ 2.5 s | ≈ 3.7 s | ≈ 1162 MiB |
-| RSA-3072 · PSS SHA-256 salt 32 | 1000 | 220k | 178k | 577k | ≈ 2.7 s | ≈ 3.9 s | ≈ 1210 MiB |
-| RSA-3072 · PSS SHA-256 salt 32 | 1200 | 235k | 179k | 593k | ≈ 2.8 s | ≈ 4.1 s | ≈ 1238 MiB |
-| RSA-3072 · PSS SHA-256 salt 32 | 1600 | 268k | 183k | 630k | ≈ 3.1 s | ≈ 4.4 s | ≈ 1303 MiB |
-| RSA-3072 · PSS SHA-384 salt 48 | 700 | 356k | 302k | 902k | ≈ 4.9 s | ≈ 6.7 s | ≈ 1475 MiB |
-| RSA-3072 · PSS SHA-384 salt 48 | 1000 | 397k | 305k | 946k | ≈ 5.3 s | ≈ 7.1 s | ≈ 1556 MiB |
-| RSA-3072 · PSS SHA-384 salt 48 | 1200 | 438k | 306k | 988k | ≈ 5.5 s | ≈ 7.4 s | ≈ 1636 MiB |
-| RSA-3072 · PSS SHA-384 salt 48 | 1600 | 500k | 310k | 1054k | ≈ 6.0 s | ≈ 8.0 s | ≈ 1757 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-1 | 700 | 230k | 179k | 628k | ≈ 3.0 s | ≈ 4.4 s | ≈ 1228 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1000 | 265k | 182k | 665k | ≈ 3.3 s | ≈ 4.7 s | ≈ 1297 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1200 | 291k | 183k | 693k | ≈ 3.5 s | ≈ 4.9 s | ≈ 1348 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1600 | 351k | 187k | 757k | ≈ 3.9 s | ≈ 5.5 s | ≈ 1467 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-256 | 700 | 179k | 160k | 518k | ≈ 2.3 s | ≈ 3.5 s | ≈ 1130 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1000 | 203k | 162k | 545k | ≈ 2.5 s | ≈ 3.7 s | ≈ 1177 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1200 | 218k | 164k | 561k | ≈ 2.6 s | ≈ 3.8 s | ≈ 1206 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1600 | 251k | 168k | 598k | ≈ 2.8 s | ≈ 4.1 s | ≈ 1271 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-384 | 700 | 249k | 197k | 690k | ≈ 3.5 s | ≈ 4.9 s | ≈ 1266 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1000 | 290k | 199k | 734k | ≈ 3.8 s | ≈ 5.3 s | ≈ 1347 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1200 | 331k | 201k | 776k | ≈ 4.1 s | ≈ 5.6 s | ≈ 1427 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1600 | 393k | 204k | 842k | ≈ 4.5 s | ≈ 6.2 s | ≈ 1548 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-512 | 700 | 249k | 197k | 690k | ≈ 3.5 s | ≈ 4.9 s | ≈ 1266 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1000 | 290k | 199k | 734k | ≈ 3.8 s | ≈ 5.3 s | ≈ 1347 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1200 | 331k | 201k | 776k | ≈ 4.1 s | ≈ 5.6 s | ≈ 1427 MiB |
-| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1600 | 393k | 204k | 842k | ≈ 4.5 s | ≈ 6.2 s | ≈ 1548 MiB |
-| RSA-4096 · PSS SHA-256 salt 20 | 700 | 255k | 236k | 670k | ≈ 3.3 s | ≈ 4.7 s | ≈ 1279 MiB |
-| RSA-4096 · PSS SHA-256 salt 20 | 1000 | 279k | 239k | 697k | ≈ 3.5 s | ≈ 5.0 s | ≈ 1326 MiB |
-| RSA-4096 · PSS SHA-256 salt 20 | 1200 | 294k | 240k | 713k | ≈ 3.6 s | ≈ 5.1 s | ≈ 1354 MiB |
-| RSA-4096 · PSS SHA-256 salt 20 | 1600 | 327k | 244k | 750k | ≈ 3.9 s | ≈ 5.4 s | ≈ 1420 MiB |
-| RSA-4096 · PSS SHA-256 salt 32 | 700 | 255k | 236k | 670k | ≈ 3.3 s | ≈ 4.7 s | ≈ 1279 MiB |
-| RSA-4096 · PSS SHA-256 salt 32 | 1000 | 279k | 239k | 697k | ≈ 3.5 s | ≈ 5.0 s | ≈ 1326 MiB |
-| RSA-4096 · PSS SHA-256 salt 32 | 1200 | 294k | 240k | 713k | ≈ 3.6 s | ≈ 5.1 s | ≈ 1354 MiB |
-| RSA-4096 · PSS SHA-256 salt 32 | 1600 | 327k | 244k | 750k | ≈ 3.9 s | ≈ 5.4 s | ≈ 1420 MiB |
-| RSA-4096 · PSS SHA-384 salt 48 | 700 | 447k | 395k | 1086k | ≈ 6.2 s | ≈ 8.2 s | ≈ 1653 MiB |
-| RSA-4096 · PSS SHA-384 salt 48 | 1000 | 488k | 397k | 1129k | ≈ 6.5 s | ≈ 8.6 s | ≈ 1734 MiB |
-| RSA-4096 · PSS SHA-384 salt 48 | 1200 | 529k | 399k | 1172k | ≈ 6.8 s | ≈ 9.0 s | ≈ 1814 MiB |
-| RSA-4096 · PSS SHA-384 salt 48 | 1600 | 591k | 402k | 1237k | ≈ 7.3 s | ≈ 9.5 s | ≈ 1935 MiB |
-| RSA-4096 · PSS SHA-512 salt 20 | 700 | 396k | 344k | 984k | ≈ 5.5 s | ≈ 7.4 s | ≈ 1553 MiB |
-| RSA-4096 · PSS SHA-512 salt 20 | 1000 | 437k | 346k | 1028k | ≈ 5.8 s | ≈ 7.8 s | ≈ 1635 MiB |
-| RSA-4096 · PSS SHA-512 salt 20 | 1200 | 478k | 348k | 1070k | ≈ 6.1 s | ≈ 8.1 s | ≈ 1714 MiB |
-| RSA-4096 · PSS SHA-512 salt 20 | 1600 | 540k | 351k | 1135k | ≈ 6.6 s | ≈ 8.7 s | ≈ 1836 MiB |
-| RSA-4096 · PSS SHA-512 salt 64 | 700 | 413k | 361k | 1019k | ≈ 5.8 s | ≈ 7.7 s | ≈ 1587 MiB |
-| RSA-4096 · PSS SHA-512 salt 64 | 1000 | 455k | 364k | 1063k | ≈ 6.1 s | ≈ 8.1 s | ≈ 1669 MiB |
-| RSA-4096 · PSS SHA-512 salt 64 | 1200 | 496k | 365k | 1105k | ≈ 6.4 s | ≈ 8.4 s | ≈ 1749 MiB |
-| RSA-4096 · PSS SHA-512 salt 64 | 1600 | 558k | 369k | 1171k | ≈ 6.8 s | ≈ 9.0 s | ≈ 1870 MiB |
-| RSA-6144 · PKCS#1 v1.5 SHA-256 | 700 | 286k | 269k | 734k | ≈ 3.8 s | ≈ 5.3 s | ≈ 1338 MiB |
-| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1000 | 310k | 272k | 761k | ≈ 4.0 s | ≈ 5.5 s | ≈ 1385 MiB |
-| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1200 | 325k | 274k | 777k | ≈ 4.1 s | ≈ 5.6 s | ≈ 1414 MiB |
-| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1600 | 358k | 277k | 814k | ≈ 4.3 s | ≈ 6.0 s | ≈ 1479 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-1 | 700 | 148k | 95k | 462k | ≈ 1.9 s | ≈ 3.0 s | ≈ 1070 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1000 | 184k | 98k | 500k | ≈ 2.1 s | ≈ 3.3 s | ≈ 1139 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1200 | 210k | 99k | 528k | ≈ 2.3 s | ≈ 3.5 s | ≈ 1190 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-1 | 1600 | 270k | 103k | 591k | ≈ 2.8 s | ≈ 4.1 s | ≈ 1308 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-256 | 700 | 97k | 74k | 350k | ≈ 1.1 s | ≈ 2.0 s | ≈ 968 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1000 | 121k | 77k | 377k | ≈ 1.3 s | ≈ 2.3 s | ≈ 1016 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1200 | 135k | 79k | 393k | ≈ 1.4 s | ≈ 2.4 s | ≈ 1044 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-256 | 1600 | 169k | 82k | 430k | ≈ 1.7 s | ≈ 2.7 s | ≈ 1109 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-512 | 700 | 167k | 112k | 522k | ≈ 2.3 s | ≈ 3.5 s | ≈ 1105 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1000 | 208k | 114k | 566k | ≈ 2.6 s | ≈ 3.9 s | ≈ 1187 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1200 | 249k | 116k | 609k | ≈ 2.9 s | ≈ 4.2 s | ≈ 1266 MiB |
+| RSA-2048 · PKCS#1 v1.5 SHA-512 | 1600 | 311k | 119k | 674k | ≈ 3.4 s | ≈ 4.8 s | ≈ 1388 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-256 | 700 | 120k | 99k | 398k | ≈ 1.4 s | ≈ 2.4 s | ≈ 1014 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1000 | 144k | 102k | 424k | ≈ 1.6 s | ≈ 2.7 s | ≈ 1061 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1200 | 159k | 103k | 441k | ≈ 1.7 s | ≈ 2.8 s | ≈ 1089 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-256 | 1600 | 192k | 107k | 478k | ≈ 2.0 s | ≈ 3.1 s | ≈ 1155 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-384 | 700 | 190k | 136k | 570k | ≈ 2.6 s | ≈ 3.9 s | ≈ 1150 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1000 | 231k | 139k | 614k | ≈ 2.9 s | ≈ 4.3 s | ≈ 1232 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1200 | 272k | 140k | 656k | ≈ 3.2 s | ≈ 4.6 s | ≈ 1312 MiB |
+| RSA-3072 · PKCS#1 v1.5 SHA-384 | 1600 | 334k | 144k | 722k | ≈ 3.7 s | ≈ 5.2 s | ≈ 1433 MiB |
+| RSA-3072 · PSS SHA-256 salt 32 | 700 | 179k | 158k | 516k | ≈ 2.3 s | ≈ 3.4 s | ≈ 1129 MiB |
+| RSA-3072 · PSS SHA-256 salt 32 | 1000 | 203k | 161k | 542k | ≈ 2.4 s | ≈ 3.7 s | ≈ 1176 MiB |
+| RSA-3072 · PSS SHA-256 salt 32 | 1200 | 218k | 162k | 559k | ≈ 2.6 s | ≈ 3.8 s | ≈ 1205 MiB |
+| RSA-3072 · PSS SHA-256 salt 32 | 1600 | 251k | 166k | 596k | ≈ 2.8 s | ≈ 4.1 s | ≈ 1270 MiB |
+| RSA-3072 · PSS SHA-384 salt 48 | 700 | 339k | 286k | 868k | ≈ 4.7 s | ≈ 6.4 s | ≈ 1442 MiB |
+| RSA-3072 · PSS SHA-384 salt 48 | 1000 | 381k | 288k | 912k | ≈ 5.0 s | ≈ 6.8 s | ≈ 1524 MiB |
+| RSA-3072 · PSS SHA-384 salt 48 | 1200 | 421k | 290k | 955k | ≈ 5.3 s | ≈ 7.1 s | ≈ 1603 MiB |
+| RSA-3072 · PSS SHA-384 salt 48 | 1600 | 483k | 293k | 1020k | ≈ 5.8 s | ≈ 7.7 s | ≈ 1724 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-1 | 700 | 204k | 154k | 576k | ≈ 2.7 s | ≈ 3.9 s | ≈ 1178 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1000 | 239k | 156k | 613k | ≈ 2.9 s | ≈ 4.3 s | ≈ 1247 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1200 | 265k | 158k | 641k | ≈ 3.1 s | ≈ 4.5 s | ≈ 1298 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-1 | 1600 | 326k | 161k | 705k | ≈ 3.6 s | ≈ 5.0 s | ≈ 1416 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-256 | 700 | 152k | 133k | 464k | ≈ 1.9 s | ≈ 3.0 s | ≈ 1077 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1000 | 176k | 135k | 490k | ≈ 2.1 s | ≈ 3.2 s | ≈ 1124 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1200 | 191k | 137k | 507k | ≈ 2.2 s | ≈ 3.4 s | ≈ 1152 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-256 | 1600 | 224k | 140k | 543k | ≈ 2.4 s | ≈ 3.7 s | ≈ 1218 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-384 | 700 | 222k | 170k | 636k | ≈ 3.1 s | ≈ 4.4 s | ≈ 1213 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1000 | 264k | 172k | 680k | ≈ 3.4 s | ≈ 4.8 s | ≈ 1295 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1200 | 304k | 174k | 722k | ≈ 3.7 s | ≈ 5.2 s | ≈ 1374 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-384 | 1600 | 366k | 177k | 788k | ≈ 4.2 s | ≈ 5.7 s | ≈ 1496 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-512 | 700 | 222k | 170k | 636k | ≈ 3.1 s | ≈ 4.4 s | ≈ 1213 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1000 | 264k | 172k | 680k | ≈ 3.4 s | ≈ 4.8 s | ≈ 1295 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1200 | 304k | 174k | 722k | ≈ 3.7 s | ≈ 5.2 s | ≈ 1374 MiB |
+| RSA-4096 · PKCS#1 v1.5 SHA-512 | 1600 | 366k | 177k | 788k | ≈ 4.2 s | ≈ 5.7 s | ≈ 1496 MiB |
+| RSA-4096 · PSS SHA-256 salt 20 | 700 | 228k | 209k | 616k | ≈ 3.0 s | ≈ 4.3 s | ≈ 1225 MiB |
+| RSA-4096 · PSS SHA-256 salt 20 | 1000 | 252k | 211k | 642k | ≈ 3.1 s | ≈ 4.5 s | ≈ 1273 MiB |
+| RSA-4096 · PSS SHA-256 salt 20 | 1200 | 267k | 213k | 659k | ≈ 3.3 s | ≈ 4.6 s | ≈ 1301 MiB |
+| RSA-4096 · PSS SHA-256 salt 20 | 1600 | 300k | 216k | 696k | ≈ 3.5 s | ≈ 5.0 s | ≈ 1366 MiB |
+| RSA-4096 · PSS SHA-256 salt 32 | 700 | 228k | 209k | 616k | ≈ 3.0 s | ≈ 4.3 s | ≈ 1225 MiB |
+| RSA-4096 · PSS SHA-256 salt 32 | 1000 | 252k | 211k | 642k | ≈ 3.1 s | ≈ 4.5 s | ≈ 1273 MiB |
+| RSA-4096 · PSS SHA-256 salt 32 | 1200 | 267k | 213k | 659k | ≈ 3.3 s | ≈ 4.6 s | ≈ 1301 MiB |
+| RSA-4096 · PSS SHA-256 salt 32 | 1600 | 300k | 216k | 696k | ≈ 3.5 s | ≈ 5.0 s | ≈ 1366 MiB |
+| RSA-4096 · PSS SHA-384 salt 48 | 700 | 420k | 368k | 1032k | ≈ 5.9 s | ≈ 7.8 s | ≈ 1600 MiB |
+| RSA-4096 · PSS SHA-384 salt 48 | 1000 | 461k | 370k | 1076k | ≈ 6.2 s | ≈ 8.2 s | ≈ 1682 MiB |
+| RSA-4096 · PSS SHA-384 salt 48 | 1200 | 502k | 372k | 1118k | ≈ 6.5 s | ≈ 8.5 s | ≈ 1761 MiB |
+| RSA-4096 · PSS SHA-384 salt 48 | 1600 | 564k | 375k | 1184k | ≈ 6.9 s | ≈ 9.1 s | ≈ 1883 MiB |
+| RSA-4096 · PSS SHA-512 salt 20 | 700 | 369k | 317k | 930k | ≈ 5.1 s | ≈ 6.9 s | ≈ 1501 MiB |
+| RSA-4096 · PSS SHA-512 salt 20 | 1000 | 410k | 319k | 974k | ≈ 5.4 s | ≈ 7.3 s | ≈ 1582 MiB |
+| RSA-4096 · PSS SHA-512 salt 20 | 1200 | 451k | 321k | 1016k | ≈ 5.7 s | ≈ 7.7 s | ≈ 1662 MiB |
+| RSA-4096 · PSS SHA-512 salt 20 | 1600 | 513k | 324k | 1082k | ≈ 6.2 s | ≈ 8.2 s | ≈ 1783 MiB |
+| RSA-4096 · PSS SHA-512 salt 64 | 700 | 386k | 334k | 965k | ≈ 5.4 s | ≈ 7.2 s | ≈ 1535 MiB |
+| RSA-4096 · PSS SHA-512 salt 64 | 1000 | 428k | 337k | 1009k | ≈ 5.7 s | ≈ 7.6 s | ≈ 1616 MiB |
+| RSA-4096 · PSS SHA-512 salt 64 | 1200 | 469k | 338k | 1051k | ≈ 6.0 s | ≈ 8.0 s | ≈ 1696 MiB |
+| RSA-4096 · PSS SHA-512 salt 64 | 1600 | 531k | 342k | 1117k | ≈ 6.4 s | ≈ 8.5 s | ≈ 1817 MiB |
+| RSA-6144 · PKCS#1 v1.5 SHA-256 | 700 | 232k | 216k | 627k | ≈ 3.0 s | ≈ 4.4 s | ≈ 1234 MiB |
+| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1000 | 257k | 219k | 654k | ≈ 3.2 s | ≈ 4.6 s | ≈ 1281 MiB |
+| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1200 | 271k | 220k | 671k | ≈ 3.3 s | ≈ 4.7 s | ≈ 1310 MiB |
+| RSA-6144 · PKCS#1 v1.5 SHA-256 | 1600 | 305k | 224k | 707k | ≈ 3.6 s | ≈ 5.1 s | ≈ 1375 MiB |
 
 noir-zk's kernels add 113k gates to every three-step document (kernel_init 14k, 2 × kernel_step 60k, kernel_hiding 39k); they are shared by every layer and pipeline, so a combining pipeline pays one `kernel_step` per extra app rather than a kernel of its own.
