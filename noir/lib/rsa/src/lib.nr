@@ -61,18 +61,34 @@ pub fn rsa<let N: u32, let MOD_BITS: u32, let E_BITS: u32>(
 ) -> RuntimeBigNum<N, MOD_BITS> {
     assert(E_BITS <= 32, "E_BITS must be at most 32");
     assert((exponent as u64) < (1 << (E_BITS as u64)), "exponent does not fit E_BITS");
-    assert(exponent % 2 == 1, "RSA exponent must be odd");
+    assert_eq(exponent % 2, 1, "RSA exponent must be odd");
     let params = BigNumParams::new(false, modulus_limbs::<N, MOD_BITS>(modulus), redc);
     let s: RuntimeBigNum<N, MOD_BITS> = RuntimeBigNum::from_be_bytes(params, signature);
     // RFC 8017 §5.2.2 step 1: the signature representative must be below n.
     s.validate_in_field();
-    // Left-to-right square-and-multiply over E_BITS bits.
-    let mut acc: RuntimeBigNum<N, MOD_BITS> = RuntimeBigNum::one(params);
-    for i in 0..E_BITS {
-        acc = acc.sqr();
-        let multiplied = acc * s;
-        if ((exponent >> (E_BITS - 1 - i)) & 1) == 1 {
-            acc = multiplied;
+    // Left-to-right 2-bit fixed-window exponentiation over E_BITS bits
+    // (rounded up to even): the top window selects the start value, every
+    // other window squares twice and multiplies by 1, s, s^2 or s^3.
+    let one: RuntimeBigNum<N, MOD_BITS> = RuntimeBigNum::one(params);
+    let s2 = s.sqr();
+    let s3 = s2 * s;
+    let windows = (E_BITS + 1) / 2;
+    let mut acc = one;
+    for j in 0..windows {
+        let w = (exponent >> (2 * (windows - 1 - j))) & 3;
+        let t = if w == 0 {
+            one
+        } else if w == 1 {
+            s
+        } else if w == 2 {
+            s2
+        } else {
+            s3
+        };
+        if j == 0 {
+            acc = t;
+        } else {
+            acc = acc.sqr().sqr() * t;
         }
     }
     acc
@@ -107,7 +123,7 @@ pub fn verify_pkcs1v15<let N: u32, let MOD_BITS: u32, let E_BITS: u32, let D: u3
     let m = rsa::<N, MOD_BITS, E_BITS>(modulus, redc, exponent, signature);
     let params = BigNumParams::new(false, modulus_limbs::<N, MOD_BITS>(modulus), redc);
     let expected: RuntimeBigNum<N, MOD_BITS> = RuntimeBigNum::from_be_bytes(params, em);
-    assert(m == expected, "RSA PKCS#1 v1.5 signature mismatch");
+    assert_eq(m, expected, "RSA PKCS#1 v1.5 signature mismatch");
 }
 
 /// MGF1 (RFC 8017 §B.2.1) over hash `H`: the first `L` bytes of

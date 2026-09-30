@@ -91,7 +91,7 @@ pub fn verify_p256<let D: u32>(
         Secp256r1_Fr::from_be_bytes(s),
         Secp256r1_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(Secp256r1_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(Secp256r1_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
 
 /// ECDSA on P-384 (secp384r1) with a `D`-byte digest.
@@ -110,7 +110,7 @@ pub fn verify_p384<let D: u32>(
         Secp384r1_Fr::from_be_bytes(s),
         Secp384r1_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(Secp384r1_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(Secp384r1_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
 
 /// ECDSA on P-521 (secp521r1) with a `D`-byte digest (`8·D ≤ 521`, so the
@@ -131,7 +131,7 @@ pub fn verify_p521<let D: u32>(
         P521_Fr::from_be_bytes(s),
         P521_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(P521_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(P521_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
 
 /// ECDSA on brainpoolP256r1 with a `D`-byte digest.
@@ -150,7 +150,7 @@ pub fn verify_bp256<let D: u32>(
         BP256_Fr::from_be_bytes(s),
         BP256_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(BP256_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(BP256_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
 
 /// ECDSA on brainpoolP384r1 with a `D`-byte digest.
@@ -169,7 +169,7 @@ pub fn verify_bp384<let D: u32>(
         BP384_Fr::from_be_bytes(s),
         BP384_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(BP384_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(BP384_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
 
 /// ECDSA on brainpoolP512r1 with a `D`-byte digest.
@@ -188,5 +188,5 @@ pub fn verify_bp512<let D: u32>(
         BP512_Fr::from_be_bytes(s),
         BP512_Fr::from_be_bytes(digest_to_scalar_bytes(digest)),
     );
-    assert(BP512_Fr::from_be_bytes(rx.to_be_bytes()) == r, "ECDSA signature mismatch");
+    assert_eq(BP512_Fr::from_be_bytes(rx.to_be_bytes()), r, "ECDSA signature mismatch");
 }
