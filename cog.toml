@@ -15,6 +15,11 @@ post_bump_hooks = [
     "git push origin v{{version}}",
 ]
 
+# A circuit made cheaper (`perf:`) is refrozen under new versions and keys, and its packs are
+# published with the release, so it releases a patch.
+[commit_types]
+perf = { changelog_title = "Performance", bump_patch = true }
+
 [changelog]
 path = "CHANGELOG.md"
 authors = []
