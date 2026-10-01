@@ -512,17 +512,18 @@ jobs:
           BASE: ${{ vars.R2_CIRCUITS_BUCKET != '' && 'https://circuits.zk-eid.dev' || '' }}
         run: |
           set -euo pipefail
-          # The CDN can answer 403 for a few minutes after the upload (v0.8.0's first check did).
+          # The CDN can answer 403 for minutes after the upload (v0.8.0 and v0.8.1 both outlasted 2.5):
+          # retry each file for up to 10 minutes.
           have="$(gh release view "$TAG" --json assets -q '.assets[].name')"
           for f in target/packs/*; do
             name="$(basename "$f")"
             grep -qxF "$name" <<<"$have" || { echo "::error::$name is not an asset of $TAG"; exit 1; }
             if [ -n "$BASE" ]; then
-              curl -fsSI --retry 10 --retry-delay 15 --retry-all-errors -o /dev/null "$BASE/$name" || { echo "::error::$BASE/$name is not served"; exit 1; }
+              curl -fsSI --retry 40 --retry-delay 15 --retry-all-errors -o /dev/null "$BASE/$name" || { echo "::error::$BASE/$name is not served"; exit 1; }
             fi
           done
           if [ -n "$BASE" ]; then
-            curl -fsSI --retry 10 --retry-delay 15 --retry-all-errors -o /dev/null "$BASE/catalog.json" || { echo "::error::$BASE/catalog.json is not served"; exit 1; }
+            curl -fsSI --retry 40 --retry-delay 15 --retry-all-errors -o /dev/null "$BASE/catalog.json" || { echo "::error::$BASE/catalog.json is not served"; exit 1; }
           fi
       - name: Add the downloads to the release notes
         env:
