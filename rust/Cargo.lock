@@ -853,7 +853,7 @@ dependencies = [
 
 [[package]]
 name = "eid-circuits"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "ark-ff",
  "csca-registry",
@@ -868,7 +868,7 @@ dependencies = [
 
 [[package]]
 name = "eid-prover"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "anyhow",
  "csca-registry",
@@ -880,7 +880,7 @@ dependencies = [
 
 [[package]]
 name = "eid-vectors"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "anyhow",
  "clap",

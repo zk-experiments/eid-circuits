@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.8.2 - 2026-10-01
+#### Build
+- depend on noir-zk 0.3.3, refrozen as eid-circuits@0.8.2 - (d726102) - Anton Velichko
+#### Continuous Integration
+- (**packs**) retry the published-downloads check for up to 10 minutes - (aa5b198) - Anton Velichko
+- (**release**) release a patch for build commits - (1e10225) - Anton Velichko
+
+- - -
+
 ## v0.8.1 - 2026-09-30
 #### Performance
 - (**rsa**) 2-bit windowed exponentiation, 9-20% fewer gates in every RSA step - (67d9bf7) - Anton Velichko
