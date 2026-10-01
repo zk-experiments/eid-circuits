@@ -18,6 +18,9 @@ post_bump_hooks = [
 # A circuit made cheaper (`perf:`) is refrozen under new versions and keys, and its packs are
 # published with the release, so it releases a patch.
 [commit_types]
+# A dependency or toolchain move (`build:`) changes what consumers link against, so it releases a
+# patch like a fix.
+build = { changelog_title = "Build", bump_patch = true }
 perf = { changelog_title = "Performance", bump_patch = true }
 
 [changelog]

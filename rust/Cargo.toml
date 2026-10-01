@@ -28,9 +28,9 @@ eid-prover = { path = "eid-prover" }
 # Proving: layered registries and generated bindings (core, codegen), witness
 # solving, the generic pipeline kernels and Chonk (backend). The version pins
 # Noir and bb together (noir-zk's mise.toml).
-noir-zk-core = "=0.3.0"
-noir-zk-backend = "=0.3.0"
-noir-zk-codegen = "=0.3.0"
+noir-zk-core = "=0.3.3"
+noir-zk-backend = "=0.3.3"
+noir-zk-codegen = "=0.3.3"
 ark-ff = "0.6"
 
 [workspace.lints.rust]
