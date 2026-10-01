@@ -203,6 +203,16 @@ for f in target/packs/*; do
   esac
 done
 put "target/packs/catalog@$version.json" catalog.json application/json "public, max-age=300"
+# Every object is in the bucket at its local size, asked of R2 itself: the CDN
+# answers GitHub's runners 403 (v0.8.1, v0.8.2) while serving every file.
+size() {
+  aws s3api head-object --bucket "$R2_CIRCUITS_BUCKET" --key "$1" --endpoint-url "$endpoint" \
+    --query ContentLength --output text
+}
+for f in target/packs/*; do
+  [ "$(size "$(basename "$f")")" = "$(wc -c <"$f" | tr -d ' ')" ] || { echo "R2: $(basename "$f") is missing or truncated" >&2; exit 1; }
+done
+[ "$(size catalog.json)" = "$(wc -c <"target/packs/catalog@$version.json" | tr -d ' ')" ] || { echo "R2: catalog.json is missing or truncated" >&2; exit 1; }
 '''
 
 [tasks."test:prove"]
