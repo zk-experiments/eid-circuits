@@ -120,7 +120,7 @@ mod tests {
         );
         assert_eq!(
             (circuits::LIBRARY.name, circuits::LIBRARY.version),
-            ("eid-circuits", "0.8.1")
+            ("eid-circuits", "0.8.2")
         );
         for f in circuits::FAMILIES {
             for (label, _) in f.members {

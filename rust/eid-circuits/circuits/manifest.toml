@@ -6557,7 +6557,7 @@ vk_hash = "0x30394d5b80baec6ded52e9fc35cc897021122e7d6e8db1c9cc7e7946c05b85e1"
 
 [library]
 name = "eid-circuits"
-version = "0.8.1"
+version = "0.8.2"
 
 # ------------------------------------------------------------ families (hand-written; freeze keeps them)
 # The identity layer's families, for a combining registry's pipelines
