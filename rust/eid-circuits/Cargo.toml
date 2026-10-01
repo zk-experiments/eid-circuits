@@ -5,7 +5,12 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
-publish.workspace = true
+# The identity layer on crates.io (the circuit packs ship on the CDN, https://circuits.zk-eid.dev).
+publish = true
+repository = "https://github.com/zk-experiments/eid-circuits"
+documentation = "https://docs.rs/eid-circuits"
+keywords = ["zero-knowledge", "noir", "passport", "icao", "circuits"]
+categories = ["cryptography"]
 
 [dependencies]
 noir-zk-core.workspace = true
