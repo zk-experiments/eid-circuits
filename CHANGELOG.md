@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.8.3 - 2026-10-01
+#### Build
+- publish eid-circuits on crates.io - (f15126e) - Anton Velichko
+#### Continuous Integration
+- (**packs**) check the R2 uploads through R2's S3 API, not the CDN - (bd31379) - Anton Velichko
+
+- - -
+
 ## v0.8.2 - 2026-10-01
 #### Build
 - depend on noir-zk 0.3.3, refrozen as eid-circuits@0.8.2 - (d726102) - Anton Velichko
